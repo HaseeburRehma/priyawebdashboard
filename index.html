@@ -1,0 +1,1655 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Priya's Reinigungsservice · WebApp · Wellen 1–4 Vorschau</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    /* Primary · Brand Green */
+    --primary-50:#F2FFEA; --primary-100:#E1F8D0; --primary-200:#C8EEAF; --primary-300:#A8CC87;
+    --primary-400:#8DBA68; --primary-500:#72A94F; --primary-600:#5C8C3F; --primary-700:#466D31;
+    --primary-800:#324E23; --primary-900:#1F3015;
+    /* Secondary · Navy */
+    --secondary-50:#E8F1F7; --secondary-100:#CADFEC; --secondary-200:#9CBFD6; --secondary-300:#6A9ABE;
+    --secondary-400:#3C7AA5; --secondary-500:#16587C; --secondary-600:#114866; --secondary-700:#0D3750;
+    --secondary-800:#0A2839; --secondary-900:#061824;
+    /* Accent */
+    --accent-500:#A8CC87;
+    /* Tertiary */
+    --tertiary-200:#F2FFEA;
+    /* Semantic */
+    --success-500:#2D9E6B; --warning-500:#F4A261; --error-500:#E63946;
+    /* Neutrals */
+    --n-0:#FFFFFF; --n-50:#F9FAFB; --n-100:#F2F4F7; --n-200:#E4E7EC; --n-300:#D0D5DD;
+    --n-400:#98A2B3; --n-500:#667085; --n-600:#475467; --n-700:#344054; --n-800:#1D2939; --n-900:#101828;
+    /* Typography */
+    --fs-h1:28px; --fs-h2:20px; --fs-h3:16px; --fs-body:14px; --fs-caption:12px;
+    --lh-tight:1.25; --lh-body:1.55;
+    /* Spacing · 8px base */
+    --s-1:4px; --s-2:8px; --s-3:12px; --s-4:16px; --s-5:20px; --s-6:24px; --s-7:32px;
+    --s-8:40px; --s-9:64px; --s-10:96px;
+    /* Radius */
+    --r-xs:4px; --r-sm:8px; --r-md:12px; --r-lg:16px; --r-xl:20px; --r-2xl:24px; --r-full:9999px;
+    /* Shadows */
+    --sh-sm:0 1px 2px rgba(16,24,40,.05);
+    --sh-md:0 4px 8px rgba(16,24,40,.06), 0 2px 4px rgba(16,24,40,.04);
+    --sh-lg:0 12px 32px rgba(16,24,40,.10), 0 4px 12px rgba(16,24,40,.06);
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0;background:var(--n-50);color:var(--n-800);font-family:'Inter',system-ui,sans-serif;font-size:var(--fs-body);line-height:var(--lh-body);-webkit-font-smoothing:antialiased}
+  a{color:inherit;text-decoration:none}
+
+  /* Top banner */
+  .hero{
+    background:linear-gradient(135deg,var(--secondary-800) 0%,var(--secondary-600) 55%,var(--primary-600) 100%);
+    color:#fff;
+    padding:var(--s-10) var(--s-8) var(--s-9);
+    position:relative;overflow:hidden;
+  }
+  .hero::after{
+    content:"";position:absolute;inset:0;
+    background:radial-gradient(600px circle at 85% 20%,rgba(168,204,135,.18),transparent 60%),
+               radial-gradient(500px circle at 15% 80%,rgba(114,169,79,.18),transparent 55%);
+    pointer-events:none;
+  }
+  .hero-wrap{max-width:1200px;margin:0 auto;position:relative;z-index:1}
+  .hero-kicker{display:inline-flex;align-items:center;gap:var(--s-2);padding:var(--s-1) var(--s-3);border-radius:var(--r-full);background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.18);font-size:var(--fs-caption);font-weight:600;letter-spacing:.06em;text-transform:uppercase}
+  .hero-kicker .dot{width:6px;height:6px;border-radius:var(--r-full);background:var(--accent-500);box-shadow:0 0 0 3px rgba(168,204,135,.25)}
+  .hero-title{font-size:44px;line-height:1.1;font-weight:700;margin:var(--s-5) 0 var(--s-3);letter-spacing:-.02em}
+  .hero-sub{font-size:16px;line-height:var(--lh-body);color:rgba(255,255,255,.82);max-width:720px;margin:0}
+  .hero-meta{display:flex;flex-wrap:wrap;gap:var(--s-6);margin-top:var(--s-7);padding-top:var(--s-6);border-top:1px solid rgba(255,255,255,.14)}
+  .hero-meta-item{display:flex;flex-direction:column;gap:var(--s-1)}
+  .hero-meta-item .label{font-size:var(--fs-caption);text-transform:uppercase;letter-spacing:.06em;color:rgba(255,255,255,.6);font-weight:600}
+  .hero-meta-item .value{font-size:15px;font-weight:600;color:#fff}
+
+  /* Page container */
+  .page{max-width:1200px;margin:0 auto;padding:var(--s-8) var(--s-8) var(--s-10)}
+  .section-head{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:var(--s-6)}
+  .section-title{font-size:var(--fs-h1);font-weight:700;color:var(--n-900);margin:0;letter-spacing:-.01em}
+  .section-sub{font-size:var(--fs-body);color:var(--n-500);margin:var(--s-1) 0 0}
+  .section-actions{display:flex;gap:var(--s-2)}
+
+  /* Buttons */
+  .btn{display:inline-flex;align-items:center;gap:var(--s-2);padding:var(--s-2) var(--s-4);border-radius:var(--r-sm);font-size:var(--fs-body);font-weight:600;cursor:pointer;border:1px solid transparent;transition:all .15s ease}
+  .btn-ghost{background:transparent;color:var(--n-700);border-color:var(--n-300)}
+  .btn-ghost:hover{background:var(--n-100)}
+  .btn-primary{background:var(--primary-500);color:#fff}
+  .btn-primary:hover{background:var(--primary-600)}
+
+  /* Screen grid */
+  .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:var(--s-6)}
+  @media (max-width:880px){.grid{grid-template-columns:1fr}}
+
+  .card{
+    background:var(--n-0);border:1px solid var(--n-200);border-radius:var(--r-lg);
+    overflow:hidden;display:flex;flex-direction:column;
+    transition:transform .18s ease,box-shadow .18s ease,border-color .18s ease;
+    box-shadow:var(--sh-sm);
+  }
+  .card:hover{transform:translateY(-2px);box-shadow:var(--sh-lg);border-color:var(--primary-200)}
+  .card-thumb{
+    aspect-ratio:16/10;background:var(--n-100);position:relative;overflow:hidden;
+    border-bottom:1px solid var(--n-200);
+  }
+  .card-thumb svg{width:100%;height:100%;display:block}
+  .card-body{padding:var(--s-5) var(--s-5) var(--s-5)}
+  .card-tag{display:inline-flex;align-items:center;gap:var(--s-1);padding:2px var(--s-2);border-radius:var(--r-full);background:var(--tertiary-200);color:var(--primary-700);font-size:11px;font-weight:600;letter-spacing:.04em;text-transform:uppercase}
+  .card-title{font-size:var(--fs-h2);font-weight:700;margin:var(--s-3) 0 var(--s-1);color:var(--n-900);letter-spacing:-.01em}
+  .card-desc{font-size:var(--fs-body);color:var(--n-500);margin:0 0 var(--s-4)}
+  .card-meta{display:flex;flex-wrap:wrap;gap:var(--s-2);margin-bottom:var(--s-5)}
+  .chip{display:inline-flex;align-items:center;gap:var(--s-1);padding:2px var(--s-2);border-radius:var(--r-xs);background:var(--n-100);color:var(--n-700);font-size:var(--fs-caption);font-weight:500}
+  .card-foot{display:flex;align-items:center;justify-content:space-between;gap:var(--s-3);border-top:1px solid var(--n-100);padding-top:var(--s-4)}
+  .open-link{display:inline-flex;align-items:center;gap:var(--s-1);color:var(--primary-700);font-weight:600;font-size:var(--fs-body)}
+  .open-link svg{width:14px;height:14px}
+  .file-hint{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--n-500)}
+
+  /* Simplified thumbnail SVG styling */
+  .thumb-bg{fill:var(--n-50)}
+  .thumb-sidebar{fill:var(--secondary-800)}
+  .thumb-topbar{fill:var(--n-0);stroke:var(--n-200);stroke-width:1}
+  .thumb-card{fill:var(--n-0);stroke:var(--n-200);stroke-width:1;rx:4;ry:4}
+  .thumb-brand{fill:var(--primary-500)}
+  .thumb-line{stroke:var(--n-200);stroke-width:1}
+  .thumb-text{fill:var(--n-300)}
+
+  /* Info tiles */
+  .tiles{display:grid;grid-template-columns:repeat(4,1fr);gap:var(--s-4);margin:var(--s-7) 0 var(--s-9)}
+  @media (max-width:880px){.tiles{grid-template-columns:repeat(2,1fr)}}
+  .tile{background:var(--n-0);border:1px solid var(--n-200);border-radius:var(--r-md);padding:var(--s-5);box-shadow:var(--sh-sm)}
+  .tile .n{font-size:28px;font-weight:700;color:var(--n-900);letter-spacing:-.02em;line-height:1.1}
+  .tile .l{font-size:var(--fs-caption);text-transform:uppercase;letter-spacing:.06em;color:var(--n-500);font-weight:600;margin-top:var(--s-2)}
+  .tile .hint{font-size:var(--fs-caption);color:var(--n-500);margin-top:var(--s-2)}
+
+  /* Wave roadmap */
+  .roadmap{background:var(--n-0);border:1px solid var(--n-200);border-radius:var(--r-lg);padding:var(--s-6);box-shadow:var(--sh-sm);margin-bottom:var(--s-8)}
+  .roadmap-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:var(--s-5)}
+  .roadmap-head h3{margin:0;font-size:var(--fs-h2);color:var(--n-900)}
+  .roadmap-head p{margin:var(--s-1) 0 0;font-size:var(--fs-body);color:var(--n-500)}
+  .waves{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--s-4)}
+  @media (max-width:880px){.waves{grid-template-columns:1fr}}
+  .wave{border:1px solid var(--n-200);border-radius:var(--r-md);padding:var(--s-4) var(--s-5)}
+  .wave.done{border-color:var(--primary-300);background:var(--tertiary-200)}
+  .wave.next{border-color:var(--secondary-300);background:var(--secondary-50)}
+  .wave-label{display:flex;align-items:center;gap:var(--s-2);font-size:var(--fs-caption);font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--n-600)}
+  .wave.done .wave-label{color:var(--primary-700)}
+  .wave.next .wave-label{color:var(--secondary-700)}
+  .status-dot{width:8px;height:8px;border-radius:var(--r-full);background:var(--n-400)}
+  .wave.done .status-dot{background:var(--primary-500)}
+  .wave.next .status-dot{background:var(--secondary-500);animation:pulse 2s ease-in-out infinite}
+  @keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(22,88,124,.4)}50%{box-shadow:0 0 0 6px rgba(22,88,124,0)}}
+  .wave-title{font-size:var(--fs-h3);font-weight:700;color:var(--n-900);margin:var(--s-2) 0 var(--s-1)}
+  .wave-items{margin:0;padding-left:var(--s-5);color:var(--n-600);font-size:var(--fs-body);line-height:1.7}
+  .wave-items li{margin:0}
+
+  /* Footer strip */
+  .footer{padding:var(--s-7) var(--s-8);border-top:1px solid var(--n-200);background:var(--n-0)}
+  .footer-wrap{max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:var(--s-4);flex-wrap:wrap}
+  .footer small{color:var(--n-500)}
+  .footer .links{display:flex;gap:var(--s-5);flex-wrap:wrap}
+  .footer .links a{color:var(--n-600);font-weight:500}
+  .footer .links a:hover{color:var(--primary-700)}
+
+  .brand-lockup{display:flex;align-items:center;gap:var(--s-3)}
+  .brand-mark{width:44px;height:44px;border-radius:var(--r-md);background:linear-gradient(135deg,var(--primary-500),var(--accent-500));display:grid;place-items:center;box-shadow:var(--sh-md)}
+  .brand-mark svg{width:22px;height:22px;stroke:#fff;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+  .brand-name{font-size:18px;font-weight:700;color:#fff;letter-spacing:-.01em}
+  .brand-tag{font-size:var(--fs-caption);color:rgba(255,255,255,.7)}
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<header class="hero">
+  <div class="hero-wrap">
+    <div class="brand-lockup" style="margin-bottom:var(--s-6)">
+      <div class="brand-mark">
+        <svg viewBox="0 0 24 24"><path d="M4 12h8l2-3 3 7 2-4h4"/></svg>
+      </div>
+      <div>
+        <div class="brand-name">Priya's Cleaning Service</div>
+        <div class="brand-tag">Digital operations platform · Management WebApp</div>
+      </div>
+    </div>
+    <span class="hero-kicker"><span class="dot"></span>Welle 4 · Alltagshilfe-Modul · Ausgeliefert</span>
+    <h1 class="hero-title">WebApp-Vorschau — Wellen 1–4</h1>
+    <p class="hero-sub">Sechzehn detaillierte Bildschirme mit einem vollständigen Alltagshilfe-Pflegemodul. Priya's + Alltagshilfe sind nun zwei Servicebereiche in derselben App: Grün für reguläre Reinigung, Rot für Tagespflege. Kundentyp-Auswahl, Mitarbeitertyp-Feld, Filter im Einsatzplaner und automatisch erstellter Monatsbericht — alles auf Basis des freigegebenen Designsystems.</p>
+    <div class="hero-meta">
+      <div class="hero-meta-item"><span class="label">Perspektive</span><span class="value">Geschäftsleitung</span></div>
+      <div class="hero-meta-item"><span class="label">Bildschirme ausgeliefert</span><span class="value">16 of 16</span></div>
+      <div class="hero-meta-item"><span class="label">Servicebereiche</span><span class="value">Priya's + Alltagshilfe</span></div>
+      <div class="hero-meta-item"><span class="label">Layout</span><span class="value">Seitenleiste + Topbar</span></div>
+      <div class="hero-meta-item"><span class="label">Sprachen</span><span class="value">DE · EN · TA</span></div>
+    </div>
+  </div>
+</header>
+
+<main class="page">
+
+  <!-- Overview tiles -->
+  <div class="tiles">
+    <div class="tile"><div class="n">16</div><div class="l">Bildschirme ausgeliefert</div><div class="hint">Wellen 1 – 4 · Alltagshilfe ausgeliefert</div></div>
+    <div class="tile"><div class="n">2</div><div class="l">Servicebereiche</div><div class="hint">Priya's · grün · Alltagshilfe · rot</div></div>
+    <div class="tile"><div class="n">4 / 4</div><div class="l">Wellen ausgeliefert</div><div class="hint">Kunden · Betrieb · Finanzen · Alltagshilfe</div></div>
+    <div class="tile"><div class="n">Next</div><div class="l">Mobile-App-Welle</div><div class="hint">Mitarbeiter- + Kunden-App in Vorbereitung</div></div>
+  </div>
+
+  <!-- SCREENS -->
+  <div class="section-head">
+    <div>
+      <h2 class="section-title">Bildschirme</h2>
+      <p class="section-sub">Karte anklicken, um den vollständigen Bildschirm zu öffnen. Jede Datei ist eigenständig und Figma-bereit.</p>
+    </div>
+    <div class="section-actions">
+      <a class="btn btn-ghost" href="../design-system.html">Design-System ansehen</a>
+    </div>
+  </div>
+
+  <div class="grid">
+
+    <!-- 01 Login -->
+    <a class="card" href="01-login.html">
+      <div class="card-thumb">
+        <svg viewBox="0 0 320 200" preserveAspectRatio="xMidYMid slice">
+          <rect class="thumb-bg" x="0" y="0" width="320" height="200"/>
+          <!-- Left dark panel -->
+          <defs>
+            <linearGradient id="lg1" x1="0" x2="1" y1="0" y2="1">
+              <stop offset="0" stop-color="#0A2839"/>
+              <stop offset="1" stop-color="#114866"/>
+            </linearGradient>
+          </defs>
+          <rect x="0" y="0" width="160" height="200" fill="url(#lg1)"/>
+          <!-- brand mark -->
+          <rect x="20" y="20" width="24" height="24" rx="6" fill="#72A94F"/>
+          <rect x="50" y="24" width="60" height="6" rx="2" fill="#fff" opacity=".85"/>
+          <rect x="50" y="34" width="40" height="4" rx="2" fill="#fff" opacity=".5"/>
+          <!-- Feature list -->
+          <circle cx="28" cy="90" r="5" fill="#A8CC87"/>
+          <rect x="40" y="86" width="90" height="4" rx="2" fill="#fff" opacity=".8"/>
+          <rect x="40" y="94" width="60" height="3" rx="1.5" fill="#fff" opacity=".4"/>
+          <circle cx="28" cy="118" r="5" fill="#A8CC87"/>
+          <rect x="40" y="114" width="85" height="4" rx="2" fill="#fff" opacity=".8"/>
+          <rect x="40" y="122" width="70" height="3" rx="1.5" fill="#fff" opacity=".4"/>
+          <circle cx="28" cy="146" r="5" fill="#A8CC87"/>
+          <rect x="40" y="142" width="80" height="4" rx="2" fill="#fff" opacity=".8"/>
+          <rect x="40" y="150" width="65" height="3" rx="1.5" fill="#fff" opacity=".4"/>
+          <!-- Right form -->
+          <rect x="180" y="30" width="120" height="8" rx="2" fill="#1D2939"/>
+          <rect x="180" y="44" width="90" height="4" rx="2" fill="#98A2B3"/>
+          <rect x="180" y="70" width="120" height="16" rx="4" fill="#fff" stroke="#E4E7EC"/>
+          <rect x="180" y="92" width="120" height="16" rx="4" fill="#fff" stroke="#E4E7EC"/>
+          <rect x="180" y="118" width="120" height="16" rx="4" fill="#72A94F"/>
+          <rect x="200" y="124" width="80" height="4" rx="2" fill="#fff"/>
+          <line x1="180" y1="150" x2="300" y2="150" stroke="#E4E7EC"/>
+          <rect x="180" y="160" width="58" height="16" rx="4" fill="#fff" stroke="#E4E7EC"/>
+          <rect x="242" y="160" width="58" height="16" rx="4" fill="#fff" stroke="#E4E7EC"/>
+        </svg>
+      </div>
+      <div class="card-body">
+        <span class="card-tag">01 · Entry</span>
+        <h3 class="card-title">Anmeldung</h3>
+        <p class="card-desc">Split-screen sign-in with brand panel, email/password, SSO, and remember-me. Language selector in the top right.</p>
+        <div class="card-meta">
+          <span class="chip">Split layout</span>
+          <span class="chip">Email + SSO</span>
+          <span class="chip">Language switch</span>
+        </div>
+        <div class="card-foot">
+          <span class="file-hint">01-login.html</span>
+          <span class="open-link">Bildschirm öffnen
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg>
+          </span>
+        </div>
+      </div>
+    </a>
+
+    <!-- 02 Übersicht -->
+    <a class="card" href="02-dashboard.html">
+      <div class="card-thumb">
+        <svg viewBox="0 0 320 200" preserveAspectRatio="xMidYMid slice">
+          <rect class="thumb-bg" x="0" y="0" width="320" height="200"/>
+          <!-- Sidebar -->
+          <rect x="0" y="0" width="52" height="200" class="thumb-sidebar"/>
+          <rect x="8" y="12" width="12" height="12" rx="3" fill="#72A94F"/>
+          <rect x="24" y="14" width="22" height="4" rx="1" fill="#fff" opacity=".8"/>
+          <rect x="8" y="40" width="36" height="5" rx="1" fill="#fff" opacity=".3"/>
+          <rect x="8" y="52" width="36" height="5" rx="1" fill="#72A94F" opacity=".8"/>
+          <rect x="8" y="64" width="36" height="5" rx="1" fill="#fff" opacity=".3"/>
+          <rect x="8" y="76" width="36" height="5" rx="1" fill="#fff" opacity=".3"/>
+          <rect x="8" y="88" width="36" height="5" rx="1" fill="#fff" opacity=".3"/>
+          <!-- Top bar -->
+          <rect x="52" y="0" width="268" height="28" fill="#fff"/>
+          <line x1="52" y1="28" x2="320" y2="28" stroke="#E4E7EC"/>
+          <rect x="62" y="9" width="80" height="10" rx="3" fill="#F2F4F7"/>
+          <circle cx="270" cy="14" r="3" fill="#D0D5DD"/>
+          <circle cx="282" cy="14" r="3" fill="#D0D5DD"/>
+          <circle cx="300" cy="14" r="6" fill="#72A94F"/>
+          <!-- Page head -->
+          <rect x="62" y="38" width="120" height="8" rx="2" fill="#1D2939"/>
+          <rect x="62" y="50" width="70" height="4" rx="2" fill="#98A2B3"/>
+          <!-- KPI cards -->
+          <g>
+            <rect x="62" y="62" width="58" height="32" rx="4" fill="#fff" stroke="#E4E7EC"/>
+            <rect x="62" y="62" width="4" height="32" fill="#72A94F"/>
+            <rect x="72" y="68" width="28" height="5" rx="1" fill="#475467"/>
+            <rect x="72" y="78" width="22" height="8" rx="2" fill="#1D2939"/>
+          </g>
+          <g>
+            <rect x="126" y="62" width="58" height="32" rx="4" fill="#fff" stroke="#E4E7EC"/>
+            <rect x="126" y="62" width="4" height="32" fill="#16587C"/>
+            <rect x="136" y="68" width="28" height="5" rx="1" fill="#475467"/>
+            <rect x="136" y="78" width="22" height="8" rx="2" fill="#1D2939"/>
+          </g>
+          <g>
+            <rect x="190" y="62" width="58" height="32" rx="4" fill="#fff" stroke="#E4E7EC"/>
+            <rect x="190" y="62" width="4" height="32" fill="#F4A261"/>
+            <rect x="200" y="68" width="28" height="5" rx="1" fill="#475467"/>
+            <rect x="200" y="78" width="22" height="8" rx="2" fill="#1D2939"/>
+          </g>
+          <g>
+            <rect x="254" y="62" width="58" height="32" rx="4" fill="#fff" stroke="#E4E7EC"/>
+            <rect x="254" y="62" width="4" height="32" fill="#E63946"/>
+            <rect x="264" y="68" width="28" height="5" rx="1" fill="#475467"/>
+            <rect x="264" y="78" width="22" height="8" rx="2" fill="#1D2939"/>
+          </g>
+          <!-- Chart + schedule -->
+          <rect x="62" y="104" width="160" height="86" rx="4" fill="#fff" stroke="#E4E7EC"/>
+          <rect x="70" y="110" width="50" height="5" rx="1" fill="#1D2939"/>
+          <rect x="70" y="170" width="12" height="14" fill="#A8CC87"/>
+          <rect x="86" y="160" width="12" height="24" fill="#72A94F"/>
+          <rect x="102" y="150" width="12" height="34" fill="#72A94F"/>
+          <rect x="118" y="140" width="12" height="44" fill="#5C8C3F"/>
+          <rect x="134" y="155" width="12" height="29" fill="#72A94F"/>
+          <rect x="150" y="170" width="12" height="14" fill="#A8CC87"/>
+          <rect x="166" y="172" width="12" height="12" fill="#A8CC87" opacity=".5"/>
+          <!-- Schedule list -->
+          <rect x="230" y="104" width="82" height="86" rx="4" fill="#fff" stroke="#E4E7EC"/>
+          <rect x="236" y="110" width="40" height="5" rx="1" fill="#1D2939"/>
+          <rect x="236" y="124" width="70" height="3" rx="1" fill="#D0D5DD"/>
+          <rect x="236" y="132" width="70" height="3" rx="1" fill="#D0D5DD"/>
+          <rect x="236" y="140" width="70" height="3" rx="1" fill="#D0D5DD"/>
+          <rect x="236" y="148" width="70" height="3" rx="1" fill="#D0D5DD"/>
+          <rect x="236" y="156" width="70" height="3" rx="1" fill="#D0D5DD"/>
+          <rect x="236" y="164" width="70" height="3" rx="1" fill="#D0D5DD"/>
+          <rect x="236" y="172" width="70" height="3" rx="1" fill="#D0D5DD"/>
+        </svg>
+      </div>
+      <div class="card-body">
+        <span class="card-tag">02 · Overview</span>
+        <h3 class="card-title">Übersicht</h3>
+        <p class="card-desc">Morning snapshot with KPI tiles, weekly assignments chart, today's schedule, team workload, and recent activity.</p>
+        <div class="card-meta">
+          <span class="chip">4 KPI tiles</span>
+          <span class="chip">Bar chart · SVG</span>
+          <span class="chip">Schnellzugriff</span>
+        </div>
+        <div class="card-foot">
+          <span class="file-hint">02-dashboard.html</span>
+          <span class="open-link">Bildschirm öffnen
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg>
+          </span>
+        </div>
+      </div>
+    </a>
+
+    <!-- 03 Kundenliste -->
+    <a class="card" href="03-clients-list.html">
+      <div class="card-thumb">
+        <svg viewBox="0 0 320 200" preserveAspectRatio="xMidYMid slice">
+          <rect class="thumb-bg" x="0" y="0" width="320" height="200"/>
+          <rect x="0" y="0" width="52" height="200" class="thumb-sidebar"/>
+          <rect x="8" y="12" width="12" height="12" rx="3" fill="#72A94F"/>
+          <rect x="8" y="40" width="36" height="5" rx="1" fill="#fff" opacity=".3"/>
+          <rect x="8" y="52" width="36" height="5" rx="1" fill="#fff" opacity=".3"/>
+          <rect x="8" y="64" width="36" height="5" rx="1" fill="#72A94F" opacity=".8"/>
+          <rect x="8" y="76" width="36" height="5" rx="1" fill="#fff" opacity=".3"/>
+          <!-- Top bar -->
+          <rect x="52" y="0" width="268" height="28" fill="#fff"/>
+          <line x1="52" y1="28" x2="320" y2="28" stroke="#E4E7EC"/>
+          <rect x="62" y="9" width="80" height="10" rx="3" fill="#F2F4F7"/>
+          <!-- Breadcrumb + title -->
+          <rect x="62" y="38" width="60" height="3" rx="1" fill="#98A2B3"/>
+          <rect x="62" y="48" width="90" height="8" rx="2" fill="#1D2939"/>
+          <!-- Summary cards -->
+          <rect x="62" y="64" width="58" height="22" rx="4" fill="#fff" stroke="#E4E7EC"/>
+          <rect x="126" y="64" width="58" height="22" rx="4" fill="#fff" stroke="#E4E7EC"/>
+          <rect x="190" y="64" width="58" height="22" rx="4" fill="#fff" stroke="#E4E7EC"/>
+          <rect x="254" y="64" width="58" height="22" rx="4" fill="#fff" stroke="#E4E7EC"/>
+          <!-- Toolbar -->
+          <rect x="62" y="94" width="100" height="10" rx="3" fill="#F2F4F7"/>
+          <rect x="170" y="94" width="30" height="10" rx="3" fill="#fff" stroke="#E4E7EC"/>
+          <rect x="204" y="94" width="30" height="10" rx="3" fill="#fff" stroke="#E4E7EC"/>
+          <rect x="282" y="94" width="30" height="10" rx="3" fill="#fff" stroke="#E4E7EC"/>
+          <!-- Table -->
+          <rect x="62" y="110" width="250" height="78" rx="4" fill="#fff" stroke="#E4E7EC"/>
+          <rect x="62" y="110" width="250" height="12" fill="#F9FAFB"/>
+          <line x1="62" y1="122" x2="312" y2="122" stroke="#E4E7EC"/>
+          <line x1="62" y1="134" x2="312" y2="134" stroke="#F2F4F7"/>
+          <line x1="62" y1="146" x2="312" y2="146" stroke="#F2F4F7"/>
+          <line x1="62" y1="158" x2="312" y2="158" stroke="#F2F4F7"/>
+          <line x1="62" y1="170" x2="312" y2="170" stroke="#F2F4F7"/>
+          <circle cx="78" cy="128" r="3" fill="#A8CC87"/>
+          <rect x="86" y="126" width="50" height="4" rx="1" fill="#475467"/>
+          <rect x="150" y="126" width="30" height="4" rx="1" fill="#D0D5DD"/>
+          <rect x="200" y="126" width="30" height="4" rx="1" fill="#D0D5DD"/>
+          <rect x="248" y="124" width="26" height="7" rx="3" fill="#E1F8D0"/>
+          <circle cx="78" cy="140" r="3" fill="#A8CC87"/>
+          <rect x="86" y="138" width="50" height="4" rx="1" fill="#475467"/>
+          <rect x="150" y="138" width="30" height="4" rx="1" fill="#D0D5DD"/>
+          <rect x="200" y="138" width="30" height="4" rx="1" fill="#D0D5DD"/>
+          <rect x="248" y="136" width="26" height="7" rx="3" fill="#E1F8D0"/>
+          <circle cx="78" cy="152" r="3" fill="#A8CC87"/>
+          <rect x="86" y="150" width="50" height="4" rx="1" fill="#475467"/>
+          <rect x="150" y="150" width="30" height="4" rx="1" fill="#D0D5DD"/>
+          <rect x="200" y="150" width="30" height="4" rx="1" fill="#D0D5DD"/>
+          <rect x="248" y="148" width="26" height="7" rx="3" fill="#FDE6C0"/>
+          <circle cx="78" cy="164" r="3" fill="#A8CC87"/>
+          <rect x="86" y="162" width="50" height="4" rx="1" fill="#475467"/>
+          <rect x="150" y="162" width="30" height="4" rx="1" fill="#D0D5DD"/>
+          <rect x="200" y="162" width="30" height="4" rx="1" fill="#D0D5DD"/>
+          <rect x="248" y="160" width="26" height="7" rx="3" fill="#E1F8D0"/>
+          <circle cx="78" cy="176" r="3" fill="#A8CC87"/>
+          <rect x="86" y="174" width="50" height="4" rx="1" fill="#475467"/>
+          <rect x="150" y="174" width="30" height="4" rx="1" fill="#D0D5DD"/>
+          <rect x="200" y="174" width="30" height="4" rx="1" fill="#D0D5DD"/>
+          <rect x="248" y="172" width="26" height="7" rx="3" fill="#E1F8D0"/>
+        </svg>
+      </div>
+      <div class="card-body">
+        <span class="card-tag">03 · Directory</span>
+        <h3 class="card-title">Kunden — Liste view</h3>
+        <p class="card-desc">All clients in a dense, filterable table. Summary strip, filter chips, view toggle, bulk selection, and pagination.</p>
+        <div class="card-meta">
+          <span class="chip">Table · 10 rows</span>
+          <span class="chip">Filters</span>
+          <span class="chip">List / Grid toggle</span>
+        </div>
+        <div class="card-foot">
+          <span class="file-hint">03-clients-list.html</span>
+          <span class="open-link">Bildschirm öffnen
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg>
+          </span>
+        </div>
+      </div>
+    </a>
+
+    <!-- 04 Client detail -->
+    <a class="card" href="04-client-detail.html">
+      <div class="card-thumb">
+        <svg viewBox="0 0 320 200" preserveAspectRatio="xMidYMid slice">
+          <rect class="thumb-bg" x="0" y="0" width="320" height="200"/>
+          <rect x="0" y="0" width="52" height="200" class="thumb-sidebar"/>
+          <rect x="8" y="12" width="12" height="12" rx="3" fill="#72A94F"/>
+          <rect x="8" y="40" width="36" height="5" rx="1" fill="#fff" opacity=".3"/>
+          <rect x="8" y="52" width="36" height="5" rx="1" fill="#fff" opacity=".3"/>
+          <rect x="8" y="64" width="36" height="5" rx="1" fill="#72A94F" opacity=".8"/>
+          <rect x="8" y="76" width="36" height="5" rx="1" fill="#fff" opacity=".3"/>
+          <!-- Topbar -->
+          <rect x="52" y="0" width="268" height="28" fill="#fff"/>
+          <line x1="52" y1="28" x2="320" y2="28" stroke="#E4E7EC"/>
+          <!-- Hero card -->
+          <rect x="62" y="38" width="250" height="50" rx="6" fill="#fff" stroke="#E4E7EC"/>
+          <circle cx="82" cy="62" r="14" fill="#E1F8D0"/>
+          <rect x="104" y="50" width="70" height="6" rx="2" fill="#1D2939"/>
+          <rect x="180" y="50" width="26" height="6" rx="3" fill="#E1F8D0"/>
+          <rect x="210" y="50" width="22" height="6" rx="3" fill="#D1F0E0"/>
+          <rect x="104" y="62" width="120" height="3" rx="1" fill="#98A2B3"/>
+          <rect x="104" y="72" width="20" height="8" rx="2" fill="#F2F4F7"/>
+          <rect x="130" y="72" width="20" height="8" rx="2" fill="#F2F4F7"/>
+          <rect x="156" y="72" width="20" height="8" rx="2" fill="#F2F4F7"/>
+          <rect x="182" y="72" width="20" height="8" rx="2" fill="#F2F4F7"/>
+          <rect x="260" y="70" width="44" height="12" rx="3" fill="#72A94F"/>
+          <!-- Tabs -->
+          <line x1="62" y1="96" x2="312" y2="96" stroke="#E4E7EC"/>
+          <rect x="62" y="92" width="30" height="2" fill="#72A94F"/>
+          <rect x="62" y="90" width="30" height="4" rx="1" fill="#1D2939" opacity="0"/>
+          <!-- Content columns -->
+          <rect x="62" y="104" width="160" height="86" rx="4" fill="#fff" stroke="#E4E7EC"/>
+          <rect x="70" y="110" width="60" height="5" rx="1" fill="#1D2939"/>
+          <circle cx="76" cy="128" r="5" fill="#A8CC87"/>
+          <rect x="86" y="125" width="120" height="3" rx="1" fill="#475467"/>
+          <rect x="86" y="132" width="80" height="3" rx="1" fill="#D0D5DD"/>
+          <circle cx="76" cy="146" r="5" fill="#A8CC87"/>
+          <rect x="86" y="143" width="120" height="3" rx="1" fill="#475467"/>
+          <rect x="86" y="150" width="80" height="3" rx="1" fill="#D0D5DD"/>
+          <circle cx="76" cy="164" r="5" fill="#A8CC87"/>
+          <rect x="86" y="161" width="120" height="3" rx="1" fill="#475467"/>
+          <rect x="86" y="168" width="80" height="3" rx="1" fill="#D0D5DD"/>
+          <!-- Right column -->
+          <rect x="230" y="104" width="82" height="40" rx="4" fill="#fff" stroke="#E4E7EC"/>
+          <rect x="236" y="110" width="40" height="5" rx="1" fill="#1D2939"/>
+          <rect x="236" y="122" width="70" height="3" rx="1" fill="#D0D5DD"/>
+          <rect x="236" y="130" width="70" height="3" rx="1" fill="#D0D5DD"/>
+          <rect x="236" y="138" width="70" height="3" rx="1" fill="#D0D5DD"/>
+          <rect x="230" y="150" width="82" height="40" rx="4" fill="#FFF9E0" stroke="#F4D78A"/>
+          <rect x="236" y="156" width="40" height="5" rx="1" fill="#7A5E00"/>
+          <rect x="236" y="168" width="70" height="3" rx="1" fill="#B08A2B"/>
+          <rect x="236" y="176" width="70" height="3" rx="1" fill="#B08A2B"/>
+        </svg>
+      </div>
+      <div class="card-body">
+        <span class="card-tag">04 · Record</span>
+        <h3 class="card-title">Kunde — Detailansicht</h3>
+        <p class="card-desc">Deep view of a single client: hero with stats, six tabs, contact persons, scope of services, properties, activity, key info, notes, and documents.</p>
+        <div class="card-meta">
+          <span class="chip">6 Tabs</span>
+          <span class="chip">Hero + stats</span>
+          <span class="chip">Docs &amp; notes</span>
+        </div>
+        <div class="card-foot">
+          <span class="file-hint">04-client-detail.html</span>
+          <span class="open-link">Bildschirm öffnen
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg>
+          </span>
+        </div>
+      </div>
+    </a>
+
+    <!-- 05 Properties list -->
+    <a class="card" href="05-properties-list.html">
+      <div class="card-thumb">
+        <svg viewBox="0 0 320 200" preserveAspectRatio="xMidYMid slice">
+          <rect class="thumb-bg" x="0" y="0" width="320" height="200"/>
+          <rect x="0" y="0" width="52" height="200" class="thumb-sidebar"/>
+          <rect x="8" y="12" width="12" height="12" rx="3" fill="#72A94F"/>
+          <rect x="8" y="40" width="36" height="5" rx="1" fill="#fff" opacity=".3"/>
+          <rect x="8" y="52" width="36" height="5" rx="1" fill="#fff" opacity=".3"/>
+          <rect x="8" y="64" width="36" height="5" rx="1" fill="#fff" opacity=".3"/>
+          <rect x="8" y="76" width="36" height="5" rx="1" fill="#72A94F" opacity=".8"/>
+          <rect x="8" y="88" width="36" height="5" rx="1" fill="#fff" opacity=".3"/>
+          <!-- Topbar -->
+          <rect x="52" y="0" width="268" height="28" fill="#fff"/>
+          <line x1="52" y1="28" x2="320" y2="28" stroke="#E4E7EC"/>
+          <rect x="62" y="9" width="80" height="10" rx="3" fill="#F2F4F7"/>
+          <!-- Breadcrumb + title -->
+          <rect x="62" y="38" width="60" height="3" rx="1" fill="#98A2B3"/>
+          <rect x="62" y="48" width="110" height="8" rx="2" fill="#1D2939"/>
+          <rect x="272" y="46" width="40" height="12" rx="3" fill="#72A94F"/>
+          <!-- Summary cards -->
+          <rect x="62" y="64" width="58" height="22" rx="4" fill="#fff" stroke="#E4E7EC"/>
+          <rect x="126" y="64" width="58" height="22" rx="4" fill="#fff" stroke="#E4E7EC"/>
+          <rect x="190" y="64" width="58" height="22" rx="4" fill="#fff" stroke="#E4E7EC"/>
+          <rect x="254" y="64" width="58" height="22" rx="4" fill="#fff" stroke="#E4E7EC"/>
+          <!-- Toolbar -->
+          <rect x="62" y="94" width="100" height="10" rx="3" fill="#F2F4F7"/>
+          <rect x="170" y="94" width="26" height="10" rx="3" fill="#E1F8D0"/>
+          <rect x="200" y="94" width="26" height="10" rx="3" fill="#fff" stroke="#E4E7EC"/>
+          <rect x="230" y="94" width="26" height="10" rx="3" fill="#fff" stroke="#E4E7EC"/>
+          <!-- Table -->
+          <rect x="62" y="110" width="250" height="78" rx="4" fill="#fff" stroke="#E4E7EC"/>
+          <rect x="62" y="110" width="250" height="12" fill="#F9FAFB"/>
+          <line x1="62" y1="122" x2="312" y2="122" stroke="#E4E7EC"/>
+          <line x1="62" y1="134" x2="312" y2="134" stroke="#F2F4F7"/>
+          <line x1="62" y1="146" x2="312" y2="146" stroke="#F2F4F7"/>
+          <line x1="62" y1="158" x2="312" y2="158" stroke="#F2F4F7"/>
+          <line x1="62" y1="170" x2="312" y2="170" stroke="#F2F4F7"/>
+          <!-- Rows with property thumbs (type-colored) -->
+          <rect x="70" y="124" width="10" height="10" rx="2" fill="#16587C"/>
+          <rect x="84" y="126" width="56" height="4" rx="1" fill="#475467"/>
+          <rect x="144" y="126" width="22" height="4" rx="1" fill="#D0D5DD"/>
+          <rect x="170" y="126" width="30" height="4" rx="1" fill="#D0D5DD"/>
+          <rect x="220" y="124" width="26" height="7" rx="3" fill="#E1F8D0"/>
+          <rect x="70" y="136" width="10" height="10" rx="2" fill="#F4A261"/>
+          <rect x="84" y="138" width="56" height="4" rx="1" fill="#475467"/>
+          <rect x="144" y="138" width="22" height="4" rx="1" fill="#D0D5DD"/>
+          <rect x="170" y="138" width="30" height="4" rx="1" fill="#D0D5DD"/>
+          <rect x="220" y="136" width="26" height="7" rx="3" fill="#E1F8D0"/>
+          <rect x="70" y="148" width="10" height="10" rx="2" fill="#72A94F"/>
+          <rect x="84" y="150" width="56" height="4" rx="1" fill="#475467"/>
+          <rect x="144" y="150" width="22" height="4" rx="1" fill="#D0D5DD"/>
+          <rect x="170" y="150" width="30" height="4" rx="1" fill="#D0D5DD"/>
+          <rect x="220" y="148" width="26" height="7" rx="3" fill="#FDE6C0"/>
+          <rect x="70" y="160" width="10" height="10" rx="2" fill="#E63946"/>
+          <rect x="84" y="162" width="56" height="4" rx="1" fill="#475467"/>
+          <rect x="144" y="162" width="22" height="4" rx="1" fill="#D0D5DD"/>
+          <rect x="170" y="162" width="30" height="4" rx="1" fill="#D0D5DD"/>
+          <rect x="220" y="160" width="26" height="7" rx="3" fill="#E1F8D0"/>
+          <rect x="70" y="172" width="10" height="10" rx="2" fill="#16587C"/>
+          <rect x="84" y="174" width="56" height="4" rx="1" fill="#475467"/>
+          <rect x="144" y="174" width="22" height="4" rx="1" fill="#D0D5DD"/>
+          <rect x="170" y="174" width="30" height="4" rx="1" fill="#D0D5DD"/>
+          <rect x="220" y="172" width="26" height="7" rx="3" fill="#E1F8D0"/>
+        </svg>
+      </div>
+      <div class="card-body">
+        <span class="card-tag">05 · Operations</span>
+        <h3 class="card-title">Objekte — Liste view</h3>
+        <p class="card-desc">All properties managed across clients, with type chips (office, retail, residential, medical), team lead, assignment frequency, and status.</p>
+        <div class="card-meta">
+          <span class="chip">10 rows</span>
+          <span class="chip">Type chips</span>
+          <span class="chip">Team lead avatars</span>
+        </div>
+        <div class="card-foot">
+          <span class="file-hint">05-properties-list.html</span>
+          <span class="open-link">Bildschirm öffnen
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg>
+          </span>
+        </div>
+      </div>
+    </a>
+
+    <!-- 06 Property detail -->
+    <a class="card" href="06-property-detail.html">
+      <div class="card-thumb">
+        <svg viewBox="0 0 320 200" preserveAspectRatio="xMidYMid slice">
+          <rect class="thumb-bg" x="0" y="0" width="320" height="200"/>
+          <rect x="0" y="0" width="52" height="200" class="thumb-sidebar"/>
+          <rect x="8" y="12" width="12" height="12" rx="3" fill="#72A94F"/>
+          <rect x="8" y="76" width="36" height="5" rx="1" fill="#72A94F" opacity=".8"/>
+          <!-- Topbar -->
+          <rect x="52" y="0" width="268" height="28" fill="#fff"/>
+          <line x1="52" y1="28" x2="320" y2="28" stroke="#E4E7EC"/>
+          <!-- Hero card -->
+          <rect x="62" y="38" width="250" height="54" rx="6" fill="#fff" stroke="#E4E7EC"/>
+          <rect x="74" y="50" width="30" height="30" rx="6" fill="#16587C"/>
+          <rect x="112" y="50" width="90" height="6" rx="2" fill="#1D2939"/>
+          <rect x="206" y="50" width="24" height="6" rx="3" fill="#E1F8D0"/>
+          <rect x="234" y="50" width="24" height="6" rx="3" fill="#CADFEC"/>
+          <rect x="112" y="62" width="120" height="3" rx="1" fill="#98A2B3"/>
+          <!-- Hero stats row -->
+          <line x1="68" y1="82" x2="306" y2="82" stroke="#F2F4F7" stroke-dasharray="2 2"/>
+          <rect x="74" y="86" width="18" height="3" rx="1" fill="#98A2B3"/>
+          <rect x="74" y="93" width="24" height="5" rx="1" fill="#1D2939"/>
+          <rect x="118" y="86" width="18" height="3" rx="1" fill="#98A2B3"/>
+          <rect x="118" y="93" width="24" height="5" rx="1" fill="#1D2939"/>
+          <rect x="162" y="86" width="18" height="3" rx="1" fill="#98A2B3"/>
+          <rect x="162" y="93" width="24" height="5" rx="1" fill="#72A94F"/>
+          <rect x="206" y="86" width="18" height="3" rx="1" fill="#98A2B3"/>
+          <rect x="206" y="93" width="24" height="5" rx="1" fill="#1D2939"/>
+          <rect x="250" y="86" width="18" height="3" rx="1" fill="#98A2B3"/>
+          <rect x="250" y="93" width="28" height="5" rx="1" fill="#F4A261"/>
+          <!-- Tabs -->
+          <line x1="62" y1="100" x2="312" y2="100" stroke="#E4E7EC"/>
+          <rect x="62" y="96" width="30" height="2" fill="#72A94F"/>
+          <!-- Content: two columns -->
+          <rect x="62" y="108" width="160" height="80" rx="4" fill="#fff" stroke="#E4E7EC"/>
+          <rect x="70" y="114" width="60" height="5" rx="1" fill="#1D2939"/>
+          <rect x="70" y="128" width="148" height="10" rx="2" fill="#F9FAFB"/>
+          <rect x="70" y="142" width="148" height="10" rx="2" fill="#F9FAFB"/>
+          <rect x="70" y="156" width="148" height="10" rx="2" fill="#F9FAFB"/>
+          <rect x="70" y="170" width="148" height="10" rx="2" fill="#F9FAFB"/>
+          <!-- Right column -->
+          <rect x="230" y="108" width="82" height="38" rx="4" fill="#fff" stroke="#E4E7EC"/>
+          <rect x="236" y="114" width="40" height="5" rx="1" fill="#1D2939"/>
+          <rect x="236" y="126" width="70" height="3" rx="1" fill="#D0D5DD"/>
+          <rect x="236" y="134" width="70" height="3" rx="1" fill="#D0D5DD"/>
+          <rect x="230" y="152" width="82" height="36" rx="4" fill="#fff" stroke="#E4E7EC"/>
+          <rect x="236" y="158" width="40" height="5" rx="1" fill="#1D2939"/>
+          <circle cx="242" cy="174" r="4" fill="#16587C"/>
+          <circle cx="252" cy="174" r="4" fill="#F4A261"/>
+          <circle cx="262" cy="174" r="4" fill="#72A94F"/>
+          <circle cx="272" cy="174" r="4" fill="#A8CC87"/>
+        </svg>
+      </div>
+      <div class="card-body">
+        <span class="card-tag">06 · Record</span>
+        <h3 class="card-title">Objekt — Detailansicht</h3>
+        <p class="card-desc">Deep view of a single property with hero + 5 stats, six tabs, areas list, service scope, recent assignments, timeline, team, and compliance.</p>
+        <div class="card-meta">
+          <span class="chip">6 Tabs</span>
+          <span class="chip">Areas · scope</span>
+          <span class="chip">Assigned team</span>
+        </div>
+        <div class="card-foot">
+          <span class="file-hint">06-property-detail.html</span>
+          <span class="open-link">Bildschirm öffnen
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg>
+          </span>
+        </div>
+      </div>
+    </a>
+
+    <!-- 07 Schedule -->
+    <a class="card" href="07-schedule.html">
+      <div class="card-thumb">
+        <svg viewBox="0 0 320 200" preserveAspectRatio="xMidYMid slice">
+          <rect class="thumb-bg" x="0" y="0" width="320" height="200"/>
+          <rect x="0" y="0" width="52" height="200" class="thumb-sidebar"/>
+          <rect x="8" y="12" width="12" height="12" rx="3" fill="#72A94F"/>
+          <rect x="8" y="88" width="36" height="5" rx="1" fill="#72A94F" opacity=".8"/>
+          <!-- Topbar -->
+          <rect x="52" y="0" width="268" height="28" fill="#fff"/>
+          <line x1="52" y1="28" x2="320" y2="28" stroke="#E4E7EC"/>
+          <!-- Sub-toolbar -->
+          <rect x="62" y="36" width="90" height="12" rx="3" fill="#fff" stroke="#E4E7EC"/>
+          <rect x="160" y="36" width="30" height="12" rx="3" fill="#fff" stroke="#E4E7EC"/>
+          <rect x="200" y="36" width="60" height="12" rx="3" fill="#F2F4F7"/>
+          <rect x="218" y="36" width="15" height="12" rx="3" fill="#72A94F"/>
+          <rect x="270" y="36" width="40" height="12" rx="3" fill="#fff" stroke="#E4E7EC"/>
+          <!-- Left rail -->
+          <rect x="62" y="54" width="54" height="134" rx="4" fill="#fff" stroke="#E4E7EC"/>
+          <rect x="68" y="60" width="42" height="4" rx="1" fill="#1D2939"/>
+          <!-- mini cal grid -->
+          <g>
+            <rect x="68" y="68" width="4" height="4" fill="#D0D5DD"/>
+            <rect x="74" y="68" width="4" height="4" fill="#D0D5DD"/>
+            <rect x="80" y="68" width="4" height="4" fill="#D0D5DD"/>
+            <rect x="86" y="68" width="4" height="4" fill="#D0D5DD"/>
+            <rect x="92" y="68" width="4" height="4" fill="#D0D5DD"/>
+            <rect x="98" y="68" width="4" height="4" fill="#D0D5DD"/>
+            <rect x="104" y="68" width="4" height="4" fill="#D0D5DD"/>
+            <rect x="68" y="74" width="4" height="4" fill="#D0D5DD"/>
+            <rect x="74" y="74" width="4" height="4" fill="#72A94F"/>
+            <rect x="80" y="74" width="4" height="4" fill="#72A94F"/>
+            <rect x="86" y="74" width="4" height="4" fill="#D0D5DD"/>
+            <rect x="92" y="74" width="4" height="4" fill="#D0D5DD"/>
+            <rect x="98" y="74" width="4" height="4" fill="#D0D5DD"/>
+            <rect x="104" y="74" width="4" height="4" fill="#D0D5DD"/>
+          </g>
+          <rect x="68" y="94" width="42" height="4" rx="1" fill="#1D2939"/>
+          <circle cx="72" cy="106" r="3" fill="#72A94F"/><rect x="78" y="104" width="30" height="3" rx="1" fill="#475467"/>
+          <circle cx="72" cy="116" r="3" fill="#16587C"/><rect x="78" y="114" width="30" height="3" rx="1" fill="#475467"/>
+          <circle cx="72" cy="126" r="3" fill="#F4A261"/><rect x="78" y="124" width="30" height="3" rx="1" fill="#475467"/>
+          <circle cx="72" cy="136" r="3" fill="#E63946"/><rect x="78" y="134" width="30" height="3" rx="1" fill="#475467"/>
+          <!-- Calendar area -->
+          <rect x="122" y="54" width="126" height="134" rx="4" fill="#fff" stroke="#E4E7EC"/>
+          <rect x="122" y="54" width="126" height="12" fill="#F9FAFB"/>
+          <line x1="122" y1="66" x2="248" y2="66" stroke="#E4E7EC"/>
+          <line x1="140" y1="54" x2="140" y2="188" stroke="#F2F4F7"/>
+          <line x1="158" y1="54" x2="158" y2="188" stroke="#F2F4F7"/>
+          <line x1="176" y1="54" x2="176" y2="188" stroke="#F2F4F7"/>
+          <line x1="194" y1="54" x2="194" y2="188" stroke="#F2F4F7"/>
+          <line x1="212" y1="54" x2="212" y2="188" stroke="#F2F4F7"/>
+          <line x1="230" y1="54" x2="230" y2="188" stroke="#F2F4F7"/>
+          <!-- events -->
+          <rect x="142" y="72" width="14" height="22" rx="2" fill="#E1F8D0" stroke="#72A94F"/>
+          <rect x="160" y="80" width="14" height="28" rx="2" fill="#CADFEC" stroke="#16587C"/>
+          <rect x="160" y="112" width="14" height="16" rx="2" fill="#E1F8D0" stroke="#72A94F"/>
+          <rect x="178" y="74" width="14" height="38" rx="2" fill="#FDE6C0" stroke="#F4A261"/>
+          <rect x="196" y="90" width="14" height="22" rx="2" fill="#E1F8D0" stroke="#72A94F"/>
+          <rect x="196" y="116" width="14" height="20" rx="2" fill="#CADFEC" stroke="#16587C"/>
+          <rect x="214" y="76" width="14" height="30" rx="2" fill="#E63946" opacity=".15" stroke="#E63946"/>
+          <rect x="232" y="84" width="14" height="16" rx="2" fill="#E1F8D0" stroke="#72A94F"/>
+          <!-- Right detail panel -->
+          <rect x="254" y="54" width="58" height="134" rx="4" fill="#fff" stroke="#E4E7EC"/>
+          <rect x="260" y="60" width="46" height="5" rx="1" fill="#1D2939"/>
+          <rect x="260" y="68" width="34" height="3" rx="1" fill="#98A2B3"/>
+          <rect x="260" y="80" width="46" height="8" rx="3" fill="#CADFEC"/>
+          <rect x="260" y="94" width="46" height="3" rx="1" fill="#D0D5DD"/>
+          <rect x="260" y="102" width="46" height="3" rx="1" fill="#D0D5DD"/>
+          <rect x="260" y="110" width="46" height="3" rx="1" fill="#D0D5DD"/>
+          <rect x="260" y="118" width="46" height="3" rx="1" fill="#D0D5DD"/>
+          <rect x="260" y="136" width="46" height="5" rx="1" fill="#1D2939"/>
+          <circle cx="265" cy="152" r="4" fill="#16587C"/>
+          <circle cx="275" cy="152" r="4" fill="#F4A261"/>
+          <circle cx="285" cy="152" r="4" fill="#72A94F"/>
+          <rect x="260" y="168" width="46" height="12" rx="3" fill="#72A94F"/>
+        </svg>
+      </div>
+      <div class="card-body">
+        <span class="card-tag">07 · Time</span>
+        <h3 class="card-title">Einsatzplan — Kalender + list</h3>
+        <p class="card-desc">Calendar-default weekly view with mini-calendar, team and status filters, 15-row time grid, and an event detail side panel. List toggle available.</p>
+        <div class="card-meta">
+          <span class="chip">Week · Day · Month · List</span>
+          <span class="chip">Team filters</span>
+          <span class="chip">Detail panel</span>
+        </div>
+        <div class="card-foot">
+          <span class="file-hint">07-schedule.html</span>
+          <span class="open-link">Bildschirm öffnen
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg>
+          </span>
+        </div>
+      </div>
+    </a>
+
+    <!-- 08 Employees list -->
+    <a class="card" href="08-employees-list.html">
+      <div class="card-thumb">
+        <svg viewBox="0 0 320 200" preserveAspectRatio="xMidYMid slice">
+          <rect class="thumb-bg" x="0" y="0" width="320" height="200"/>
+          <rect x="0" y="0" width="52" height="200" class="thumb-sidebar"/>
+          <rect x="8" y="12" width="12" height="12" rx="3" fill="#72A94F"/>
+          <rect x="8" y="100" width="36" height="5" rx="1" fill="#72A94F" opacity=".8"/>
+          <!-- Topbar -->
+          <rect x="52" y="0" width="268" height="28" fill="#fff"/>
+          <line x1="52" y1="28" x2="320" y2="28" stroke="#E4E7EC"/>
+          <!-- Title + CTA -->
+          <rect x="62" y="38" width="60" height="3" rx="1" fill="#98A2B3"/>
+          <rect x="62" y="48" width="110" height="8" rx="2" fill="#1D2939"/>
+          <rect x="262" y="46" width="50" height="12" rx="3" fill="#72A94F"/>
+          <!-- Summary -->
+          <rect x="62" y="64" width="58" height="22" rx="4" fill="#fff" stroke="#E4E7EC"/>
+          <rect x="126" y="64" width="58" height="22" rx="4" fill="#fff" stroke="#E4E7EC"/>
+          <rect x="190" y="64" width="58" height="22" rx="4" fill="#fff" stroke="#E4E7EC"/>
+          <rect x="254" y="64" width="58" height="22" rx="4" fill="#fff" stroke="#E4E7EC"/>
+          <!-- Toolbar -->
+          <rect x="62" y="94" width="100" height="10" rx="3" fill="#F2F4F7"/>
+          <rect x="170" y="94" width="26" height="10" rx="3" fill="#E1F8D0"/>
+          <rect x="200" y="94" width="26" height="10" rx="3" fill="#fff" stroke="#E4E7EC"/>
+          <rect x="230" y="94" width="26" height="10" rx="3" fill="#fff" stroke="#E4E7EC"/>
+          <!-- Table -->
+          <rect x="62" y="110" width="250" height="78" rx="4" fill="#fff" stroke="#E4E7EC"/>
+          <rect x="62" y="110" width="250" height="12" fill="#F9FAFB"/>
+          <line x1="62" y1="122" x2="312" y2="122" stroke="#E4E7EC"/>
+          <line x1="62" y1="134" x2="312" y2="134" stroke="#F2F4F7"/>
+          <line x1="62" y1="146" x2="312" y2="146" stroke="#F2F4F7"/>
+          <line x1="62" y1="158" x2="312" y2="158" stroke="#F2F4F7"/>
+          <line x1="62" y1="170" x2="312" y2="170" stroke="#F2F4F7"/>
+          <!-- Rows with avatars and progress bars -->
+          <circle cx="76" cy="128" r="4" fill="#16587C"/>
+          <rect x="84" y="126" width="48" height="4" rx="1" fill="#475467"/>
+          <rect x="136" y="124" width="22" height="7" rx="3" fill="#CADFEC"/>
+          <rect x="164" y="126" width="40" height="4" rx="1" fill="#D0D5DD"/>
+          <rect x="208" y="127" width="50" height="3" rx="1.5" fill="#E4E7EC"/>
+          <rect x="208" y="127" width="38" height="3" rx="1.5" fill="#72A94F"/>
+          <rect x="262" y="124" width="26" height="7" rx="3" fill="#E1F8D0"/>
+          <circle cx="76" cy="140" r="4" fill="#F4A261"/>
+          <rect x="84" y="138" width="48" height="4" rx="1" fill="#475467"/>
+          <rect x="136" y="136" width="22" height="7" rx="3" fill="#E1F8D0"/>
+          <rect x="164" y="138" width="40" height="4" rx="1" fill="#D0D5DD"/>
+          <rect x="208" y="139" width="50" height="3" rx="1.5" fill="#E4E7EC"/>
+          <rect x="208" y="139" width="48" height="3" rx="1.5" fill="#72A94F"/>
+          <rect x="262" y="136" width="26" height="7" rx="3" fill="#E1F8D0"/>
+          <circle cx="76" cy="152" r="4" fill="#72A94F"/>
+          <rect x="84" y="150" width="48" height="4" rx="1" fill="#475467"/>
+          <rect x="136" y="148" width="22" height="7" rx="3" fill="#E1F8D0"/>
+          <rect x="164" y="150" width="40" height="4" rx="1" fill="#D0D5DD"/>
+          <rect x="208" y="151" width="50" height="3" rx="1.5" fill="#E4E7EC"/>
+          <rect x="208" y="151" width="50" height="3" rx="1.5" fill="#E63946"/>
+          <rect x="262" y="148" width="26" height="7" rx="3" fill="#FDE6C0"/>
+          <circle cx="76" cy="164" r="4" fill="#E63946"/>
+          <rect x="84" y="162" width="48" height="4" rx="1" fill="#475467"/>
+          <rect x="136" y="160" width="22" height="7" rx="3" fill="#E1F8D0"/>
+          <rect x="164" y="162" width="40" height="4" rx="1" fill="#D0D5DD"/>
+          <rect x="208" y="163" width="50" height="3" rx="1.5" fill="#E4E7EC"/>
+          <rect x="208" y="163" width="44" height="3" rx="1.5" fill="#72A94F"/>
+          <rect x="262" y="160" width="26" height="7" rx="3" fill="#E1F8D0"/>
+          <circle cx="76" cy="176" r="4" fill="#A8CC87"/>
+          <rect x="84" y="174" width="48" height="4" rx="1" fill="#475467"/>
+          <rect x="136" y="172" width="22" height="7" rx="3" fill="#FDE6C0"/>
+          <rect x="164" y="174" width="40" height="4" rx="1" fill="#D0D5DD"/>
+          <rect x="208" y="175" width="50" height="3" rx="1.5" fill="#E4E7EC"/>
+          <rect x="208" y="175" width="28" height="3" rx="1.5" fill="#F4A261"/>
+          <rect x="262" y="172" width="26" height="7" rx="3" fill="#E1F8D0"/>
+        </svg>
+      </div>
+      <div class="card-body">
+        <span class="card-tag">08 · People</span>
+        <h3 class="card-title">Mitarbeiter — Liste view</h3>
+        <p class="card-desc">All employees with role chips (PM, Field, Trainee), team, hours progress bar, vacation balance, and status. Includes onboarding and on-leave states.</p>
+        <div class="card-meta">
+          <span class="chip">10 rows</span>
+          <span class="chip">Hours bars</span>
+          <span class="chip">Role chips</span>
+        </div>
+        <div class="card-foot">
+          <span class="file-hint">08-employees-list.html</span>
+          <span class="open-link">Bildschirm öffnen
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg>
+          </span>
+        </div>
+      </div>
+    </a>
+
+    <!-- 09 Employee detail -->
+    <a class="card" href="09-employee-detail.html">
+      <div class="card-thumb">
+        <svg viewBox="0 0 320 200" preserveAspectRatio="xMidYMid slice">
+          <rect class="thumb-bg" x="0" y="0" width="320" height="200"/>
+          <rect x="0" y="0" width="52" height="200" class="thumb-sidebar"/>
+          <rect x="8" y="12" width="12" height="12" rx="3" fill="#72A94F"/>
+          <rect x="8" y="100" width="36" height="5" rx="1" fill="#72A94F" opacity=".8"/>
+          <!-- Topbar -->
+          <rect x="52" y="0" width="268" height="28" fill="#fff"/>
+          <line x1="52" y1="28" x2="320" y2="28" stroke="#E4E7EC"/>
+          <!-- Hero card -->
+          <rect x="62" y="38" width="250" height="56" rx="6" fill="#fff" stroke="#E4E7EC"/>
+          <circle cx="84" cy="62" r="18" fill="#16587C"/>
+          <circle cx="96" cy="74" r="4" fill="#2D9E6B" stroke="#fff" stroke-width="1.5"/>
+          <rect x="110" y="50" width="80" height="6" rx="2" fill="#1D2939"/>
+          <rect x="194" y="50" width="24" height="6" rx="3" fill="#CADFEC"/>
+          <rect x="222" y="50" width="24" height="6" rx="3" fill="#E1F8D0"/>
+          <rect x="250" y="50" width="24" height="6" rx="3" fill="#D1F0E0"/>
+          <rect x="110" y="62" width="150" height="3" rx="1" fill="#98A2B3"/>
+          <rect x="270" y="72" width="36" height="12" rx="3" fill="#72A94F"/>
+          <!-- stats -->
+          <line x1="68" y1="84" x2="306" y2="84" stroke="#F2F4F7" stroke-dasharray="2 2"/>
+          <rect x="74" y="88" width="18" height="3" rx="1" fill="#98A2B3"/>
+          <rect x="74" y="95" width="28" height="5" rx="1" fill="#72A94F"/>
+          <rect x="118" y="88" width="18" height="3" rx="1" fill="#98A2B3"/>
+          <rect x="118" y="95" width="24" height="5" rx="1" fill="#1D2939"/>
+          <rect x="162" y="88" width="18" height="3" rx="1" fill="#98A2B3"/>
+          <rect x="162" y="95" width="26" height="5" rx="1" fill="#F4A261"/>
+          <rect x="206" y="88" width="18" height="3" rx="1" fill="#98A2B3"/>
+          <rect x="206" y="95" width="22" height="5" rx="1" fill="#2D9E6B"/>
+          <rect x="250" y="88" width="18" height="3" rx="1" fill="#98A2B3"/>
+          <rect x="250" y="95" width="30" height="5" rx="1" fill="#C9A649"/>
+          <!-- Tabs -->
+          <line x1="62" y1="102" x2="312" y2="102" stroke="#E4E7EC"/>
+          <rect x="62" y="98" width="30" height="2" fill="#72A94F"/>
+          <!-- On-shift banner -->
+          <rect x="62" y="108" width="160" height="32" rx="4" fill="#E1F8D0" stroke="#A8CC87"/>
+          <circle cx="74" cy="118" r="3" fill="#72A94F"/>
+          <rect x="82" y="116" width="40" height="3" rx="1" fill="#466D31"/>
+          <rect x="70" y="124" width="100" height="4" rx="1" fill="#1D2939"/>
+          <rect x="70" y="132" width="140" height="3" rx="1" fill="#475467" opacity=".6"/>
+          <!-- Upcoming shifts -->
+          <rect x="62" y="146" width="160" height="42" rx="4" fill="#fff" stroke="#E4E7EC"/>
+          <rect x="70" y="152" width="14" height="14" rx="2" fill="#F9FAFB" stroke="#E4E7EC"/>
+          <rect x="88" y="154" width="50" height="3" rx="1" fill="#475467"/>
+          <rect x="88" y="160" width="40" height="3" rx="1" fill="#D0D5DD"/>
+          <rect x="70" y="170" width="14" height="14" rx="2" fill="#F9FAFB" stroke="#E4E7EC"/>
+          <rect x="88" y="172" width="50" height="3" rx="1" fill="#475467"/>
+          <rect x="88" y="178" width="40" height="3" rx="1" fill="#D0D5DD"/>
+          <!-- Right column -->
+          <rect x="230" y="108" width="82" height="38" rx="4" fill="#fff" stroke="#E4E7EC"/>
+          <rect x="236" y="114" width="40" height="5" rx="1" fill="#1D2939"/>
+          <rect x="236" y="126" width="70" height="3" rx="1" fill="#D0D5DD"/>
+          <rect x="236" y="134" width="70" height="3" rx="1" fill="#D0D5DD"/>
+          <!-- Vacation ring -->
+          <rect x="230" y="152" width="82" height="36" rx="4" fill="#fff" stroke="#E4E7EC"/>
+          <circle cx="248" cy="170" r="10" fill="none" stroke="#E4E7EC" stroke-width="3"/>
+          <circle cx="248" cy="170" r="10" fill="none" stroke="#72A94F" stroke-width="3" stroke-dasharray="40 60" transform="rotate(-90 248 170)"/>
+          <rect x="264" y="162" width="40" height="4" rx="1" fill="#475467"/>
+          <rect x="264" y="172" width="30" height="3" rx="1" fill="#D0D5DD"/>
+        </svg>
+      </div>
+      <div class="card-body">
+        <span class="card-tag">09 · Record · Alltagshilfe</span>
+        <h3 class="card-title">Mitarbeiter — Detailansicht</h3>
+        <p class="card-desc">Profil mit 4 KPI-Karten, sechs Tabs und einem prominenten <b>Servicetyp-Block</b> — Nur Priya's / Nur Alltagshilfe / Beide. Kommende Schichten in Grün + Rot, Pflegequalifikationen, Leistung, Schulungen und Dokumente.</p>
+        <div class="card-meta">
+          <span class="chip" style="background:var(--primary-50);color:var(--primary-700);border-color:var(--primary-200)">Servicetyp</span>
+          <span class="chip" style="background:#FCE7E9;color:#A32933;border-color:#FBD4D7">Pflege-Zertifikate</span>
+          <span class="chip">Gemischte Schichten</span>
+          <span class="chip">6 Tabs</span>
+        </div>
+        <div class="card-foot">
+          <span class="file-hint">09-employee-detail.html</span>
+          <span class="open-link">Bildschirm öffnen
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg>
+          </span>
+        </div>
+      </div>
+    </a>
+
+    <!-- 10 Invoices list -->
+    <a class="card" href="10-invoices-list.html">
+      <div class="card-thumb">
+        <svg viewBox="0 0 320 200" preserveAspectRatio="xMidYMid slice">
+          <rect class="thumb-bg" x="0" y="0" width="320" height="200"/>
+          <!-- sidebar -->
+          <rect x="0" y="0" width="56" height="200" fill="#0A2839"/>
+          <rect x="8" y="10" width="16" height="16" rx="4" fill="#72A94F"/>
+          <rect x="8" y="40" width="40" height="4" rx="2" fill="#fff" opacity=".3"/>
+          <rect x="8" y="50" width="40" height="4" rx="2" fill="#fff" opacity=".3"/>
+          <rect x="8" y="60" width="40" height="4" rx="2" fill="#fff" opacity=".3"/>
+          <rect x="8" y="80" width="40" height="8" rx="3" fill="#72A94F"/>
+          <rect x="8" y="94" width="40" height="4" rx="2" fill="#fff" opacity=".3"/>
+          <!-- topbar -->
+          <rect x="56" y="0" width="264" height="20" fill="#fff" stroke="#E4E7EC"/>
+          <rect x="66" y="7" width="40" height="6" rx="2" fill="#1D2939"/>
+          <rect x="240" y="6" width="24" height="8" rx="4" fill="#F2F4F7"/>
+          <rect x="270" y="6" width="42" height="8" rx="4" fill="#72A94F"/>
+          <!-- summary cards -->
+          <rect x="64" y="28" width="58" height="28" rx="4" fill="#fff" stroke="#E4E7EC"/>
+          <rect x="70" y="34" width="30" height="3" rx="1.5" fill="#98A2B3"/>
+          <rect x="70" y="42" width="40" height="8" rx="2" fill="#F4A261"/>
+          <rect x="128" y="28" width="58" height="28" rx="4" fill="#fff" stroke="#E4E7EC"/>
+          <rect x="134" y="34" width="30" height="3" rx="1.5" fill="#98A2B3"/>
+          <rect x="134" y="42" width="36" height="8" rx="2" fill="#2D9E6B"/>
+          <rect x="192" y="28" width="58" height="28" rx="4" fill="#fff" stroke="#E4E7EC"/>
+          <rect x="198" y="34" width="30" height="3" rx="1.5" fill="#98A2B3"/>
+          <rect x="198" y="42" width="28" height="8" rx="2" fill="#E63946"/>
+          <rect x="256" y="28" width="58" height="28" rx="4" fill="#fff" stroke="#E4E7EC"/>
+          <rect x="262" y="34" width="30" height="3" rx="1.5" fill="#98A2B3"/>
+          <rect x="262" y="42" width="20" height="8" rx="2" fill="#D0D5DD"/>
+          <!-- table -->
+          <rect x="64" y="64" width="250" height="130" rx="6" fill="#fff" stroke="#E4E7EC"/>
+          <rect x="64" y="64" width="250" height="14" rx="6" fill="#F9FAFB"/>
+          <rect x="70" y="69" width="10" height="4" rx="1" fill="#98A2B3"/>
+          <rect x="90" y="69" width="30" height="4" rx="1" fill="#98A2B3"/>
+          <rect x="130" y="69" width="30" height="4" rx="1" fill="#98A2B3"/>
+          <rect x="280" y="69" width="24" height="4" rx="1" fill="#98A2B3"/>
+          <!-- rows -->
+          <g>
+            <line x1="64" y1="94" x2="314" y2="94" stroke="#F2F4F7"/>
+            <rect x="70" y="84" width="36" height="4" rx="1" fill="#1D2939"/>
+            <rect x="120" y="84" width="40" height="4" rx="1" fill="#475467"/>
+            <rect x="250" y="82" width="34" height="8" rx="3" fill="#CAF2DB"/>
+            <rect x="290" y="84" width="18" height="4" rx="1" fill="#1D2939"/>
+          </g>
+          <g>
+            <line x1="64" y1="110" x2="314" y2="110" stroke="#F2F4F7"/>
+            <rect x="70" y="100" width="36" height="4" rx="1" fill="#1D2939"/>
+            <rect x="120" y="100" width="44" height="4" rx="1" fill="#475467"/>
+            <rect x="250" y="98" width="34" height="8" rx="3" fill="#FBDDB9"/>
+            <rect x="290" y="100" width="18" height="4" rx="1" fill="#1D2939"/>
+          </g>
+          <g>
+            <line x1="64" y1="126" x2="314" y2="126" stroke="#F2F4F7"/>
+            <rect x="70" y="116" width="36" height="4" rx="1" fill="#1D2939"/>
+            <rect x="120" y="116" width="38" height="4" rx="1" fill="#475467"/>
+            <rect x="250" y="114" width="34" height="8" rx="3" fill="#F8C6C9"/>
+            <rect x="290" y="116" width="18" height="4" rx="1" fill="#E63946"/>
+          </g>
+          <g>
+            <line x1="64" y1="142" x2="314" y2="142" stroke="#F2F4F7"/>
+            <rect x="70" y="132" width="36" height="4" rx="1" fill="#1D2939"/>
+            <rect x="120" y="132" width="48" height="4" rx="1" fill="#475467"/>
+            <rect x="250" y="130" width="34" height="8" rx="3" fill="#CAF2DB"/>
+            <rect x="290" y="132" width="18" height="4" rx="1" fill="#1D2939"/>
+          </g>
+          <g>
+            <line x1="64" y1="158" x2="314" y2="158" stroke="#F2F4F7"/>
+            <rect x="70" y="148" width="36" height="4" rx="1" fill="#1D2939"/>
+            <rect x="120" y="148" width="42" height="4" rx="1" fill="#475467"/>
+            <rect x="250" y="146" width="34" height="8" rx="3" fill="#D5E3F3"/>
+            <rect x="290" y="148" width="18" height="4" rx="1" fill="#1D2939"/>
+          </g>
+          <g>
+            <rect x="70" y="164" width="36" height="4" rx="1" fill="#1D2939"/>
+            <rect x="120" y="164" width="40" height="4" rx="1" fill="#475467"/>
+            <rect x="250" y="162" width="34" height="8" rx="3" fill="#CAF2DB"/>
+            <rect x="290" y="164" width="18" height="4" rx="1" fill="#1D2939"/>
+          </g>
+          <rect x="70" y="178" width="30" height="4" rx="1" fill="#D0D5DD"/>
+          <rect x="290" y="178" width="18" height="4" rx="1" fill="#D0D5DD"/>
+        </svg>
+      </div>
+      <div class="card-body">
+        <span class="card-tag">10 · Finance</span>
+        <h3 class="card-title">Invoices — list view</h3>
+        <p class="card-desc">Sent invoices overview with outstanding / paid / overdue summary, status-coded rows, bulk-actions bar, and a cash-forecast side card.</p>
+        <div class="card-meta">
+          <span class="chip">47 invoices</span>
+          <span class="chip">Status filters</span>
+          <span class="chip">Cash forecast</span>
+          <span class="chip">Bulk actions</span>
+        </div>
+        <div class="card-foot">
+          <span class="file-hint">10-invoices-list.html</span>
+          <span class="open-link">Bildschirm öffnen
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg>
+          </span>
+        </div>
+      </div>
+    </a>
+
+    <!-- 11 Invoice detail -->
+    <a class="card" href="11-invoice-detail.html">
+      <div class="card-thumb">
+        <svg viewBox="0 0 320 200" preserveAspectRatio="xMidYMid slice">
+          <rect class="thumb-bg" x="0" y="0" width="320" height="200"/>
+          <!-- sidebar -->
+          <rect x="0" y="0" width="56" height="200" fill="#0A2839"/>
+          <rect x="8" y="10" width="16" height="16" rx="4" fill="#72A94F"/>
+          <rect x="8" y="80" width="40" height="8" rx="3" fill="#72A94F"/>
+          <!-- topbar with status -->
+          <rect x="56" y="0" width="264" height="22" fill="#fff" stroke="#E4E7EC"/>
+          <rect x="66" y="7" width="34" height="8" rx="3" fill="#1D2939"/>
+          <rect x="106" y="8" width="40" height="6" rx="2" fill="#72A94F"/>
+          <rect x="152" y="8" width="24" height="6" rx="2" fill="#FBDDB9"/>
+          <rect x="236" y="6" width="30" height="10" rx="4" fill="#F4A261"/>
+          <rect x="272" y="6" width="40" height="10" rx="4" fill="#E4E7EC"/>
+          <!-- document card -->
+          <rect x="66" y="30" width="176" height="160" rx="6" fill="#fff" stroke="#E4E7EC"/>
+          <!-- rainbow band -->
+          <rect x="66" y="30" width="176" height="4" fill="#72A94F"/>
+          <!-- lockup + title -->
+          <rect x="72" y="42" width="16" height="16" rx="3" fill="#72A94F"/>
+          <rect x="92" y="46" width="56" height="4" rx="2" fill="#1D2939"/>
+          <rect x="92" y="54" width="40" height="3" rx="1.5" fill="#98A2B3"/>
+          <rect x="180" y="44" width="54" height="8" rx="2" fill="#1D2939"/>
+          <rect x="180" y="56" width="44" height="4" rx="2" fill="#98A2B3"/>
+          <!-- addresses -->
+          <rect x="72" y="72" width="70" height="3" rx="1" fill="#98A2B3"/>
+          <rect x="72" y="78" width="60" height="4" rx="2" fill="#1D2939"/>
+          <rect x="72" y="85" width="50" height="3" rx="1.5" fill="#475467"/>
+          <rect x="156" y="72" width="70" height="3" rx="1" fill="#98A2B3"/>
+          <rect x="156" y="78" width="60" height="4" rx="2" fill="#1D2939"/>
+          <rect x="156" y="85" width="50" height="3" rx="1.5" fill="#475467"/>
+          <!-- line items -->
+          <line x1="72" y1="98" x2="236" y2="98" stroke="#E4E7EC"/>
+          <rect x="72" y="103" width="100" height="3" rx="1" fill="#1D2939"/>
+          <rect x="200" y="103" width="34" height="3" rx="1" fill="#1D2939"/>
+          <line x1="72" y1="113" x2="236" y2="113" stroke="#F2F4F7"/>
+          <rect x="72" y="118" width="110" height="3" rx="1" fill="#475467"/>
+          <rect x="200" y="118" width="34" height="3" rx="1" fill="#475467"/>
+          <line x1="72" y1="128" x2="236" y2="128" stroke="#F2F4F7"/>
+          <rect x="72" y="133" width="96" height="3" rx="1" fill="#475467"/>
+          <rect x="200" y="133" width="34" height="3" rx="1" fill="#475467"/>
+          <line x1="72" y1="143" x2="236" y2="143" stroke="#F2F4F7"/>
+          <!-- totals -->
+          <rect x="160" y="148" width="76" height="3" rx="1" fill="#98A2B3"/>
+          <rect x="160" y="156" width="76" height="3" rx="1" fill="#98A2B3"/>
+          <rect x="160" y="166" width="76" height="14" rx="3" fill="#0A2839"/>
+          <rect x="166" y="171" width="40" height="4" rx="2" fill="#fff" opacity=".4"/>
+          <rect x="210" y="171" width="22" height="4" rx="2" fill="#fff"/>
+          <!-- side actions card -->
+          <rect x="248" y="30" width="66" height="72" rx="6" fill="#D5E3F3" opacity=".4"/>
+          <rect x="254" y="38" width="50" height="4" rx="2" fill="#1D2939"/>
+          <rect x="254" y="48" width="54" height="10" rx="3" fill="#72A94F"/>
+          <rect x="254" y="62" width="54" height="10" rx="3" fill="#fff" stroke="#E4E7EC"/>
+          <rect x="254" y="76" width="54" height="10" rx="3" fill="#fff" stroke="#E4E7EC"/>
+          <rect x="254" y="90" width="54" height="10" rx="3" fill="#fff" stroke="#E4E7EC"/>
+          <!-- timeline -->
+          <rect x="248" y="108" width="66" height="82" rx="6" fill="#fff" stroke="#E4E7EC"/>
+          <rect x="254" y="116" width="40" height="3" rx="1" fill="#1D2939"/>
+          <circle cx="256" cy="128" r="2" fill="#72A94F"/>
+          <rect x="262" y="126" width="42" height="3" rx="1" fill="#475467"/>
+          <circle cx="256" cy="138" r="2" fill="#16587C"/>
+          <rect x="262" y="136" width="46" height="3" rx="1" fill="#475467"/>
+          <circle cx="256" cy="148" r="2" fill="#98A2B3"/>
+          <rect x="262" y="146" width="38" height="3" rx="1" fill="#98A2B3"/>
+          <circle cx="256" cy="158" r="2" fill="#98A2B3"/>
+          <rect x="262" y="156" width="42" height="3" rx="1" fill="#98A2B3"/>
+          <rect x="254" y="170" width="54" height="4" rx="2" fill="#F2F4F7"/>
+          <rect x="254" y="178" width="44" height="4" rx="2" fill="#F2F4F7"/>
+        </svg>
+      </div>
+      <div class="card-body">
+        <span class="card-tag">11 · Finance</span>
+        <h3 class="card-title">Invoice — detail view</h3>
+        <p class="card-desc">Invoice document with company lockup, addresses, 5-line itemisation, VAT totals, SEPA/card pay-block, activity timeline, and client finance snapshot.</p>
+        <div class="card-meta">
+          <span class="chip">Document layout</span>
+          <span class="chip">VAT 19%</span>
+          <span class="chip">SEPA + Stripe</span>
+          <span class="chip">Mark paid</span>
+        </div>
+        <div class="card-foot">
+          <span class="file-hint">11-invoice-detail.html</span>
+          <span class="open-link">Bildschirm öffnen
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg>
+          </span>
+        </div>
+      </div>
+    </a>
+
+    <!-- 12 Client statement -->
+    <a class="card" href="12-client-statement.html">
+      <div class="card-thumb">
+        <svg viewBox="0 0 320 200" preserveAspectRatio="xMidYMid slice">
+          <rect class="thumb-bg" x="0" y="0" width="320" height="200"/>
+          <!-- sidebar -->
+          <rect x="0" y="0" width="56" height="200" fill="#0A2839"/>
+          <rect x="8" y="10" width="16" height="16" rx="4" fill="#72A94F"/>
+          <rect x="8" y="80" width="40" height="8" rx="3" fill="#72A94F"/>
+          <!-- topbar -->
+          <rect x="56" y="0" width="264" height="20" fill="#fff" stroke="#E4E7EC"/>
+          <rect x="66" y="7" width="50" height="6" rx="2" fill="#1D2939"/>
+          <!-- client switcher -->
+          <rect x="64" y="28" width="250" height="28" rx="6" fill="#fff" stroke="#E4E7EC"/>
+          <circle cx="78" cy="42" r="8" fill="#72A94F"/>
+          <rect x="92" y="36" width="70" height="4" rx="2" fill="#1D2939"/>
+          <rect x="92" y="44" width="90" height="3" rx="1.5" fill="#475467"/>
+          <rect x="250" y="37" width="56" height="12" rx="4" fill="#F2F4F7"/>
+          <!-- summary cards -->
+          <rect x="64" y="62" width="48" height="26" rx="4" fill="#fff" stroke="#E4E7EC"/>
+          <rect x="64" y="62" width="2" height="26" fill="#16587C"/>
+          <rect x="70" y="68" width="22" height="3" rx="1" fill="#98A2B3"/>
+          <rect x="70" y="76" width="36" height="7" rx="2" fill="#1D2939"/>
+          <rect x="116" y="62" width="48" height="26" rx="4" fill="#fff" stroke="#E4E7EC"/>
+          <rect x="116" y="62" width="2" height="26" fill="#72A94F"/>
+          <rect x="122" y="68" width="22" height="3" rx="1" fill="#98A2B3"/>
+          <rect x="122" y="76" width="30" height="7" rx="2" fill="#2D9E6B"/>
+          <rect x="168" y="62" width="48" height="26" rx="4" fill="#fff" stroke="#E4E7EC"/>
+          <rect x="168" y="62" width="2" height="26" fill="#F4A261"/>
+          <rect x="174" y="68" width="22" height="3" rx="1" fill="#98A2B3"/>
+          <rect x="174" y="76" width="28" height="7" rx="2" fill="#F4A261"/>
+          <rect x="220" y="62" width="48" height="26" rx="4" fill="#fff" stroke="#E4E7EC"/>
+          <rect x="220" y="62" width="2" height="26" fill="#E63946"/>
+          <rect x="226" y="68" width="22" height="3" rx="1" fill="#98A2B3"/>
+          <rect x="226" y="76" width="16" height="7" rx="2" fill="#475467"/>
+          <rect x="272" y="62" width="42" height="26" rx="4" fill="#fff" stroke="#E4E7EC"/>
+          <rect x="272" y="62" width="2" height="26" fill="#8E44AD"/>
+          <rect x="278" y="68" width="22" height="3" rx="1" fill="#98A2B3"/>
+          <rect x="278" y="76" width="20" height="7" rx="2" fill="#1D2939"/>
+          <!-- ledger table -->
+          <rect x="64" y="94" width="180" height="100" rx="6" fill="#fff" stroke="#E4E7EC"/>
+          <rect x="64" y="94" width="180" height="12" rx="6" fill="#F9FAFB"/>
+          <rect x="70" y="99" width="24" height="3" rx="1" fill="#98A2B3"/>
+          <rect x="100" y="99" width="30" height="3" rx="1" fill="#98A2B3"/>
+          <rect x="200" y="99" width="20" height="3" rx="1" fill="#98A2B3"/>
+          <!-- rows: date, chip, amounts right aligned -->
+          <g>
+            <line x1="64" y1="120" x2="244" y2="120" stroke="#F2F4F7"/>
+            <rect x="70" y="112" width="22" height="3" rx="1" fill="#475467"/>
+            <rect x="96" y="110" width="18" height="7" rx="2" fill="#D5E3F3"/>
+            <rect x="200" y="112" width="38" height="3" rx="1" fill="#1D2939"/>
+          </g>
+          <g>
+            <line x1="64" y1="132" x2="244" y2="132" stroke="#F2F4F7"/>
+            <rect x="70" y="124" width="22" height="3" rx="1" fill="#475467"/>
+            <rect x="96" y="122" width="18" height="7" rx="2" fill="#CAF2DB"/>
+            <rect x="200" y="124" width="38" height="3" rx="1" fill="#2D9E6B"/>
+          </g>
+          <g>
+            <line x1="64" y1="144" x2="244" y2="144" stroke="#F2F4F7"/>
+            <rect x="70" y="136" width="22" height="3" rx="1" fill="#475467"/>
+            <rect x="96" y="134" width="18" height="7" rx="2" fill="#D5E3F3"/>
+            <rect x="200" y="136" width="38" height="3" rx="1" fill="#1D2939"/>
+          </g>
+          <g>
+            <line x1="64" y1="156" x2="244" y2="156" stroke="#F2F4F7"/>
+            <rect x="70" y="148" width="22" height="3" rx="1" fill="#475467"/>
+            <rect x="96" y="146" width="18" height="7" rx="2" fill="#E6D2F2"/>
+            <rect x="200" y="148" width="38" height="3" rx="1" fill="#2D9E6B"/>
+          </g>
+          <g>
+            <line x1="64" y1="168" x2="244" y2="168" stroke="#F2F4F7"/>
+            <rect x="70" y="160" width="22" height="3" rx="1" fill="#475467"/>
+            <rect x="96" y="158" width="18" height="7" rx="2" fill="#D5E3F3"/>
+            <rect x="200" y="160" width="38" height="3" rx="1" fill="#F4A261"/>
+          </g>
+          <g>
+            <rect x="68" y="174" width="172" height="14" rx="3" fill="#FBDDB9" opacity=".5"/>
+            <rect x="74" y="179" width="22" height="3" rx="1" fill="#1D2939"/>
+            <rect x="100" y="177" width="18" height="7" rx="2" fill="#D5E3F3"/>
+            <rect x="204" y="179" width="34" height="3" rx="1" fill="#F4A261"/>
+          </g>
+          <!-- aging card -->
+          <rect x="250" y="94" width="64" height="100" rx="6" fill="#fff" stroke="#E4E7EC"/>
+          <rect x="256" y="102" width="36" height="3" rx="1" fill="#1D2939"/>
+          <rect x="256" y="112" width="52" height="4" rx="1" fill="#F2F4F7"/>
+          <rect x="256" y="112" width="30" height="4" rx="1" fill="#16587C"/>
+          <rect x="256" y="122" width="52" height="4" rx="1" fill="#F2F4F7"/>
+          <rect x="256" y="132" width="52" height="4" rx="1" fill="#F2F4F7"/>
+          <rect x="256" y="142" width="52" height="4" rx="1" fill="#F2F4F7"/>
+          <rect x="256" y="155" width="52" height="14" rx="4" fill="#CAF2DB"/>
+          <rect x="260" y="161" width="42" height="3" rx="1" fill="#2D9E6B"/>
+          <rect x="256" y="175" width="52" height="4" rx="1" fill="#F2F4F7"/>
+          <rect x="256" y="183" width="40" height="4" rx="1" fill="#F2F4F7"/>
+        </svg>
+      </div>
+      <div class="card-body">
+        <span class="card-tag">12 · Finance</span>
+        <h3 class="card-title">Client statement view</h3>
+        <p class="card-desc">Running-balance ledger for a single client with period picker, 5-card summary, debit/credit table, aging buckets, and property/contact breakdown.</p>
+        <div class="card-meta">
+          <span class="chip">Running balance</span>
+          <span class="chip">Aging buckets</span>
+          <span class="chip">Per-client</span>
+          <span class="chip">Print-ready</span>
+        </div>
+        <div class="card-foot">
+          <span class="file-hint">12-client-statement.html</span>
+          <span class="open-link">Bildschirm öffnen
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg>
+          </span>
+        </div>
+      </div>
+    </a>
+
+    <!-- 13 Settings -->
+    <a class="card" href="13-settings.html">
+      <div class="card-thumb">
+        <svg viewBox="0 0 320 200" preserveAspectRatio="xMidYMid slice">
+          <rect class="thumb-bg" x="0" y="0" width="320" height="200"/>
+          <!-- sidebar -->
+          <rect x="0" y="0" width="56" height="200" fill="#0A2839"/>
+          <rect x="8" y="10" width="16" height="16" rx="4" fill="#72A94F"/>
+          <rect x="8" y="150" width="40" height="8" rx="3" fill="#72A94F"/>
+          <!-- topbar -->
+          <rect x="56" y="0" width="264" height="20" fill="#fff" stroke="#E4E7EC"/>
+          <rect x="66" y="7" width="40" height="6" rx="2" fill="#1D2939"/>
+          <rect x="240" y="6" width="72" height="10" rx="4" fill="#F4A261" opacity=".35"/>
+          <rect x="244" y="8" width="40" height="6" rx="2" fill="#F4A261"/>
+          <!-- section nav -->
+          <rect x="64" y="28" width="60" height="162" rx="6" fill="#fff" stroke="#E4E7EC"/>
+          <rect x="70" y="36" width="30" height="3" rx="1" fill="#98A2B3"/>
+          <rect x="70" y="46" width="48" height="10" rx="3" fill="#E1F8D0"/>
+          <rect x="74" y="49" width="40" height="4" rx="2" fill="#466D31"/>
+          <rect x="74" y="62" width="44" height="4" rx="2" fill="#475467"/>
+          <rect x="74" y="72" width="40" height="4" rx="2" fill="#475467"/>
+          <rect x="74" y="82" width="44" height="4" rx="2" fill="#475467"/>
+          <rect x="74" y="92" width="42" height="4" rx="2" fill="#475467"/>
+          <line x1="70" y1="102" x2="118" y2="102" stroke="#F2F4F7"/>
+          <rect x="70" y="108" width="30" height="3" rx="1" fill="#98A2B3"/>
+          <rect x="74" y="118" width="44" height="4" rx="2" fill="#475467"/>
+          <rect x="74" y="128" width="38" height="4" rx="2" fill="#475467"/>
+          <rect x="74" y="138" width="48" height="4" rx="2" fill="#475467"/>
+          <!-- main section: company profile -->
+          <rect x="128" y="28" width="186" height="80" rx="6" fill="#fff" stroke="#E4E7EC"/>
+          <rect x="134" y="34" width="54" height="4" rx="2" fill="#1D2939"/>
+          <rect x="134" y="42" width="80" height="3" rx="1" fill="#98A2B3"/>
+          <!-- logo + name -->
+          <rect x="134" y="52" width="28" height="28" rx="6" fill="#72A94F"/>
+          <rect x="168" y="58" width="70" height="5" rx="2" fill="#1D2939"/>
+          <rect x="168" y="67" width="90" height="3" rx="1" fill="#475467"/>
+          <rect x="168" y="75" width="70" height="3" rx="1" fill="#98A2B3"/>
+          <rect x="268" y="56" width="36" height="10" rx="3" fill="#F2F4F7"/>
+          <rect x="268" y="70" width="36" height="10" rx="3" fill="#F2F4F7"/>
+          <line x1="134" y1="92" x2="310" y2="92" stroke="#F2F4F7"/>
+          <rect x="134" y="98" width="36" height="3" rx="1" fill="#98A2B3"/>
+          <!-- form fields -->
+          <rect x="128" y="114" width="90" height="34" rx="6" fill="#fff" stroke="#E4E7EC"/>
+          <rect x="134" y="120" width="40" height="3" rx="1" fill="#98A2B3"/>
+          <rect x="134" y="128" width="78" height="12" rx="3" fill="#F9FAFB" stroke="#E4E7EC"/>
+          <rect x="222" y="114" width="92" height="34" rx="6" fill="#fff" stroke="#E4E7EC"/>
+          <rect x="228" y="120" width="40" height="3" rx="1" fill="#98A2B3"/>
+          <rect x="228" y="128" width="80" height="12" rx="3" fill="#F9FAFB" stroke="#E4E7EC"/>
+          <rect x="128" y="154" width="90" height="34" rx="6" fill="#fff" stroke="#E4E7EC"/>
+          <rect x="134" y="160" width="40" height="3" rx="1" fill="#98A2B3"/>
+          <rect x="134" y="168" width="78" height="12" rx="3" fill="#F9FAFB" stroke="#E4E7EC"/>
+          <rect x="222" y="154" width="92" height="34" rx="6" fill="#fff" stroke="#E4E7EC"/>
+          <rect x="228" y="160" width="40" height="3" rx="1" fill="#98A2B3"/>
+          <rect x="228" y="168" width="50" height="12" rx="3" fill="#F9FAFB" stroke="#E4E7EC"/>
+          <circle cx="290" cy="174" r="5" fill="#72A94F"/>
+          <circle cx="293" cy="174" r="3" fill="#fff"/>
+        </svg>
+      </div>
+      <div class="card-body">
+        <span class="card-tag">13 · System</span>
+        <h3 class="card-title">Einstellungen — Geschäftsleitung + Konto</h3>
+        <p class="card-sub"></p>
+        <p class="card-desc">Eight sections in one rail: company profile, team &amp; roles with permission matrix, tax &amp; billing, integrations, notifications, plus personal account, security, and sessions.</p>
+        <div class="card-meta">
+          <span class="chip">Section nav</span>
+          <span class="chip">Role matrix</span>
+          <span class="chip">API keys</span>
+          <span class="chip">2FA + sessions</span>
+        </div>
+        <div class="card-foot">
+          <span class="file-hint">13-settings.html</span>
+          <span class="open-link">Bildschirm öffnen
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg>
+          </span>
+        </div>
+      </div>
+    </a>
+
+    <!-- 14 Reports -->
+    <a class="card" href="14-reports.html">
+      <div class="card-thumb">
+        <svg viewBox="0 0 320 200" preserveAspectRatio="xMidYMid slice">
+          <rect class="thumb-bg" x="0" y="0" width="320" height="200"/>
+          <!-- sidebar -->
+          <rect x="0" y="0" width="56" height="200" fill="#0A2839"/>
+          <rect x="8" y="10" width="16" height="16" rx="4" fill="#72A94F"/>
+          <rect x="8" y="110" width="40" height="8" rx="3" fill="#72A94F"/>
+          <!-- topbar -->
+          <rect x="56" y="0" width="264" height="20" fill="#fff" stroke="#E4E7EC"/>
+          <rect x="66" y="7" width="56" height="6" rx="2" fill="#1D2939"/>
+          <rect x="210" y="5" width="60" height="10" rx="4" fill="#fff" stroke="#E4E7EC"/>
+          <rect x="276" y="5" width="40" height="10" rx="4" fill="#72A94F"/>
+          <!-- KPI row: 4 cards each with color top bar -->
+          <g>
+            <rect x="64" y="28" width="60" height="40" rx="5" fill="#fff" stroke="#E4E7EC"/>
+            <rect x="64" y="28" width="60" height="3" fill="#72A94F"/>
+            <rect x="70" y="36" width="24" height="3" rx="1" fill="#98A2B3"/>
+            <rect x="70" y="44" width="36" height="8" rx="2" fill="#1D2939"/>
+            <rect x="70" y="56" width="20" height="6" rx="3" fill="#CAF2DB"/>
+          </g>
+          <g>
+            <rect x="128" y="28" width="60" height="40" rx="5" fill="#fff" stroke="#E4E7EC"/>
+            <rect x="128" y="28" width="60" height="3" fill="#16587C"/>
+            <rect x="134" y="36" width="24" height="3" rx="1" fill="#98A2B3"/>
+            <rect x="134" y="44" width="30" height="8" rx="2" fill="#1D2939"/>
+            <g fill="#16587C">
+              <rect x="134" y="58" width="3" height="6" rx="1"/><rect x="139" y="56" width="3" height="8" rx="1"/><rect x="144" y="54" width="3" height="10" rx="1"/><rect x="149" y="57" width="3" height="7" rx="1"/><rect x="154" y="53" width="3" height="11" rx="1"/><rect x="159" y="55" width="3" height="9" rx="1"/>
+            </g>
+          </g>
+          <g>
+            <rect x="192" y="28" width="60" height="40" rx="5" fill="#fff" stroke="#E4E7EC"/>
+            <rect x="192" y="28" width="60" height="3" fill="#2D9E6B"/>
+            <rect x="198" y="36" width="24" height="3" rx="1" fill="#98A2B3"/>
+            <rect x="198" y="44" width="32" height="8" rx="2" fill="#1D2939"/>
+            <path d="M198,60 L204,58 L210,58 L216,56 L222,54 L228,54 L234,52 L240,52" fill="none" stroke="#2D9E6B" stroke-width="1.5"/>
+          </g>
+          <g>
+            <rect x="256" y="28" width="58" height="40" rx="5" fill="#fff" stroke="#E4E7EC"/>
+            <rect x="256" y="28" width="58" height="3" fill="#F4A261"/>
+            <rect x="262" y="36" width="24" height="3" rx="1" fill="#98A2B3"/>
+            <rect x="262" y="44" width="28" height="8" rx="2" fill="#1D2939"/>
+            <polygon points="262,62 266,55 270,62 267,58 265,58" fill="#F4A261"/>
+            <rect x="274" y="56" width="30" height="6" rx="2" fill="#FBDDB9" opacity=".6"/>
+          </g>
+          <!-- Revenue trend chart -->
+          <rect x="64" y="74" width="160" height="78" rx="6" fill="#fff" stroke="#E4E7EC"/>
+          <rect x="70" y="80" width="40" height="3" rx="1" fill="#1D2939"/>
+          <g fill="#72A94F" opacity=".85">
+            <rect x="72" y="118" width="9" height="28" rx="1.5"/>
+            <rect x="84" y="112" width="9" height="34" rx="1.5"/>
+            <rect x="96" y="106" width="9" height="40" rx="1.5"/>
+            <rect x="108" y="100" width="9" height="46" rx="1.5"/>
+            <rect x="120" y="96" width="9" height="50" rx="1.5"/>
+            <rect x="132" y="94" width="9" height="52" rx="1.5"/>
+            <rect x="144" y="100" width="9" height="46" rx="1.5"/>
+            <rect x="156" y="90" width="9" height="56" rx="1.5"/>
+            <rect x="168" y="84" width="9" height="62" rx="1.5"/>
+            <rect x="180" y="80" width="9" height="66" rx="1.5"/>
+            <rect x="192" y="90" width="9" height="56" rx="1.5"/>
+            <rect x="204" y="82" width="9" height="64" rx="1.5" opacity=".5"/>
+          </g>
+          <path d="M78,126 L90,118 L102,112 L114,106 L126,98 L138,96 L150,104 L162,90 L174,84 L186,78 L198,92 L210,84" fill="none" stroke="#16587C" stroke-width="1.5"/>
+          <!-- Stunden-Donut card -->
+          <rect x="228" y="74" width="86" height="78" rx="6" fill="#fff" stroke="#E4E7EC"/>
+          <rect x="234" y="80" width="40" height="3" rx="1" fill="#1D2939"/>
+          <circle cx="256" cy="116" r="20" fill="none" stroke="#F2F4F7" stroke-width="7"/>
+          <circle cx="256" cy="116" r="20" fill="none" stroke="#72A94F" stroke-width="7" stroke-dasharray="56 125" transform="rotate(-90 256 116)"/>
+          <circle cx="256" cy="116" r="20" fill="none" stroke="#16587C" stroke-width="7" stroke-dasharray="32 125" stroke-dashoffset="-56" transform="rotate(-90 256 116)"/>
+          <circle cx="256" cy="116" r="20" fill="none" stroke="#8E44AD" stroke-width="7" stroke-dasharray="22 125" stroke-dashoffset="-88" transform="rotate(-90 256 116)"/>
+          <rect x="286" y="98" width="22" height="3" rx="1" fill="#72A94F"/>
+          <rect x="286" y="108" width="22" height="3" rx="1" fill="#16587C"/>
+          <rect x="286" y="118" width="22" height="3" rx="1" fill="#8E44AD"/>
+          <rect x="286" y="128" width="22" height="3" rx="1" fill="#F4A261"/>
+          <!-- report library row -->
+          <rect x="64" y="158" width="80" height="34" rx="5" fill="#fff" stroke="#E4E7EC"/>
+          <rect x="70" y="164" width="16" height="16" rx="4" fill="#72A94F"/>
+          <rect x="90" y="166" width="40" height="3" rx="1" fill="#1D2939"/>
+          <rect x="90" y="174" width="30" height="3" rx="1" fill="#98A2B3"/>
+          <rect x="90" y="182" width="44" height="6" rx="2" fill="#CAF2DB"/>
+          <rect x="148" y="158" width="80" height="34" rx="5" fill="#fff" stroke="#E4E7EC"/>
+          <rect x="154" y="164" width="16" height="16" rx="4" fill="#16587C"/>
+          <rect x="174" y="166" width="40" height="3" rx="1" fill="#1D2939"/>
+          <rect x="174" y="174" width="30" height="3" rx="1" fill="#98A2B3"/>
+          <rect x="174" y="182" width="44" height="6" rx="2" fill="#D5E3F3"/>
+          <rect x="232" y="158" width="82" height="34" rx="5" fill="#fff" stroke="#E4E7EC"/>
+          <rect x="238" y="164" width="16" height="16" rx="4" fill="#E63946"/>
+          <rect x="258" y="166" width="40" height="3" rx="1" fill="#1D2939"/>
+          <rect x="258" y="174" width="30" height="3" rx="1" fill="#98A2B3"/>
+          <rect x="258" y="182" width="44" height="6" rx="2" fill="#F8C6C9"/>
+        </svg>
+      </div>
+      <div class="card-body">
+        <span class="card-tag">14 · Finance</span>
+        <h3 class="card-title">Berichte &amp; Exporte</h3>
+        <p class="card-desc">Umsatz- &amp; Stunden-Übersicht mit KPI-Karten, 12-Monats-Trend, Servicetyp-Donut, 6 Standardberichten (Erstellen / Planen) und Export-Protokoll.</p>
+        <div class="card-meta">
+          <span class="chip">KPIs</span>
+          <span class="chip">Trend-Diagramm</span>
+          <span class="chip">6 Berichtstypen</span>
+          <span class="chip">Geplante Läufe</span>
+        </div>
+        <div class="card-foot">
+          <span class="file-hint">14-reports.html</span>
+          <span class="open-link">Bildschirm öffnen
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg>
+          </span>
+        </div>
+      </div>
+    </a>
+
+    <!-- 15 Customer-type picker (Alltagshilfe) -->
+    <a class="card" href="15-customer-type-picker.html">
+      <div class="card-thumb">
+        <svg viewBox="0 0 320 200" preserveAspectRatio="xMidYMid slice">
+          <rect class="thumb-bg" x="0" y="0" width="320" height="200"/>
+          <rect x="0" y="0" width="52" height="200" class="thumb-sidebar"/>
+          <rect x="8" y="12" width="12" height="12" rx="3" fill="#72A94F"/>
+          <rect x="52" y="0" width="268" height="28" fill="#fff"/>
+          <line x1="52" y1="28" x2="320" y2="28" stroke="#E4E7EC"/>
+          <!-- Dimmed backdrop -->
+          <rect x="62" y="38" width="250" height="154" rx="4" fill="#fff" opacity=".45"/>
+          <!-- Modal overlay -->
+          <rect x="0" y="28" width="320" height="172" fill="#0F2339" opacity=".35"/>
+          <rect x="56" y="48" width="208" height="144" rx="8" fill="#fff"/>
+          <!-- Modal header -->
+          <rect x="70" y="62" width="60" height="3" rx="1" fill="#72A94F"/>
+          <rect x="70" y="70" width="140" height="6" rx="2" fill="#16587C"/>
+          <rect x="70" y="80" width="180" height="3" rx="1" fill="#98A2B3"/>
+          <rect x="70" y="86" width="110" height="3" rx="1" fill="#98A2B3"/>
+          <!-- Priya's card (green) -->
+          <rect x="70" y="100" width="90" height="70" rx="5" fill="#EEF5E8" stroke="#72A94F" stroke-width="1.5"/>
+          <rect x="70" y="100" width="90" height="3" fill="#72A94F"/>
+          <rect x="78" y="112" width="22" height="18" rx="3" fill="#72A94F"/>
+          <rect x="78" y="136" width="54" height="6" rx="1" fill="#487030"/>
+          <rect x="78" y="146" width="70" height="3" rx="1" fill="#5D8E3F"/>
+          <rect x="78" y="158" width="74" height="8" rx="2" fill="#72A94F"/>
+          <!-- Alltagshilfe card (red) -->
+          <rect x="166" y="100" width="90" height="70" rx="5" fill="#FCE7E9" stroke="#E63946" stroke-width="1.5"/>
+          <rect x="166" y="100" width="90" height="3" fill="#E63946"/>
+          <rect x="174" y="112" width="22" height="18" rx="3" fill="#E63946"/>
+          <rect x="174" y="136" width="72" height="6" rx="1" fill="#A32933"/>
+          <rect x="174" y="146" width="66" height="3" rx="1" fill="#C7303C"/>
+          <rect x="174" y="158" width="74" height="8" rx="2" fill="#E63946"/>
+          <rect x="70" y="180" width="100" height="3" rx="1" fill="#98A2B3"/>
+        </svg>
+      </div>
+      <div class="card-body">
+        <span class="card-tag">15 · Dialog · Alltagshilfe</span>
+        <h3 class="card-title">Kunde anlegen · Typ-Auswahl</h3>
+        <p class="card-desc">Der Zwei-Button-Dialog, der zuerst erscheint, sobald ein Kunde angelegt wird. <b>Priya's</b> (grün, automatische Lexware-Abrechnung) oder <b>Alltagshilfe</b> (rot, manuelle Abrechnung, Krankenkasse zahlt). Als Overlay über der Kundenliste.</p>
+        <div class="card-meta">
+          <span class="chip" style="background:var(--primary-50);color:var(--primary-700);border-color:var(--primary-200)">Priya's</span>
+          <span class="chip" style="background:#FCE7E9;color:#A32933;border-color:#FBD4D7">Alltagshilfe</span>
+          <span class="chip">Modal</span>
+        </div>
+        <div class="card-foot">
+          <span class="file-hint">15-customer-type-picker.html</span>
+          <span class="open-link">Bildschirm öffnen
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg>
+          </span>
+        </div>
+      </div>
+    </a>
+
+    <!-- 16 Alltagshilfe monthly report -->
+    <a class="card" href="16-alltagshilfe-report.html">
+      <div class="card-thumb">
+        <svg viewBox="0 0 320 200" preserveAspectRatio="xMidYMid slice">
+          <rect class="thumb-bg" x="0" y="0" width="320" height="200"/>
+          <rect x="0" y="0" width="52" height="200" class="thumb-sidebar"/>
+          <rect x="8" y="12" width="12" height="12" rx="3" fill="#72A94F"/>
+          <rect x="8" y="96" width="36" height="6" rx="1" fill="#E63946"/>
+          <rect x="52" y="0" width="268" height="28" fill="#fff"/>
+          <line x1="52" y1="28" x2="320" y2="28" stroke="#E4E7EC"/>
+          <!-- Red banner -->
+          <rect x="62" y="38" width="250" height="24" rx="4" fill="#FDF2F3" stroke="#FBD4D7"/>
+          <rect x="62" y="38" width="3" height="24" fill="#E63946"/>
+          <rect x="70" y="44" width="14" height="14" rx="3" fill="#E63946"/>
+          <rect x="90" y="44" width="100" height="4" rx="1" fill="#A32933"/>
+          <rect x="90" y="52" width="140" height="3" rx="1" fill="#475467"/>
+          <!-- Title -->
+          <rect x="62" y="70" width="100" height="8" rx="2" fill="#A32933"/>
+          <rect x="166" y="72" width="34" height="7" rx="3" fill="#E63946"/>
+          <!-- KPI row -->
+          <rect x="62" y="88" width="58" height="28" rx="4" fill="#fff" stroke="#E4E7EC"/>
+          <rect x="62" y="88" width="58" height="2" fill="#E63946"/>
+          <rect x="68" y="96" width="20" height="3" rx="1" fill="#98A2B3"/>
+          <rect x="68" y="103" width="36" height="6" rx="1" fill="#A32933"/>
+          <rect x="126" y="88" width="58" height="28" rx="4" fill="#fff" stroke="#E4E7EC"/>
+          <rect x="126" y="88" width="58" height="2" fill="#E63946"/>
+          <rect x="132" y="96" width="20" height="3" rx="1" fill="#98A2B3"/>
+          <rect x="132" y="103" width="30" height="6" rx="1" fill="#A32933"/>
+          <rect x="190" y="88" width="58" height="28" rx="4" fill="#fff" stroke="#E4E7EC"/>
+          <rect x="190" y="88" width="58" height="2" fill="#E63946"/>
+          <rect x="196" y="96" width="20" height="3" rx="1" fill="#98A2B3"/>
+          <rect x="196" y="103" width="28" height="6" rx="1" fill="#A32933"/>
+          <rect x="254" y="88" width="58" height="28" rx="4" fill="#fff" stroke="#E4E7EC"/>
+          <rect x="254" y="88" width="58" height="2" fill="#E63946"/>
+          <rect x="260" y="96" width="20" height="3" rx="1" fill="#98A2B3"/>
+          <rect x="260" y="103" width="34" height="6" rx="1" fill="#A32933"/>
+          <!-- Table -->
+          <rect x="62" y="122" width="250" height="68" rx="4" fill="#fff" stroke="#E4E7EC"/>
+          <rect x="62" y="122" width="250" height="10" fill="#F9FAFB"/>
+          <rect x="66" y="136" width="242" height="14" rx="2" fill="#FDF2F3"/>
+          <circle cx="74" cy="143" r="4" fill="#E63946"/>
+          <rect x="82" y="141" width="60" height="3" rx="1" fill="#A32933"/>
+          <rect x="82" y="147" width="90" height="2" rx="1" fill="#98A2B3"/>
+          <rect x="270" y="140" width="36" height="5" rx="1" fill="#A32933"/>
+          <rect x="66" y="154" width="242" height="12" rx="2" fill="#fff" stroke="#F2F4F7"/>
+          <circle cx="74" cy="160" r="3" fill="#16587C"/>
+          <rect x="82" y="159" width="50" height="3" rx="1" fill="#475467"/>
+          <rect x="82" y="164" width="40" height="2" rx="1" fill="#98A2B3"/>
+          <rect x="270" y="159" width="30" height="4" rx="1" fill="#1D2939"/>
+          <rect x="66" y="170" width="242" height="12" rx="2" fill="#fff" stroke="#F2F4F7"/>
+          <circle cx="74" cy="176" r="3" fill="#A8CC87"/>
+          <rect x="82" y="175" width="50" height="3" rx="1" fill="#475467"/>
+          <rect x="82" y="180" width="40" height="2" rx="1" fill="#98A2B3"/>
+          <rect x="270" y="175" width="30" height="4" rx="1" fill="#1D2939"/>
+        </svg>
+      </div>
+      <div class="card-body">
+        <span class="card-tag">16 · Report · Alltagshilfe</span>
+        <h3 class="card-title">Pflege-Monatsbericht</h3>
+        <p class="card-desc">Automatisch erstellter Monatsbericht zum Monatsende mit <b>Kunde, Mitarbeitende, Stunden</b> für jeden Alltagshilfe-Besuch. Gruppiert nach Pflegekunden mit Zwischensummen, Mitarbeiter-Auswertung, ohne Lexware-Synchronisierung, per E-Mail an die Geschäftsleitung für die manuelle Rechnungserstellung.</p>
+        <div class="card-meta">
+          <span class="chip" style="background:#FCE7E9;color:#A32933;border-color:#FBD4D7">Automatisch erstellt</span>
+          <span class="chip">Gruppiert nach Kunde</span>
+          <span class="chip">E-Mail an Geschäftsleitung</span>
+          <span class="chip">Kein Lexware</span>
+        </div>
+        <div class="card-foot">
+          <span class="file-hint">16-alltagshilfe-report.html</span>
+          <span class="open-link">Bildschirm öffnen
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg>
+          </span>
+        </div>
+      </div>
+    </a>
+
+  </div>
+
+  <!-- Roadmap -->
+  <div class="roadmap" style="margin-top:var(--s-9)">
+    <div class="roadmap-head">
+      <div>
+        <h3>Lieferplan</h3>
+        <p>Wellen für die WebApp. Die Mobile-App startet, sobald die Web-Flows abgeschlossen sind.</p>
+      </div>
+    </div>
+    <div class="waves">
+      <div class="wave done">
+        <div class="wave-label"><span class="status-dot"></span>Welle 1 · Ausgeliefert</div>
+        <div class="wave-title">Kernprozess Kunden</div>
+        <ul class="wave-items">
+          <li>Anmeldung</li>
+          <li>Übersicht</li>
+          <li>Kunden — Liste</li>
+          <li>Kunde — Detail</li>
+        </ul>
+      </div>
+      <div class="wave done">
+        <div class="wave-label"><span class="status-dot"></span>Welle 2 · Ausgeliefert</div>
+        <div class="wave-title">Betrieb &amp; Planung</div>
+        <ul class="wave-items">
+          <li>Objekte — Liste</li>
+          <li>Objekt — Detail</li>
+          <li>Einsatzplan — Kalender + list</li>
+          <li>Mitarbeiter — Liste &amp; detail</li>
+        </ul>
+      </div>
+      <div class="wave done">
+        <div class="wave-label"><span class="status-dot"></span>Welle 3 · Ausgeliefert</div>
+        <div class="wave-title">Finanzen &amp; Verwaltung</div>
+        <ul class="wave-items">
+          <li>Rechnungen — Liste</li>
+          <li>Rechnung — Detail</li>
+          <li>Kontoauszug-Ansicht</li>
+          <li>Einstellungen · Geschäftsleitung + Konto</li>
+          <li>Berichte &amp; Exporte</li>
+        </ul>
+      </div>
+      <div class="wave done" style="border-left:3px solid #E63946">
+        <div class="wave-label" style="color:#A32933"><span class="status-dot" style="background:#E63946"></span>Welle 4 · Ausgeliefert</div>
+        <div class="wave-title">Alltagshilfe-Modul</div>
+        <ul class="wave-items">
+          <li>Mitarbeiter-Detail · Servicetyp-Feld</li>
+          <li>Kundentyp-Dialog (grün / rot)</li>
+          <li>Service-Filter im Einsatzplaner</li>
+          <li>Monatsbericht · Kunde · Mitarbeitende · Stunden</li>
+          <li>ROTER Marker für alle Pflege-Einheiten</li>
+        </ul>
+      </div>
+    </div>
+    <div style="margin-top:var(--s-6);padding-top:var(--s-5);border-top:1px dashed var(--n-200);display:flex;align-items:center;justify-content:space-between;gap:var(--s-4);flex-wrap:wrap">
+      <div style="display:flex;align-items:center;gap:var(--s-3)">
+        <span style="width:10px;height:10px;border-radius:var(--r-full);background:var(--secondary-500);display:inline-block;animation:pulse 2s ease-in-out infinite;box-shadow:0 0 0 3px rgba(22,88,124,.15)"></span>
+        <div>
+          <div style="font-size:var(--fs-h3);font-weight:700;color:var(--n-900);letter-spacing:-.01em">Up next — Mobile-App-Welle</div>
+          <div style="font-size:var(--fs-body);color:var(--n-600);margin-top:2px">Mitarbeiter-App (Schicht-UX, Zeiterfassung, Aufgabenlisten) &amp; Kunden-Portal (Einsatzplan, Rechnungen, Serviceanfragen). Wartet auf Freigabe.</div>
+        </div>
+      </div>
+      <span class="chip" style="background:var(--secondary-50);color:var(--secondary-700);font-weight:600">Startbereit</span>
+    </div>
+  </div>
+
+</main>
+
+<footer class="footer">
+  <div class="footer-wrap">
+    <small>Priya's Cleaning Service · WebApp · Perspektive Geschäftsleitung · Auf Basis des freigegebenen Designsystems</small>
+    <div class="links">
+      <a href="../design-system.html">Design-System</a>
+      <a href="01-login.html">Anmeldung</a>
+      <a href="02-dashboard.html">Übersicht</a>
+      <a href="03-clients-list.html">Kunden</a>
+      <a href="04-client-detail.html">Kundendetail</a>
+      <a href="05-properties-list.html">Properties</a>
+      <a href="06-property-detail.html">Objektdetail</a>
+      <a href="07-schedule.html">Einsatzplan</a>
+      <a href="08-employees-list.html">Mitarbeiter</a>
+      <a href="09-employee-detail.html">Mitarbeiterprofil</a>
+      <a href="10-invoices-list.html">Invoices</a>
+      <a href="11-invoice-detail.html">Invoice detail</a>
+      <a href="12-client-statement.html">Client statement</a>
+      <a href="13-settings.html">Einstellungen</a>
+      <a href="14-reports.html">Berichte</a>
+      <a href="15-customer-type-picker.html">Kundentyp-Auswahl</a>
+      <a href="16-alltagshilfe-report.html">Alltagshilfe-Bericht</a>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,792 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Priya's Reinigungsservice · Mitarbeiterprofil</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --primary-50:#EEF5E8; --primary-100:#D9E9C8; --primary-200:#BFDAA4; --primary-300:#A4CA7F;
+  --primary-500:#72A94F; --primary-600:#5D8E3F; --primary-700:#487030; --primary-800:#345321;
+  --secondary-50:#E5EEF3; --secondary-100:#BFD4E0; --secondary-500:#16587C; --secondary-600:#124A68; --secondary-700:#0F3C54; --secondary-800:#0B2D40; --secondary-900:#081F2C;
+  --accent-500:#A8CC87; --accent-600:#8BB06B; --tertiary-200:#F2FFEA;
+  --success-50:#E8F7EF; --success-500:#2D9E6B; --success-700:#1F6E4A;
+  --warning-50:#FDEFE5; --warning-500:#F4A261; --warning-700:#B36F3A;
+  --error-50:#FCE7E9; --error-100:#FBD4D7; --error-500:#E63946; --error-600:#C7303C; --error-700:#A32933;
+  --white:#FFFFFF;
+  --neutral-50:#F8FAF7; --neutral-100:#EEF2EC; --neutral-200:#DDE3DA; --neutral-300:#C3CCBE;
+  --neutral-400:#9DA898; --neutral-500:#78857A; --neutral-600:#5A6659; --neutral-700:#414B40; --neutral-800:#2A322A; --neutral-900:#141814;
+  --radius-xs:4px; --radius-sm:6px; --radius-md:8px; --radius-lg:12px; --radius-xl:16px; --radius-full:9999px;
+  --shadow-xs:0 1px 2px rgba(20,24,20,.04);
+  --shadow-sm:0 2px 4px rgba(20,24,20,.06),0 1px 2px rgba(20,24,20,.04);
+  --shadow-md:0 4px 10px rgba(20,24,20,.08),0 2px 4px rgba(20,24,20,.04);
+  --shadow-lg:0 10px 25px rgba(20,24,20,.10),0 4px 10px rgba(20,24,20,.05);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Inter',system-ui,sans-serif;font-size:14px;line-height:1.5;color:var(--neutral-800);background:var(--tertiary-200);-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+button{font-family:inherit;cursor:pointer;border:none;background:none}
+ul{list-style:none}
+svg{display:block}
+.mono{font-family:'JetBrains Mono',monospace}
+
+/* Shell */
+.app{display:flex;min-height:100vh}
+.sidebar{width:240px;background:var(--secondary-900);color:rgba(255,255,255,.82);display:flex;flex-direction:column;padding:20px 12px;position:fixed;top:0;left:0;bottom:0;z-index:10;overflow-y:auto}
+.sb-brand{display:flex;align-items:center;gap:12px;padding:6px 10px 24px;border-bottom:1px solid rgba(255,255,255,.06);margin-bottom:16px}
+.sb-logo{width:36px;height:36px;background:var(--primary-500);border-radius:var(--radius-md);display:grid;place-items:center;font-weight:800;color:#fff;font-size:17px}
+.sb-brand-name{font-size:14px;font-weight:600;color:#fff;letter-spacing:-.01em}
+.sb-brand-sub{font-size:10px;color:var(--accent-500);letter-spacing:.08em;text-transform:uppercase;margin-top:1px}
+.sb-section{font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:rgba(255,255,255,.35);padding:12px 12px 8px;font-weight:600}
+.sb-item{display:flex;align-items:center;gap:12px;padding:10px 12px;border-radius:var(--radius-sm);font-size:13px;color:rgba(255,255,255,.72);margin-bottom:2px;transition:all .15s}
+.sb-item:hover{background:rgba(255,255,255,.06);color:#fff}
+.sb-item svg{width:18px;height:18px;flex-shrink:0;stroke-width:1.8}
+.sb-item.active{background:var(--primary-500);color:#fff;font-weight:500}
+.sb-item .badge{margin-left:auto;background:rgba(255,255,255,.15);color:#fff;font-size:10px;padding:2px 7px;border-radius:var(--radius-full);font-weight:600}
+.sb-item.active .badge{background:rgba(0,0,0,.25)}
+.sb-collapse{margin-top:auto;display:flex;align-items:center;gap:10px;padding:16px 24px;font-size:12px;color:rgba(255,255,255,.55);border-top:1px solid rgba(255,255,255,.06);margin:16px -12px 0}
+.sb-collapse svg{width:14px;height:14px}
+.main{margin-left:240px;flex:1;display:flex;flex-direction:column;min-width:0}
+
+/* Topbar */
+.topbar{height:64px;background:#fff;border-bottom:1px solid var(--neutral-100);display:flex;align-items:center;justify-content:space-between;padding:0 28px;position:sticky;top:0;z-index:5}
+.tb-left{display:flex;align-items:center;gap:20px;flex:1;max-width:520px}
+.tb-search{flex:1;display:flex;align-items:center;gap:10px;background:var(--neutral-50);border:1px solid var(--neutral-100);border-radius:var(--radius-md);padding:8px 14px;color:var(--neutral-500)}
+.tb-search svg{width:16px;height:16px}
+.tb-search input{border:none;background:none;font-family:inherit;font-size:13px;outline:none;flex:1;color:var(--neutral-700)}
+.tb-search .kbd{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--neutral-400);padding:3px 6px;background:#fff;border:1px solid var(--neutral-200);border-radius:4px}
+.tb-right{display:flex;align-items:center;gap:6px}
+.icon-btn{width:40px;height:40px;border-radius:var(--radius-md);display:grid;place-items:center;color:var(--neutral-500);transition:all .15s;position:relative}
+.icon-btn:hover{background:var(--neutral-50);color:var(--neutral-800)}
+.icon-btn svg{width:18px;height:18px}
+.icon-btn .dot{position:absolute;top:8px;right:8px;width:8px;height:8px;background:var(--error-500);border-radius:50%;border:2px solid #fff}
+.tb-user{display:flex;align-items:center;gap:10px;padding:6px 12px 6px 6px;border-radius:var(--radius-full);cursor:pointer;transition:all .15s;margin-left:8px}
+.tb-user:hover{background:var(--neutral-50)}
+.avatar{border-radius:50%;display:grid;place-items:center;color:#fff;font-weight:600;background:var(--primary-500);flex-shrink:0}
+.avatar--xs{width:22px;height:22px;font-size:9px}
+.avatar--sm{width:32px;height:32px;font-size:12px}
+.avatar--md{width:40px;height:40px;font-size:13px}
+.avatar--lg{width:72px;height:72px;font-size:22px;font-weight:700}
+.tb-user-info{line-height:1.1}
+.tb-user-info .name{font-size:13px;font-weight:600;color:var(--neutral-800)}
+.tb-user-info .role{font-size:11px;color:var(--neutral-500);margin-top:2px}
+
+/* Content */
+.content{padding:24px 28px 40px;max-width:1440px;width:100%}
+.breadcrumb{display:flex;gap:8px;align-items:center;font-size:12px;color:var(--neutral-500);margin-bottom:12px}
+.breadcrumb .sep{color:var(--neutral-300)}
+.breadcrumb .cur{color:var(--neutral-800);font-weight:500}
+.breadcrumb a:hover{color:var(--primary-600)}
+
+.page-head{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:18px;gap:24px;flex-wrap:wrap}
+.page-head .back{display:inline-flex;align-items:center;gap:6px;font-size:12px;color:var(--neutral-500);margin-bottom:6px}
+.page-head .back:hover{color:var(--primary-600)}
+.page-head h1{font-size:24px;font-weight:700;color:var(--secondary-500);letter-spacing:-.02em}
+.page-head .sub{font-size:13px;color:var(--neutral-500);margin-top:4px}
+.page-head-actions{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+
+.btn{display:inline-flex;align-items:center;gap:8px;padding:10px 16px;border-radius:var(--radius-md);font-size:13px;font-weight:500;line-height:1;min-height:40px;transition:all .15s;border:none;white-space:nowrap}
+.btn svg{width:14px;height:14px;stroke-width:2}
+.btn--primary{background:var(--primary-500);color:#fff}
+.btn--primary:hover{background:var(--primary-600)}
+.btn--tertiary{background:#fff;color:var(--primary-600);border:1.5px solid var(--primary-500)}
+.btn--tertiary:hover{background:var(--tertiary-200)}
+.btn--white{background:#fff;color:var(--neutral-700);border:1px solid var(--neutral-200)}
+.btn--white:hover{background:var(--neutral-50);border-color:var(--neutral-300)}
+.btn--ghost{color:var(--neutral-600);background:transparent}
+.btn--ghost:hover{background:var(--neutral-100);color:var(--neutral-800)}
+.btn--sm{padding:7px 12px;font-size:12px;min-height:32px}
+.btn--danger{background:#fff;color:var(--error-700);border:1px solid var(--error-100)}
+.btn--danger:hover{background:var(--error-50)}
+
+/* Hero profile card */
+.hero{background:#fff;border:1px solid var(--neutral-100);border-radius:var(--radius-lg);padding:24px;display:flex;gap:22px;align-items:flex-start;margin-bottom:20px;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;top:0;left:0;right:0;height:4px;background:linear-gradient(90deg,var(--primary-500) 0%,var(--primary-500) 50%,var(--error-500) 50%,var(--error-500) 100%)}
+.hero-avatar{width:90px;height:90px;border-radius:50%;background:linear-gradient(135deg,var(--secondary-500),var(--secondary-700));color:#fff;display:grid;place-items:center;font-size:30px;font-weight:700;flex-shrink:0;box-shadow:var(--shadow-md);position:relative}
+.hero-avatar .status-dot{position:absolute;right:4px;bottom:4px;width:18px;height:18px;border-radius:50%;background:var(--success-500);border:3px solid #fff}
+.hero-info{flex:1;min-width:0}
+.hero-name{font-size:24px;font-weight:700;color:var(--secondary-500);letter-spacing:-.02em;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.hero-name .verify{width:22px;height:22px;border-radius:50%;background:var(--primary-500);color:#fff;display:grid;place-items:center}
+.hero-name .verify svg{width:12px;height:12px;stroke-width:3}
+.hero-role{font-size:13px;color:var(--neutral-600);margin-top:3px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.hero-role .dot{width:4px;height:4px;border-radius:50%;background:var(--neutral-400)}
+.hero-tags{display:flex;gap:8px;margin-top:14px;flex-wrap:wrap}
+.hero-stats{display:flex;gap:28px;padding:16px 20px;background:var(--neutral-50);border-radius:var(--radius-md);margin-top:16px;flex-wrap:wrap}
+.hero-stats div{display:flex;flex-direction:column;gap:2px}
+.hero-stats .lk{font-size:10px;color:var(--neutral-500);text-transform:uppercase;letter-spacing:.06em;font-weight:600}
+.hero-stats .lv{font-size:14px;font-weight:600;color:var(--neutral-800)}
+.hero-stats .lv b{color:var(--primary-600)}
+.hero-actions{display:flex;flex-direction:column;gap:8px;align-items:flex-end;flex-shrink:0}
+
+/* Service-type tag (NEW feature) */
+.stype{display:inline-flex;align-items:center;gap:6px;padding:4px 10px;border-radius:var(--radius-full);font-size:11px;font-weight:600;letter-spacing:.02em;text-transform:uppercase}
+.stype::before{content:'';width:6px;height:6px;border-radius:50%;background:gültigColor}
+.stype--priya{background:var(--primary-50);color:var(--primary-700);border:1px solid var(--primary-200)}
+.stype--alltags{background:var(--error-50);color:var(--error-700);border:1px solid var(--error-100)}
+.stype--both{background:linear-gradient(90deg,var(--primary-50) 0%,var(--primary-50) 50%,var(--error-50) 50%,var(--error-50) 100%);color:var(--neutral-800);border:1px solid var(--neutral-200);padding-left:12px}
+.stype--both::before{background:linear-gradient(90deg,var(--primary-500) 0%,var(--primary-500) 50%,var(--error-500) 50%,var(--error-500) 100%);width:8px;height:8px}
+
+.tag{display:inline-flex;align-items:center;gap:5px;padding:4px 10px;border-radius:var(--radius-full);font-size:11px;font-weight:500;background:var(--neutral-100);color:var(--neutral-700)}
+.tag svg{width:10px;height:10px}
+.tag--success{background:var(--success-50);color:var(--success-700)}
+.tag--info{background:var(--secondary-50);color:var(--secondary-600)}
+.tag--ghost{background:#fff;color:var(--neutral-600);border:1px solid var(--neutral-200)}
+
+/* KPI row */
+.kpi-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:20px}
+.kpi{background:#fff;border:1px solid var(--neutral-100);border-radius:var(--radius-lg);padding:16px 18px;position:relative;overflow:hidden}
+.kpi::after{content:'';position:absolute;top:0;right:0;width:80px;height:80px;border-radius:50%;opacity:.08;filter:blur(16px)}
+.kpi.hrs::after{background:var(--primary-500)}
+.kpi.jobs::after{background:var(--secondary-500)}
+.kpi.rate::after{background:var(--warning-500)}
+.kpi.train::after{background:var(--success-500)}
+.kpi-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+.kpi-label{font-size:11px;font-weight:600;color:var(--neutral-500);text-transform:uppercase;letter-spacing:.05em}
+.kpi-icon{width:34px;height:34px;border-radius:var(--radius-md);display:grid;place-items:center}
+.kpi.hrs .kpi-icon{background:var(--primary-50);color:var(--primary-600)}
+.kpi.jobs .kpi-icon{background:var(--secondary-50);color:var(--secondary-600)}
+.kpi.rate .kpi-icon{background:var(--warning-50);color:var(--warning-700)}
+.kpi.train .kpi-icon{background:var(--success-50);color:var(--success-700)}
+.kpi-icon svg{width:16px;height:16px;stroke-width:2}
+.kpi-value{font-size:24px;font-weight:700;color:var(--secondary-500);letter-spacing:-.02em;line-height:1.1}
+.kpi-value small{font-size:12px;color:var(--neutral-500);margin-left:4px;font-weight:500}
+.kpi-sub{margin-top:6px;font-size:11px;color:var(--neutral-500);display:flex;align-items:center;gap:6px}
+.delta{display:inline-flex;align-items:center;gap:3px;font-weight:600;padding:2px 7px;border-radius:var(--radius-full);font-size:10px}
+.delta.up{background:var(--success-50);color:var(--success-700)}
+.delta.down{background:var(--error-50);color:var(--error-700)}
+.delta.flat{background:var(--neutral-100);color:var(--neutral-600)}
+
+/* Tabs */
+.tabs{display:flex;gap:4px;border-bottom:1px solid var(--neutral-200);margin-bottom:20px}
+.tab{padding:10px 16px;font-size:13px;font-weight:500;color:var(--neutral-500);cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1px;display:flex;align-items:center;gap:8px}
+.tab:hover{color:var(--neutral-800)}
+.tab.active{color:var(--secondary-500);border-bottom-color:var(--primary-500);font-weight:600}
+.tab .badge{background:var(--neutral-100);color:var(--neutral-600);font-size:10px;padding:1px 7px;border-radius:var(--radius-full);font-weight:600}
+.tab.active .badge{background:var(--primary-50);color:var(--primary-700)}
+
+/* Grid */
+.grid-2{display:grid;grid-template-columns:1.6fr 1fr;gap:16px}
+
+/* Card */
+.card{background:#fff;border:1px solid var(--neutral-100);border-radius:var(--radius-lg);overflow:hidden;margin-bottom:16px}
+.card-head{padding:16px 20px;border-bottom:1px solid var(--neutral-100);display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.card-head h3{font-size:14px;font-weight:600;color:var(--neutral-800);margin:0;display:flex;align-items:center;gap:8px}
+.card-head h3 .ic{width:26px;height:26px;border-radius:var(--radius-sm);display:grid;place-items:center;background:var(--primary-50);color:var(--primary-600)}
+.card-head h3 .ic svg{width:14px;height:14px;stroke-width:2}
+.card-head .sub{font-size:11px;color:var(--neutral-500);margin-top:2px}
+.card-body{padding:18px 20px}
+.card-body--tight{padding:0}
+
+/* Service-type card (NEW feature, prominent) */
+.stype-card{background:#fff;border:1px solid var(--neutral-100);border-radius:var(--radius-lg);margin-bottom:16px;overflow:hidden;position:relative}
+.stype-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--primary-500) 0%,var(--primary-500) 50%,var(--error-500) 50%,var(--error-500) 100%)}
+.stype-head{padding:16px 20px;display:flex;align-items:center;justify-content:space-between;gap:12px;border-bottom:1px solid var(--neutral-100);flex-wrap:wrap}
+.stype-head .lbl{display:flex;align-items:center;gap:10px}
+.stype-head .lbl .pill{font-size:9px;font-weight:700;padding:3px 7px;border-radius:var(--radius-full);background:var(--warning-50);color:var(--warning-700);letter-spacing:.06em;text-transform:uppercase}
+.stype-head h3{font-size:14px;font-weight:600;color:var(--neutral-800)}
+.stype-head .hint{font-size:11px;color:var(--neutral-500);margin-top:2px}
+.stype-body{padding:16px 20px}
+.stype-choices{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.stype-choice{border:1.5px solid var(--neutral-200);border-radius:var(--radius-md);padding:14px 16px;background:#fff;cursor:pointer;display:flex;gap:12px;align-items:center;transition:all .15s;text-align:left}
+.stype-choice:hover{border-color:var(--neutral-300);background:var(--neutral-50)}
+.stype-choice .ic{width:36px;height:36px;border-radius:var(--radius-md);display:grid;place-items:center;flex-shrink:0;color:#fff}
+.stype-choice.c-priya .ic{background:var(--primary-500)}
+.stype-choice.c-alltags .ic{background:var(--error-500)}
+.stype-choice.c-both .ic{background:linear-gradient(135deg,var(--primary-500) 0%,var(--primary-500) 50%,var(--error-500) 50%,var(--error-500) 100%)}
+.stype-choice .ic svg{width:18px;height:18px;stroke-width:1.8}
+.stype-choice .ti{font-size:13px;font-weight:600;color:var(--neutral-800)}
+.stype-choice .de{font-size:11px;color:var(--neutral-500);margin-top:1px}
+.stype-choice.selected{background:var(--neutral-50)}
+.stype-choice.c-priya.selected{border-color:var(--primary-500);background:var(--primary-50)}
+.stype-choice.c-alltags.selected{border-color:var(--error-500);background:var(--error-50)}
+.stype-choice.c-both.selected{border-color:var(--warning-500);background:var(--warning-50)}
+.stype-choice .cb{width:18px;height:18px;border-radius:50%;border:2px solid var(--neutral-300);display:grid;place-items:center;margin-left:auto;flex-shrink:0}
+.stype-choice.selected .cb{border-color:var(--neutral-800);background:var(--neutral-800)}
+.stype-choice.c-priya.selected .cb{border-color:var(--primary-600);background:var(--primary-500)}
+.stype-choice.c-alltags.selected .cb{border-color:var(--error-600);background:var(--error-500)}
+.stype-choice.c-both.selected .cb{border-color:var(--warning-700);background:var(--warning-500)}
+.stype-choice.selected .cb::after{content:'';width:6px;height:6px;border-radius:50%;background:#fff}
+.stype-rules{margin-top:14px;padding:12px 14px;background:var(--warning-50);border:1px solid #F1D7A6;border-radius:var(--radius-md);display:flex;gap:10px;align-items:flex-start;font-size:12px;color:var(--warning-700)}
+.stype-rules svg{width:14px;height:14px;flex-shrink:0;margin-top:2px;stroke-width:2}
+.stype-rules b{color:var(--warning-700)}
+
+/* Info rows */
+.info-row{display:grid;grid-template-columns:120px 1fr;gap:14px;padding:10px 20px;border-bottom:1px solid var(--neutral-100);font-size:13px;align-items:center}
+.info-row:last-child{border-bottom:0}
+.info-row .k{font-size:11px;color:var(--neutral-500);font-weight:500;text-transform:uppercase;letter-spacing:.04em}
+.info-row .v{color:var(--neutral-800);font-weight:500}
+.info-row .v a{color:var(--secondary-600);font-weight:500}
+.info-row .v a:hover{text-decoration:underline}
+.info-row .v .sub{font-size:11px;color:var(--neutral-500);margin-top:2px;font-weight:400}
+
+/* Skill chips / lang chips */
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.skill-chip{display:inline-flex;align-items:center;gap:5px;padding:5px 10px;border:1px solid var(--neutral-200);border-radius:var(--radius-full);background:var(--neutral-50);font-size:11px;color:var(--neutral-700);font-weight:500}
+.skill-chip.prio{background:var(--primary-50);border-color:var(--primary-200);color:var(--primary-700)}
+.skill-chip.Pflege{background:var(--error-50);border-color:var(--error-100);color:var(--error-700)}
+.skill-chip svg{width:10px;height:10px}
+
+/* Shift list (upcoming) */
+.shift{display:grid;grid-template-columns:60px 1fr auto auto;gap:14px;padding:14px 20px;border-bottom:1px solid var(--neutral-100);align-items:center}
+.shift:last-child{border-bottom:0}
+.shift:hover{background:var(--neutral-50)}
+.shift .date{display:flex;flex-direction:column;align-items:center;padding:6px 0;border-radius:var(--radius-md);background:var(--neutral-50);flex-shrink:0;line-height:1}
+.shift.priya .date{background:var(--primary-50)}
+.shift.alltags .date{background:var(--error-50)}
+.shift .date .m{font-size:9px;color:var(--neutral-500);text-transform:uppercase;letter-spacing:.06em;font-weight:700;margin-bottom:3px}
+.shift.priya .date .m{color:var(--primary-700)}
+.shift.alltags .date .m{color:var(--error-700)}
+.shift .date .d{font-size:18px;font-weight:700;color:var(--neutral-800)}
+.shift.priya .date .d{color:var(--primary-700)}
+.shift.alltags .date .d{color:var(--error-700)}
+.shift .meta .ti{font-size:13px;font-weight:600;color:var(--neutral-800);display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.shift .meta .sub{font-size:11px;color:var(--neutral-500);margin-top:3px;display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.shift .meta .sub .sep{color:var(--neutral-300)}
+.shift .time{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--neutral-700);font-weight:500;text-align:right}
+.shift .time .hrs{font-size:10px;color:var(--neutral-500);margin-top:2px}
+
+/* Service pill on shift */
+.srv-pill{display:inline-flex;align-items:center;gap:4px;padding:2px 7px;border-radius:var(--radius-full);font-size:10px;font-weight:700;letter-spacing:.04em;text-transform:uppercase}
+.srv-pill.priya{background:var(--primary-50);color:var(--primary-700)}
+.srv-pill.alltags{background:var(--error-50);color:var(--error-700)}
+.srv-pill::before{content:'';width:5px;height:5px;border-radius:50%;background:gültigColor}
+
+/* Perf card */
+.perf-row{padding:14px 20px;border-bottom:1px solid var(--neutral-100);display:grid;grid-template-columns:170px 1fr 90px;gap:14px;align-items:center}
+.perf-row:last-child{border-bottom:0}
+.perf-lbl{font-size:12px;color:var(--neutral-700);font-weight:500}
+.perf-lbl .sub{font-size:10px;color:var(--neutral-500);margin-top:2px;font-weight:400}
+.perf-bar{height:7px;background:var(--neutral-100);border-radius:var(--radius-full);overflow:hidden}
+.perf-bar .fill{height:100%;background:var(--primary-500);border-radius:var(--radius-full)}
+.perf-bar .fill.warn{background:var(--warning-500)}
+.perf-bar .fill.err{background:var(--error-500)}
+.perf-val{font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:600;color:var(--neutral-800);text-align:right}
+.perf-val .delta{font-size:10px;font-weight:600;margin-left:4px;padding:1px 5px}
+
+/* Training items */
+.train-row{padding:12px 20px;border-bottom:1px solid var(--neutral-100);display:grid;grid-template-columns:36px 1fr auto;gap:12px;align-items:center}
+.train-row:last-child{border-bottom:0}
+.train-ic{width:36px;height:36px;border-radius:var(--radius-md);display:grid;place-items:center;flex-shrink:0}
+.train-ic.ok{background:var(--success-50);color:var(--success-700)}
+.train-ic.Pflege{background:var(--error-50);color:var(--error-700)}
+.train-ic.ex{background:var(--warning-50);color:var(--warning-700)}
+.train-ic svg{width:16px;height:16px;stroke-width:2}
+.train-meta .tn{font-size:12px;font-weight:600;color:var(--neutral-800)}
+.train-meta .td{font-size:10px;color:var(--neutral-500);margin-top:2px}
+
+/* Sidebar right narrow card */
+.side-avatar{display:flex;align-items:center;gap:10px;padding:12px 20px;border-bottom:1px solid var(--neutral-100)}
+.side-avatar .avatar{width:38px;height:38px;font-size:12px;background:var(--warning-500)}
+.side-avatar .name{font-size:13px;font-weight:600;color:var(--neutral-800)}
+.side-avatar .meta{font-size:11px;color:var(--neutral-500)}
+
+.note-card{background:var(--warning-50);border:1px solid #F1D7A6;border-radius:var(--radius-md);padding:12px 14px;margin:16px 20px;display:flex;gap:10px;align-items:flex-start;font-size:12px;color:var(--warning-700)}
+.note-card svg{width:14px;height:14px;flex-shrink:0;margin-top:2px;stroke-width:2}
+
+/* Responsive */
+@media(max-width:1200px){
+  .grid-2{grid-template-columns:1fr}
+  .kpi-grid{grid-template-columns:repeat(2,1fr)}
+  .stype-choices{grid-template-columns:1fr}
+}
+@media(max-width:1024px){
+  .sidebar{width:72px;padding:16px 8px}
+  .sb-brand > div:last-child,.sb-item span:not(.badge),.sb-section,.sb-collapse{display:none}
+  .sb-item{justify-content:center}
+  .sb-item .badge{display:none}
+  .main{margin-left:72px}
+  .content{padding:20px}
+}
+@media(max-width:768px){
+  .kpi-grid{grid-template-columns:1fr}
+  .hero{flex-direction:column}
+  .hero-actions{flex-direction:row;align-self:stretch}
+}
+</style>
+</head>
+<body>
+<div class="app">
+
+  <!-- Sidebar -->
+  <aside class="sidebar">
+      <div class="sb-brand">
+        <div class="sb-logo">P</div>
+        <div>
+          <div class="sb-brand-name">Priya's</div>
+          <div class="sb-brand-sub">Betrieb</div>
+        </div>
+      </div>
+      <div class="sb-section">Arbeitsbereich</div>
+      <a class="sb-item" href="02-dashboard.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>Übersicht</a>
+      <a class="sb-item" href="03-clients-list.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>Kunden<span class="badge">10</span></a>
+      <a class="sb-item" href="05-properties-list.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21V7l8-4 8 4v14"/><path d="M9 9h2M13 9h2M9 13h2M13 13h2M9 17h2M13 17h2"/></svg>Objekte<span class="badge">112</span></a>
+      <a class="sb-item" href="07-schedule.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 9h18M8 3v4M16 3v4"/></svg>Einsatzplan</a>
+      <a class="sb-item active" href="08-employees-list.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>Mitarbeiter<span class="badge">32</span></a>
+      <a class="sb-item" href="14-reports.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M7 14l3-3 3 3 5-5"/></svg>Berichte</a>
+      <div class="sb-section">Alltagshilfe</div>
+      <a class="sb-item" href="15-customer-type-picker.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 000-7.78z"/></svg>Pflegekunden</a>
+      <a class="sb-item" href="16-alltagshilfe-report.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6"/></svg>Monatsbericht</a>
+      <div class="sb-section">Kommunikation</div>
+      <a class="sb-item" href="17-team-chat.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a7.5 7.5 0 01-11.2 6.5L4 20l1.5-5.2A7.5 7.5 0 1121 12z"/></svg>Team-Chat<span class="badge">3</span></a>
+      <a class="sb-item" href="18-notifications.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8a6 6 0 0112 0c0 7 3 8 3 8H3s3-1 3-8zM10 21a2 2 0 004 0"/></svg>Benachrichtigungen<span class="badge">12</span></a>
+      <div class="sb-section">System</div>
+      <a class="sb-item" href="13-settings.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.3 1.8l.1.1a2 2 0 11-2.8 2.8l-.1-.1a1.65 1.65 0 00-1.8-.3 1.65 1.65 0 00-1 1.5V21a2 2 0 11-4 0v-.1a1.65 1.65 0 00-1-1.5 1.65 1.65 0 00-1.8.3l-.1.1a2 2 0 11-2.8-2.8l.1-.1a1.65 1.65 0 00.3-1.8 1.65 1.65 0 00-1.5-1H3a2 2 0 110-4h.1a1.65 1.65 0 001.5-1 1.65 1.65 0 00-.3-1.8l-.1-.1a2 2 0 112.8-2.8l.1.1a1.65 1.65 0 001.8.3h0a1.65 1.65 0 001-1.5V3a2 2 0 114 0v.1a1.65 1.65 0 001 1.5 1.65 1.65 0 001.8-.3l.1-.1a2 2 0 112.8 2.8l-.1.1a1.65 1.65 0 00-.3 1.8v0a1.65 1.65 0 001.5 1H21a2 2 0 110 4h-.1a1.65 1.65 0 00-1.5 1z"/></svg>Einstellungen</a>
+      <div class="sb-collapse"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>Seitenleiste einklappen</div>
+    </aside>
+
+  <!-- Main -->
+  <div class="main">
+    <header class="topbar">
+      <div class="tb-left">
+        <div class="tb-search">
+          <svg viewBox="0 0 24 24" fill="none" stroke="gültigColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+          <input placeholder="Mitarbeiter, Schichten, Kunden suchen…" />
+          <span class="kbd">⌘ K</span>
+        </div>
+      </div>
+      <div class="tb-right">
+        <button class="icon-btn"><svg viewBox="0 0 24 24" fill="none" stroke="gültigColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.1 9a3 3 0 015.8 1c0 2-3 3-3 3M12 17h.01"/></svg></button>
+        <button class="icon-btn"><svg viewBox="0 0 24 24" fill="none" stroke="gültigColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a7.5 7.5 0 01-11.2 6.5L4 20l1.5-5.2A7.5 7.5 0 1121 12z"/></svg><span class="dot"></span></button>
+        <button class="icon-btn"><svg viewBox="0 0 24 24" fill="none" stroke="gültigColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8a6 6 0 0112 0c0 7 3 8 3 8H3s3-1 3-8zM10 21a2 2 0 004 0"/></svg><span class="dot"></span></button>
+        <div class="tb-user">
+          <div class="avatar avatar--sm">AM</div>
+          <div class="tb-user-info"><div class="name">Alex Müller</div><div class="role">Geschäftsleitung</div></div>
+          <svg viewBox="0 0 24 24" fill="none" stroke="gültigColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px;color:var(--neutral-400)"><path d="M6 9l6 6 6-6"/></svg>
+        </div>
+      </div>
+    </header>
+
+    <div class="content">
+
+      <!-- Breadcrumb -->
+      <div class="breadcrumb">
+        <a href="02-dashboard.html">Übersicht</a>
+        <span class="sep">/</span>
+        <a href="08-employees-list.html">Mitarbeiter</a>
+        <span class="sep">/</span>
+        <span class="cur">Fatima Özdemir</span>
+      </div>
+
+      <!-- Page head -->
+      <div class="page-head">
+        <div>
+          <a class="back" href="08-employees-list.html">
+          </a>
+          <h1>Mitarbeiterprofil</h1>
+          <div class="sub">Persönliches Profil, Verfügbarkeit und Service-Zuordnungen einsehen und verwalten.</div>
+        </div>
+        <div class="page-head-actions">
+          <button class="btn btn--white"><svg viewBox="0 0 24 24" fill="none" stroke="gültigColor" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 10l-5 5-5-5M12 15V3"/></svg>Profil exportieren</button>
+          <button class="btn btn--white"><svg viewBox="0 0 24 24" fill="none" stroke="gültigColor" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a7.5 7.5 0 01-11.2 6.5L4 20l1.5-5.2A7.5 7.5 0 1121 12z"/></svg>Nachricht</button>
+          <button class="btn btn--tertiary"><svg viewBox="0 0 24 24" fill="none" stroke="gültigColor" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.12 2.12 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>Profil bearbeiten</button>
+          <button class="btn btn--primary"><svg viewBox="0 0 24 24" fill="none" stroke="gültigColor" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 9h18M8 3v4M16 3v4"/><path d="M12 14v4M10 16h4"/></svg>Schicht zuweisen</button>
+        </div>
+      </div>
+
+      <!-- Hero -->
+      <div class="hero">
+        <div class="hero-avatar">
+          FÖ
+          <span class="status-dot" title="Im Einsatz"></span>
+        </div>
+        <div class="hero-info">
+          <div class="hero-name">
+            Fatima Özdemir
+            <span class="verify" title="Identität verifiziert"><svg viewBox="0 0 24 24" fill="none" stroke="gültigColor" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span>
+          </div>
+          <div class="hero-role">
+            <span>Reinigungskraft · Qualifizierte Pflegehilfe</span>
+            <span class="dot"></span>
+            <span>Team 02 · Springer</span>
+            <span class="dot"></span>
+            <span>Berlin Zentrale</span>
+            <span class="dot"></span>
+            <span>Seit 15. Aug. 2023</span>
+          </div>
+          <div class="hero-tags">
+            <span class="stype stype--both">Priya's &amp; Alltagshilfe</span>
+            <span class="tag tag--success">
+              <svg viewBox="0 0 24 24" fill="none" stroke="gültigColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/></svg>
+              Im Einsatz · endet 16:00
+            </span>
+            <span class="tag">DE</span>
+            <span class="tag">EN</span>
+            <span class="tag">TR</span>
+            <span class="tag tag--ghost">
+              <svg viewBox="0 0 24 24" fill="none" stroke="gültigColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87L18.18 22 12 17.77 5.82 22 7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+              4.9 · 42 Bewertungen
+            </span>
+          </div>
+          <div class="hero-stats">
+            <div><span class="lk">Einstellungsdatum</span><span class="lv">15. Aug. 2023</span></div>
+            <div><span class="lk">Vertrag</span><span class="lv">Vollzeit · 40 Std./Woche</span></div>
+            <div><span class="lk">Stundensatz</span><span class="lv mono">€15.80 / €17.20 Pflege</span></div>
+            <div><span class="lk">Vorgesetzte:r</span><span class="lv"><b>Teamleitung 01</b></span></div>
+            <div><span class="lk">Urlaub</span><span class="lv">18 / 30 Tage übrig</span></div>
+          </div>
+        </div>
+        <div class="hero-actions">
+          <button class="btn btn--white btn--sm"><svg viewBox="0 0 24 24" fill="none" stroke="gültigColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.8 19.8 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.8 19.8 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72 12.8 12.8 0 00.7 2.81 2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.8 12.8 0 002.81.7A2 2 0 0122 16.92z"/></svg>Anrufen</button>
+          <button class="btn btn--white btn--sm"><svg viewBox="0 0 24 24" fill="none" stroke="gültigColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M22 6l-10 7L2 6"/></svg>E-Mail</button>
+          <button class="btn btn--danger btn--sm">Deaktivieren</button>
+        </div>
+      </div>
+
+      <!-- KPIs -->
+      <div class="kpi-grid">
+        <div class="kpi hrs">
+          <div class="kpi-top">
+            <span class="kpi-label">Stunden in diesem Monat</span>
+            <div class="kpi-icon"><svg viewBox="0 0 24 24" fill="none" stroke="gültigColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
+          </div>
+          <div class="kpi-value">142<small>/ 160 h</small></div>
+          <div class="kpi-sub"><span class="delta up">+6%</span>ggü. März · 18 Std. übrig</div>
+        </div>
+        <div class="kpi jobs">
+          <div class="kpi-top">
+            <span class="kpi-label">Erledigte Aufträge</span>
+            <div class="kpi-icon"><svg viewBox="0 0 24 24" fill="none" stroke="gültigColor" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg></div>
+          </div>
+          <div class="kpi-value">38<small>YTD</small></div>
+          <div class="kpi-sub"><span class="delta up">100%</span>pünktliche Erledigung</div>
+        </div>
+        <div class="kpi rate">
+          <div class="kpi-top">
+            <span class="kpi-label">Durchschnittsbewertung</span>
+            <div class="kpi-icon"><svg viewBox="0 0 24 24" fill="none" stroke="gültigColor" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
+          </div>
+          <div class="kpi-value">4.9<small>/ 5.0</small></div>
+          <div class="kpi-sub"><span class="delta up">+0.1</span>42 Bewertungen · NPS +74</div>
+        </div>
+        <div class="kpi train">
+          <div class="kpi-top">
+            <span class="kpi-label">Schulungsstatus</span>
+            <div class="kpi-icon"><svg viewBox="0 0 24 24" fill="none" stroke="gültigColor" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg></div>
+          </div>
+          <div class="kpi-value">12<small>/ 12 gültig</small></div>
+          <div class="kpi-sub"><span class="delta flat">±0</span>Pflegehelfer-Zertifikat erneuert sich im August</div>
+        </div>
+      </div>
+
+      <!-- Tabs -->
+      <div class="tabs">
+        <div class="tab active"><svg viewBox="0 0 24 24" fill="none" stroke="gültigColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>Übersicht</div>
+        <div class="tab"><svg viewBox="0 0 24 24" fill="none" stroke="gültigColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 9h18M8 3v4M16 3v4"/></svg>Einsatzplan<span class="badge">6</span></div>
+        <div class="tab"><svg viewBox="0 0 24 24" fill="none" stroke="gültigColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>Zeiterfassung</div>
+        <div class="tab"><svg viewBox="0 0 24 24" fill="none" stroke="gültigColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px"><path d="M3 3v18h18"/><path d="M7 14l3-3 3 3 5-5"/></svg>Leistung</div>
+        <div class="tab"><svg viewBox="0 0 24 24" fill="none" stroke="gültigColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6"/></svg>Dokumente<span class="badge">14</span></div>
+        <div class="tab"><svg viewBox="0 0 24 24" fill="none" stroke="gültigColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px"><path d="M12 8v4l3 3"/><path d="M3.05 11a9 9 0 119 9 9 9 0 01-7.2-3.6"/></svg>Verlauf</div>
+      </div>
+
+      <!-- Service-type (NEW Alltagshilfe feature) -->
+      <div class="stype-card">
+        <div class="stype-head">
+          <div>
+            <div class="lbl">
+              <h3>Servicezuordnung</h3>
+              <span class="pill">Neu · Alltagshilfe</span>
+            </div>
+            <div class="hint">Legt fest, für welche Schichten diese Person eingeplant werden darf. Änderungen werden protokolliert · nur die Geschäftsleitung kann sie bearbeiten.</div>
+          </div>
+          <button class="btn btn--white btn--sm">Zuordnung speichern</button>
+        </div>
+        <div class="stype-body">
+          <div class="stype-choices">
+            <button class="stype-choice c-priya">
+              <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="gültigColor" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4l4 16M20 4l-4 16M4 4h16M6 12h12"/></svg></div>
+              <div>
+                <div class="ti">Nur Priya's</div>
+                <div class="de">Regular Reinigung shifts</div>
+              </div>
+              <div class="cb"></div>
+            </button>
+            <button class="stype-choice c-alltags">
+              <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="gültigColor" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 000-7.78z"/></svg></div>
+              <div>
+                <div class="ti">Nur Alltagshilfe</div>
+                <div class="de">Pflegeschichten</div>
+              </div>
+              <div class="cb"></div>
+            </button>
+            <button class="stype-choice c-both selected">
+              <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="gültigColor" stroke-linecap="round" stroke-linejoin="round"><path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="10"/></svg></div>
+              <div>
+                <div class="ti">Beide</div>
+                <div class="de">Alle Schichtarten erlaubt</div>
+              </div>
+              <div class="cb"></div>
+            </button>
+          </div>
+          <div class="stype-rules">
+            <svg viewBox="0 0 24 24" fill="none" stroke="gültigColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
+            <div><b>Voraussetzungen für Alltagshilfe:</b> Gültiges Pflegehelfer-Zertifikat, Erste-Hilfe-Schein, Deutsch B1+. Fatima erfüllt alle Voraussetzungen · zuletzt geprüft 14. Apr. 2026.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Grid -->
+      <div class="grid-2">
+
+        <!-- Left -->
+        <div>
+
+          <!-- Upcoming shifts -->
+          <div class="card">
+            <div class="card-head">
+              <h3><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="gültigColor" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 9h18M8 3v4M16 3v4"/></svg></span>Kommende Schichten · nächste 7 Tage</h3>
+              <div style="display:flex;gap:6px;align-items:center"><span class="srv-pill priya">Priya's · 4</span><span class="srv-pill alltags">Alltagshilfe · 2</span><a href="07-schedule.html" style="font-size:12px;color:var(--primary-700);font-weight:600;margin-left:6px">Einsatzplan öffnen →</a></div>
+            </div>
+            <div class="card-body card-body--tight">
+              <div class="shift priya">
+                <div class="date"><span class="m">Di</span><span class="d">23</span></div>
+                <div class="meta">
+                  <div class="ti">Müller Immobilien GmbH · Büro-Grundreinigung<span class="srv-pill priya">Priya's</span></div>
+                  <div class="sub">Berlin Zentrale, Friedrichstraße 200 · Team 02 · 4 Personen<span class="sep">·</span>Regelmäßiger Service</div>
+                </div>
+                <div class="time">08:00–14:00<div class="hrs">6.0 h</div></div>
+                <button class="btn btn--ghost btn--sm">Details →</button>
+              </div>
+              <div class="shift alltags">
+                <div class="date"><span class="m">Di</span><span class="d">23</span></div>
+                <div class="meta">
+                  <div class="ti">Frau K. Beckmann · Daily Pflege visit<span class="srv-pill alltags">Alltagshilfe</span></div>
+                  <div class="sub">Wilmersdorf · Mecklenburgische Str. 44 · Allein · Versicherung: AOK Nordost<span class="sep">·</span>Mobilität + Essenszubereitung</div>
+                </div>
+                <div class="time">15:00–17:30<div class="hrs">2.5 h</div></div>
+                <button class="btn btn--ghost btn--sm">Details →</button>
+              </div>
+              <div class="shift priya">
+                <div class="date"><span class="m">Mi</span><span class="d">24</span></div>
+                <div class="meta">
+                  <div class="ti">Familie Becker · Wöchentliche Pflege<span class="srv-pill priya">Priya's</span></div>
+                  <div class="sub">Charlottenburg · Kantstraße 14 · Allein<span class="sep">·</span>Schwerpunkt Bad + Küche</div>
+                </div>
+                <div class="time">09:00–11:30<div class="hrs">2.5 h</div></div>
+                <button class="btn btn--ghost btn--sm">Details →</button>
+              </div>
+              <div class="shift alltags">
+                <div class="date"><span class="m">Do</span><span class="d">25</span></div>
+                <div class="meta">
+                  <div class="ti">Herr M. Schäfer · Daily Pflege visit<span class="srv-pill alltags">Alltagshilfe</span></div>
+                  <div class="sub">Schöneberg · Hauptstraße 117 · Allein · Versicherung: Barmer<span class="sep">·</span>Begleitung + Botengänge</div>
+                </div>
+                <div class="time">10:00–12:00<div class="hrs">2.0 h</div></div>
+                <button class="btn btn--ghost btn--sm">Details →</button>
+              </div>
+              <div class="shift priya">
+                <div class="date"><span class="m">Fr</span><span class="d">26</span></div>
+                <div class="meta">
+                  <div class="ti">Berliner Hotel Konzept GmbH · Büros 3. OG<span class="srv-pill priya">Priya's</span></div>
+                  <div class="sub">Mitte · Alexanderplatz 5 · Team 02 · 3 Personen<span class="sep">·</span>Spätschicht</div>
+                </div>
+                <div class="time">17:00–21:00<div class="hrs">4.0 h</div></div>
+                <button class="btn btn--ghost btn--sm">Details →</button>
+              </div>
+              <div class="shift priya">
+                <div class="date"><span class="m">Sa</span><span class="d">27</span></div>
+                <div class="meta">
+                  <div class="ti">Hotel Spree-Eck · Wöchentliche Reinigung<span class="srv-pill priya">Priya's</span></div>
+                  <div class="sub">Mitte · Oranienburger Str. 62 · Team 02 · 6 Personen<span class="sep">·</span>12 Zimmer</div>
+                </div>
+                <div class="time">07:00–13:00<div class="hrs">6.0 h</div></div>
+                <button class="btn btn--ghost btn--sm">Details →</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Leistung -->
+          <div class="card">
+            <div class="card-head">
+              <h3><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="gültigColor" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M7 14l3-3 3 3 5-5"/></svg></span>Leistung · letzte 90 Tage</h3>
+              <span class="tag tag--success">Hervorragend</span>
+            </div>
+            <div class="card-body card-body--tight">
+              <div class="perf-row">
+                <div class="perf-lbl">Pünktlichkeit<div class="sub">Einchecken binnen 5-Minuten-Fenster</div></div>
+                <div class="perf-bar"><div class="fill" style="width:98%"></div></div>
+                <div class="perf-val">98%<span class="delta up">+2</span></div>
+              </div>
+              <div class="perf-row">
+                <div class="perf-lbl">Erledigungsquote<div class="sub">Schichten wie geplant erledigt</div></div>
+                <div class="perf-bar"><div class="fill" style="width:100%"></div></div>
+                <div class="perf-val">100%<span class="delta flat">±0</span></div>
+              </div>
+              <div class="perf-row">
+                <div class="perf-lbl">Kundenzufriedenheit<div class="sub">Bewertung nach Besuch (1–5)</div></div>
+                <div class="perf-bar"><div class="fill" style="width:96%"></div></div>
+                <div class="perf-val">4.9<span class="delta up">+0.1</span></div>
+              </div>
+              <div class="perf-row">
+                <div class="perf-lbl">Abrechnungsquote<div class="sub">Bezahlte Std. / erfasste Std.</div></div>
+                <div class="perf-bar"><div class="fill warn" style="width:94%"></div></div>
+                <div class="perf-val">94%<span class="delta up">+1.2</span></div>
+              </div>
+              <div class="perf-row">
+                <div class="perf-lbl">Alltagshilfe Pflege hours<div class="sub">Vom Gesamtstundenkontingent</div></div>
+                <div class="perf-bar"><div class="fill" style="width:32%;background:var(--error-500)"></div></div>
+                <div class="perf-val">32%<span class="delta up">+8</span></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Skills -->
+          <div class="card">
+            <div class="card-head">
+              <h3><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="gültigColor" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87L18.18 22 12 17.77 5.82 22 7 14.14 2 9.27l6.91-1.01L12 2z"/></svg></span>Qualifikationen &amp; Zertifikate</h3>
+              <button class="btn btn--ghost btn--sm">Verwalten</button>
+            </div>
+            <div class="card-body">
+              <div style="font-size:10px;color:var(--neutral-500);font-weight:600;text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px">Priya's-Qualifikationen</div>
+              <div class="chips" style="margin-bottom:16px">
+                <span class="skill-chip prio">Deep Reinigung · expert</span>
+                <span class="skill-chip prio">Floor Pflege · advanced</span>
+                <span class="skill-chip prio">Fensterreinigung</span>
+                <span class="skill-chip prio">Öko-Produkte geschult</span>
+                <span class="skill-chip prio">Hotel-Wechselreinigung</span>
+              </div>
+              <div style="font-size:10px;color:var(--error-700);font-weight:600;text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px">Alltagshilfe-Qualifikationen</div>
+              <div class="chips">
+                <span class="skill-chip Pflege">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="gültigColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+                  Pflegehelfer-Zertifikat
+                </span>
+                <span class="skill-chip Pflege">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="gültigColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+                  Erste-Hilfe (gültig 2027)
+                </span>
+                <span class="skill-chip Pflege">Dementia Pflege · basic</span>
+                <span class="skill-chip Pflege">Essenszubereitung · diabetikergerecht</span>
+                <span class="skill-chip Pflege">Mobilitätsunterstützung</span>
+              </div>
+              <div style="font-size:10px;color:var(--neutral-500);font-weight:600;text-transform:uppercase;letter-spacing:.06em;margin:16px 0 8px">Sprachen</div>
+              <div class="chips">
+                <span class="skill-chip">🇩🇪 Deutsch · Muttersprache</span>
+                <span class="skill-chip">🇬🇧 Englisch · B2</span>
+                <span class="skill-chip">🇹🇷 Türkisch · Muttersprache</span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Right -->
+        <div>
+
+          <!-- Personal info -->
+          <div class="card">
+            <div class="card-head">
+              <h3><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="gültigColor" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></span>Persönlich</h3>
+              <button class="btn btn--ghost btn--sm">Bearbeiten</button>
+            </div>
+            <div class="card-body card-body--tight">
+              <div class="info-row"><div class="k">Vollständiger Name</div><div class="v">Fatima Özdemir</div></div>
+              <div class="info-row"><div class="k">Telefon</div><div class="v mono">+49 30 2041 8822</div></div>
+              <div class="info-row"><div class="k">E-Mail</div><div class="v"><a href="#">fatima.o@priyas-Reinigung.de</a></div></div>
+              <div class="info-row"><div class="k">Geburtsdatum</div><div class="v">04. Nov. 1991 <span style="color:var(--neutral-400);font-size:11px">(34)</span></div></div>
+              <div class="info-row"><div class="k">Adresse</div><div class="v">Kreuzberg · Wiener Str. 22, 10999 Berlin</div></div>
+              <div class="info-row"><div class="k">Ausweisnr.</div><div class="v mono">DE-PA-882 419 117</div></div>
+              <div class="info-row"><div class="k">Steuer-ID</div><div class="v mono">99 047 261 883</div></div>
+            </div>
+          </div>
+
+          <!-- Employment -->
+          <div class="card">
+            <div class="card-head">
+              <h3><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="gültigColor" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="7" width="18" height="14" rx="2"/><path d="M8 7V5a2 2 0 012-2h4a2 2 0 012 2v2"/></svg></span>Beschäftigung</h3>
+            </div>
+            <div class="card-body card-body--tight">
+              <div class="info-row"><div class="k">Rolle</div><div class="v">Reinigungskraft · Qualifizierte Pflegehilfe</div></div>
+              <div class="info-row"><div class="k">Team</div><div class="v">Team 02 · Springer</div></div>
+              <div class="info-row"><div class="k">Standort</div><div class="v">Berlin Zentrale</div></div>
+              <div class="info-row"><div class="k">Servicetyp</div><div class="v"><span class="stype stype--both">Priya's &amp; Alltagshilfe</span></div></div>
+              <div class="info-row"><div class="k">Einstellungsdatum</div><div class="v">15. Aug. 2023</div></div>
+              <div class="info-row"><div class="k">Vertrag</div><div class="v">Vollzeit<div class="sub">Unbefristet · Probezeit bestanden Feb. 2024</div></div></div>
+              <div class="info-row"><div class="k">Stundensätze</div><div class="v mono">€15.80 /h Reinigung · €17.20 /h Pflege</div></div>
+              <div class="info-row"><div class="k">Vorgesetzte:r</div><div class="v">Teamleitung 01</div></div>
+            </div>
+          </div>
+
+          <!-- Emergency contact -->
+          <div class="card">
+            <div class="card-head">
+              <h3><span class="ic" style="background:var(--error-50);color:var(--error-700)"><svg viewBox="0 0 24 24" fill="none" stroke="gültigColor" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.8 19.8 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.8 19.8 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72 12.8 12.8 0 00.7 2.81 2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.8 12.8 0 002.81.7A2 2 0 0122 16.92z"/></svg></span>Notfallkontakt</h3>
+            </div>
+            <div class="side-avatar">
+              <div class="avatar">MÖ</div>
+              <div>
+                <div class="name">Mehmet Özdemir</div>
+                <div class="meta">Ehemann · +49 172 330 4417</div>
+              </div>
+            </div>
+            <div class="card-body card-body--tight">
+              <div class="info-row"><div class="k">Sprache</div><div class="v">DE · TR</div></div>
+              <div class="info-row"><div class="k">Beste Erreichbarkeit</div><div class="v">Werktags ab 18:00 Uhr</div></div>
+            </div>
+          </div>
+
+          <!-- Trainings -->
+          <div class="card">
+            <div class="card-head">
+              <h3><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="gültigColor" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6M9 13h6M9 17h6"/></svg></span>Schulungen &amp; Dokumente</h3>
+              <button class="btn btn--ghost btn--sm">Hochladen</button>
+            </div>
+            <div class="card-body card-body--tight">
+              <div class="train-row">
+                <div class="train-ic Pflege"><svg viewBox="0 0 24 24" fill="none" stroke="gültigColor" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 000-7.78z"/></svg></div>
+                <div class="train-meta">
+                  <div class="tn">Pflegehelfer-Zertifikat</div>
+                  <div class="td">Ausgestellt Aug. 2023 · Nächste Erneuerung Aug. 2026</div>
+                </div>
+                <span class="tag tag--success">Gültig</span>
+              </div>
+              <div class="train-row">
+                <div class="train-ic Pflege"><svg viewBox="0 0 24 24" fill="none" stroke="gültigColor" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12A10 10 0 1112 2"/><path d="M22 4l-10 10-4-4"/></svg></div>
+                <div class="train-meta">
+                  <div class="tn">Erste-Hilfe-Schein</div>
+                  <div class="td">Ausgestellt März 2025 · Gültig bis März 2027</div>
+                </div>
+                <span class="tag tag--success">Gültig</span>
+              </div>
+              <div class="train-row">
+                <div class="train-ic ok"><svg viewBox="0 0 24 24" fill="none" stroke="gültigColor" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg></div>
+                <div class="train-meta">
+                  <div class="tn">Onboarding · Priya's Handbuch</div>
+                  <div class="td">Abgeschlossen 28. Aug. 2023</div>
+                </div>
+                <span class="tag tag--success">Erledigt</span>
+              </div>
+              <div class="train-row">
+                <div class="train-ic ok"><svg viewBox="0 0 24 24" fill="none" stroke="gültigColor" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg></div>
+                <div class="train-meta">
+                  <div class="tn">Arbeitssicherheit-Auffrischung</div>
+                  <div class="td">Abgeschlossen 12. Feb. 2026</div>
+                </div>
+                <span class="tag tag--success">Erledigt</span>
+              </div>
+              <div class="train-row">
+                <div class="train-ic ex"><svg viewBox="0 0 24 24" fill="none" stroke="gültigColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg></div>
+                <div class="train-meta">
+                  <div class="tn">Dementia-Pflege module (optional)</div>
+                  <div class="td">Empfohlen für die Alltagshilfe-Erweiterung</div>
+                </div>
+                <span class="tag">Nicht begonnen</span>
+              </div>
+            </div>
+            <div class="note-card">
+              <svg viewBox="0 0 24 24" fill="none" stroke="gültigColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
+              <div><b>Zertifikatserneuerung steht an:</b> Pflegehelfer-Zertifikat renews in 4 months. Einsatzplan in HR portal to keep Alltagshilfe eligibility.</div>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+</div>
+</body>
+</html>

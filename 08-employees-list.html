@@ -1,0 +1,661 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Priya's Reinigungsservice · Mitarbeiter</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Moo:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --primary-50:#EEF5E8; --primary-100:#D9E9C8; --primary-500:#72A94F; --primary-600:#5D8E3F; --primary-700:#487030;
+  --secondary-50:#E5EEF3; --secondary-500:#16587C; --secondary-600:#124A68; --secondary-700:#0F3C54; --secondary-800:#0B2D40; --secondary-900:#081F2C;
+  --accent-500:#A8CC87; --accent-600:#8BB06B; --tertiary-200:#F2FFEA;
+  --success-50:#E8F7EF; --success-500:#2D9E6B; --success-700:#1F6E4A;
+  --warning-50:#FDEFE5; --warning-500:#F4A261; --warning-700:#B36F3A;
+  --error-50:#FCE7E9; --error-500:#E63946; --error-700:#A32933;
+  --white:#FFFFFF;
+  --neutral-50:#F8FAF7; --neutral-100:#EEF2EC; --neutral-200:#DDE3DA; --neutral-300:#C3CCBE;
+  --neutral-400:#9DA898; --neutral-500:#78857A; --neutral-600:#5A6659; --neutral-700:#414B40; --neutral-800:#2A322A; --neutral-900:#141814;
+  --radius-sm:6px; --radius-md:8px; --radius-lg:12px; --radius-full:9999px;
+  --shadow-xs:0 1px 2px rgba(20,24,20,.04);
+  --shadow-sm:0 2px 4px rgba(20,24,20,.06),0 1px 2px rgba(20,24,20,.04);
+  --shadow-md:0 4px 10px rgba(20,24,20,.08),0 2px 4px rgba(20,24,20,.04);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Inter',system-ui,sans-serif;font-size:14px;line-height:1.5;color:var(--neutral-800);background:var(--tertiary-200);-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+button{font-family:inherit;cursor:pointer;border:none;background:none}
+ul{list-style:none}
+svg{display:block}
+
+.app{display:flex;min-height:100vh}
+.sidebar{width:240px;background:var(--secondary-900);color:rgba(255,255,255,.82);display:flex;flex-direction:column;padding:20px 12px;position:fixed;top:0;left:0;bottom:0;z-index:10}
+.sb-brand{display:flex;align-items:center;gap:12px;padding:6px 10px 24px;border-bottom:1px solid rgba(255,255,255,.06);margin-bottom:16px}
+.sb-logo{width:36px;height:36px;background:var(--primary-500);border-radius:var(--radius-md);display:grid;place-items:center;font-weight:800;color:#fff;font-size:17px}
+.sb-brand-name{font-size:14px;font-weight:600;color:#fff;letter-spacing:-.01em}
+.sb-brand-sub{font-size:10px;color:var(--accent-500);letter-spacing:.08em;text-transform:uppercase;margin-top:1px}
+.sb-section{font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:rgba(255,255,255,.35);padding:12px 12px 8px;font-weight:600}
+.sb-item{display:flex;align-items:center;gap:12px;padding:10px 12px;border-radius:var(--radius-sm);font-size:13px;color:rgba(255,255,255,.72);margin-bottom:2px;transition:all .15s}
+.sb-item:hover{background:rgba(255,255,255,.06);color:#fff}
+.sb-item svg{width:18px;height:18px;flex-shrink:0;stroke-width:1.8}
+.sb-item.active{background:var(--primary-500);color:#fff;font-weight:500}
+.sb-item .badge{margin-left:auto;background:rgba(255,255,255,.15);color:#fff;font-size:10px;padding:2px 7px;border-radius:var(--radius-full);font-weight:600}
+.sb-item.active .badge{background:rgba(0,0,0,.25)}
+.sb-collapse{margin-top:auto;display:flex;align-items:center;gap:10px;padding:16px 24px;font-size:12px;color:rgba(255,255,255,.55);border-top:1px solid rgba(255,255,255,.06);margin:16px -12px 0}
+.sb-collapse svg{width:14px;height:14px}
+
+.main{margin-left:240px;flex:1;display:flex;flex-direction:column}
+
+.topbar{height:64px;background:#fff;border-bottom:1px solid var(--neutral-100);display:flex;align-items:center;justify-content:space-between;padding:0 28px;position:sticky;top:0;z-index:5}
+.tb-left{display:flex;align-items:center;gap:20px;flex:1;max-width:520px}
+.tb-search{flex:1;display:flex;align-items:center;gap:10px;background:var(--neutral-50);border:1px solid var(--neutral-100);border-radius:var(--radius-md);padding:8px 14px;color:var(--neutral-500)}
+.tb-search svg{width:16px;height:16px}
+.tb-search input{border:none;background:none;font-family:inherit;font-size:13px;outline:none;flex:1;color:var(--neutral-700)}
+.tb-search .kbd{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--neutral-400);padding:3px 6px;background:#fff;border:1px solid var(--neutral-200);border-radius:4px}
+.tb-right{display:flex;align-items:center;gap:6px}
+.icon-btn{width:40px;height:40px;border-radius:var(--radius-md);display:grid;place-items:center;color:var(--neutral-500);transition:all .15s;position:relative}
+.icon-btn:hover{background:var(--neutral-50);color:var(--neutral-800)}
+.icon-btn svg{width:18px;height:18px}
+.icon-btn .dot{position:absolute;top:8px;right:8px;width:8px;height:8px;background:var(--error-500);border-radius:50%;border:2px solid #fff}
+.tb-user{display:flex;align-items:center;gap:10px;padding:6px 12px 6px 6px;border-radius:var(--radius-full);cursor:pointer;transition:all .15s;margin-left:8px}
+.tb-user:hover{background:var(--neutral-50)}
+.avatar{border-radius:50%;display:grid;place-items:center;color:#fff;font-weight:600;background:var(--primary-500);flex-shrink:0}
+.avatar--sm{width:32px;height:32px;font-size:12px}
+.avatar--xs{width:22px;height:22px;font-size:9px}
+.avatar--md{width:40px;height:40px;font-size:13px}
+.tb-user-info{line-height:1.1}
+.tb-user-info .name{font-size:13px;font-weight:600;color:var(--neutral-800)}
+.tb-user-info .role{font-size:11px;color:var(--neutral-500);margin-top:2px}
+
+.content{padding:24px 28px;max-width:1440px;width:100%}
+
+.breadcrumb{display:flex;gap:8px;align-items:center;font-size:12px;color:var(--neutral-500);margin-bottom:12px}
+.breadcrumb .sep{color:var(--neutral-300)}
+.breadcrumb .cur{color:var(--neutral-700);font-weight:500}
+
+.page-head{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:20px;gap:24px;flex-wrap:wrap}
+.page-head h1{font-size:24px;font-weight:700;color:var(--secondary-500);letter-spacing:-.02em}
+.page-head .sub{font-size:13px;color:var(--neutral-500);margin-top:4px}
+.page-head-actions{display:flex;gap:10px;align-items:center}
+
+.btn{display:inline-flex;align-items:center;gap:8px;padding:10px 16px;border-radius:var(--radius-md);font-size:13px;font-weight:500;line-height:1;min-height:40px;transition:all .15s}
+.btn svg{width:16px;height:16px;stroke-width:2}
+.btn--primary{background:var(--primary-500);color:#fff}
+.btn--primary:hover{background:var(--primary-600)}
+.btn--tertiary{background:#fff;color:var(--primary-600);border:1.5px solid var(--primary-500)}
+.btn--tertiary:hover{background:var(--tertiary-200)}
+.btn--ghost{color:var(--neutral-600)}
+.btn--ghost:hover{background:var(--neutral-100);color:var(--neutral-800)}
+.btn--white{background:#fff;color:var(--neutral-700);border:1px solid var(--neutral-200)}
+.btn--white:hover{background:var(--neutral-50)}
+.btn--sm{padding:7px 12px;min-height:32px;font-size:12px}
+
+.summary{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:20px}
+.summary-card{background:#fff;border:1px solid var(--neutral-100);border-radius:var(--radius-md);padding:16px 18px}
+.summary-label{font-size:11px;color:var(--neutral-500);text-transform:uppercase;letter-spacing:.05em;font-weight:500}
+.summary-val{font-size:22px;font-weight:700;color:var(--secondary-500);letter-spacing:-.01em;margin-top:6px}
+.summary-sub{font-size:11px;color:var(--neutral-500);margin-top:2px}
+.summary-sub.up{color:var(--success-500)}
+.summary-sub.warn{color:var(--warning-700)}
+
+.table-card{background:#fff;border:1px solid var(--neutral-100);border-radius:var(--radius-lg);overflow:hidden}
+
+.toolbar{padding:16px 20px;display:flex;gap:12px;align-items:center;border-bottom:1px solid var(--neutral-100);flex-wrap:wrap}
+.search-input{flex:1;min-width:240px;display:flex;align-items:center;gap:10px;background:var(--neutral-50);border:1px solid var(--neutral-100);border-radius:var(--radius-md);padding:8px 14px}
+.search-input svg{width:16px;height:16px;color:var(--neutral-400)}
+.search-input input{border:none;background:none;outline:none;font-family:inherit;font-size:13px;flex:1;color:var(--neutral-800)}
+
+.filter-chip{display:inline-flex;align-items:center;gap:6px;padding:8px 12px;border:1px solid var(--neutral-200);border-radius:var(--radius-md);background:#fff;font-size:12px;color:var(--neutral-700);cursor:pointer;transition:all .15s;font-weight:500}
+.filter-chip:hover{border-color:var(--primary-500);color:var(--primary-600)}
+.filter-chip svg{width:13px;height:13px}
+.filter-chip.active{background:var(--tertiary-200);border-color:var(--primary-500);color:var(--primary-700)}
+.filter-chip.active .count{background:var(--primary-500);color:#fff;padding:1px 6px;border-radius:99px;font-size:10px;font-weight:600}
+
+.segmented{display:inline-flex;background:var(--neutral-50);border:1px solid var(--neutral-100);border-radius:var(--radius-md);padding:3px;font-size:12px}
+.segmented button{padding:6px 12px;border-radius:4px;color:var(--neutral-600);font-weight:500;cursor:pointer;display:flex;align-items:center;gap:6px}
+.segmented button svg{width:14px;height:14px}
+.segmented button.active{background:#fff;color:var(--secondary-500);box-shadow:var(--shadow-xs)}
+
+.table{width:100%;border-collapse:collapse}
+.table th{text-align:left;padding:14px 20px;background:var(--neutral-50);color:var(--neutral-500);font-weight:600;font-size:11px;text-transform:uppercase;letter-spacing:.05em;border-bottom:1px solid var(--neutral-200);white-space:nowrap}
+.table th.sortable{cursor:pointer}
+.table th .sort{display:inline-flex;flex-direction:column;margin-left:4px;vertical-align:middle}
+.table th .sort svg{width:10px;height:10px;color:var(--neutral-300)}
+.table th.sorted{color:var(--secondary-500)}
+.table th.sorted .sort svg.active{color:var(--secondary-500)}
+.table td{padding:14px 20px;border-bottom:1px solid var(--neutral-100);color:var(--neutral-700);vertical-align:middle}
+.table tr:last-child td{border-bottom:none}
+.table tr:hover td{background:var(--tertiary-200)}
+.table tr.selected td{background:var(--primary-50)}
+
+.check-box{width:16px;height:16px;border:1.5px solid var(--neutral-300);border-radius:3px;display:grid;place-items:center;background:#fff;cursor:pointer;flex-shrink:0}
+.check-box.on{background:var(--primary-500);border-color:var(--primary-500)}
+.check-box.on::after{content:'';width:8px;height:4px;border-left:2px solid #fff;border-bottom:2px solid #fff;transform:rotate(-45deg) translate(1px,-1px)}
+
+.emp-cell{display:flex;align-items:center;gap:12px}
+.emp-cell .info{min-width:0}
+.emp-cell .name{font-size:13px;font-weight:600;color:var(--neutral-800);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;display:flex;align-items:center;gap:8px}
+.emp-cell .meta{font-size:11px;color:var(--neutral-500);margin-top:2px}
+
+.role-chip{font-size:11px;padding:2px 9px;border-radius:var(--radius-full);font-weight:500;background:var(--neutral-100);color:var(--neutral-700)}
+.role-chip.pm{background:var(--secondary-50);color:var(--secondary-600);font-weight:600}
+.role-chip.field{background:var(--primary-50);color:var(--primary-700)}
+.role-chip.trainee{background:var(--warning-50);color:var(--warning-700)}
+
+.team-chip{display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:500;color:var(--neutral-700)}
+.team-chip .sw{width:8px;height:8px;border-radius:2px}
+
+.hours-bar{display:flex;flex-direction:column;gap:4px;min-width:120px}
+.hours-val{font-size:12px;font-weight:600;color:var(--neutral-800);display:flex;justify-content:space-between;align-items:baseline}
+.hours-val .target{font-weight:400;color:var(--neutral-500);font-size:11px}
+.hours-track{height:5px;background:var(--neutral-100);border-radius:var(--radius-full);overflow:hidden}
+.hours-fill{height:100%;background:var(--primary-500);border-radius:var(--radius-full)}
+.hours-fill.warn{background:var(--warning-500)}
+.hours-fill.over{background:var(--error-500)}
+
+.badge{display:inline-flex;align-items:center;gap:4px;padding:3px 9px;border-radius:var(--radius-full);font-size:10px;font-weight:600;letter-spacing:.02em;text-transform:uppercase}
+.badge--success{background:var(--success-50);color:var(--success-700)}
+.badge--warning{background:var(--warning-50);color:var(--warning-700)}
+.badge--info{background:var(--secondary-50);color:var(--secondary-600)}
+.badge--primary{background:var(--primary-50);color:var(--primary-700)}
+.badge--new{background:var(--primary-500);color:#fff}
+.badge--neutral{background:var(--neutral-100);color:var(--neutral-700)}
+.badge--danger{background:var(--error-50);color:var(--error-700)}
+.badge .dot{width:5px;height:5px;border-radius:50%;background:currentColor}
+
+.vac-cell{font-size:12px;color:var(--neutral-700);font-weight:500}
+.vac-cell .big{font-size:13px;font-weight:700;color:var(--secondary-500)}
+.vac-cell .small{font-size:10px;color:var(--neutral-500)}
+
+.row-actions{display:flex;gap:4px;justify-content:flex-end}
+.row-actions button{width:30px;height:30px;border-radius:var(--radius-sm);display:grid;place-items:center;color:var(--neutral-500)}
+.row-actions button:hover{background:var(--neutral-100);color:var(--neutral-800)}
+.row-actions svg{width:14px;height:14px}
+
+.pagination{display:flex;align-items:center;justify-content:space-between;padding:14px 20px;border-top:1px solid var(--neutral-100);font-size:12px;color:var(--neutral-500)}
+.page-numbers{display:flex;gap:4px;align-items:center}
+.page-btn{min-width:32px;height:32px;padding:0 10px;border-radius:var(--radius-sm);display:grid;place-items:center;color:var(--neutral-600);font-weight:500;font-size:12px;cursor:pointer}
+.page-btn:hover{background:var(--neutral-100)}
+.page-btn.active{background:var(--primary-500);color:#fff}
+.page-btn.disabled{opacity:.4;cursor:not-allowed}
+.page-btn svg{width:14px;height:14px}
+.per-page{display:flex;align-items:center;gap:8px}
+.per-page select{border:1px solid var(--neutral-200);border-radius:var(--radius-sm);padding:4px 10px;font-family:inherit;font-size:12px;background:#fff;color:var(--neutral-700)}
+
+.link{font-size:12px;color:var(--primary-600);font-weight:500}
+</style>
+</head>
+<body>
+
+<div class="app">
+
+  <aside class="sidebar">
+      <div class="sb-brand">
+        <div class="sb-logo">P</div>
+        <div>
+          <div class="sb-brand-name">Priya's</div>
+          <div class="sb-brand-sub">Betrieb</div>
+        </div>
+      </div>
+      <div class="sb-section">Arbeitsbereich</div>
+      <a class="sb-item" href="02-dashboard.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>Übersicht</a>
+      <a class="sb-item" href="03-clients-list.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>Kunden<span class="badge">10</span></a>
+      <a class="sb-item" href="05-properties-list.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21V7l8-4 8 4v14"/><path d="M9 9h2M13 9h2M9 13h2M13 13h2M9 17h2M13 17h2"/></svg>Objekte<span class="badge">112</span></a>
+      <a class="sb-item" href="07-schedule.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 9h18M8 3v4M16 3v4"/></svg>Einsatzplan</a>
+      <a class="sb-item active" href="08-employees-list.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>Mitarbeiter<span class="badge">32</span></a>
+      <a class="sb-item" href="14-reports.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M7 14l3-3 3 3 5-5"/></svg>Berichte</a>
+      <div class="sb-section">Alltagshilfe</div>
+      <a class="sb-item" href="15-customer-type-picker.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 000-7.78z"/></svg>Pflegekunden</a>
+      <a class="sb-item" href="16-alltagshilfe-report.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6"/></svg>Monatsbericht</a>
+      <div class="sb-section">Kommunikation</div>
+      <a class="sb-item" href="17-team-chat.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a7.5 7.5 0 01-11.2 6.5L4 20l1.5-5.2A7.5 7.5 0 1121 12z"/></svg>Team-Chat<span class="badge">3</span></a>
+      <a class="sb-item" href="18-notifications.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8a6 6 0 0112 0c0 7 3 8 3 8H3s3-1 3-8zM10 21a2 2 0 004 0"/></svg>Benachrichtigungen<span class="badge">12</span></a>
+      <div class="sb-section">System</div>
+      <a class="sb-item" href="13-settings.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.3 1.8l.1.1a2 2 0 11-2.8 2.8l-.1-.1a1.65 1.65 0 00-1.8-.3 1.65 1.65 0 00-1 1.5V21a2 2 0 11-4 0v-.1a1.65 1.65 0 00-1-1.5 1.65 1.65 0 00-1.8.3l-.1.1a2 2 0 11-2.8-2.8l.1-.1a1.65 1.65 0 00.3-1.8 1.65 1.65 0 00-1.5-1H3a2 2 0 110-4h.1a1.65 1.65 0 001.5-1 1.65 1.65 0 00-.3-1.8l-.1-.1a2 2 0 112.8-2.8l.1.1a1.65 1.65 0 001.8.3h0a1.65 1.65 0 001-1.5V3a2 2 0 114 0v.1a1.65 1.65 0 001 1.5 1.65 1.65 0 001.8-.3l.1-.1a2 2 0 112.8 2.8l-.1.1a1.65 1.65 0 00-.3 1.8v0a1.65 1.65 0 001.5 1H21a2 2 0 110 4h-.1a1.65 1.65 0 00-1.5 1z"/></svg>Einstellungen</a>
+      <div class="sb-collapse"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>Seitenleiste einklappen</div>
+    </aside>
+
+  <div class="main">
+
+    <header class="topbar">
+      <div class="tb-left">
+        <div class="tb-search">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+          <input placeholder="Kunden, Objekte, Rechnungen suchen…" />
+          <span class="kbd">⌘ K</span>
+        </div>
+      </div>
+      <div class="tb-right">
+        <button class="icon-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.1 9a3 3 0 015.8 1c0 2-3 3-3 3M12 17h.01"/></svg></button>
+        <button class="icon-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a7.5 7.5 0 01-11.2 6.5L4 20l1.5-5.2A7.5 7.5 0 1121 12z"/></svg><span class="dot"></span></button>
+        <button class="icon-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8a6 6 0 0112 0c0 7 3 8 3 8H3s3-1 3-8zM10 21a2 2 0 004 0"/></svg><span class="dot"></span></button>
+        <div class="tb-user">
+          <div class="avatar avatar--sm">AM</div>
+          <div class="tb-user-info"><div class="name">Alex Müller</div><div class="role">Geschäftsleitung</div></div>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px;color:var(--neutral-400)"><path d="M6 9l6 6 6-6"/></svg>
+        </div>
+      </div>
+    </header>
+
+    <div class="content">
+
+      <div class="breadcrumb">
+        <a href="02-dashboard.html">Übersicht</a>
+        <span class="sep">/</span>
+        <span class="cur">Employees</span>
+      </div>
+
+      <div class="page-head">
+        <div>
+          <h1>Mitarbeiter</h1>
+          <div class="sub">All team members. Manage roles, teams, working time and availability.</div>
+        </div>
+        <div class="page-head-actions">
+          <button class="btn btn--white">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5-5 5 5M12 5v12"/></svg>
+            Import CSV
+          </button>
+          <button class="btn btn--tertiary">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 10l-5 5-5-5M12 15V3"/></svg>
+            Export
+          </button>
+          <button class="btn btn--primary">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg>
+            Invite employee
+          </button>
+        </div>
+      </div>
+
+      <!-- Summary strip -->
+      <div class="summary">
+        <div class="summary-card">
+          <div class="summary-label">Mitarbeitende insgesamt</div>
+          <div class="summary-val">32</div>
+          <div class="summary-sub up">▲ 2 this month</div>
+        </div>
+        <div class="summary-card">
+          <div class="summary-label">Heute aktiv</div>
+          <div class="summary-val">27</div>
+          <div class="summary-sub">on schedule</div>
+        </div>
+        <div class="summary-card">
+          <div class="summary-label">Im Urlaub / vacation</div>
+          <div class="summary-val">4</div>
+          <div class="summary-sub warn">through next week</div>
+        </div>
+        <div class="summary-card">
+          <div class="summary-label">Pending onboarding</div>
+          <div class="summary-val">1</div>
+          <div class="summary-sub up">Selin Yıldız · day 2</div>
+        </div>
+      </div>
+
+      <!-- Table -->
+      <div class="table-card">
+
+        <div class="toolbar">
+          <div class="search-input">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+            <input placeholder="Search by name, role, or team…" />
+          </div>
+          <button class="filter-chip active">Rolle <span class="count">2</span></button>
+          <button class="filter-chip">Team</button>
+          <button class="filter-chip">Status</button>
+          <button class="filter-chip">Sprache</button>
+          <button class="filter-chip">Mehr filters
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+          </button>
+          <div class="segmented">
+            <button class="active">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><circle cx="4" cy="6" r="1"/><circle cx="4" cy="12" r="1"/><circle cx="4" cy="18" r="1"/></svg>
+              List
+            </button>
+            <button>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+              Grid
+            </button>
+          </div>
+        </div>
+
+        <table class="table">
+          <thead>
+            <tr>
+              <th style="width:40px"><div class="check-box"></div></th>
+              <th class="sortable sorted">Employee <span class="sort"><svg viewBox="0 0 10 6" class="active"><path d="M5 0l5 6H0z" fill="currentColor"/></svg></span></th>
+              <th>Rolle</th>
+              <th>Team</th>
+              <th>Stunden diese Woche</th>
+              <th>Status</th>
+              <th>Urlaub balance</th>
+              <th style="text-align:right">Aktionen</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- Row 1 -->
+            <tr class="selected">
+              <td><div class="check-box on"></div></td>
+              <td>
+                <div class="emp-cell">
+                  <div class="avatar avatar--md" style="background:var(--secondary-500)">AK</div>
+                  <div class="info">
+                    <div class="name">Anna Krüger</div>
+                    <div class="meta">DE · EN · Teamleitung seit 2022</div>
+                  </div>
+                </div>
+              </td>
+              <td><span class="role-chip pm">Projektleitung</span></td>
+              <td><span class="team-chip"><span class="sw" style="background:var(--secondary-500)"></span>Team 01 · Core</span></td>
+              <td>
+                <div class="hours-bar">
+                  <div class="hours-val">32h <span class="target">/ 40h</span></div>
+                  <div class="hours-track"><div class="hours-fill" style="width:80%"></div></div>
+                </div>
+              </td>
+              <td><span class="badge badge--success"><span class="dot"></span>Aktiv</span></td>
+              <td><div class="vac-cell"><span class="big">18</span> / 30 <div class="small">Tage verfügbar</div></div></td>
+              <td>
+                <div class="row-actions">
+                  <button title="Message"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a7.5 7.5 0 01-11.2 6.5L4 20l1.5-5.2A7.5 7.5 0 1121 12z"/></svg></button>
+                  <button title="Schedule"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 9h18"/></svg></button>
+                  <button><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="5" cy="12" r="1.5"/><circle cx="12" cy="12" r="1.5"/><circle cx="19" cy="12" r="1.5"/></svg></button>
+                </div>
+              </td>
+            </tr>
+            <!-- Row 2 -->
+            <tr>
+              <td><div class="check-box"></div></td>
+              <td>
+                <div class="emp-cell">
+                  <div class="avatar avatar--md" style="background:var(--warning-500)">MW</div>
+                  <div class="info">
+                    <div class="name">Markus Weber</div>
+                    <div class="meta">DE · TA · Reinigungskraft since 2023</div>
+                  </div>
+                </div>
+              </td>
+              <td><span class="role-chip field">Reinigungskraft</span></td>
+              <td><span class="team-chip"><span class="sw" style="background:var(--primary-500)"></span>Team 02 · Floating</span></td>
+              <td>
+                <div class="hours-bar">
+                  <div class="hours-val">38h <span class="target">/ 40h</span></div>
+                  <div class="hours-track"><div class="hours-fill" style="width:95%"></div></div>
+                </div>
+              </td>
+              <td><span class="badge badge--success"><span class="dot"></span>Aktiv</span></td>
+              <td><div class="vac-cell"><span class="big">24</span> / 30 <div class="small">Tage verfügbar</div></div></td>
+              <td>
+                <div class="row-actions">
+                  <button><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a7.5 7.5 0 01-11.2 6.5L4 20l1.5-5.2A7.5 7.5 0 1121 12z"/></svg></button>
+                  <button><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 9h18"/></svg></button>
+                  <button><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="5" cy="12" r="1.5"/><circle cx="12" cy="12" r="1.5"/><circle cx="19" cy="12" r="1.5"/></svg></button>
+                </div>
+              </td>
+            </tr>
+            <!-- Row 3 -->
+            <tr>
+              <td><div class="check-box"></div></td>
+              <td>
+                <div class="emp-cell">
+                  <div class="avatar avatar--md" style="background:var(--primary-500)">FÖ</div>
+                  <div class="info">
+                    <div class="name">Fatima Özdemir</div>
+                    <div class="meta">EN · Reinigungskraft since 2024</div>
+                  </div>
+                </div>
+              </td>
+              <td><span class="role-chip field">Reinigungskraft</span></td>
+              <td><span class="team-chip"><span class="sw" style="background:var(--primary-500)"></span>Team 02 · Floating</span></td>
+              <td>
+                <div class="hours-bar">
+                  <div class="hours-val">42h <span class="target">/ 40h</span></div>
+                  <div class="hours-track"><div class="hours-fill over" style="width:100%"></div></div>
+                </div>
+              </td>
+              <td><span class="badge badge--warning"><span class="dot"></span>Overtime</span></td>
+              <td><div class="vac-cell"><span class="big">12</span> / 30 <div class="small">Tage verfügbar</div></div></td>
+              <td>
+                <div class="row-actions">
+                  <button><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a7.5 7.5 0 01-11.2 6.5L4 20l1.5-5.2A7.5 7.5 0 1121 12z"/></svg></button>
+                  <button><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 9h18"/></svg></button>
+                  <button><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="5" cy="12" r="1.5"/><circle cx="12" cy="12" r="1.5"/><circle cx="19" cy="12" r="1.5"/></svg></button>
+                </div>
+              </td>
+            </tr>
+            <!-- Row 4 -->
+            <tr>
+              <td><div class="check-box"></div></td>
+              <td>
+                <div class="emp-cell">
+                  <div class="avatar avatar--md" style="background:var(--error-500)">SH</div>
+                  <div class="info">
+                    <div class="name">Stefan Hoffmann <span class="badge badge--primary" style="font-size:9px;padding:2px 6px">MED-CERT</span></div>
+                    <div class="meta">DE · Specialist · Medical-grade certified</div>
+                  </div>
+                </div>
+              </td>
+              <td><span class="role-chip field">Reinigungskraft</span></td>
+              <td><span class="team-chip"><span class="sw" style="background:var(--warning-500)"></span>Team 03 · Specialists</span></td>
+              <td>
+                <div class="hours-bar">
+                  <div class="hours-val">36h <span class="target">/ 40h</span></div>
+                  <div class="hours-track"><div class="hours-fill" style="width:90%"></div></div>
+                </div>
+              </td>
+              <td><span class="badge badge--success"><span class="dot"></span>Aktiv</span></td>
+              <td><div class="vac-cell"><span class="big">21</span> / 30 <div class="small">Tage verfügbar</div></div></td>
+              <td>
+                <div class="row-actions">
+                  <button><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a7.5 7.5 0 01-11.2 6.5L4 20l1.5-5.2A7.5 7.5 0 1121 12z"/></svg></button>
+                  <button><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 9h18"/></svg></button>
+                  <button><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="5" cy="12" r="1.5"/><circle cx="12" cy="12" r="1.5"/><circle cx="19" cy="12" r="1.5"/></svg></button>
+                </div>
+              </td>
+            </tr>
+            <!-- Row 5 -->
+            <tr>
+              <td><div class="check-box"></div></td>
+              <td>
+                <div class="emp-cell">
+                  <div class="avatar avatar--md" style="background:var(--accent-500);color:var(--secondary-800)">LB</div>
+                  <div class="info">
+                    <div class="name">Lena Bauer</div>
+                    <div class="meta">TA · EN · Trainee · joined 03 Mar</div>
+                  </div>
+                </div>
+              </td>
+              <td><span class="role-chip trainee">Trainee</span></td>
+              <td><span class="team-chip"><span class="sw" style="background:var(--primary-500)"></span>Team 02 · Floating</span></td>
+              <td>
+                <div class="hours-bar">
+                  <div class="hours-val">24h <span class="target">/ 30h</span></div>
+                  <div class="hours-track"><div class="hours-fill" style="width:80%"></div></div>
+                </div>
+              </td>
+              <td><span class="badge badge--success"><span class="dot"></span>Aktiv</span></td>
+              <td><div class="vac-cell"><span class="big">6</span> / 30 <div class="small">prorated</div></div></td>
+              <td>
+                <div class="row-actions">
+                  <button><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a7.5 7.5 0 01-11.2 6.5L4 20l1.5-5.2A7.5 7.5 0 1121 12z"/></svg></button>
+                  <button><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 9h18"/></svg></button>
+                  <button><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="5" cy="12" r="1.5"/><circle cx="12" cy="12" r="1.5"/><circle cx="19" cy="12" r="1.5"/></svg></button>
+                </div>
+              </td>
+            </tr>
+            <!-- Row 6 -->
+            <tr>
+              <td><div class="check-box"></div></td>
+              <td>
+                <div class="emp-cell">
+                  <div class="avatar avatar--md" style="background:var(--secondary-500)">MJ</div>
+                  <div class="info">
+                    <div class="name">Maria Jansen</div>
+                    <div class="meta">DE · EN · PM · 4 years</div>
+                  </div>
+                </div>
+              </td>
+              <td><span class="role-chip pm">Projektleitung</span></td>
+              <td><span class="team-chip"><span class="sw" style="background:var(--warning-500)"></span>Team 03 · Specialists</span></td>
+              <td>
+                <div class="hours-bar">
+                  <div class="hours-val">30h <span class="target">/ 40h</span></div>
+                  <div class="hours-track"><div class="hours-fill" style="width:75%"></div></div>
+                </div>
+              </td>
+              <td><span class="badge badge--success"><span class="dot"></span>Aktiv</span></td>
+              <td><div class="vac-cell"><span class="big">26</span> / 30 <div class="small">Tage verfügbar</div></div></td>
+              <td>
+                <div class="row-actions">
+                  <button><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a7.5 7.5 0 01-11.2 6.5L4 20l1.5-5.2A7.5 7.5 0 1121 12z"/></svg></button>
+                  <button><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 9h18"/></svg></button>
+                  <button><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="5" cy="12" r="1.5"/><circle cx="12" cy="12" r="1.5"/><circle cx="19" cy="12" r="1.5"/></svg></button>
+                </div>
+              </td>
+            </tr>
+            <!-- Row 7 -->
+            <tr>
+              <td><div class="check-box"></div></td>
+              <td>
+                <div class="emp-cell">
+                  <div class="avatar avatar--md" style="background:#7BC99A">LK</div>
+                  <div class="info">
+                    <div class="name">Lukas Krause</div>
+                    <div class="meta">DE · Reinigungskraft · 2 years</div>
+                  </div>
+                </div>
+              </td>
+              <td><span class="role-chip field">Reinigungskraft</span></td>
+              <td><span class="team-chip"><span class="sw" style="background:var(--secondary-500)"></span>Team 01 · Core</span></td>
+              <td>
+                <div class="hours-bar">
+                  <div class="hours-val">40h <span class="target">/ 40h</span></div>
+                  <div class="hours-track"><div class="hours-fill" style="width:100%"></div></div>
+                </div>
+              </td>
+              <td><span class="badge badge--success"><span class="dot"></span>Aktiv</span></td>
+              <td><div class="vac-cell"><span class="big">8</span> / 30 <div class="small">Tage verfügbar</div></div></td>
+              <td>
+                <div class="row-actions">
+                  <button><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a7.5 7.5 0 01-11.2 6.5L4 20l1.5-5.2A7.5 7.5 0 1121 12z"/></svg></button>
+                  <button><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 9h18"/></svg></button>
+                  <button><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="5" cy="12" r="1.5"/><circle cx="12" cy="12" r="1.5"/><circle cx="19" cy="12" r="1.5"/></svg></button>
+                </div>
+              </td>
+            </tr>
+            <!-- Row 8 - Im Urlaub -->
+            <tr>
+              <td><div class="check-box"></div></td>
+              <td>
+                <div class="emp-cell">
+                  <div class="avatar avatar--md" style="background:#A35B8F;opacity:.85">PS</div>
+                  <div class="info">
+                    <div class="name">Petra Schulz</div>
+                    <div class="meta">DE · Night team · vacation through 28 Apr</div>
+                  </div>
+                </div>
+              </td>
+              <td><span class="role-chip field">Reinigungskraft</span></td>
+              <td><span class="team-chip"><span class="sw" style="background:var(--error-500)"></span>Team 04 · Night</span></td>
+              <td>
+                <div class="hours-bar">
+                  <div class="hours-val">0h <span class="target">/ 40h</span></div>
+                  <div class="hours-track"><div class="hours-fill" style="width:0"></div></div>
+                </div>
+              </td>
+              <td><span class="badge badge--info"><span class="dot"></span>Im Urlaub</span></td>
+              <td><div class="vac-cell"><span class="big">3</span> / 30 <div class="small" style="color:var(--warning-700)">2 pending</div></div></td>
+              <td>
+                <div class="row-actions">
+                  <button><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a7.5 7.5 0 01-11.2 6.5L4 20l1.5-5.2A7.5 7.5 0 1121 12z"/></svg></button>
+                  <button><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 9h18"/></svg></button>
+                  <button><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="5" cy="12" r="1.5"/><circle cx="12" cy="12" r="1.5"/><circle cx="19" cy="12" r="1.5"/></svg></button>
+                </div>
+              </td>
+            </tr>
+            <!-- Row 9 -->
+            <tr>
+              <td><div class="check-box"></div></td>
+              <td>
+                <div class="emp-cell">
+                  <div class="avatar avatar--md" style="background:#6A4F88">KB</div>
+                  <div class="info">
+                    <div class="name">Klaus Becker</div>
+                    <div class="meta">EN · TA · Night team · 3 years</div>
+                  </div>
+                </div>
+              </td>
+              <td><span class="role-chip field">Reinigungskraft</span></td>
+              <td><span class="team-chip"><span class="sw" style="background:var(--error-500)"></span>Team 04 · Night</span></td>
+              <td>
+                <div class="hours-bar">
+                  <div class="hours-val">44h <span class="target">/ 40h</span></div>
+                  <div class="hours-track"><div class="hours-fill over" style="width:100%"></div></div>
+                </div>
+              </td>
+              <td><span class="badge badge--warning"><span class="dot"></span>Overtime</span></td>
+              <td><div class="vac-cell"><span class="big">14</span> / 30 <div class="small">Tage verfügbar</div></div></td>
+              <td>
+                <div class="row-actions">
+                  <button><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a7.5 7.5 0 01-11.2 6.5L4 20l1.5-5.2A7.5 7.5 0 1121 12z"/></svg></button>
+                  <button><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 9h18"/></svg></button>
+                  <button><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="5" cy="12" r="1.5"/><circle cx="12" cy="12" r="1.5"/><circle cx="19" cy="12" r="1.5"/></svg></button>
+                </div>
+              </td>
+            </tr>
+            <!-- Row 10 - New -->
+            <tr>
+              <td><div class="check-box"></div></td>
+              <td>
+                <div class="emp-cell">
+                  <div class="avatar avatar--md" style="background:var(--accent-500);color:var(--secondary-800)">SY</div>
+                  <div class="info">
+                    <div class="name">Selin Yıldız <span class="badge badge--new" style="font-size:9px;padding:2px 6px">NEW</span></div>
+                    <div class="meta">TA · Trainee · joined 19 Apr · onboarding day 2</div>
+                  </div>
+                </div>
+              </td>
+              <td><span class="role-chip trainee">Trainee</span></td>
+              <td><span class="team-chip"><span class="sw" style="background:var(--secondary-500)"></span>Team 01 · Core</span></td>
+              <td>
+                <div class="hours-bar">
+                  <div class="hours-val">8h <span class="target">/ 20h</span></div>
+                  <div class="hours-track"><div class="hours-fill" style="width:40%"></div></div>
+                </div>
+              </td>
+              <td><span class="badge badge--info"><span class="dot"></span>Onboarding</span></td>
+              <td><div class="vac-cell"><span class="big">0</span> / 30 <div class="small">accrues from May</div></div></td>
+              <td>
+                <div class="row-actions">
+                  <button><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a7.5 7.5 0 01-11.2 6.5L4 20l1.5-5.2A7.5 7.5 0 1121 12z"/></svg></button>
+                  <button><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 9h18"/></svg></button>
+                  <button><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="5" cy="12" r="1.5"/><circle cx="12" cy="12" r="1.5"/><circle cx="19" cy="12" r="1.5"/></svg></button>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="pagination">
+          <div>Zeige <strong>1–10</strong> of <strong>32</strong> employees · <a class="link" href="#">1 selected</a></div>
+          <div class="page-numbers">
+            <button class="page-btn disabled"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></button>
+            <button class="page-btn active">1</button>
+            <button class="page-btn">2</button>
+            <button class="page-btn">3</button>
+            <button class="page-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg></button>
+          </div>
+          <div class="per-page">
+            Rows per page
+            <select><option>10</option><option>25</option><option>50</option></select>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

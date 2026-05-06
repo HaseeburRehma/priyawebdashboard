@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Priya's Cleaning Service · Invoices</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --primary-50:#EEF5E8; --primary-100:#D9E9C8; --primary-200:#BFDAA4; --primary-300:#A4CA7F;
+  --primary-500:#72A94F; --primary-600:#5D8E3F; --primary-700:#487030; --primary-800:#345321;
+  --secondary-50:#E5EEF3; --secondary-100:#BFD4E0; --secondary-500:#16587C; --secondary-600:#124A68; --secondary-700:#0F3C54; --secondary-800:#0B2D40; --secondary-900:#081F2C;
+  --accent-100:#E1EECF; --accent-500:#A8CC87; --accent-600:#8BB06B;
+  --tertiary-200:#F2FFEA;
+  --success-50:#E8F7EF; --success-500:#2D9E6B; --success-700:#1F6E4A;
+  --warning-50:#FDEFE5; --warning-500:#F4A261; --warning-700:#B36F3A;
+  --error-50:#FCE7E9; --error-500:#E63946; --error-700:#A32933;
+  --info-50:#E5EEF3; --info-500:#16587C;
+  --white:#FFFFFF;
+  --neutral-50:#F8FAF7; --neutral-100:#EEF2EC; --neutral-200:#DDE3DA; --neutral-300:#C3CCBE;
+  --neutral-400:#9DA898; --neutral-500:#78857A; --neutral-600:#5A6659; --neutral-700:#414B40; --neutral-800:#2A322A; --neutral-900:#141814;
+  --radius-xs:4px; --radius-sm:6px; --radius-md:8px; --radius-lg:12px; --radius-xl:16px; --radius-full:9999px;
+  --shadow-xs:0 1px 2px rgba(20,24,20,.04);
+  --shadow-sm:0 2px 4px rgba(20,24,20,.06),0 1px 2px rgba(20,24,20,.04);
+  --shadow-md:0 4px 10px rgba(20,24,20,.08),0 2px 4px rgba(20,24,20,.04);
+  --shadow-lg:0 10px 25px rgba(20,24,20,.10),0 4px 10px rgba(20,24,20,.05);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Inter',system-ui,sans-serif;font-size:14px;line-height:1.5;color:var(--neutral-800);background:var(--tertiary-200);-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+button{font-family:inherit;cursor:pointer;border:none;background:none}
+ul{list-style:none}
+svg{display:block}
+.mono{font-family:'JetBrains Mono',monospace}
+.app{display:flex;min-height:100vh}
+.sidebar{width:240px;background:var(--secondary-900);color:rgba(255,255,255,.82);display:flex;flex-direction:column;padding:20px 12px;position:fixed;top:0;left:0;bottom:0;z-index:10;border-right:1px solid var(--secondary-800);overflow-y:auto}
+.sb-brand{display:flex;align-items:center;gap:12px;padding:6px 10px 24px;border-bottom:1px solid rgba(255,255,255,.06);margin-bottom:16px}
+.sb-logo{width:36px;height:36px;background:var(--primary-500);border-radius:var(--radius-md);display:grid;place-items:center;font-weight:800;color:#fff;font-size:17px}
+.sb-brand-name{font-size:14px;font-weight:600;color:#fff;letter-spacing:-.01em}
+.sb-brand-sub{font-size:10px;color:var(--accent-500);letter-spacing:.08em;text-transform:uppercase;margin-top:1px}
+.sb-section{font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:rgba(255,255,255,.35);padding:12px 12px 8px;font-weight:600}
+.sb-item{display:flex;align-items:center;gap:12px;padding:10px 12px;border-radius:var(--radius-sm);font-size:13px;color:rgba(255,255,255,.72);margin-bottom:2px;transition:all .15s}
+.sb-item:hover{background:rgba(255,255,255,.06);color:#fff}
+.sb-item svg{width:18px;height:18px;flex-shrink:0;stroke-width:1.8}
+.sb-item.active{background:var(--primary-500);color:#fff;font-weight:500}
+.sb-item .badge{margin-left:auto;background:rgba(255,255,255,.15);color:#fff;font-size:10px;padding:2px 7px;border-radius:var(--radius-full);font-weight:600}
+.sb-item.active .badge{background:rgba(0,0,0,.25)}
+.sb-collapse{margin-top:auto;display:flex;align-items:center;gap:10px;padding:16px 24px 10px;font-size:12px;color:rgba(255,255,255,.55);border-top:1px solid rgba(255,255,255,.06);margin:16px -12px 0}
+.sb-collapse svg{width:14px;height:14px}
+.main{margin-left:240px;flex:1;display:flex;flex-direction:column;min-width:0}
+.topbar{height:64px;background:#fff;border-bottom:1px solid var(--neutral-100);display:flex;align-items:center;justify-content:space-between;padding:0 28px;position:sticky;top:0;z-index:5}
+.tb-left{display:flex;align-items:center;gap:20px;flex:1;max-width:520px}
+.tb-search{flex:1;display:flex;align-items:center;gap:10px;background:var(--neutral-50);border:1px solid var(--neutral-100);border-radius:var(--radius-md);padding:8px 14px;color:var(--neutral-500)}
+.tb-search svg{width:16px;height:16px}
+.tb-search input{border:none;background:none;font-family:inherit;font-size:13px;outline:none;flex:1;color:var(--neutral-700)}
+.tb-search .kbd{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--neutral-400);padding:3px 6px;background:#fff;border:1px solid var(--neutral-200);border-radius:4px}
+.tb-right{display:flex;align-items:center;gap:6px}
+.icon-btn{width:40px;height:40px;border-radius:var(--radius-md);display:grid;place-items:center;color:var(--neutral-500);transition:all .15s;position:relative}
+.icon-btn:hover{background:var(--neutral-50);color:var(--neutral-800)}
+.icon-btn svg{width:18px;height:18px}
+.icon-btn .dot{position:absolute;top:8px;right:8px;width:8px;height:8px;background:var(--error-500);border-radius:50%;border:2px solid #fff}
+.tb-user{display:flex;align-items:center;gap:10px;padding:6px 12px 6px 6px;border-radius:var(--radius-full);cursor:pointer;transition:all .15s;margin-left:8px}
+.tb-user:hover{background:var(--neutral-50)}
+.avatar{border-radius:50%;display:grid;place-items:center;color:#fff;font-weight:600;background:var(--primary-500);flex-shrink:0}
+.avatar--xs{width:24px;height:24px;font-size:10px}
+.avatar--sm{width:32px;height:32px;font-size:12px}
+.tb-user-info{line-height:1.1}
+.tb-user-info .name{font-size:13px;font-weight:600;color:var(--neutral-800)}
+.tb-user-info .role{font-size:11px;color:var(--neutral-500);margin-top:2px}
+.content{padding:28px;max-width:1440px;width:100%}
+.breadcrumb,.crumbs{display:flex;align-items:center;gap:6px;color:var(--neutral-500);font-size:12px;margin-bottom:12px}
+.breadcrumb a:hover,.crumbs a:hover{color:var(--primary-600)}
+.breadcrumb .sep,.crumbs .sep{color:var(--neutral-300)}
+.breadcrumb .cur,.crumbs .cur{color:var(--neutral-800);font-weight:500}
+.page-head{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:22px;gap:24px;flex-wrap:wrap}
+.page-head h1,.page-title{font-size:24px;font-weight:700;color:var(--secondary-500);letter-spacing:-.02em;margin-bottom:4px}
+.page-head .sub,.page-sub{font-size:13px;color:var(--neutral-500)}
+.page-head-actions,.page-actions{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:10px 16px;border-radius:var(--radius-md);font-size:13px;font-weight:500;line-height:1;min-height:40px;transition:all .15s;border:none;white-space:nowrap}
+.btn svg{width:14px;height:14px;stroke-width:2}
+.btn--primary,.btn.btn-primary{background:var(--primary-500);color:#fff}
+.btn--primary:hover,.btn.btn-primary:hover{background:var(--primary-600)}
+.btn--tertiary{background:#fff;color:var(--primary-600);border:1.5px solid var(--primary-500)}
+.btn--tertiary:hover{background:var(--tertiary-200)}
+.btn--white,.btn.btn-ghost{background:#fff;color:var(--neutral-700);border:1px solid var(--neutral-200)}
+.btn--white:hover,.btn.btn-ghost:hover{background:var(--neutral-50);border-color:var(--neutral-300)}
+.btn--ghost{color:var(--neutral-600);background:transparent}
+.btn--ghost:hover{background:var(--neutral-100);color:var(--neutral-800)}
+.btn--sm,.btn.sm{padding:7px 12px;font-size:12px;min-height:32px}
+.card{background:#fff;border-radius:var(--radius-lg);border:1px solid var(--neutral-100);overflow:hidden}
+.card-head{padding:18px 20px;border-bottom:1px solid var(--neutral-100);display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.card-title{font-size:15px;font-weight:600;color:var(--neutral-800);margin:0;display:flex;align-items:center;gap:10px}
+.card-sub{font-size:12px;color:var(--neutral-500);margin-top:2px}
+.card-body{padding:22px}
+.badge{display:inline-flex;align-items:center;gap:4px;padding:3px 9px;border-radius:var(--radius-full);font-size:10px;font-weight:600;letter-spacing:.02em;text-transform:uppercase}
+@media(max-width:1024px){
+  .sidebar{width:72px;padding:16px 8px}
+  .sb-brand > div:last-child,.sb-item span:not(.badge),.sb-section,.sb-collapse{display:none}
+  .sb-item{justify-content:center}
+  .sb-item .badge{display:none}
+  .main{margin-left:72px}
+  .content{padding:20px}
+}
+/* === Content-specific styles === */
+
+</style>
+</head>
+<body>
+<div class="app">
+
+  <!-- Sidebar -->
+  <aside class="sidebar">
+      <div class="sb-brand">
+        <div class="sb-logo">P</div>
+        <div>
+          <div class="sb-brand-name">Priya's</div>
+          <div class="sb-brand-sub">Betrieb</div>
+        </div>
+      </div>
+      <div class="sb-section">Arbeitsbereich</div>
+      <a class="sb-item" href="02-dashboard.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>Übersicht</a>
+      <a class="sb-item" href="03-clients-list.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>Kunden<span class="badge">10</span></a>
+      <a class="sb-item" href="05-properties-list.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21V7l8-4 8 4v14"/><path d="M9 9h2M13 9h2M9 13h2M13 13h2M9 17h2M13 17h2"/></svg>Objekte<span class="badge">112</span></a>
+      <a class="sb-item" href="07-schedule.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 9h18M8 3v4M16 3v4"/></svg>Einsatzplan</a>
+      <a class="sb-item" href="08-employees-list.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>Mitarbeiter<span class="badge">32</span></a>
+      <a class="sb-item" href="14-reports.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M7 14l3-3 3 3 5-5"/></svg>Berichte</a>
+      <div class="sb-section">Alltagshilfe</div>
+      <a class="sb-item" href="15-customer-type-picker.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 000-7.78z"/></svg>Pflegekunden</a>
+      <a class="sb-item" href="16-alltagshilfe-report.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6"/></svg>Monatsbericht</a>
+      <div class="sb-section">Kommunikation</div>
+      <a class="sb-item" href="17-team-chat.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a7.5 7.5 0 01-11.2 6.5L4 20l1.5-5.2A7.5 7.5 0 1121 12z"/></svg>Team-Chat<span class="badge">3</span></a>
+      <a class="sb-item" href="18-notifications.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8a6 6 0 0112 0c0 7 3 8 3 8H3s3-1 3-8zM10 21a2 2 0 004 0"/></svg>Benachrichtigungen<span class="badge">12</span></a>
+      <div class="sb-section">System</div>
+      <a class="sb-item" href="13-settings.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.3 1.8l.1.1a2 2 0 11-2.8 2.8l-.1-.1a1.65 1.65 0 00-1.8-.3 1.65 1.65 0 00-1 1.5V21a2 2 0 11-4 0v-.1a1.65 1.65 0 00-1-1.5 1.65 1.65 0 00-1.8.3l-.1.1a2 2 0 11-2.8-2.8l.1-.1a1.65 1.65 0 00.3-1.8 1.65 1.65 0 00-1.5-1H3a2 2 0 110-4h.1a1.65 1.65 0 001.5-1 1.65 1.65 0 00-.3-1.8l-.1-.1a2 2 0 112.8-2.8l.1.1a1.65 1.65 0 001.8.3h0a1.65 1.65 0 001-1.5V3a2 2 0 114 0v.1a1.65 1.65 0 001 1.5 1.65 1.65 0 001.8-.3l.1-.1a2 2 0 112.8 2.8l-.1.1a1.65 1.65 0 00-.3 1.8v0a1.65 1.65 0 001.5 1H21a2 2 0 110 4h-.1a1.65 1.65 0 00-1.5 1z"/></svg>Einstellungen</a>
+      <div class="sb-collapse"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>Seitenleiste einklappen</div>
+    </aside>
+
+  <div class="main">
+    <header class="topbar">
+      <div class="tb-left">
+        <div class="tb-search">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+          <input placeholder="Search invoices, clients, amounts…" />
+          <span class="kbd">⌘ K</span>
+        </div>
+      </div>
+      <div class="tb-right">
+        <button class="icon-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.1 9a3 3 0 015.8 1c0 2-3 3-3 3M12 17h.01"/></svg></button>
+        <button class="icon-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a7.5 7.5 0 01-11.2 6.5L4 20l1.5-5.2A7.5 7.5 0 1121 12z"/></svg><span class="dot"></span></button>
+        <button class="icon-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8a6 6 0 0112 0c0 7 3 8 3 8H3s3-1 3-8zM10 21a2 2 0 004 0"/></svg><span class="dot"></span></button>
+        <div class="tb-user">
+          <div class="avatar avatar--sm">AM</div>
+          <div class="tb-user-info"><div class="name">Alex Moore</div><div class="role">Management</div></div>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px;color:var(--neutral-400)"><path d="M6 9l6 6 6-6"/></svg>
+        </div>
+      </div>
+    </header>
+
+    <div class="content">
+<nav class="crumbs">
+        <a href="02-dashboard.html">Dashboard</a><span class="sep">/</span>
+        <span class="cur">Invoices</span>
+      </nav>
+
+      <div class="page-head">
+        <div>
+          <h1 class="page-title">Invoices</h1>
+          <div class="page-sub">47 invoices · period Apr 2026 · all currencies EUR</div>
+        </div>
+        <div class="page-actions">
+          <a class="btn btn--white" href="12-client-statement.html"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="8" y1="13" x2="16" y2="13"/><line x1="8" y1="17" x2="12" y2="17"/></svg> Client statement</a>
+          <button class="btn btn--white"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> Export CSV</button>
+          <button class="btn btn--primary"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg> New invoice</button>
+        </div>
+      </div>
+
+      <!-- Summary -->
+      <section class="summary">
+        <div class="sum-card outstanding">
+          <div class="sum-label">Outstanding</div>
+          <div class="sum-value"><span class="unit">€</span>47,850</div>
+          <div class="sum-delta"><b>12 invoices</b> · awaiting payment</div>
+        </div>
+        <div class="sum-card paid">
+          <div class="sum-label">Paid · this month</div>
+          <div class="sum-value"><span class="unit">€</span>32,140</div>
+          <div class="sum-delta"><span class="up">▲ 14%</span> vs March</div>
+        </div>
+        <div class="sum-card overdue">
+          <div class="sum-label">Overdue</div>
+          <div class="sum-value"><span class="unit">€</span>4,320</div>
+          <div class="sum-delta"><b>2 invoices</b> · avg 11 days late</div>
+        </div>
+        <div class="sum-card draft">
+          <div class="sum-label">Drafts</div>
+          <div class="sum-value">3</div>
+          <div class="sum-delta">ready to review and send</div>
+        </div>
+      </section>
+
+      <!-- Table card -->
+      <div class="layout">
+      <article class="card">
+        <div class="toolbar">
+          <div class="t-search">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            <input type="text" placeholder="Search by number, client, or amount…" />
+          </div>
+          <div class="filter-chips">
+            <button class="chip-btn active">Status <span class="count">3</span></button>
+            <button class="chip-btn">Client</button>
+            <button class="chip-btn">Period: April 2026</button>
+            <button class="chip-btn">Amount</button>
+            <button class="chip-btn"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg> More</button>
+          </div>
+          <div class="right-tools">
+            <button class="sort-pill">Sort · Newest first <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
+            <div class="seg">
+              <button class="on">List</button>
+              <button>Grid</button>
+            </div>
+          </div>
+        </div>
+        <div class="bulk-bar">
+          <span class="ck on"></span>
+          <span>2 invoices selected</span>
+          <button class="btn btn--white" style="padding:6px 10px;font-size:12px"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2 11 13"/><path d="M22 2l-7 20-4-9-9-4 20-7z"/></svg> Send reminder</button>
+          <button class="btn btn--white" style="padding:6px 10px;font-size:12px">Mark paid</button>
+          <button class="btn btn--white" style="padding:6px 10px;font-size:12px">Export</button>
+          <span style="margin-left:auto;color:var(--primary-700);font-weight:600">Total selected · € 8,560</span>
+        </div>
+        <div style="overflow-x:auto">
+          <table>
+            <thead>
+              <tr>
+                <th style="width:40px"><span class="ck"></span></th>
+                <th>Invoice</th>
+                <th>Client</th>
+                <th>Issued</th>
+                <th>Due</th>
+                <th style="text-align:right">Amount</th>
+                <th>Status</th>
+                <th style="text-align:right;width:120px">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="sel">
+                <td><span class="ck on"></span></td>
+                <td><a href="11-invoice-detail.html"><span class="inv-num">INV-2026-0047</span><span class="inv-new">New</span></a><div class="prop-sub">Property A · HQ Tower West</div></td>
+                <td><a class="client-link" href="04-client-detail.html">Client 01</a></td>
+                <td><div class="date-main">18 Apr 2026</div><div class="date-sub">3 days ago</div></td>
+                <td><div class="date-main">02 May 2026</div><div class="date-sub">in 11 days</div></td>
+                <td class="amt"><span class="cur">€</span>4,280.00</td>
+                <td><span class="st st-sent">Sent</span></td>
+                <td><div class="row-actions">
+                  <button class="row-icon" title="View"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></button>
+                  <button class="row-icon" title="Send reminder"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2 11 13"/><path d="M22 2l-7 20-4-9-9-4 20-7z"/></svg></button>
+                  <button class="row-icon" title="More"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/></svg></button>
+                </div></td>
+              </tr>
+              <tr class="sel">
+                <td><span class="ck on"></span></td>
+                <td><a href="11-invoice-detail.html"><span class="inv-num">INV-2026-0046</span></a><div class="prop-sub">Property D · Retail Center Nord</div></td>
+                <td><a class="client-link" href="04-client-detail.html">Client 04</a></td>
+                <td><div class="date-main">17 Apr 2026</div><div class="date-sub">4 days ago</div></td>
+                <td><div class="date-main">01 May 2026</div><div class="date-sub">in 10 days</div></td>
+                <td class="amt"><span class="cur">€</span>4,280.00</td>
+                <td><span class="st st-sent">Sent</span></td>
+                <td><div class="row-actions">
+                  <button class="row-icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></button>
+                  <button class="row-icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2 11 13"/><path d="M22 2l-7 20-4-9-9-4 20-7z"/></svg></button>
+                  <button class="row-icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/></svg></button>
+                </div></td>
+              </tr>
+              <tr>
+                <td><span class="ck"></span></td>
+                <td><a href="11-invoice-detail.html"><span class="inv-num">INV-2026-0045</span></a><div class="prop-sub">Property F · Medical Plaza 3</div></td>
+                <td><a class="client-link" href="04-client-detail.html">Client 06</a></td>
+                <td><div class="date-main">15 Apr 2026</div><div class="date-sub">6 days ago</div></td>
+                <td><div class="date-main">29 Apr 2026</div><div class="date-sub">in 8 days</div></td>
+                <td class="amt"><span class="cur">€</span>6,840.00</td>
+                <td><span class="st st-partial">Partial · 60%</span></td>
+                <td><div class="row-actions">
+                  <button class="row-icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></button>
+                  <button class="row-icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2 11 13"/><path d="M22 2l-7 20-4-9-9-4 20-7z"/></svg></button>
+                  <button class="row-icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/></svg></button>
+                </div></td>
+              </tr>
+              <tr>
+                <td><span class="ck"></span></td>
+                <td><a href="11-invoice-detail.html"><span class="inv-num">INV-2026-0044</span></a><div class="prop-sub">Property B · Office deep clean</div></td>
+                <td><a class="client-link" href="04-client-detail.html">Client 02</a></td>
+                <td><div class="date-main">10 Apr 2026</div><div class="date-sub">11 days ago</div></td>
+                <td><div class="date-main">24 Apr 2026</div><div class="date-sub">in 3 days</div></td>
+                <td class="amt"><span class="cur">€</span>3,120.00</td>
+                <td><span class="st st-sent">Sent</span></td>
+                <td><div class="row-actions">
+                  <button class="row-icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></button>
+                  <button class="row-icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2 11 13"/><path d="M22 2l-7 20-4-9-9-4 20-7z"/></svg></button>
+                  <button class="row-icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/></svg></button>
+                </div></td>
+              </tr>
+              <tr>
+                <td><span class="ck"></span></td>
+                <td><a href="11-invoice-detail.html"><span class="inv-num">INV-2026-0043</span></a><div class="prop-sub">Property G · Clinic Est</div></td>
+                <td><a class="client-link" href="04-client-detail.html">Client 07</a></td>
+                <td><div class="date-main">05 Apr 2026</div><div class="date-sub">16 days ago</div></td>
+                <td><div class="date-main">05 Apr 2026</div><div class="date-sub over">11 days overdue</div></td>
+                <td class="amt"><span class="cur">€</span>2,150.00</td>
+                <td><span class="st st-over">Overdue</span></td>
+                <td><div class="row-actions">
+                  <button class="row-icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></button>
+                  <button class="row-icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2 11 13"/><path d="M22 2l-7 20-4-9-9-4 20-7z"/></svg></button>
+                  <button class="row-icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/></svg></button>
+                </div></td>
+              </tr>
+              <tr>
+                <td><span class="ck"></span></td>
+                <td><a href="11-invoice-detail.html"><span class="inv-num">INV-2026-0042</span></a><div class="prop-sub">Property C · Boutique Flagship</div></td>
+                <td><a class="client-link" href="04-client-detail.html">Client 03</a></td>
+                <td><div class="date-main">02 Apr 2026</div><div class="date-sub">19 days ago</div></td>
+                <td><div class="date-main">02 Apr 2026</div><div class="date-sub over">14 days overdue</div></td>
+                <td class="amt"><span class="cur">€</span>2,170.00</td>
+                <td><span class="st st-over">Overdue</span></td>
+                <td><div class="row-actions">
+                  <button class="row-icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></button>
+                  <button class="row-icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2 11 13"/><path d="M22 2l-7 20-4-9-9-4 20-7z"/></svg></button>
+                  <button class="row-icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/></svg></button>
+                </div></td>
+              </tr>
+              <tr>
+                <td><span class="ck"></span></td>
+                <td><a href="11-invoice-detail.html"><span class="inv-num">INV-2026-0041</span></a><div class="prop-sub">Property H · Showroom West</div></td>
+                <td><a class="client-link" href="04-client-detail.html">Client 08</a></td>
+                <td><div class="date-main">28 Mar 2026</div><div class="date-sub">24 days ago</div></td>
+                <td><div class="date-main">11 Apr 2026</div><div class="date-sub">paid 08 Apr</div></td>
+                <td class="amt"><span class="cur">€</span>1,890.00</td>
+                <td><span class="st st-paid">Paid</span></td>
+                <td><div class="row-actions">
+                  <button class="row-icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></button>
+                  <button class="row-icon" title="Download"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg></button>
+                  <button class="row-icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/></svg></button>
+                </div></td>
+              </tr>
+              <tr>
+                <td><span class="ck"></span></td>
+                <td><a href="11-invoice-detail.html"><span class="inv-num">INV-2026-0040</span></a><div class="prop-sub">Property I · Residential Block</div></td>
+                <td><a class="client-link" href="04-client-detail.html">Client 09</a></td>
+                <td><div class="date-main">25 Mar 2026</div><div class="date-sub">27 days ago</div></td>
+                <td><div class="date-main">08 Apr 2026</div><div class="date-sub">paid 04 Apr</div></td>
+                <td class="amt"><span class="cur">€</span>1,450.00</td>
+                <td><span class="st st-paid">Paid</span></td>
+                <td><div class="row-actions">
+                  <button class="row-icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></button>
+                  <button class="row-icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg></button>
+                  <button class="row-icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/></svg></button>
+                </div></td>
+              </tr>
+              <tr>
+                <td><span class="ck"></span></td>
+                <td><a href="11-invoice-detail.html"><span class="inv-num">INV-2026-0039</span></a><div class="prop-sub">Property E · Wellness Centre</div></td>
+                <td><a class="client-link" href="04-client-detail.html">Client 05</a></td>
+                <td><div class="date-main">—</div><div class="date-sub">edited today</div></td>
+                <td><div class="date-main">—</div><div class="date-sub">not sent</div></td>
+                <td class="amt"><span class="cur">€</span>3,680.00</td>
+                <td><span class="st st-draft">Draft</span></td>
+                <td><div class="row-actions">
+                  <button class="row-icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.12 2.12 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></button>
+                  <button class="row-icon" title="Send"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2 11 13"/><path d="M22 2l-7 20-4-9-9-4 20-7z"/></svg></button>
+                  <button class="row-icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/></svg></button>
+                </div></td>
+              </tr>
+              <tr>
+                <td><span class="ck"></span></td>
+                <td><a href="11-invoice-detail.html"><span class="inv-num">INV-2026-0038</span></a><div class="prop-sub">Property J · Coworking Loft</div></td>
+                <td><a class="client-link" href="04-client-detail.html">Client 10</a></td>
+                <td><div class="date-main">20 Mar 2026</div><div class="date-sub">32 days ago</div></td>
+                <td><div class="date-main">03 Apr 2026</div><div class="date-sub">paid 31 Mar</div></td>
+                <td class="amt"><span class="cur">€</span>2,840.00</td>
+                <td><span class="st st-paid">Paid</span></td>
+                <td><div class="row-actions">
+                  <button class="row-icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></button>
+                  <button class="row-icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg></button>
+                  <button class="row-icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/></svg></button>
+                </div></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="foot">
+          <span>Showing <b style="color:var(--neutral-800)">1–10</b> of <b style="color:var(--neutral-800)">47</b> invoices</span>
+          <div class="paginate">
+            <button>‹</button>
+            <button class="on">1</button>
+            <button>2</button>
+            <button>3</button>
+            <button>4</button>
+            <button>5</button>
+            <button>›</button>
+          </div>
+        </div>
+      </article>
+
+      <!-- Side panel: cash at a glance -->
+      <aside class="side">
+        <div class="card">
+          <div class="card-head"><h3 class="card-title">Cash forecast · next 30 days</h3></div>
+          <div class="card-body">
+            <div style="font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:var(--neutral-500);font-weight:600">Expected inflow</div>
+            <div style="font-size:26px;font-weight:700;letter-spacing:-0.01em;margin-top:4px">€ 52,130</div>
+            <div class="mini-progress"><span style="width:63%"></span></div>
+            <div style="font-size:11px;color:var(--neutral-500);margin-top:6px">63% confidence · based on payment history</div>
+            <div class="info-row"><span class="k">Due in 7 days</span><span class="v">€ 7,400</span></div>
+            <div class="info-row"><span class="k">Due in 8–14 days</span><span class="v">€ 14,680</span></div>
+            <div class="info-row"><span class="k">Due in 15–30 days</span><span class="v">€ 25,730</span></div>
+            <div class="info-row"><span class="k">At risk</span><span class="v" style="color:var(--error-700)">€ 4,320</span></div>
+          </div>
+        </div>
+        <div class="card" style="margin-top:14px">
+          <div class="card-head"><h3 class="card-title">Quick actions</h3></div>
+          <div class="card-body" style="display:flex;flex-direction:column;gap:8px">
+            <a class="btn btn--white" style="justify-content:flex-start" href="#"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2 11 13"/><path d="M22 2l-7 20-4-9-9-4 20-7z"/></svg> Send all reminders (2)</a>
+            <a class="btn btn--white" style="justify-content:flex-start" href="#"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/></svg> Generate monthly batch</a>
+            <a class="btn btn--white" style="justify-content:flex-start" href="12-client-statement.html"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg> Open client statement</a>
+            <a class="btn btn--white" style="justify-content:flex-start" href="14-reports.html"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M7 14l4-4 4 4 6-6"/></svg> Revenue report</a>
+          </div>
+        </div>
+      </aside>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

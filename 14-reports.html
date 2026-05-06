@@ -1,0 +1,688 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Priya's Reinigungsservice · Berichte &amp; Exporte</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --primary-50:#EEF5E8; --primary-100:#D9E9C8; --primary-200:#BFDAA4; --primary-300:#A4CA7F;
+  --primary-500:#72A94F; --primary-600:#5D8E3F; --primary-700:#487030; --primary-800:#345321;
+  --secondary-50:#E5EEF3; --secondary-100:#BFD4E0; --secondary-500:#16587C; --secondary-600:#124A68; --secondary-700:#0F3C54; --secondary-800:#0B2D40; --secondary-900:#081F2C;
+  --accent-100:#E1EECF; --accent-500:#A8CC87; --accent-600:#8BB06B;
+  --tertiary-200:#F2FFEA;
+  --success-50:#E8F7EF; --success-500:#2D9E6B; --success-700:#1F6E4A;
+  --warning-50:#FDEFE5; --warning-500:#F4A261; --warning-700:#B36F3A;
+  --error-50:#FCE7E9; --error-500:#E63946; --error-700:#A32933;
+  --info-50:#E5EEF3; --info-500:#16587C;
+  --white:#FFFFFF;
+  --neutral-50:#F8FAF7; --neutral-100:#EEF2EC; --neutral-200:#DDE3DA; --neutral-300:#C3CCBE;
+  --neutral-400:#9DA898; --neutral-500:#78857A; --neutral-600:#5A6659; --neutral-700:#414B40; --neutral-800:#2A322A; --neutral-900:#141814;
+  --radius-xs:4px; --radius-sm:6px; --radius-md:8px; --radius-lg:12px; --radius-xl:16px; --radius-full:9999px;
+  --shadow-xs:0 1px 2px rgba(20,24,20,.04);
+  --shadow-sm:0 2px 4px rgba(20,24,20,.06),0 1px 2px rgba(20,24,20,.04);
+  --shadow-md:0 4px 10px rgba(20,24,20,.08),0 2px 4px rgba(20,24,20,.04);
+  --shadow-lg:0 10px 25px rgba(20,24,20,.10),0 4px 10px rgba(20,24,20,.05);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Inter',system-ui,sans-serif;font-size:14px;line-height:1.5;color:var(--neutral-800);background:var(--tertiary-200);-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+button{font-family:inherit;cursor:pointer;border:none;background:none}
+ul{list-style:none}
+svg{display:block}
+.mono{font-family:'JetBrains Mono',monospace}
+
+/* Shell */
+.app{display:flex;min-height:100vh}
+.sidebar{width:240px;background:var(--secondary-900);color:rgba(255,255,255,.82);display:flex;flex-direction:column;padding:20px 12px;position:fixed;top:0;left:0;bottom:0;z-index:10;border-right:1px solid var(--secondary-800);overflow-y:auto}
+.sb-brand{display:flex;align-items:center;gap:12px;padding:6px 10px 24px;border-bottom:1px solid rgba(255,255,255,.06);margin-bottom:16px}
+.sb-logo{width:36px;height:36px;background:var(--primary-500);border-radius:var(--radius-md);display:grid;place-items:center;font-weight:800;color:#fff;font-size:17px}
+.sb-brand-name{font-size:14px;font-weight:600;color:#fff;letter-spacing:-.01em}
+.sb-brand-sub{font-size:10px;color:var(--accent-500);letter-spacing:.08em;text-transform:uppercase;margin-top:1px}
+.sb-section{font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:rgba(255,255,255,.35);padding:12px 12px 8px;font-weight:600}
+.sb-item{display:flex;align-items:center;gap:12px;padding:10px 12px;border-radius:var(--radius-sm);font-size:13px;color:rgba(255,255,255,.72);margin-bottom:2px;transition:all .15s}
+.sb-item:hover{background:rgba(255,255,255,.06);color:#fff}
+.sb-item svg{width:18px;height:18px;flex-shrink:0;stroke-width:1.8}
+.sb-item.active{background:var(--primary-500);color:#fff;font-weight:500}
+.sb-item .badge{margin-left:auto;background:rgba(255,255,255,.15);color:#fff;font-size:10px;padding:2px 7px;border-radius:var(--radius-full);font-weight:600}
+.sb-item.active .badge{background:rgba(0,0,0,.25)}
+.sb-collapse{margin-top:auto;display:flex;align-items:center;gap:10px;padding:16px 24px 10px;font-size:12px;color:rgba(255,255,255,.55);border-top:1px solid rgba(255,255,255,.06);margin:16px -12px 0}
+.sb-collapse svg{width:14px;height:14px}
+.main{margin-left:240px;flex:1;display:flex;flex-direction:column;min-width:0}
+
+/* Topbar */
+.topbar{height:64px;background:#fff;border-bottom:1px solid var(--neutral-100);display:flex;align-items:center;justify-content:space-between;padding:0 28px;position:sticky;top:0;z-index:5}
+.tb-left{display:flex;align-items:center;gap:20px;flex:1;max-width:520px}
+.tb-search{flex:1;display:flex;align-items:center;gap:10px;background:var(--neutral-50);border:1px solid var(--neutral-100);border-radius:var(--radius-md);padding:8px 14px;color:var(--neutral-500)}
+.tb-search svg{width:16px;height:16px}
+.tb-search input{border:none;background:none;font-family:inherit;font-size:13px;outline:none;flex:1;color:var(--neutral-700)}
+.tb-search .kbd{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--neutral-400);padding:3px 6px;background:#fff;border:1px solid var(--neutral-200);border-radius:4px}
+.tb-right{display:flex;align-items:center;gap:6px}
+.icon-btn{width:40px;height:40px;border-radius:var(--radius-md);display:grid;place-items:center;color:var(--neutral-500);transition:all .15s;position:relative}
+.icon-btn:hover{background:var(--neutral-50);color:var(--neutral-800)}
+.icon-btn svg{width:18px;height:18px}
+.icon-btn .dot{position:absolute;top:8px;right:8px;width:8px;height:8px;background:var(--error-500);border-radius:50%;border:2px solid #fff}
+.tb-user{display:flex;align-items:center;gap:10px;padding:6px 12px 6px 6px;border-radius:var(--radius-full);cursor:pointer;transition:all .15s;margin-left:8px}
+.tb-user:hover{background:var(--neutral-50)}
+.avatar{border-radius:50%;display:grid;place-items:center;color:#fff;font-weight:600;background:var(--primary-500);flex-shrink:0}
+.avatar--xs{width:24px;height:24px;font-size:10px}
+.avatar--sm{width:32px;height:32px;font-size:12px}
+.tb-user-info{line-height:1.1}
+.tb-user-info .name{font-size:13px;font-weight:600;color:var(--neutral-800)}
+.tb-user-info .role{font-size:11px;color:var(--neutral-500);margin-top:2px}
+
+/* Content shell */
+.content{padding:28px;max-width:1440px;width:100%}
+.breadcrumb{display:flex;align-items:center;gap:6px;color:var(--neutral-500);font-size:12px;margin-bottom:12px}
+.breadcrumb a:hover{color:var(--primary-600)}
+.breadcrumb .sep{color:var(--neutral-300)}
+.breadcrumb .cur{color:var(--neutral-800);font-weight:500}
+.page-head{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:22px;gap:24px;flex-wrap:wrap}
+.page-head h1{font-size:24px;font-weight:700;color:var(--secondary-500);letter-spacing:-.02em;margin-bottom:4px;display:flex;align-items:center;gap:10px}
+.page-head .sub{font-size:13px;color:var(--neutral-500)}
+.page-head .sub b{color:var(--neutral-700);font-weight:600}
+.page-head-actions{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.title-pill{font-size:10px;font-weight:700;background:var(--primary-50);color:var(--primary-700);padding:3px 8px;border-radius:var(--radius-full);text-transform:uppercase;letter-spacing:.06em}
+.sep-dot{margin:0 8px;color:var(--neutral-300)}
+
+.btn{display:inline-flex;align-items:center;gap:8px;padding:10px 16px;border-radius:var(--radius-md);font-size:13px;font-weight:500;line-height:1;min-height:40px;transition:all .15s;border:none;white-space:nowrap}
+.btn svg{width:14px;height:14px;stroke-width:2}
+.btn--primary{background:var(--primary-500);color:#fff}
+.btn--primary:hover{background:var(--primary-600)}
+.btn--tertiary{background:#fff;color:var(--primary-600);border:1.5px solid var(--primary-500)}
+.btn--tertiary:hover{background:var(--tertiary-200)}
+.btn--white{background:#fff;color:var(--neutral-700);border:1px solid var(--neutral-200)}
+.btn--white:hover{background:var(--neutral-50);border-color:var(--neutral-300)}
+.btn--ghost{color:var(--neutral-600);background:transparent}
+.btn--ghost:hover{background:var(--neutral-100);color:var(--neutral-800)}
+.btn--sm{padding:7px 12px;font-size:12px;min-height:32px}
+
+.card{background:#fff;border-radius:var(--radius-lg);border:1px solid var(--neutral-100);overflow:hidden}
+.card-head{padding:18px 20px;border-bottom:1px solid var(--neutral-100);display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.card-head h3{font-size:15px;font-weight:600;color:var(--neutral-800);margin:0;display:flex;align-items:center;gap:10px}
+.card-head .sub{font-size:12px;color:var(--neutral-500);margin-top:2px}
+.card-body{padding:20px}
+
+.badge{display:inline-flex;align-items:center;gap:4px;padding:3px 9px;border-radius:var(--radius-full);font-size:10px;font-weight:600;letter-spacing:.02em;text-transform:uppercase}
+.badge--success{background:var(--success-50);color:var(--success-700)}
+.badge--warning{background:var(--warning-50);color:var(--warning-700)}
+.badge--error{background:var(--error-50);color:var(--error-700)}
+.badge--info{background:var(--secondary-50);color:var(--secondary-600)}
+.badge--primary{background:var(--primary-50);color:var(--primary-700)}
+.badge .dot{width:5px;height:5px;border-radius:50%;background:currentColor}
+
+/* Zeitraum picker / segmented */
+.period-picker{display:flex;align-items:center;gap:10px;padding:7px 6px 7px 12px;background:#fff;border:1px solid var(--neutral-200);border-radius:var(--radius-md);font-size:12px;color:var(--neutral-700);font-weight:500}
+.period-picker .label{font-size:10px;color:var(--neutral-400);font-weight:700;text-transform:uppercase;letter-spacing:.06em}
+.seg{display:inline-flex;padding:3px;background:var(--neutral-50);border:1px solid var(--neutral-100);border-radius:var(--radius-sm);gap:2px}
+.seg button{font-size:11px;font-weight:500;color:var(--neutral-500);padding:5px 10px;border-radius:var(--radius-xs)}
+.seg button.on{background:#fff;color:var(--secondary-500);box-shadow:var(--shadow-xs)}
+
+/* KPI */
+.kpi-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:22px}
+.kpi{background:#fff;border:1px solid var(--neutral-100);border-radius:var(--radius-lg);padding:18px 20px;position:relative;overflow:hidden;transition:all .15s}
+.kpi:hover{box-shadow:var(--shadow-md);transform:translateY(-1px)}
+.kpi::after{content:'';position:absolute;top:0;right:0;width:90px;height:90px;border-radius:50%;opacity:.08;filter:blur(18px)}
+.kpi.rev::after{background:var(--primary-500)}
+.kpi.Std.s::after{background:var(--secondary-500)}
+.kpi.asn::after{background:var(--success-500)}
+.kpi.sat::after{background:var(--warning-500)}
+.kpi-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+.kpi-label{font-size:11px;font-weight:600;color:var(--neutral-500);text-transform:uppercase;letter-spacing:.05em}
+.kpi-icon{width:36px;height:36px;border-radius:var(--radius-md);display:grid;place-items:center}
+.kpi-icon svg{width:18px;height:18px;stroke-width:2}
+.kpi.rev .kpi-icon{background:var(--primary-50);color:var(--primary-600)}
+.kpi.Std.s .kpi-icon{background:var(--secondary-50);color:var(--secondary-600)}
+.kpi.asn .kpi-icon{background:var(--success-50);color:var(--success-700)}
+.kpi.sat .kpi-icon{background:var(--warning-50);color:var(--warning-700)}
+.kpi-value{font-size:28px;font-weight:700;color:var(--secondary-500);letter-spacing:-.02em;line-height:1.1}
+.kpi-value small{font-size:12px;color:var(--neutral-500);margin-left:4px;font-weight:500}
+.kpi-meta{display:flex;align-items:center;gap:6px;margin-top:8px;font-size:11px;color:var(--neutral-500)}
+.delta{display:inline-flex;align-items:center;gap:3px;font-weight:600;padding:2px 7px;border-radius:var(--radius-full);font-size:10px}
+.delta.up{background:var(--success-50);color:var(--success-700)}
+.delta.down{background:var(--error-50);color:var(--error-700)}
+.delta.flat{background:var(--neutral-100);color:var(--neutral-600)}
+.spark{margin-top:10px;height:34px;width:100%}
+
+/* Chart row */
+.chart-row{display:grid;grid-template-columns:2fr 1fr;gap:16px;margin-bottom:22px}
+.legend{display:flex;gap:14px;font-size:11px;color:var(--neutral-500)}
+.legend .ldot{width:9px;height:9px;border-radius:2px;display:inline-block;margin-right:5px;vertical-align:-1px}
+.chart-wrap{position:relative;padding-top:8px}
+.y-labels{position:absolute;left:0;top:8px;bottom:24px;display:flex;flex-direction:column;justify-content:space-between;font-size:10px;color:var(--neutral-400);font-family:'JetBrains Mono',monospace}
+.x-labels{display:grid;grid-template-columns:repeat(12,1fr);padding:6px 0 0 40px;font-size:10px;color:var(--neutral-400);text-align:center}
+.mini-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:18px;padding-top:14px;border-top:1px solid var(--neutral-100)}
+.mini-stats .lk{font-size:10px;color:var(--neutral-400);font-weight:600;text-transform:uppercase;letter-spacing:.06em}
+.mini-stats .lv{font-size:14px;font-weight:700;margin-top:3px;font-family:'JetBrains Mono',monospace;color:var(--neutral-800)}
+.mini-stats .lv.warn{color:var(--warning-700)}
+.mini-stats .ls{font-size:11px;color:var(--neutral-500);margin-top:1px}
+
+/* Donut */
+.donut-wrap{display:flex;align-items:center;gap:18px}
+.donut-legend{flex:1;display:flex;flex-direction:column;gap:8px}
+.dl-row{display:flex;align-items:center;justify-content:space-between;font-size:12px}
+.dl-row .dl-l{display:flex;align-items:center;gap:8px;color:var(--neutral-700);font-weight:500}
+.dl-row .dl-l .sw{width:10px;height:10px;border-radius:2px}
+.dl-row .dl-v{font-family:'JetBrains Mono',monospace;color:var(--neutral-800);font-weight:600;font-size:12px}
+.dl-row .dl-p{color:var(--neutral-400);font-size:11px;margin-left:8px}
+.donut-foot{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:16px;padding-top:14px;border-top:1px solid var(--neutral-100)}
+.donut-foot .lk{font-size:10px;color:var(--neutral-400);font-weight:600;text-transform:uppercase;letter-spacing:.06em}
+.donut-foot .lv{font-size:16px;font-weight:700;margin-top:2px;color:var(--neutral-800)}
+
+/* Berichts-Bibliothek */
+.section-head{display:flex;align-items:flex-end;justify-content:space-between;margin:6px 0 12px;gap:12px;flex-wrap:wrap}
+.section-head h2{font-size:17px;font-weight:700;letter-spacing:-.01em;margin:0 0 3px;color:var(--secondary-500)}
+.section-head p{font-size:12px;color:var(--neutral-500);margin:0}
+.section-head .right{display:flex;gap:8px;align-items:center;font-size:12px;color:var(--neutral-500)}
+
+.rep-filters{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}
+.filter-chip{display:inline-flex;align-items:center;gap:6px;padding:7px 12px;border:1px solid var(--neutral-100);border-radius:var(--radius-full);background:#fff;font-size:12px;font-weight:500;color:var(--neutral-700);cursor:pointer}
+.filter-chip:hover{border-color:var(--neutral-300)}
+.filter-chip.active{background:var(--primary-50);border-color:var(--primary-200);color:var(--primary-700);font-weight:600}
+.filter-chip .count{background:var(--neutral-100);color:var(--neutral-600);font-size:10px;padding:1px 7px;border-radius:var(--radius-full);font-weight:700}
+.filter-chip.active .count{background:var(--primary-500);color:#fff}
+
+.rep-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.rep-card{background:#fff;border:1px solid var(--neutral-100);border-radius:var(--radius-lg);padding:18px;display:flex;flex-direction:column;gap:12px;transition:all .15s;position:relative;overflow:hidden}
+.rep-card:hover{border-color:var(--primary-200);transform:translateY(-1px);box-shadow:var(--shadow-md)}
+.rep-top{display:flex;align-items:flex-start;gap:12px}
+.rep-icon{width:42px;height:42px;border-radius:var(--radius-md);display:grid;place-items:center;color:#fff;flex-shrink:0}
+.rep-icon svg{width:20px;height:20px;stroke-width:1.8}
+.ri-revclient{background:var(--primary-500)}
+.ri-revprop{background:var(--secondary-500)}
+.ri-Std.s{background:var(--secondary-600)}
+.ri-perf{background:var(--success-500)}
+.ri-stmt{background:var(--warning-500)}
+.ri-vat{background:var(--error-500)}
+.rep-meta .rn{font-size:14px;font-weight:600;color:var(--neutral-800)}
+.rep-meta .rd{font-size:11px;color:var(--neutral-500);margin-top:3px;line-height:1.5;min-height:48px}
+.rep-info{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:10px 0;border-top:1px solid var(--neutral-100);border-bottom:1px solid var(--neutral-100)}
+.rep-info div{display:flex;flex-direction:column;gap:2px}
+.rep-info .lk{font-size:10px;color:var(--neutral-400);font-weight:600;text-transform:uppercase;letter-spacing:.05em}
+.rep-info .lv{font-size:12px;color:var(--neutral-700);font-weight:600}
+.rep-cta{display:flex;gap:8px}
+.rep-cta .btn{flex:1;justify-content:center}
+.rep-badge{position:absolute;top:14px;right:14px;font-size:9px;font-weight:700;padding:3px 8px;border-radius:var(--radius-full);letter-spacing:.05em;text-transform:uppercase}
+.rep-badge.sched{background:var(--secondary-50);color:var(--secondary-600)}
+.rep-badge.new{background:var(--primary-50);color:var(--primary-700)}
+.rep-badge.auto{background:var(--success-50);color:var(--success-700)}
+
+/* Pland bar */
+.sched-bar{display:grid;grid-template-columns:auto 1fr auto;gap:16px;align-items:center;background:linear-gradient(135deg,var(--primary-50),var(--tertiary-200));border:1px solid var(--primary-100);padding:14px 18px;border-radius:var(--radius-lg);margin-top:22px}
+.sched-bar .sb-ic{width:40px;height:40px;border-radius:var(--radius-md);background:var(--primary-500);color:#fff;display:grid;place-items:center}
+.sched-bar .sb-ic svg{width:18px;height:18px;stroke-width:1.8}
+.sched-bar .sb-title{font-size:13px;font-weight:600;color:var(--neutral-800);margin-bottom:2px}
+.sched-bar .sb-sub{font-size:12px;color:var(--neutral-600)}
+.sched-bar .sb-sub b{color:var(--neutral-800);font-weight:600}
+
+/* Exports */
+.exports{background:#fff;border:1px solid var(--neutral-100);border-radius:var(--radius-lg);overflow:hidden;margin-top:22px}
+.exp-head{padding:16px 20px;border-bottom:1px solid var(--neutral-100);display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.exp-title{font-size:15px;font-weight:600;margin:0;color:var(--neutral-800)}
+.exp-row{display:grid;grid-template-columns:44px 1fr 140px 130px 90px 90px 110px;gap:14px;align-items:center;padding:12px 20px;border-bottom:1px solid var(--neutral-100);font-size:12px}
+.exp-row:last-child{border-bottom:0}
+.exp-row:hover{background:var(--neutral-50)}
+.exp-row.head{font-size:10px;font-weight:600;color:var(--neutral-500);text-transform:uppercase;letter-spacing:.05em;background:var(--neutral-50);padding:10px 20px}
+.file-ic{width:36px;height:44px;border-radius:var(--radius-xs);background:#fff;border:1px solid var(--neutral-200);display:grid;place-items:center;color:var(--neutral-500);font-family:'JetBrains Mono',monospace;font-size:9px;font-weight:700;letter-spacing:.02em}
+.file-ic.pdf{color:var(--error-700);border-color:#F3C8C8;background:var(--error-50)}
+.file-ic.xlsx{color:var(--success-700);border-color:#BCE4C7;background:var(--success-50)}
+.file-ic.csv{color:var(--secondary-600);border-color:var(--secondary-100);background:var(--secondary-50)}
+.file-ic.zip{color:var(--warning-700);border-color:#EBCFB0;background:var(--warning-50)}
+.exp-name{font-size:13px;font-weight:600;color:var(--neutral-800)}
+.exp-desc{font-size:11px;color:var(--neutral-500);margin-top:2px}
+.exp-meta{font-family:'JetBrains Mono',monospace;color:var(--neutral-500);font-size:11px}
+.exp-who{color:var(--neutral-700);font-weight:500;font-size:12px}
+.exp-tag{font-size:10px;font-weight:600;padding:3px 8px;border-radius:var(--radius-full);letter-spacing:.04em;display:inline-flex;align-items:center;gap:5px;text-transform:uppercase}
+.exp-tag.ready{background:var(--success-50);color:var(--success-700)}
+.exp-tag.gen{background:var(--warning-50);color:var(--warning-700)}
+.exp-tag.gen .sp{width:8px;height:8px;border:1.5px solid var(--warning-500);border-top-color:transparent;border-radius:50%;animation:spin 1s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.exp-actions{display:flex;gap:6px;justify-content:flex-end}
+
+.page-foot{display:flex;align-items:center;justify-content:space-between;padding:20px 4px;color:var(--neutral-400);font-size:11px;gap:10px;flex-wrap:wrap}
+
+@media(max-width:1200px){
+  .chart-row{grid-template-columns:1fr}
+  .kpi-grid{grid-template-columns:repeat(2,1fr)}
+  .rep-grid{grid-template-columns:repeat(2,1fr)}
+  .exp-row{grid-template-columns:44px 1fr 110px 90px 80px 90px}
+  .exp-row > :nth-child(7){display:none}
+}
+@media(max-width:1024px){
+  .sidebar{width:72px;padding:16px 8px}
+  .sb-brand > div:last-child,.sb-item:not(.sb-item-icon) span:not(.badge),.sb-section,.sb-collapse{display:none}
+  .sb-item{justify-content:center}
+  .sb-item .badge{display:none}
+  .main{margin-left:72px}
+  .content{padding:20px}
+}
+@media(max-width:768px){
+  .kpi-grid,.rep-grid{grid-template-columns:1fr}
+  .content{padding:16px}
+  .topbar{padding:0 16px}
+}
+</style>
+</head>
+<body>
+<div class="app">
+
+  <!-- Sidebar -->
+  <aside class="sidebar">
+      <div class="sb-brand">
+        <div class="sb-logo">P</div>
+        <div>
+          <div class="sb-brand-name">Priya's</div>
+          <div class="sb-brand-sub">Betrieb</div>
+        </div>
+      </div>
+      <div class="sb-section">Arbeitsbereich</div>
+      <a class="sb-item" href="02-dashboard.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>Übersicht</a>
+      <a class="sb-item" href="03-clients-list.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>Kunden<span class="badge">10</span></a>
+      <a class="sb-item" href="05-properties-list.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21V7l8-4 8 4v14"/><path d="M9 9h2M13 9h2M9 13h2M13 13h2M9 17h2M13 17h2"/></svg>Objekte<span class="badge">112</span></a>
+      <a class="sb-item" href="07-schedule.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 9h18M8 3v4M16 3v4"/></svg>Einsatzplan</a>
+      <a class="sb-item" href="08-employees-list.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>Mitarbeiter<span class="badge">32</span></a>
+      <a class="sb-item active" href="14-reports.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M7 14l3-3 3 3 5-5"/></svg>Berichte</a>
+      <div class="sb-section">Alltagshilfe</div>
+      <a class="sb-item" href="15-customer-type-picker.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 000-7.78z"/></svg>Pflegekunden</a>
+      <a class="sb-item" href="16-alltagshilfe-report.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6"/></svg>Monatsbericht</a>
+      <div class="sb-section">Kommunikation</div>
+      <a class="sb-item" href="17-team-chat.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a7.5 7.5 0 01-11.2 6.5L4 20l1.5-5.2A7.5 7.5 0 1121 12z"/></svg>Team-Chat<span class="badge">3</span></a>
+      <a class="sb-item" href="18-notifications.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8a6 6 0 0112 0c0 7 3 8 3 8H3s3-1 3-8zM10 21a2 2 0 004 0"/></svg>Benachrichtigungen<span class="badge">12</span></a>
+      <div class="sb-section">System</div>
+      <a class="sb-item" href="13-settings.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.3 1.8l.1.1a2 2 0 11-2.8 2.8l-.1-.1a1.65 1.65 0 00-1.8-.3 1.65 1.65 0 00-1 1.5V21a2 2 0 11-4 0v-.1a1.65 1.65 0 00-1-1.5 1.65 1.65 0 00-1.8.3l-.1.1a2 2 0 11-2.8-2.8l.1-.1a1.65 1.65 0 00.3-1.8 1.65 1.65 0 00-1.5-1H3a2 2 0 110-4h.1a1.65 1.65 0 001.5-1 1.65 1.65 0 00-.3-1.8l-.1-.1a2 2 0 112.8-2.8l.1.1a1.65 1.65 0 001.8.3h0a1.65 1.65 0 001-1.5V3a2 2 0 114 0v.1a1.65 1.65 0 001 1.5 1.65 1.65 0 001.8-.3l.1-.1a2 2 0 112.8 2.8l-.1.1a1.65 1.65 0 00-.3 1.8v0a1.65 1.65 0 001.5 1H21a2 2 0 110 4h-.1a1.65 1.65 0 00-1.5 1z"/></svg>Einstellungen</a>
+      <div class="sb-collapse"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>Seitenleiste einklappen</div>
+    </aside>
+
+  <!-- Main -->
+  <div class="main">
+    <header class="topbar">
+      <div class="tb-left">
+        <div class="tb-search">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+          <input placeholder="Berichte, Ansichten, Exporte suchen…" />
+          <span class="kbd">⌘ K</span>
+        </div>
+      </div>
+      <div class="tb-right">
+        <button class="icon-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.1 9a3 3 0 015.8 1c0 2-3 3-3 3M12 17h.01"/></svg></button>
+        <button class="icon-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a7.5 7.5 0 01-11.2 6.5L4 20l1.5-5.2A7.5 7.5 0 1121 12z"/></svg><span class="dot"></span></button>
+        <button class="icon-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8a6 6 0 0112 0c0 7 3 8 3 8H3s3-1 3-8zM10 21a2 2 0 004 0"/></svg><span class="dot"></span></button>
+        <div class="tb-user">
+          <div class="avatar avatar--sm">AM</div>
+          <div class="tb-user-info"><div class="name">Alex Müller</div><div class="role">Geschäftsleitung</div></div>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px;color:var(--neutral-400)"><path d="M6 9l6 6 6-6"/></svg>
+        </div>
+      </div>
+    </header>
+
+    <div class="content">
+      <div class="breadcrumb">
+        <a href="02-dashboard.html">Übersicht</a>
+        <span class="sep">/</span>
+        <span>Finanzen</span>
+        <span class="sep">/</span>
+        <span class="cur">Berichte &amp; Exporte</span>
+      </div>
+
+      <!-- Page head -->
+      <div class="page-head">
+        <div>
+          <h1>Berichte &amp; Exporte <span class="title-pill">YTD 2026</span></h1>
+          <div class="sub">Finanz- und Betriebsberichte über Kunden, Objekte und Teams<span class="sep-dot">·</span>Letzte Aktualisierung <b>14:28 MEZ</b></div>
+        </div>
+        <div class="page-head-actions">
+          <div class="period-picker">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="color:var(--neutral-500)"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+            <span class="label">Zeitraum</span>
+            <span>01 Jan – 21 Apr 2026</span>
+            <div class="seg">
+              <button>30d</button>
+              <button>Q</button>
+              <button class="on">YTD</button>
+              <button>12mo</button>
+            </div>
+          </div>
+          <button class="btn btn--white"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9"/><path d="M3 4v5h5"/></svg>Aktualisieren</button>
+          <button class="btn btn--primary"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M7 10l5 5 5-5M12 15V3"/></svg>Allees exportieren</button>
+        </div>
+      </div>
+
+      <!-- KPIs -->
+      <div class="kpi-grid">
+        <div class="kpi rev">
+          <div class="kpi-top">
+            <span class="kpi-label">Umsatz YTD</span>
+            <div class="kpi-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div>
+          </div>
+          <div class="kpi-value">€184,260<small>netto USt.</small></div>
+          <div class="kpi-meta"><span class="delta up">+18.4%</span>ggü. VorjaStd.eszeitraum</div>
+          <svg class="spark" viewBox="0 0 280 34" preserveAspectRatio="none">
+            <defs><linearGradient id="gr1" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#72A94F" stop-opacity=".3"/><stop offset="1" stop-color="#72A94F" stop-opacity="0"/></linearGradient></defs>
+            <path d="M0,28 L24,24 L48,26 L72,20 L96,22 L120,16 L144,18 L168,12 L192,14 L216,8 L240,10 L260,4 L280,6 L280,34 L0,34 Z" fill="url(#gr1)"/>
+            <path d="M0,28 L24,24 L48,26 L72,20 L96,22 L120,16 L144,18 L168,12 L192,14 L216,8 L240,10 L260,4 L280,6" fill="none" stroke="#72A94F" stroke-width="1.8"/>
+          </svg>
+        </div>
+        <div class="kpi Std.s">
+          <div class="kpi-top">
+            <span class="kpi-label">Erfasste Stunden</span>
+            <div class="kpi-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
+          </div>
+          <div class="kpi-value">12,430<small>Std.</small></div>
+          <div class="kpi-meta"><span class="delta up">+6.2%</span>42 Mitarbeitende · Ø 30.4Std./Wo.</div>
+          <svg class="spark" viewBox="0 0 280 34" preserveAspectRatio="none">
+            <g fill="#16587C" opacity=".85">
+              <rect x="4" y="18" width="14" height="16" rx="2"/><rect x="26" y="14" width="14" height="20" rx="2"/><rect x="48" y="20" width="14" height="14" rx="2"/><rect x="70" y="10" width="14" height="24" rx="2"/><rect x="92" y="16" width="14" height="18" rx="2"/><rect x="114" y="12" width="14" height="22" rx="2"/><rect x="136" y="8" width="14" height="26" rx="2"/><rect x="158" y="14" width="14" height="20" rx="2"/><rect x="180" y="6" width="14" height="28" rx="2"/><rect x="202" y="10" width="14" height="24" rx="2"/><rect x="224" y="4" width="14" height="30" rx="2"/><rect x="246" y="8" width="14" height="26" rx="2"/>
+            </g>
+          </svg>
+        </div>
+        <div class="kpi asn">
+          <div class="kpi-top">
+            <span class="kpi-label">Erledigte Aufträge</span>
+            <div class="kpi-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg></div>
+          </div>
+          <div class="kpi-value">2,186<small>/ 2,201</small></div>
+          <div class="kpi-meta"><span class="delta up">99.3%</span>Erledigung · 15 umverteilt</div>
+          <svg class="spark" viewBox="0 0 280 34" preserveAspectRatio="none">
+            <path d="M0,22 L28,20 L56,18 L84,16 L112,14 L140,12 L168,11 L196,9 L224,7 L252,5 L280,4" fill="none" stroke="#2D9E6B" stroke-width="2"/>
+            <circle cx="280" cy="4" r="3" fill="#2D9E6B"/>
+          </svg>
+        </div>
+        <div class="kpi sat">
+          <div class="kpi-top">
+            <span class="kpi-label">Kundenzufriedenheit</span>
+            <div class="kpi-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
+          </div>
+          <div class="kpi-value">4.7<small>/ 5.0</small></div>
+          <div class="kpi-meta"><span class="delta flat">±0.1</span>284 reviews · NPS +62</div>
+          <svg class="spark" viewBox="0 0 280 34" preserveAspectRatio="none">
+            <g>
+              <rect x="0" y="10" width="52" height="14" fill="#F3C8C8" opacity=".5" rx="2"/>
+              <rect x="56" y="10" width="60" height="14" fill="#EBCFB0" opacity=".7" rx="2"/>
+              <rect x="120" y="10" width="90" height="14" fill="#BFDAA4" opacity=".7" rx="2"/>
+              <rect x="214" y="10" width="66" height="14" fill="#F4A261" rx="2"/>
+            </g>
+            <text x="247" y="21" font-family="JetBrains Mono" font-size="9" fill="#fff" font-weight="700" text-anchor="middle">4.7★</text>
+          </svg>
+        </div>
+      </div>
+
+      <!-- Chart row -->
+      <div class="chart-row">
+        <div class="card">
+          <div class="card-head">
+            <div>
+              <h3>Umsatzentwicklung <span style="font-size:11px;font-weight:500;color:var(--neutral-500)">· 12 Monate gleitend</span></h3>
+              <div class="sub">Fakturiert &amp; collected, netto USt. · Monthly</div>
+            </div>
+            <div class="legend">
+              <span><span class="ldot" style="background:#72A94F"></span>Fakturiert</span>
+              <span><span class="ldot" style="background:#16587C"></span>Eingegangen</span>
+              <span><span class="ldot" style="background:#F4A261;opacity:.55"></span>Prognose</span>
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="chart-wrap">
+              <div class="y-labels" style="height:240px">
+                <span>€25k</span><span>€20k</span><span>€15k</span><span>€10k</span><span>€5k</span><span>€0</span>
+              </div>
+              <svg viewBox="0 0 720 240" style="width:100%;height:240px;padding-left:32px" preserveAspectRatio="none">
+                <g stroke="#EEF2EC" stroke-dasharray="3 4">
+                  <line x1="0" y1="40" x2="720" y2="40"/><line x1="0" y1="88" x2="720" y2="88"/><line x1="0" y1="136" x2="720" y2="136"/><line x1="0" y1="184" x2="720" y2="184"/><line x1="0" y1="232" x2="720" y2="232"/>
+                </g>
+                <g fill="#72A94F" opacity=".9">
+                  <rect x="8" y="132" width="36" height="100" rx="3"/><rect x="68" y="118" width="36" height="114" rx="3"/><rect x="128" y="106" width="36" height="126" rx="3"/><rect x="188" y="92" width="36" height="140" rx="3"/><rect x="248" y="80" width="36" height="152" rx="3"/><rect x="308" y="72" width="36" height="160" rx="3"/><rect x="368" y="88" width="36" height="144" rx="3"/><rect x="428" y="60" width="36" height="172" rx="3"/><rect x="488" y="52" width="36" height="180" rx="3"/><rect x="548" y="40" width="36" height="192" rx="3"/><rect x="608" y="62" width="36" height="170" rx="3"/><rect x="668" y="50" width="36" height="182" rx="3" opacity=".35"/>
+                </g>
+                <path d="M26,148 L86,128 L146,118 L206,108 L266,90 L326,86 L386,102 L446,76 L506,68 L566,56 L626,78 L686,72" fill="none" stroke="#16587C" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                <g fill="#16587C">
+                  <circle cx="26" cy="148" r="3.5"/><circle cx="86" cy="128" r="3.5"/><circle cx="146" cy="118" r="3.5"/><circle cx="206" cy="108" r="3.5"/><circle cx="266" cy="90" r="3.5"/><circle cx="326" cy="86" r="3.5"/><circle cx="386" cy="102" r="3.5"/><circle cx="446" cy="76" r="3.5"/><circle cx="506" cy="68" r="3.5"/><circle cx="566" cy="56" r="3.5"/><circle cx="626" cy="78" r="3.5"/>
+                  <circle cx="686" cy="72" r="3.5" fill="#fff" stroke="#16587C" stroke-width="2"/>
+                </g>
+                <line x1="644" y1="0" x2="644" y2="232" stroke="#9DA898" stroke-dasharray="2 3" stroke-width="1"/>
+                <text x="648" y="16" font-family="JetBrains Mono" font-size="10" fill="#9DA898">now</text>
+              </svg>
+              <div class="x-labels">
+                <span>May</span><span>Jun</span><span>Jul</span><span>Aug</span><span>Sep</span><span>Oct</span><span>Nov</span><span>Dec</span><span>Jan</span><span>Feb</span><span>Mar</span><span>Apr</span>
+              </div>
+            </div>
+            <div class="mini-stats">
+              <div><span class="lk">Bester Monat</span><span class="lv">€21,420</span><span class="ls">Februar 2026</span></div>
+              <div><span class="lk">Ø pro Monat</span><span class="lv">€15,355</span><span class="ls">12 Monate gleitend</span></div>
+              <div><span class="lk">Prognose April</span><span class="lv warn">€18,900</span><span class="ls">63% Vertrauen</span></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-head">
+            <div>
+              <h3>Stundenverteilung</h3>
+              <div class="sub">Nach Servicetyp · YTD</div>
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="donut-wrap">
+              <svg viewBox="0 0 140 140" width="140" height="140">
+                <circle cx="70" cy="70" r="54" fill="none" stroke="#EEF2EC" stroke-width="18"/>
+                <circle cx="70" cy="70" r="54" fill="none" stroke="#72A94F" stroke-width="18" stroke-dasharray="152.68 339.29" stroke-dashoffset="0" transform="rotate(-90 70 70)"/>
+                <circle cx="70" cy="70" r="54" fill="none" stroke="#16587C" stroke-width="18" stroke-dasharray="84.82 339.29" stroke-dashoffset="-152.68" transform="rotate(-90 70 70)"/>
+                <circle cx="70" cy="70" r="54" fill="none" stroke="#A8CC87" stroke-width="18" stroke-dasharray="61.07 339.29" stroke-dashoffset="-237.5" transform="rotate(-90 70 70)"/>
+                <circle cx="70" cy="70" r="54" fill="none" stroke="#F4A261" stroke-width="18" stroke-dasharray="40.72 339.29" stroke-dashoffset="-298.57" transform="rotate(-90 70 70)"/>
+                <text x="70" y="68" text-anchor="middle" font-family="JetBrains Mono" font-size="18" font-weight="700" fill="#16587C">12,430</text>
+                <text x="70" y="83" text-anchor="middle" font-family="Inter" font-size="10" fill="#78857A">total Std.</text>
+              </svg>
+              <div class="donut-legend">
+                <div class="dl-row"><div class="dl-l"><span class="sw" style="background:#72A94F"></span>Reguläre Reinigung</div><div><span class="dl-v">5,594h</span><span class="dl-p">45%</span></div></div>
+                <div class="dl-row"><div class="dl-l"><span class="sw" style="background:#16587C"></span>Deep clean</div><div><span class="dl-v">3,108h</span><span class="dl-p">25%</span></div></div>
+                <div class="dl-row"><div class="dl-l"><span class="sw" style="background:#A8CC87"></span>Spezialaufträge (medizinisch, Event)</div><div><span class="dl-v">2,237h</span><span class="dl-p">18%</span></div></div>
+                <div class="dl-row"><div class="dl-l"><span class="sw" style="background:#F4A261"></span>Notdienst (außerhalb Geschäftszeiten)</div><div><span class="dl-v">1,491h</span><span class="dl-p">12%</span></div></div>
+              </div>
+            </div>
+            <div class="donut-foot">
+              <div><div class="lk">Abrechnungsquote</div><div class="lv"><span class="mono">94.2%</span> <span class="delta up" style="margin-left:4px">+1.3pp</span></div></div>
+              <div><div class="lk">Durchschnittssatz</div><div class="lv"><span class="mono">€14.82</span><span style="font-size:11px;color:var(--neutral-500);font-weight:500;margin-left:3px">/ Std.</span></div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Berichts-Bibliothek -->
+      <div class="section-head">
+        <div>
+          <h2>Berichts-Bibliothek</h2>
+          <p>6 Standardberichte · auf Anforderung erstellen oder wiederkehrend planen</p>
+        </div>
+        <div class="right">
+          <button class="btn btn--white btn--sm">Eigenen Bericht erstellen</button>
+        </div>
+      </div>
+
+      <div class="rep-filters">
+        <span class="filter-chip active">Allee<span class="count">6</span></span>
+        <span class="filter-chip">Finanzen<span class="count">3</span></span>
+        <span class="filter-chip">Betrieb<span class="count">2</span></span>
+        <span class="filter-chip">Compliance<span class="count">1</span></span>
+        <span class="filter-chip" style="color:var(--neutral-500)"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>2 geplant</span>
+      </div>
+
+      <div class="rep-grid">
+        <article class="rep-card">
+          <span class="rep-badge sched">Geplant</span>
+          <div class="rep-top">
+            <div class="rep-icon ri-revclient"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M7 14l3-3 3 3 5-5"/></svg></div>
+            <div class="rep-meta"><div class="rn">Umsatz je Kunde</div><div class="rd">Fakturiert &amp; collected amounts per client with YoY comparison and retention signal.</div></div>
+          </div>
+          <div class="rep-info">
+            <div><span class="lk">Letzte AusfüStd.ung</span><span class="lv">Heute · 09:00</span></div>
+            <div><span class="lk">Format</span><span class="lv">XLSX · PDF</span></div>
+            <div><span class="lk">Einsatzplan</span><span class="lv">Wöchentlich · Mo</span></div>
+            <div><span class="lk">Zustellung</span><span class="lv">E-Mail · Slack</span></div>
+          </div>
+          <div class="rep-cta"><button class="btn btn--primary btn--sm">Jetzt erstellen</button><button class="btn btn--white btn--sm">Zeitplan bearbeiten</button></div>
+        </article>
+
+        <article class="rep-card">
+          <div class="rep-top">
+            <div class="rep-icon ri-revprop"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21V8l9-5 9 5v13"/><path d="M9 21v-8h6v8"/></svg></div>
+            <div class="rep-meta"><div class="rn">Umsatz je Objekt</div><div class="rd">Profitabilität, Besuche und Stunden je Objekt. Markiert unter- oder überversorgte Standorte.</div></div>
+          </div>
+          <div class="rep-info">
+            <div><span class="lk">Letzte AusfüStd.ung</span><span class="lv">Vor 3 Tagen</span></div>
+            <div><span class="lk">Format</span><span class="lv">XLSX</span></div>
+            <div><span class="lk">Rows</span><span class="lv">10 Objekte</span></div>
+            <div><span class="lk">Einsatzplan</span><span class="lv">Auf Anforderung</span></div>
+          </div>
+          <div class="rep-cta"><button class="btn btn--primary btn--sm">Jetzt erstellen</button><button class="btn btn--white btn--sm">Einplanen</button></div>
+        </article>
+
+        <article class="rep-card">
+          <span class="rep-badge auto">Auto</span>
+          <div class="rep-top">
+            <div class="rep-icon ri-Std.s"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
+            <div class="rep-meta"><div class="rn">Stunden &amp; Zeiterfassung</div><div class="rd">Allee Mitarbeiterstunden mit Überstunden, Pausen, Abrechnungsquote und Vorgesetzten-Freigaben.</div></div>
+          </div>
+          <div class="rep-info">
+            <div><span class="lk">Letzte AusfüStd.ung</span><span class="lv">Gestern · 23:00</span></div>
+            <div><span class="lk">Format</span><span class="lv">CSV · PDF</span></div>
+            <div><span class="lk">Einsatzplan</span><span class="lv">Täglich · 23:00</span></div>
+            <div><span class="lk">Zustellung</span><span class="lv">DATEV-Synchronisierung</span></div>
+          </div>
+          <div class="rep-cta"><button class="btn btn--primary btn--sm">Jetzt erstellen</button><button class="btn btn--white btn--sm">Zeitplan bearbeiten</button></div>
+        </article>
+
+        <article class="rep-card">
+          <div class="rep-top">
+            <div class="rep-icon ri-perf"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
+            <div class="rep-meta"><div class="rn">Mitarbeiterleistung</div><div class="rd">Bewertungen, Pünktlichkeit, Erledigungsquote und Schulungsstatus aller 42 Mitarbeitenden.</div></div>
+          </div>
+          <div class="rep-info">
+            <div><span class="lk">Letzte AusfüStd.ung</span><span class="lv">Vor 1 Woche</span></div>
+            <div><span class="lk">Format</span><span class="lv">PDF · XLSX</span></div>
+            <div><span class="lk">Rows</span><span class="lv">42 Mitarbeitende</span></div>
+            <div><span class="lk">Einsatzplan</span><span class="lv">Monatlich · 1.</span></div>
+          </div>
+          <div class="rep-cta"><button class="btn btn--primary btn--sm">Jetzt erstellen</button><button class="btn btn--white btn--sm">Einplanen</button></div>
+        </article>
+
+        <article class="rep-card">
+          <span class="rep-badge new">Neu</span>
+          <div class="rep-top">
+            <div class="rep-icon ri-stmt"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M9 13h6M9 17h6M9 9h2"/></svg></div>
+            <div class="rep-meta"><div class="rn">Kontoauszüge-Paket</div><div class="rd">Massenerstellung der Kontoauszüge je Kunde · umfasst alle 10 aktiven Konten.</div></div>
+          </div>
+          <div class="rep-info">
+            <div><span class="lk">Letzte AusfüStd.ung</span><span class="lv">Nie</span></div>
+            <div><span class="lk">Format</span><span class="lv">ZIP · PDFs</span></div>
+            <div><span class="lk">Kunden</span><span class="lv">10 aktiv</span></div>
+            <div><span class="lk">Einsatzplan</span><span class="lv">Nicht festgelegt</span></div>
+          </div>
+          <div class="rep-cta"><button class="btn btn--primary btn--sm">Jetzt erstellen</button><button class="btn btn--white btn--sm">Einplanen</button></div>
+        </article>
+
+        <article class="rep-card">
+          <span class="rep-badge auto">Auto</span>
+          <div class="rep-top">
+            <div class="rep-icon ri-vat"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><path d="M9 22V12h6v10"/></svg></div>
+            <div class="rep-meta"><div class="rn">USt-Voranmeldung</div><div class="rd">Monatliche Vorbereitung der Umsatzsteuer-Voranmeldung · Umsätze, Reverse Charge und abziehbare Vorsteuer.</div></div>
+          </div>
+          <div class="rep-info">
+            <div><span class="lk">Letzte AusfüStd.ung</span><span class="lv">01. Apr. (März)</span></div>
+            <div><span class="lk">Format</span><span class="lv">DATEV · PDF</span></div>
+            <div><span class="lk">Einsatzplan</span><span class="lv">Monatlich · 1.</span></div>
+            <div><span class="lk">Zustellung</span><span class="lv">Steuerberatung</span></div>
+          </div>
+          <div class="rep-cta"><button class="btn btn--primary btn--sm">Jetzt erstellen</button><button class="btn btn--white btn--sm">Zeitplan bearbeiten</button></div>
+        </article>
+      </div>
+
+      <!-- Pland bar -->
+      <div class="sched-bar">
+        <div class="sb-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
+        <div>
+          <div class="sb-title">Nächste geplante Läufe</div>
+          <div class="sb-sub"><b>Stunden &amp; Zeiterfassung</b> heute Abend um 23:00 → DATEV-Synchronisierung<span class="sep-dot">·</span><b>Umsatz je Kunde</b> Monday 09:00 → finance@priyas-cleaning.de, #finance-weekly</div>
+        </div>
+        <button class="btn btn--white btn--sm">Zeitpläne verwalten →</button>
+      </div>
+
+      <!-- Letzte Exporte -->
+      <div class="exports">
+        <div class="exp-head">
+          <h3 class="exp-title">Letzte Exporte</h3>
+          <div style="display:flex;gap:8px;align-items:center">
+            <div class="seg">
+              <button class="on">Allee</button><button>Bereit</button><button>In Bearbeitung</button><button>Meine</button>
+            </div>
+            <button class="btn btn--white btn--sm">Allee anzeigen →</button>
+          </div>
+        </div>
+        <div class="exp-row head">
+          <div></div><div>Datei</div><div>Erstellt</div><div>Von</div><div>Größe</div><div>Status</div><div style="text-align:right">Aktionen</div>
+        </div>
+        <div class="exp-row">
+          <div class="file-ic xlsx">XLSX</div>
+          <div><div class="exp-name">revenue-by-client · 2026-W16.xlsx</div><div class="exp-desc">Wöchentlich geplant · 10 Kunden · YoY</div></div>
+          <div class="exp-meta">Heute · 09:01</div>
+          <div class="exp-who">Auto</div>
+          <div class="exp-meta">124 KB</div>
+          <div><span class="exp-tag ready">Bereit</span></div>
+          <div class="exp-actions"><button class="btn btn--white btn--sm"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M7 10l5 5 5-5M12 15V3"/></svg>Herunterladen</button></div>
+        </div>
+        <div class="exp-row">
+          <div class="file-ic csv">CSV</div>
+          <div><div class="exp-name">hours-timesheets · 2026-04-20.csv</div><div class="exp-desc">Täglich · DATEV-fertig · 312 Einträge</div></div>
+          <div class="exp-meta">Gestern · 23:03</div>
+          <div class="exp-who">Auto</div>
+          <div class="exp-meta">38 KB</div>
+          <div><span class="exp-tag ready">Bereit</span></div>
+          <div class="exp-actions"><button class="btn btn--white btn--sm"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M7 10l5 5 5-5M12 15V3"/></svg>Herunterladen</button></div>
+        </div>
+        <div class="exp-row">
+          <div class="file-ic zip">ZIP</div>
+          <div><div class="exp-name">client-statements-pack · Q1-2026.zip</div><div class="exp-desc">10 PDFs · eines je aktivem Kunden</div></div>
+          <div class="exp-meta">14. Apr. · 16:22</div>
+          <div class="exp-who">Alex Moore</div>
+          <div class="exp-meta">2.4 MB</div>
+          <div><span class="exp-tag ready">Bereit</span></div>
+          <div class="exp-actions"><button class="btn btn--white btn--sm"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M7 10l5 5 5-5M12 15V3"/></svg>Herunterladen</button></div>
+        </div>
+        <div class="exp-row">
+          <div class="file-ic pdf">PDF</div>
+          <div><div class="exp-name">vat-report-march-2026.pdf</div><div class="exp-desc">UStVA · 19 % &amp; 7 % · Reverse Charge</div></div>
+          <div class="exp-meta">01. Apr. · 08:00</div>
+          <div class="exp-who">Auto</div>
+          <div class="exp-meta">186 KB</div>
+          <div><span class="exp-tag ready">Bereit</span></div>
+          <div class="exp-actions"><button class="btn btn--white btn--sm"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M7 10l5 5 5-5M12 15V3"/></svg>Herunterladen</button></div>
+        </div>
+        <div class="exp-row">
+          <div class="file-ic pdf">PDF</div>
+          <div><div class="exp-name">employee-performance-march.pdf</div><div class="exp-desc">42 Mitarbeitende · ratings &amp; training status</div></div>
+          <div class="exp-meta">01. Apr. · 09:14</div>
+          <div class="exp-who">Supervisor 01</div>
+          <div class="exp-meta">412 KB</div>
+          <div><span class="exp-tag ready">Bereit</span></div>
+          <div class="exp-actions"><button class="btn btn--white btn--sm"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M7 10l5 5 5-5M12 15V3"/></svg>Herunterladen</button></div>
+        </div>
+        <div class="exp-row">
+          <div class="file-ic xlsx">XLSX</div>
+          <div><div class="exp-name">revenue-by-property · Q1-2026.xlsx</div><div class="exp-desc">Manual export · 10 Objekte · visits, hours, margin</div></div>
+          <div class="exp-meta">18. Apr. · 11:47</div>
+          <div class="exp-who">Alex Moore</div>
+          <div class="exp-meta">—</div>
+          <div><span class="exp-tag gen"><span class="sp"></span>In Bearbeitung</span></div>
+          <div class="exp-actions"><button class="btn btn--ghost btn--sm">Abbrechen</button></div>
+        </div>
+      </div>
+
+      <div class="page-foot">
+        <span>Priya's Cleaning Service · Berichte &amp; Exporte · Exporte werden 24 Monate aufbewahrt</span>
+        <span>Powered by the finance data warehouse · nightly refresh 02:00 MEZ</span>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Priya's Reinigungsservice · Prototyp-Demo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --primary-50:#EEF5E8; --primary-100:#D9E9C8; --primary-200:#BFDAA4; --primary-300:#A4CA7F;
+  --primary-500:#72A94F; --primary-600:#5D8E3F; --primary-700:#487030; --primary-800:#345321;
+  --secondary-50:#E5EEF3; --secondary-500:#16587C; --secondary-600:#124A68; --secondary-700:#0F3C54; --secondary-800:#0B2D40; --secondary-900:#081F2C;
+  --accent-500:#A8CC87; --accent-600:#8BB06B; --tertiary-200:#F2FFEA;
+  --error-50:#FCE7E9; --error-100:#FBD4D7; --error-500:#E63946; --error-600:#C7303C; --error-700:#A32933;
+  --warning-500:#F4A261; --warning-700:#B36F3A;
+  --neutral-50:#F8FAF7; --neutral-100:#EEF2EC; --neutral-200:#DDE3DA; --neutral-300:#C3CCBE;
+  --neutral-400:#9DA898; --neutral-500:#78857A; --neutral-600:#5A6659; --neutral-700:#414B40; --neutral-800:#2A322A; --neutral-900:#141814;
+  --radius-sm:6px; --radius-md:8px; --radius-lg:12px; --radius-xl:16px; --radius-full:9999px;
+  --shadow-sm:0 2px 4px rgba(20,24,20,.06),0 1px 2px rgba(20,24,20,.04);
+  --shadow-md:0 4px 14px rgba(20,24,20,.08),0 2px 6px rgba(20,24,20,.04);
+  --shadow-lg:0 18px 40px rgba(8,31,44,.18),0 6px 16px rgba(8,31,44,.10);
+  --shadow-xl:0 30px 60px rgba(8,31,44,.20),0 10px 20px rgba(8,31,44,.10);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{
+  font-family:'Inter',system-ui,sans-serif;font-size:15px;line-height:1.5;color:var(--neutral-800);
+  background:
+    radial-gradient(1100px 600px at 15% -5%, rgba(168,204,135,.35), transparent 60%),
+    radial-gradient(1000px 500px at 100% 100%, rgba(22,88,124,.18), transparent 60%),
+    var(--tertiary-200);
+  min-height:100vh;
+  -webkit-font-smoothing:antialiased;
+  display:flex;flex-direction:column;
+}
+a{color:inherit;text-decoration:none}
+button{font-family:inherit;cursor:pointer;border:none;background:none}
+svg{display:block}
+
+/* ============= TOP BAR ============= */
+.top{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:22px 40px;max-width:1280px;width:100%;margin:0 auto;
+}
+.brand{display:flex;align-items:center;gap:14px}
+.brand-mark{
+  width:46px;height:46px;border-radius:12px;
+  background:linear-gradient(135deg,var(--primary-500),var(--primary-700));
+  display:grid;place-items:center;color:#fff;font-weight:800;font-size:22px;
+  box-shadow:0 6px 18px rgba(114,169,79,.35)
+}
+.brand-name{font-weight:700;font-size:17px;letter-spacing:-.01em;color:var(--secondary-900)}
+.brand-sub{font-size:11px;color:var(--secondary-700);font-weight:600;letter-spacing:.06em;text-transform:uppercase;margin-top:1px}
+.top-meta{display:flex;align-items:center;gap:14px;font-size:12px;color:var(--neutral-600)}
+.top-meta .pill{
+  display:inline-flex;align-items:center;gap:6px;
+  padding:5px 11px;border-radius:var(--radius-full);
+  background:#fff;border:1px solid var(--neutral-200);font-weight:600
+}
+.top-meta .pill .dot{width:7px;height:7px;border-radius:50%;background:var(--primary-500);box-shadow:0 0 0 3px rgba(114,169,79,.18)}
+
+/* ============= HERO ============= */
+.wrap{flex:1;width:100%;max-width:1280px;margin:0 auto;padding:24px 40px 60px}
+.hero{
+  display:grid;grid-template-columns:1.2fr 1fr;gap:48px;align-items:center;
+  padding:48px 0 56px
+}
+.hero-kicker{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:6px 12px;border-radius:var(--radius-full);
+  background:rgba(255,255,255,.7);border:1px solid var(--primary-200);
+  color:var(--primary-700);font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
+  margin-bottom:18px
+}
+.hero-kicker .pulse{width:7px;height:7px;border-radius:50%;background:var(--primary-500);animation:pulse 1.6s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+.hero h1{
+  font-size:54px;font-weight:800;letter-spacing:-.03em;line-height:1.05;
+  color:var(--secondary-900);margin-bottom:18px
+}
+.hero h1 .accent{color:var(--primary-600)}
+.hero h1 .accent-r{color:var(--error-600)}
+.hero p.lede{
+  font-size:18px;line-height:1.6;color:var(--neutral-700);max-width:560px;margin-bottom:24px
+}
+.hero-meta{display:flex;flex-wrap:wrap;gap:22px;padding-top:22px;border-top:1px solid rgba(17,38,52,.10);max-width:560px}
+.hero-meta-item .lk{font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:var(--neutral-500);font-weight:600}
+.hero-meta-item .lv{font-size:14px;font-weight:600;color:var(--secondary-900);margin-top:2px}
+
+/* Hero visual: stylised app preview */
+.preview{
+  position:relative;height:420px;border-radius:var(--radius-xl);overflow:hidden;
+  background:#fff;box-shadow:var(--shadow-xl);
+  border:1px solid rgba(255,255,255,.6);
+  transform:rotate(-1.5deg);transition:transform .4s cubic-bezier(.2,.7,.2,1)
+}
+.preview:hover{transform:rotate(0deg)}
+.preview .pv-side{
+  position:absolute;top:0;left:0;bottom:0;width:60px;background:var(--secondary-900);
+  display:flex;flex-direction:column;align-items:center;padding:14px 0;gap:10px
+}
+.preview .pv-side .lg{width:28px;height:28px;border-radius:7px;background:var(--primary-500);display:grid;place-items:center;color:#fff;font-weight:800;font-size:13px;margin-bottom:6px}
+.preview .pv-side .nv{width:32px;height:32px;border-radius:7px;display:grid;place-items:center;color:rgba(255,255,255,.6)}
+.preview .pv-side .nv.on{background:var(--primary-500);color:#fff}
+.preview .pv-side .nv.r{color:rgba(255,180,180,.7)}
+.preview .pv-side .nv svg{width:16px;height:16px}
+.preview .pv-top{position:absolute;top:0;left:60px;right:0;height:48px;background:#fff;border-bottom:1px solid var(--neutral-100);display:flex;align-items:center;padding:0 16px;gap:10px}
+.preview .pv-search{flex:1;max-width:220px;height:30px;background:var(--neutral-50);border:1px solid var(--neutral-100);border-radius:6px;display:flex;align-items:center;padding:0 10px;gap:8px;color:var(--neutral-400);font-size:11px}
+.preview .pv-user{margin-left:auto;display:flex;align-items:center;gap:8px}
+.preview .pv-user .av{width:26px;height:26px;border-radius:50%;background:var(--primary-500);color:#fff;display:grid;place-items:center;font-size:10px;font-weight:700}
+.preview .pv-user .nm{font-size:11px;font-weight:600;color:var(--neutral-800)}
+.preview .pv-body{position:absolute;top:48px;left:60px;right:0;bottom:0;padding:18px;background:var(--tertiary-200)}
+.preview .pv-h{font-size:20px;font-weight:700;color:var(--secondary-500);margin-bottom:14px}
+.preview .pv-kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:14px}
+.preview .pv-k{background:#fff;border:1px solid var(--neutral-100);border-radius:8px;padding:10px;position:relative;overflow:hidden}
+.preview .pv-k::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--primary-500)}
+.preview .pv-k.b::before{background:var(--secondary-500)}
+.preview .pv-k.o::before{background:var(--warning-500)}
+.preview .pv-k.r::before{background:var(--error-500)}
+.preview .pv-k .lk{font-size:8px;color:var(--neutral-500);text-transform:uppercase;letter-spacing:.04em;font-weight:600}
+.preview .pv-k .lv{font-size:18px;font-weight:700;color:var(--secondary-500);margin-top:3px;letter-spacing:-.02em}
+.preview .pv-k .ld{font-size:8px;color:var(--success-500,#2D9E6B);margin-top:1px}
+.preview .pv-row{background:#fff;border:1px solid var(--neutral-100);border-radius:8px;padding:14px;height:140px}
+.preview .pv-rh{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+.preview .pv-rt{font-size:12px;font-weight:600;color:var(--neutral-800)}
+.preview .pv-rs{font-size:10px;color:var(--primary-700);font-weight:600}
+.preview .pv-bars{display:flex;align-items:flex-end;gap:6px;height:80px;padding-top:8px}
+.preview .pv-bars span{flex:1;background:var(--primary-300);border-radius:3px;min-height:6px}
+.preview .pv-bars span:nth-child(2){background:var(--primary-500);height:60%}
+.preview .pv-bars span:nth-child(3){background:var(--primary-500);height:80%}
+.preview .pv-bars span:nth-child(4){background:var(--primary-500);height:55%}
+.preview .pv-bars span:nth-child(5){background:var(--primary-500);height:90%}
+.preview .pv-bars span:nth-child(6){background:var(--primary-500);height:65%}
+.preview .pv-bars span:nth-child(7){background:var(--primary-300);height:30%}
+.preview .pv-bars span:nth-child(1){height:40%}
+
+/* ============= JOURNEYS ============= */
+.section-head{margin-bottom:24px;display:flex;justify-content:space-between;align-items:flex-end;gap:24px;flex-wrap:wrap}
+.section-head h2{font-size:24px;font-weight:700;letter-spacing:-.02em;color:var(--secondary-900);margin-bottom:4px}
+.section-head p{font-size:14px;color:var(--neutral-600)}
+.section-head .all-link{
+  display:inline-flex;align-items:center;gap:6px;font-size:13px;color:var(--primary-700);font-weight:600;
+  padding:8px 14px;border-radius:var(--radius-full);background:rgba(255,255,255,.6);border:1px solid var(--primary-200);
+}
+.section-head .all-link:hover{background:#fff}
+
+.journeys{display:grid;grid-template-columns:repeat(2,1fr);gap:20px;margin-bottom:48px}
+.journey{
+  background:#fff;border-radius:var(--radius-xl);padding:28px 28px 24px;
+  border:1px solid rgba(17,38,52,.06);box-shadow:var(--shadow-sm);
+  display:flex;flex-direction:column;gap:18px;
+  transition:all .25s cubic-bezier(.2,.7,.2,1);
+  position:relative;overflow:hidden;text-align:left
+}
+.journey::before{content:'';position:absolute;top:0;left:0;right:0;height:4px;background:var(--primary-500)}
+.journey.j2::before{background:var(--secondary-500)}
+.journey.j3::before{background:var(--warning-500)}
+.journey.j4::before{background:var(--error-500)}
+.journey:hover{transform:translateY(-4px);box-shadow:var(--shadow-lg);border-color:rgba(17,38,52,.12)}
+.j-top{display:flex;align-items:flex-start;gap:18px}
+.j-icon{
+  width:60px;height:60px;border-radius:var(--radius-lg);display:grid;place-items:center;color:#fff;flex-shrink:0;
+  box-shadow:var(--shadow-md)
+}
+.journey.j1 .j-icon{background:linear-gradient(135deg,var(--primary-500),var(--primary-700))}
+.journey.j2 .j-icon{background:linear-gradient(135deg,var(--secondary-500),var(--secondary-700))}
+.journey.j3 .j-icon{background:linear-gradient(135deg,var(--warning-500),#D97706)}
+.journey.j4 .j-icon{background:linear-gradient(135deg,var(--error-500),var(--error-700))}
+.j-icon svg{width:28px;height:28px;stroke-width:1.6}
+.j-num{
+  margin-left:auto;font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--neutral-400);font-weight:600;
+  display:flex;flex-direction:column;align-items:flex-end;gap:2px
+}
+.j-num b{font-size:14px;color:var(--neutral-800)}
+.j-meta{display:flex;flex-direction:column;gap:6px;flex:1}
+.j-tag{
+  display:inline-flex;align-items:center;gap:6px;align-self:flex-start;
+  padding:3px 10px;border-radius:var(--radius-full);font-size:10px;font-weight:700;
+  letter-spacing:.06em;text-transform:uppercase
+}
+.journey.j1 .j-tag{background:var(--primary-50);color:var(--primary-700)}
+.journey.j2 .j-tag{background:var(--secondary-50);color:var(--secondary-600)}
+.journey.j3 .j-tag{background:#FDF2E5;color:var(--warning-700)}
+.journey.j4 .j-tag{background:var(--error-50);color:var(--error-700)}
+.journey h3{font-size:22px;font-weight:700;letter-spacing:-.02em;color:var(--secondary-900);line-height:1.2}
+.journey p{font-size:14px;color:var(--neutral-600);line-height:1.55}
+.j-stops{display:flex;align-items:center;gap:8px;flex-wrap:wrap;padding-top:14px;border-top:1px dashed var(--neutral-200);margin-top:6px}
+.j-stop{font-size:11px;color:var(--neutral-700);background:var(--neutral-50);border:1px solid var(--neutral-100);padding:4px 10px;border-radius:var(--radius-full);font-weight:500}
+.j-stop .dot{display:inline-block;width:5px;height:5px;border-radius:50%;background:var(--primary-500);margin-right:5px;vertical-align:1px}
+.journey.j2 .j-stop .dot{background:var(--secondary-500)}
+.journey.j3 .j-stop .dot{background:var(--warning-500)}
+.journey.j4 .j-stop .dot{background:var(--error-500)}
+.j-cta{
+  margin-top:6px;display:flex;align-items:center;justify-content:space-between;gap:12px;
+  padding:14px 18px;border-radius:var(--radius-lg);
+  font-weight:600;font-size:14px;color:#fff;
+  transition:transform .15s
+}
+.journey.j1 .j-cta{background:var(--primary-500)}
+.journey.j2 .j-cta{background:var(--secondary-500)}
+.journey.j3 .j-cta{background:var(--warning-500)}
+.journey.j4 .j-cta{background:var(--error-500)}
+.journey:hover .j-cta{transform:translateX(2px)}
+.j-cta svg{width:16px;height:16px;stroke-width:2.4}
+
+/* ============= QUICK ACCESS ============= */
+.quick{
+  background:rgba(255,255,255,.6);border:1px solid rgba(17,38,52,.08);
+  border-radius:var(--radius-xl);padding:24px;backdrop-filter:blur(8px);
+  display:grid;grid-template-columns:auto 1fr auto;gap:24px;align-items:center;
+  margin-bottom:24px
+}
+.quick .qh{display:flex;align-items:center;gap:14px}
+.quick .qh-ic{
+  width:46px;height:46px;border-radius:var(--radius-md);
+  background:var(--secondary-900);color:var(--accent-500);display:grid;place-items:center
+}
+.quick .qh-ic svg{width:22px;height:22px;stroke-width:1.8}
+.quick .qh-tx h3{font-size:15px;font-weight:700;color:var(--secondary-900)}
+.quick .qh-tx p{font-size:12px;color:var(--neutral-600);margin-top:2px}
+.quick .qlinks{display:flex;flex-wrap:wrap;gap:8px}
+.qlink{
+  font-size:12px;color:var(--neutral-700);font-weight:500;
+  padding:7px 12px;background:#fff;border:1px solid var(--neutral-200);border-radius:var(--radius-full);
+  display:inline-flex;align-items:center;gap:6px
+}
+.qlink:hover{border-color:var(--primary-500);color:var(--primary-700)}
+.qlink .n{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--neutral-400);font-weight:600}
+.quick .qfull{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:10px 16px;border-radius:var(--radius-md);
+  background:var(--secondary-900);color:#fff;font-size:13px;font-weight:600;
+}
+.quick .qfull svg{width:14px;height:14px;stroke-width:2.4}
+.quick .qfull:hover{background:var(--secondary-800)}
+
+/* ============= FOOTER ============= */
+.foot{
+  border-top:1px solid rgba(17,38,52,.08);padding:24px 40px;max-width:1280px;width:100%;margin:0 auto;
+  display:flex;justify-content:space-between;align-items:center;font-size:12px;color:var(--neutral-500);gap:18px;flex-wrap:wrap
+}
+.foot a{color:var(--neutral-700);font-weight:500}
+.foot a:hover{color:var(--primary-700)}
+.foot .credit{display:flex;align-items:center;gap:8px}
+.foot .credit b{color:var(--secondary-900);font-weight:700}
+.foot-links{display:flex;gap:18px;flex-wrap:wrap}
+
+@media (max-width:980px){
+  .hero{grid-template-columns:1fr;gap:32px;padding:24px 0}
+  .hero h1{font-size:40px}
+  .preview{height:340px;transform:none}
+  .journeys{grid-template-columns:1fr}
+  .quick{grid-template-columns:1fr;text-align:left}
+  .quick .qfull{justify-self:flex-start}
+}
+@media (max-width:640px){
+  .top,.wrap,.foot{padding-left:20px;padding-right:20px}
+  .hero h1{font-size:32px}
+  .journey{padding:22px}
+  .j-num{display:none}
+}
+</style>
+</head>
+<body>
+
+<!-- TOP BAR -->
+<header class="top">
+  <div class="brand">
+    <div class="brand-mark">P</div>
+    <div>
+      <div class="brand-name">Priya's Reinigungsservice</div>
+      <div class="brand-sub">Operations · Prototyp</div>
+    </div>
+  </div>
+  <div class="top-meta">
+    <span class="pill"><span class="dot"></span>Live-Demo · v1.0 · April 2026</span>
+    <span style="color:var(--neutral-500)">Designed by <b style="color:var(--secondary-900)">TyloTech</b></span>
+  </div>
+</header>
+
+<!-- HERO + PREVIEW -->
+<div class="wrap">
+  <section class="hero">
+    <div>
+      <span class="hero-kicker"><span class="pulse"></span>Klickbarer Prototyp · Wellen 1 – 4</span>
+      <h1>
+        Eine App.<br>
+        <span class="accent">Zwei Servicebereiche.</span>
+        <span class="accent-r">Ein Team.</span>
+      </h1>
+      <p class="lede">
+        Verwalten Sie Kunden, Objekte, Einsatzpläne und Mitarbeitende in der gewohnten Priya's-Welt — inklusive
+        des neuen <b>Alltagshilfe-Moduls</b> für Pflegekunden, das automatisch klar von der regulären Reinigung getrennt wird.
+      </p>
+      <p class="lede" style="font-size:14px;color:var(--neutral-600);margin-bottom:0">
+        Wählen Sie unten einen Pfad, um durch die App zu klicken. Jeder Pfad startet auf einem Bildschirm und kann über die Seitenleiste fortgesetzt werden.
+      </p>
+      <div class="hero-meta">
+        <div class="hero-meta-item"><div class="lk">Bildschirme</div><div class="lv">14 hochauflösend</div></div>
+        <div class="hero-meta-item"><div class="lk">Servicebereiche</div><div class="lv">Priya's · Alltagshilfe</div></div>
+        <div class="hero-meta-item"><div class="lk">Sprachen</div><div class="lv">DE · EN · TA</div></div>
+        <div class="hero-meta-item"><div class="lk">Geräte</div><div class="lv">Web · Tablet · Mobil*</div></div>
+      </div>
+    </div>
+
+    <!-- App preview tile -->
+    <div class="preview" aria-hidden="true">
+      <div class="pv-side">
+        <div class="lg">P</div>
+        <div class="nv on" title="Übersicht"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg></div>
+        <div class="nv"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/></svg></div>
+        <div class="nv"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"><path d="M3 21V7l8-4 8 4v14"/></svg></div>
+        <div class="nv"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 9h18M8 3v4M16 3v4"/></svg></div>
+        <div class="nv r"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 000-7.78z"/></svg></div>
+      </div>
+      <div class="pv-top">
+        <div class="pv-search">
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+          Kunden, Objekte suchen…
+        </div>
+        <div class="pv-user">
+          <span class="nm">Alex Müller</span>
+          <div class="av">AM</div>
+        </div>
+      </div>
+      <div class="pv-body">
+        <div class="pv-h">Guten Morgen, Alex 👋</div>
+        <div class="pv-kpis">
+          <div class="pv-k"><div class="lk">Kunden</div><div class="lv">48</div><div class="ld">▲ 12,5 %</div></div>
+          <div class="pv-k b"><div class="lk">Objekte</div><div class="lv">112</div><div class="ld">▲ 14,3 %</div></div>
+          <div class="pv-k o"><div class="lk">Heute</div><div class="lv">27</div><div class="ld">3 ausstehend</div></div>
+          <div class="pv-k r"><div class="lk">Offen</div><div class="lv" style="font-size:14px">€ 8.420</div><div class="ld" style="color:var(--error-500)">2 überfällig</div></div>
+        </div>
+        <div class="pv-row">
+          <div class="pv-rh">
+            <div class="pv-rt">Aufträge pro Woche · KW 17</div>
+            <div class="pv-rs">Alle anzeigen →</div>
+          </div>
+          <div class="pv-bars">
+            <span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- JOURNEYS -->
+  <div class="section-head">
+    <div>
+      <h2>Wählen Sie einen Pfad</h2>
+      <p>Vier geführte Touren durch die App. Klicken Sie auf eine Karte, um zu starten.</p>
+    </div>
+    <a class="all-link" href="index.html">
+      Alle 16 Bildschirme im Überblick
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+    </a>
+  </div>
+
+  <div class="journeys">
+
+    <!-- 1. Tagesgeschäft -->
+    <a class="journey j1" href="02-dashboard.html">
+      <div class="j-top">
+        <div class="j-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>
+        </div>
+        <div class="j-num"><b>Pfad 1</b><span>4 Stops</span></div>
+      </div>
+      <div class="j-meta">
+        <span class="j-tag">Täglicher Betrieb</span>
+        <h3>Tagesgeschäft &amp; Übersicht</h3>
+        <p>Starten Sie hier — Tageskennzahlen, heutige Schichten, letzte Aktivitäten und das Team auf einen Blick.</p>
+      </div>
+      <div class="j-stops">
+        <span class="j-stop"><span class="dot"></span>Übersicht</span>
+        <span class="j-stop"><span class="dot"></span>Einsatzplan</span>
+        <span class="j-stop"><span class="dot"></span>Mitarbeiter:innen</span>
+        <span class="j-stop"><span class="dot"></span>Berichte</span>
+      </div>
+      <div class="j-cta">
+        Tour starten · Übersicht öffnen
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+      </div>
+    </a>
+
+    <!-- 2. Kunden & Objekte -->
+    <a class="journey j2" href="03-clients-list.html">
+      <div class="j-top">
+        <div class="j-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>
+        </div>
+        <div class="j-num"><b>Pfad 2</b><span>4 Stops</span></div>
+      </div>
+      <div class="j-meta">
+        <span class="j-tag">Stammdaten</span>
+        <h3>Kunden &amp; Objekte verwalten</h3>
+        <p>Kundenliste mit Filtern und Statussichten, vollständige Kundenakte, Objekte mit Berliner Adressen und Serviceplänen.</p>
+      </div>
+      <div class="j-stops">
+        <span class="j-stop"><span class="dot"></span>Kundenliste</span>
+        <span class="j-stop"><span class="dot"></span>Kundenakte</span>
+        <span class="j-stop"><span class="dot"></span>Objektliste</span>
+        <span class="j-stop"><span class="dot"></span>Objektdetail</span>
+      </div>
+      <div class="j-cta">
+        Tour starten · Kunden öffnen
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+      </div>
+    </a>
+
+    <!-- 3. Einsatzplan & Team -->
+    <a class="journey j3" href="07-schedule.html">
+      <div class="j-top">
+        <div class="j-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 9h18M8 3v4M16 3v4"/></svg>
+        </div>
+        <div class="j-num"><b>Pfad 3</b><span>3 Stops</span></div>
+      </div>
+      <div class="j-meta">
+        <span class="j-tag">Planung</span>
+        <h3>Einsatzplan &amp; Mitarbeitende</h3>
+        <p>Wöchentlicher Schichtplan mit Service-Filter (All / Priya's / Alltagshilfe), Mitarbeiterliste und das neue Profil mit Pflegequalifikationen.</p>
+      </div>
+      <div class="j-stops">
+        <span class="j-stop"><span class="dot"></span>Einsatzplan</span>
+        <span class="j-stop"><span class="dot"></span>Mitarbeiterliste</span>
+        <span class="j-stop"><span class="dot"></span>Profil · Fatima Özdemir</span>
+      </div>
+      <div class="j-cta">
+        Tour starten · Einsatzplan öffnen
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+      </div>
+    </a>
+
+    <!-- 4. Alltagshilfe-Modul -->
+    <a class="journey j4" href="15-customer-type-picker.html">
+      <div class="j-top">
+        <div class="j-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 000-7.78z"/></svg>
+        </div>
+        <div class="j-num"><b>Pfad 4</b><span>NEU · 3 Stops</span></div>
+      </div>
+      <div class="j-meta">
+        <span class="j-tag">● Neu · Alltagshilfe</span>
+        <h3>Alltagshilfe-Modul</h3>
+        <p>Der neue Pflegeservice in Rot — Kundentyp-Auswahl beim Anlegen, Servicetyp-Feld im Mitarbeiterprofil und der automatische Monatsbericht für die Krankenkassen-Abrechnung.</p>
+      </div>
+      <div class="j-stops">
+        <span class="j-stop"><span class="dot"></span>Kundentyp-Dialog</span>
+        <span class="j-stop"><span class="dot"></span>Mitarbeiterprofil · Servicetyp</span>
+        <span class="j-stop"><span class="dot"></span>Monatsbericht · März 2026</span>
+      </div>
+      <div class="j-cta">
+        Tour starten · Pflege-Modul öffnen
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+      </div>
+    </a>
+
+  </div>
+
+  <!-- QUICK ACCESS -->
+  <div class="quick">
+    <div class="qh">
+      <div class="qh-ic">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+      </div>
+      <div class="qh-tx">
+        <h3>Direkt zu einem Bildschirm</h3>
+        <p>Springen Sie an jede beliebige Stelle des Prototyps.</p>
+      </div>
+    </div>
+    <div class="qlinks">
+      <a class="qlink" href="01-login.html"><span class="n">01</span>Anmeldung</a>
+      <a class="qlink" href="02-dashboard.html"><span class="n">02</span>Übersicht</a>
+      <a class="qlink" href="03-clients-list.html"><span class="n">03</span>Kunden</a>
+      <a class="qlink" href="04-client-detail.html"><span class="n">04</span>Kundendetail</a>
+      <a class="qlink" href="05-properties-list.html"><span class="n">05</span>Objekte</a>
+      <a class="qlink" href="06-property-detail.html"><span class="n">06</span>Objektdetail</a>
+      <a class="qlink" href="07-schedule.html"><span class="n">07</span>Einsatzplan</a>
+      <a class="qlink" href="08-employees-list.html"><span class="n">08</span>Mitarbeiter</a>
+      <a class="qlink" href="09-employee-detail.html"><span class="n">09</span>Mitarbeiterprofil</a>
+      <a class="qlink" href="13-settings.html"><span class="n">13</span>Einstellungen</a>
+      <a class="qlink" href="14-reports.html"><span class="n">14</span>Berichte</a>
+      <a class="qlink" href="15-customer-type-picker.html" style="background:var(--error-50);border-color:#FBD4D7;color:var(--error-700)"><span class="n" style="color:var(--error-600)">15</span>Kundentyp-Dialog</a>
+      <a class="qlink" href="16-alltagshilfe-report.html" style="background:var(--error-50);border-color:#FBD4D7;color:var(--error-700)"><span class="n" style="color:var(--error-600)">16</span>Alltagshilfe-Bericht</a>
+    </div>
+    <a class="qfull" href="index.html">
+      Bildschirm-Galerie
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+    </a>
+  </div>
+
+</div>
+
+<!-- FOOTER -->
+<footer class="foot">
+  <div class="credit">
+    Designed &amp; built by <b>TyloTech</b> für Priya's Reinigungsservice · Welle 4 · April 2026
+  </div>
+  <div class="foot-links">
+    <a href="index.html">Galerie</a>
+    <a href="02-dashboard.html">Übersicht</a>
+    <a href="15-customer-type-picker.html">Alltagshilfe-Modul</a>
+    <span style="color:var(--neutral-400)">design@tylotech.de</span>
+  </div>
+</footer>
+
+</body>
+</html>

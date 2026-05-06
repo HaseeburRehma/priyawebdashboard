@@ -1,0 +1,1088 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Priya's Reinigungsservice · Einstellungen</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --primary-50:#EEF5E8; --primary-100:#D9E9C8; --primary-200:#BFDAA4; --primary-300:#A4CA7F;
+  --primary-500:#72A94F; --primary-600:#5D8E3F; --primary-700:#487030; --primary-800:#345321;
+  --secondary-50:#E5EEF3; --secondary-100:#BFD4E0; --secondary-500:#16587C; --secondary-600:#124A68; --secondary-700:#0F3C54; --secondary-800:#0B2D40; --secondary-900:#081F2C;
+  --accent-100:#E1EECF; --accent-500:#A8CC87; --accent-600:#8BB06B;
+  --tertiary-200:#F2FFEA;
+  --success-50:#E8F7EF; --success-500:#2D9E6B; --success-700:#1F6E4A;
+  --warning-50:#FDEFE5; --warning-500:#F4A261; --warning-700:#B36F3A;
+  --error-50:#FCE7E9; --error-500:#E63946; --error-700:#A32933;
+  --info-50:#E5EEF3; --info-500:#16587C;
+  --white:#FFFFFF;
+  --neutral-50:#F8FAF7; --neutral-100:#EEF2EC; --neutral-200:#DDE3DA; --neutral-300:#C3CCBE;
+  --neutral-400:#9DA898; --neutral-500:#78857A; --neutral-600:#5A6659; --neutral-700:#414B40; --neutral-800:#2A322A; --neutral-900:#141814;
+  --radius-xs:4px; --radius-sm:6px; --radius-md:8px; --radius-lg:12px; --radius-xl:16px; --radius-full:9999px;
+  --shadow-xs:0 1px 2px rgba(20,24,20,.04);
+  --shadow-sm:0 2px 4px rgba(20,24,20,.06),0 1px 2px rgba(20,24,20,.04);
+  --shadow-md:0 4px 10px rgba(20,24,20,.08),0 2px 4px rgba(20,24,20,.04);
+  --shadow-lg:0 10px 25px rgba(20,24,20,.10),0 4px 10px rgba(20,24,20,.05);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Inter',system-ui,sans-serif;font-size:14px;line-height:1.5;color:var(--neutral-800);background:var(--tertiary-200);-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+button{font-family:inherit;cursor:pointer;border:none;background:none}
+ul{list-style:none}
+svg{display:block}
+.mono{font-family:'JetBrains Mono',monospace}
+
+/* Shell */
+.app{display:flex;min-height:100vh}
+.sidebar{width:240px;background:var(--secondary-900);color:rgba(255,255,255,.82);display:flex;flex-direction:column;padding:20px 12px;position:fixed;top:0;left:0;bottom:0;z-index:10;border-right:1px solid var(--secondary-800);overflow-y:auto}
+.sb-brand{display:flex;align-items:center;gap:12px;padding:6px 10px 24px;border-bottom:1px solid rgba(255,255,255,.06);margin-bottom:16px}
+.sb-logo{width:36px;height:36px;background:var(--primary-500);border-radius:var(--radius-md);display:grid;place-items:center;font-weight:800;color:#fff;font-size:17px}
+.sb-brand-name{font-size:14px;font-weight:600;color:#fff;letter-spacing:-.01em}
+.sb-brand-sub{font-size:10px;color:var(--accent-500);letter-spacing:.08em;text-transform:uppercase;margin-top:1px}
+.sb-section{font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:rgba(255,255,255,.35);padding:12px 12px 8px;font-weight:600}
+.sb-item{display:flex;align-items:center;gap:12px;padding:10px 12px;border-radius:var(--radius-sm);font-size:13px;color:rgba(255,255,255,.72);margin-bottom:2px;transition:all .15s}
+.sb-item:hover{background:rgba(255,255,255,.06);color:#fff}
+.sb-item svg{width:18px;height:18px;flex-shrink:0;stroke-width:1.8}
+.sb-item.active{background:var(--primary-500);color:#fff;font-weight:500}
+.sb-item .badge{margin-left:auto;background:rgba(255,255,255,.15);color:#fff;font-size:10px;padding:2px 7px;border-radius:var(--radius-full);font-weight:600}
+.sb-item.active .badge{background:rgba(0,0,0,.25)}
+.sb-collapse{margin-top:auto;display:flex;align-items:center;gap:10px;padding:16px 24px 10px;font-size:12px;color:rgba(255,255,255,.55);border-top:1px solid rgba(255,255,255,.06);margin:16px -12px 0}
+.sb-collapse svg{width:14px;height:14px}
+.main{margin-left:240px;flex:1;display:flex;flex-direction:column;min-width:0}
+
+/* Topbar */
+.topbar{height:64px;background:#fff;border-bottom:1px solid var(--neutral-100);display:flex;align-items:center;justify-content:space-between;padding:0 28px;position:sticky;top:0;z-index:5}
+.tb-left{display:flex;align-items:center;gap:20px;flex:1;max-width:520px}
+.tb-search{flex:1;display:flex;align-items:center;gap:10px;background:var(--neutral-50);border:1px solid var(--neutral-100);border-radius:var(--radius-md);padding:8px 14px;color:var(--neutral-500)}
+.tb-search svg{width:16px;height:16px}
+.tb-search input{border:none;background:none;font-family:inherit;font-size:13px;outline:none;flex:1;color:var(--neutral-700)}
+.tb-search .kbd{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--neutral-400);padding:3px 6px;background:#fff;border:1px solid var(--neutral-200);border-radius:4px}
+.tb-right{display:flex;align-items:center;gap:6px}
+.icon-btn{width:40px;height:40px;border-radius:var(--radius-md);display:grid;place-items:center;color:var(--neutral-500);transition:all .15s;position:relative}
+.icon-btn:hover{background:var(--neutral-50);color:var(--neutral-800)}
+.icon-btn svg{width:18px;height:18px}
+.icon-btn .dot{position:absolute;top:8px;right:8px;width:8px;height:8px;background:var(--error-500);border-radius:50%;border:2px solid #fff}
+.tb-user{display:flex;align-items:center;gap:10px;padding:6px 12px 6px 6px;border-radius:var(--radius-full);cursor:pointer;transition:all .15s;margin-left:8px}
+.tb-user:hover{background:var(--neutral-50)}
+.avatar{border-radius:50%;display:grid;place-items:center;color:#fff;font-weight:600;background:var(--primary-500);flex-shrink:0}
+.avatar--xs{width:24px;height:24px;font-size:10px}
+.avatar--sm{width:32px;height:32px;font-size:12px}
+.tb-user-info{line-height:1.1}
+.tb-user-info .name{font-size:13px;font-weight:600;color:var(--neutral-800)}
+.tb-user-info .role{font-size:11px;color:var(--neutral-500);margin-top:2px}
+
+/* Content */
+.content{padding:28px;max-width:1440px;width:100%}
+.breadcrumb,.crumbs{display:flex;align-items:center;gap:6px;color:var(--neutral-500);font-size:12px;margin-bottom:12px}
+.breadcrumb a:hover,.crumbs a:hover{color:var(--primary-600)}
+.breadcrumb .sep,.crumbs .sep{color:var(--neutral-300)}
+.breadcrumb .cur,.crumbs .cur{color:var(--neutral-800);font-weight:500}
+
+.page-head{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:22px;gap:24px;flex-wrap:wrap}
+.page-head h1,.page-title{font-size:24px;font-weight:700;color:var(--secondary-500);letter-spacing:-.02em;margin-bottom:4px}
+.page-head .sub,.page-sub{font-size:13px;color:var(--neutral-500)}
+.page-head-actions,.page-actions{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+
+.btn{display:inline-flex;align-items:center;gap:8px;padding:10px 16px;border-radius:var(--radius-md);font-size:13px;font-weight:500;line-height:1;min-height:40px;transition:all .15s;border:none;white-space:nowrap}
+.btn svg{width:14px;height:14px;stroke-width:2}
+.btn--primary{background:var(--primary-500);color:#fff}
+.btn--primary:hover{background:var(--primary-600)}
+.btn--tertiary{background:#fff;color:var(--primary-600);border:1.5px solid var(--primary-500)}
+.btn--tertiary:hover{background:var(--tertiary-200)}
+.btn--white{background:#fff;color:var(--neutral-700);border:1px solid var(--neutral-200)}
+.btn--white:hover{background:var(--neutral-50);border-color:var(--neutral-300)}
+.btn--ghost{color:var(--neutral-600);background:transparent}
+.btn--ghost:hover{background:var(--neutral-100);color:var(--neutral-800)}
+.btn--sm{padding:7px 12px;font-size:12px;min-height:32px}
+
+.card{background:#fff;border-radius:var(--radius-lg);border:1px solid var(--neutral-100);overflow:hidden}
+.card-head{padding:18px 20px;border-bottom:1px solid var(--neutral-100);display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.card-title{font-size:15px;font-weight:600;color:var(--neutral-800);margin:0;display:flex;align-items:center;gap:10px}
+.card-sub{font-size:12px;color:var(--neutral-500);margin-top:2px}
+.card-body{padding:22px}
+.card-foot{padding:14px 22px;background:var(--neutral-50);border-top:1px solid var(--neutral-100);font-size:12px;color:var(--neutral-500);display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+
+.badge{display:inline-flex;align-items:center;gap:4px;padding:3px 9px;border-radius:var(--radius-full);font-size:10px;font-weight:600;letter-spacing:.02em;text-transform:uppercase}
+
+@media(max-width:1024px){
+  .sidebar{width:72px;padding:16px 8px}
+  .sb-brand > div:last-child,.sb-item span:not(.badge),.sb-section,.sb-collapse{display:none}
+  .sb-item{justify-content:center}
+  .sb-item .badge{display:none}
+  .main{margin-left:72px}
+  .content{padding:20px}
+}
+
+/* === Content-specific styles === */
+.page-title{font-size:22px;font-weight:700;letter-spacing:-0.01em;margin:0}
+  .page-sub{color:var(--neutral-500);font-size:13px;margin-top:4px}
+  .page-actions{display:flex;gap:8px;align-items:center}
+  .btn{display:inline-flex;align-items:center;gap:8px;padding:9px 14px;border-radius:10px;font-weight:600;font-size:13px;transition:transform .1s var(--ease),background .15s var(--ease);border:1px solid transparent}
+  .btn:active{transform:translateY(1px)}
+  .btn-primary{background:var(--primary-500);color:#fff}
+  .btn-primary:hover{background:var(--primary-600)}
+  .btn-ghost{background:#fff;color:var(--neutral-700);border-color:var(--neutral-200)}
+  .btn-ghost:hover{background:var(--neutral-50)}
+  .btn-danger{background:#fff;color:var(--error-700);border-color:var(--error-100,#F4C7C7)}
+  .btn-danger:hover{background:var(--error-50)}
+  .btn.sm{padding:6px 10px;font-size:12px;border-radius:8px}
+
+  /* Speichern bar */
+  .save-bar{display:flex;align-items:center;gap:10px;padding:6px 8px 6px 14px;background:var(--warning-50);border:1px solid var(--warning-500);border-radius:10px}
+  .save-bar .sb-text{font-size:12px;color:var(--warning-700);font-weight:500}
+  .save-bar .sb-text b{color:var(--neutral-800)}
+
+  /* Settings layout */
+  .settings-grid{display:grid;grid-template-columns:220px 1fr;gap:18px;align-items:flex-start}
+  .sect-nav{position:sticky;top:calc(var(--topbar-h) + 20px);background:#fff;border:1px solid var(--neutral-200);border-radius:var(--radius-lg);padding:10px;box-shadow:var(--shadow-sm)}
+  .sect-label{font-size:11px;font-weight:600;color:var(--neutral-500);text-transform:uppercase;letter-spacing:.08em;padding:10px 10px 6px}
+  .sect-item{display:flex;align-items:center;gap:9px;padding:8px 10px;border-radius:7px;color:var(--neutral-700);font-size:13px;font-weight:500;margin-bottom:1px;transition:background .15s var(--ease)}
+  .sect-item:hover{background:var(--neutral-100)}
+  .sect-item.on{background:var(--primary-50);color:var(--primary-700);font-weight:600}
+  .sect-item .ic{width:14px;height:14px;flex:none;color:var(--neutral-500)}
+  .sect-item.on .ic{color:var(--primary-700)}
+  .sect-item .sn-badge{margin-left:auto;font-size:10px;color:var(--neutral-500);font-weight:600}
+  .sect-item.on .sn-badge{color:var(--primary-700)}
+  .sect-divider{height:1px;background:var(--neutral-100);margin:8px 4px}
+  .sn-foot{padding:10px;border-top:1px solid var(--neutral-100);margin-top:6px;font-size:11px;color:var(--neutral-500);line-height:1.5}
+  .sn-foot b{color:var(--neutral-800);font-weight:600;display:block;font-size:12px;margin-bottom:2px}
+
+  /* Cards */
+  .col-main{min-width:0;display:flex;flex-direction:column;gap:16px}
+  .card{background:#fff;border:1px solid var(--neutral-200);border-radius:var(--radius-lg);box-shadow:var(--shadow-sm);overflow:hidden}
+  .card-head{padding:16px 20px;border-bottom:1px solid var(--neutral-100);display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+  .card-title{font-size:15px;font-weight:700;margin:0;letter-spacing:-0.01em;display:flex;align-items:center;gap:10px}
+  .sect-id{font-size:10px;font-weight:700;background:var(--neutral-100);color:var(--neutral-600);padding:3px 7px;border-radius:999px;letter-spacing:.06em;text-transform:uppercase}
+  .sect-id.mg{background:var(--primary-50);color:var(--primary-700)}
+  .sect-id.pe{background:var(--secondary-50);color:var(--secondary-700)}
+  .card-sub{color:var(--neutral-500);font-size:12px;margin:3px 0 0}
+  .card-body{padding:18px 20px}
+  .card-foot{padding:12px 20px;border-top:1px solid var(--neutral-100);background:var(--neutral-50);display:flex;justify-content:space-between;align-items:center;font-size:12px;color:var(--neutral-500);flex-wrap:wrap;gap:8px}
+  .sub-h{font-size:12px;font-weight:600;color:var(--neutral-500);text-transform:uppercase;letter-spacing:.07em;margin:0 0 12px}
+  .hr{height:1px;background:var(--neutral-100);margin:18px 0}
+
+  /* Forms */
+  .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px 20px}
+  .form-row{display:flex;flex-direction:column;gap:6px}
+  .form-row.full{grid-column:1/-1}
+  .form-row label{font-size:12px;font-weight:600;color:var(--neutral-700);display:flex;align-items:center;gap:8px}
+  .form-row label .hint{font-weight:400;color:var(--neutral-500);font-size:11px}
+  .form-row input,.form-row select,.form-row textarea{font-family:inherit;font-size:13px;padding:9px 12px;border:1px solid var(--neutral-200);border-radius:8px;color:var(--neutral-800);background:#fff}
+  .form-row input:focus,.form-row select:focus,.form-row textarea:focus{outline:none;border-color:var(--primary-300);box-shadow:0 0 0 3px var(--primary-50)}
+  .form-row .sub-hint{font-size:11px;color:var(--neutral-500);margin-top:2px}
+  .form-row.mono input{font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.02em}
+  .input-combo{display:flex;align-items:stretch;border:1px solid var(--neutral-200);border-radius:8px;overflow:hidden}
+  .input-combo .prefix{background:var(--neutral-50);padding:9px 12px;color:var(--neutral-500);font-size:12px;font-weight:600;border-right:1px solid var(--neutral-200);display:flex;align-items:center;gap:6px}
+  .input-combo input{border:0;padding:9px 12px;flex:1;font-family:inherit;font-size:13px;color:var(--neutral-800);background:transparent}
+  .input-combo input:focus{outline:none}
+  .input-combo .suffix{background:var(--neutral-50);padding:9px 12px;color:var(--neutral-500);font-size:12px;border-left:1px solid var(--neutral-200);display:flex;align-items:center}
+
+  /* Biz identity */
+  .biz-top{display:grid;grid-template-columns:auto 1fr auto;gap:18px;align-items:center;padding-bottom:18px;border-bottom:1px solid var(--neutral-100);margin-bottom:18px}
+  .biz-logo{width:72px;height:72px;border-radius:14px;background:linear-gradient(135deg,var(--primary-500),var(--secondary-500));color:#fff;display:grid;place-items:center;font-size:26px;font-weight:700;box-shadow:var(--shadow-md)}
+  .biz-meta .b-name{font-size:17px;font-weight:700;letter-spacing:-.01em;display:flex;align-items:center;gap:8px}
+  .biz-meta .b-name .verified{width:18px;height:18px;border-radius:50%;background:var(--success-500);color:#fff;display:grid;place-items:center}
+  .biz-meta .b-sub{color:var(--neutral-500);font-size:12px;margin-top:4px;display:flex;gap:12px;flex-wrap:wrap}
+  .biz-actions{display:flex;gap:8px}
+
+  /* Role matrix */
+  .role-row{display:grid;grid-template-columns:1fr 72px 72px 72px 72px;gap:10px;align-items:center;padding:10px 0;border-bottom:1px solid var(--neutral-100);font-size:13px}
+  .role-row:last-child{border-bottom:0}
+  .role-row.head{font-size:11px;font-weight:700;color:var(--neutral-500);text-transform:uppercase;letter-spacing:.06em;padding-bottom:8px;border-bottom:1px solid var(--neutral-200)}
+  .role-cap{color:var(--neutral-800);font-weight:500}
+  .role-cap .cap-desc{display:block;color:var(--neutral-500);font-size:11px;font-weight:400;margin-top:2px}
+  .role-col{text-align:center}
+  .check{width:22px;height:22px;border-radius:6px;display:inline-flex;align-items:center;justify-content:center;margin:0 auto}
+  .check.y{background:var(--success-50);color:var(--success-700)}
+  .check.n{background:var(--neutral-100);color:var(--neutral-400)}
+  .check.p{background:var(--warning-50);color:var(--warning-700);font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.04em;padding:0 5px;width:auto}
+  .role-pill{display:inline-flex;flex-direction:column;align-items:center;gap:3px}
+  .role-pill .rp-name{font-size:11px;font-weight:700}
+  .role-pill .rp-count{font-size:10px;color:var(--neutral-500)}
+
+  /* Team list */
+  .team-list{display:flex;flex-direction:column;gap:2px}
+  .team-row{display:grid;grid-template-columns:auto 1fr auto auto auto;gap:14px;align-items:center;padding:10px 12px;border-radius:9px}
+  .team-row:hover{background:var(--neutral-50)}
+  .tm-avatar{width:34px;height:34px;border-radius:50%;color:#fff;display:grid;place-items:center;font-weight:700;font-size:11px}
+  .tm-a1{background:var(--primary-500)}
+  .tm-a2{background:var(--secondary-500)}
+  .tm-a3{background:var(--warning-500)}
+  .tm-a4{background:var(--accent-600)}
+  .tm-a5{background:var(--secondary-600)}
+  .tm-a6{background:var(--neutral-600)}
+  .tm-name{font-size:13px;font-weight:600;color:var(--neutral-800)}
+  .tm-meta{font-size:11px;color:var(--neutral-500);margin-top:1px}
+  .tm-role{font-size:11px;padding:3px 9px;border-radius:999px;font-weight:600}
+  .tm-role.mgmt{background:var(--primary-50);color:var(--primary-700)}
+  .tm-role.sup{background:var(--secondary-50);color:var(--secondary-700)}
+  .tm-role.emp{background:var(--success-50);color:var(--success-700)}
+  .tm-role.cli{background:var(--warning-50);color:var(--warning-700)}
+  .tm-last{font-size:11px;color:var(--neutral-500);width:100px;text-align:right}
+  .tm-kebab{color:var(--neutral-500)}
+
+  /* Plan card */
+  .plan-card{display:grid;grid-template-columns:1fr auto;gap:20px;align-items:center;padding:18px 20px;background:linear-gradient(135deg,var(--primary-50),#fff);border:1px solid var(--primary-200);border-radius:var(--radius-lg)}
+  .plan-name{font-size:11px;font-weight:700;text-transform:uppercase;color:var(--primary-700);letter-spacing:.08em;margin-bottom:4px}
+  .plan-tier{font-size:19px;font-weight:700;letter-spacing:-.01em}
+  .plan-tier small{font-size:12px;color:var(--neutral-500);font-weight:500;margin-left:6px}
+  .plan-stats{display:flex;gap:20px;margin-top:10px;font-size:12px}
+  .plan-stats div b{display:block;font-size:14px;color:var(--neutral-800);font-weight:700;margin-bottom:2px;font-family:'JetBrains Mono',monospace}
+  .plan-stats div span{color:var(--neutral-500)}
+  .plan-price{text-align:right}
+  .plan-price .price{font-size:26px;font-weight:700;font-family:'JetBrains Mono',monospace;letter-spacing:-.02em}
+  .plan-price .period{color:var(--neutral-500);font-size:12px;margin-top:2px}
+  .plan-price .renew{font-size:11px;color:var(--neutral-500);margin-top:4px}
+
+  /* Integrationen */
+  .int-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+  .int-card{border:1px solid var(--neutral-200);border-radius:var(--radius-md);padding:14px;display:flex;flex-direction:column;gap:10px;background:#fff;transition:border-color .12s var(--ease)}
+  .int-card:hover{border-color:var(--neutral-300)}
+  .int-card.on{border-color:var(--primary-200);background:linear-gradient(180deg,var(--primary-50),transparent 70%)}
+  .int-top{display:flex;align-items:flex-start;gap:10px}
+  .int-logo{width:38px;height:38px;border-radius:10px;display:grid;place-items:center;font-weight:700;color:#fff;font-size:14px;flex-shrink:0}
+  .ilg-datev{background:var(--neutral-800)}
+  .ilg-stripe{background:#635BFF}
+  .ilg-sepa{background:var(--secondary-600)}
+  .ilg-gcal{background:#EA4335}
+  .ilg-slack{background:#4A154B}
+  .ilg-qb{background:#2CA01C}
+  .int-name{font-weight:700;font-size:13px;color:var(--neutral-800)}
+  .int-sub{font-size:11px;color:var(--neutral-500);margin-top:1px}
+  .int-status{margin-left:auto;display:inline-flex;align-items:center;gap:5px;font-size:11px;font-weight:600;padding:3px 8px;border-radius:999px}
+  .int-status.conn{background:var(--success-50);color:var(--success-700)}
+  .int-status.conn .pulse{width:6px;height:6px;border-radius:50%;background:var(--success-500)}
+  .int-status.off{background:var(--neutral-100);color:var(--neutral-500)}
+  .int-desc{font-size:12px;color:var(--neutral-500);line-height:1.45;min-height:34px}
+  .int-foot{display:flex;align-items:center;justify-content:space-between;border-top:1px solid var(--neutral-100);padding-top:10px;margin-top:auto;font-size:11px;color:var(--neutral-500)}
+  .int-link{color:var(--primary-700);font-weight:600;font-size:12px}
+
+  /* API-Schlüssel */
+  .key-row{display:grid;grid-template-columns:auto 1fr auto auto;gap:14px;align-items:center;padding:12px 14px;border:1px solid var(--neutral-200);border-radius:10px;background:var(--neutral-50);margin-bottom:10px}
+  .key-tag{font-size:10px;font-weight:700;padding:3px 8px;border-radius:999px;letter-spacing:.04em}
+  .key-tag.prod{background:var(--error-50);color:var(--error-700)}
+  .key-tag.sand{background:var(--secondary-50);color:var(--secondary-500)}
+  .key-main .kn{font-size:12px;font-weight:600;color:var(--neutral-800)}
+  .key-main .ks{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--neutral-500);margin-top:2px;letter-spacing:.02em}
+  .key-main .kmeta{font-size:11px;color:var(--neutral-500);margin-top:3px}
+
+  /* Notify matrix */
+  .notif-group{margin-bottom:12px}
+  .notif-gh{font-size:11px;font-weight:700;color:var(--neutral-500);text-transform:uppercase;letter-spacing:.06em;padding:8px 0 6px}
+  .notif-row{display:grid;grid-template-columns:1fr 60px 60px 60px;gap:10px;align-items:center;padding:10px 2px;border-bottom:1px solid var(--neutral-100)}
+  .notif-row.head{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--neutral-500);text-align:center;border-bottom:1px solid var(--neutral-200)}
+  .notif-row.head .nh-first{text-align:left;color:transparent}
+  .notif-name{font-size:12px;font-weight:600;color:var(--neutral-700)}
+  .notif-name .nd{display:block;font-size:11px;color:var(--neutral-500);font-weight:400;margin-top:1px}
+  .toggle{width:34px;height:19px;border-radius:999px;background:var(--neutral-200);position:relative;display:inline-block;margin:0 auto;transition:.15s;flex-shrink:0}
+  .toggle::after{content:'';position:absolute;top:2px;left:2px;width:15px;height:15px;border-radius:50%;background:#fff;box-shadow:0 1px 2px rgba(0,0,0,.2);transition:.15s}
+  .toggle.on{background:var(--primary-500)}
+  .toggle.on::after{left:17px}
+  .toggle-cell{display:flex;justify-content:center}
+
+  /* Account */
+  .acct-top{display:grid;grid-template-columns:auto 1fr auto;gap:18px;align-items:center;padding-bottom:18px;border-bottom:1px solid var(--neutral-100);margin-bottom:18px}
+  .acct-avatar{width:68px;height:68px;border-radius:50%;background:var(--secondary-500);color:#fff;display:grid;place-items:center;font-size:22px;font-weight:700;box-shadow:var(--shadow-md);position:relative}
+  .acct-avatar .online{position:absolute;bottom:2px;right:2px;width:14px;height:14px;border-radius:50%;background:var(--success-500);border:3px solid #fff}
+  .acct-name{font-size:16px;font-weight:700;letter-spacing:-.01em}
+  .acct-handle{font-size:12px;color:var(--neutral-500);margin-top:3px;font-family:'JetBrains Mono',monospace}
+  .acct-meta{font-size:12px;color:var(--neutral-500);margin-top:6px;display:flex;gap:12px;flex-wrap:wrap}
+  .acct-meta b{color:var(--neutral-700);font-weight:600}
+
+  /* Sicherheit */
+  .sec-row{display:flex;align-items:flex-start;justify-content:space-between;gap:20px;padding:14px 0;border-bottom:1px solid var(--neutral-100)}
+  .sec-row:last-child{border-bottom:0}
+  .sec-body{flex:1;min-width:0;display:flex;gap:14px}
+  .sec-icon{width:36px;height:36px;border-radius:10px;background:var(--primary-50);color:var(--primary-700);display:grid;place-items:center;flex-shrink:0}
+  .sec-icon.succ{background:var(--success-50);color:var(--success-700)}
+  .sec-icon.warn{background:var(--warning-50);color:var(--warning-700)}
+  .sec-main .sn{font-size:13px;font-weight:700;color:var(--neutral-800);display:flex;align-items:center;gap:10px}
+  .sec-main .sd{font-size:12px;color:var(--neutral-500);margin-top:2px;line-height:1.5}
+  .sec-actions{display:flex;gap:8px;flex-shrink:0;align-items:center}
+  .sec-badge{font-size:10px;font-weight:700;padding:3px 8px;border-radius:999px;text-transform:uppercase;letter-spacing:.04em}
+  .sec-badge.on{background:var(--success-50);color:var(--success-700)}
+
+  /* Sessions */
+  .sess-row{display:grid;grid-template-columns:auto 1fr auto auto;gap:14px;align-items:center;padding:12px 0;border-bottom:1px solid var(--neutral-100)}
+  .sess-row:last-child{border-bottom:0}
+  .dev-icon{width:40px;height:40px;border-radius:10px;background:var(--neutral-50);border:1px solid var(--neutral-200);display:grid;place-items:center;color:var(--neutral-700)}
+  .dev-name{font-size:13px;font-weight:700;display:flex;align-items:center;gap:10px}
+  .dev-sub{font-size:11px;color:var(--neutral-500);margin-top:3px;font-family:'JetBrains Mono',monospace}
+  .dev-geo{font-size:12px;color:var(--neutral-500)}
+  .dev-last{font-size:11px;color:var(--neutral-500);display:flex;align-items:center;gap:8px}
+  .current-pill{font-size:10px;font-weight:700;background:var(--success-50);color:var(--success-700);padding:3px 8px;border-radius:999px;text-transform:uppercase;letter-spacing:.04em}
+
+  /* Misc */
+  .swatch-row{display:flex;gap:16px;flex-wrap:wrap}
+  .swatch-wrap{position:relative;padding-bottom:16px}
+  .swatch{width:48px;height:48px;border-radius:10px;border:2px solid #fff;box-shadow:0 0 0 1px var(--neutral-200),var(--shadow-sm)}
+  .swatch.add{background:var(--neutral-50);border:2px dashed var(--neutral-200);display:grid;place-items:center;color:var(--neutral-400);box-shadow:none}
+  .sc{position:absolute;bottom:0;left:0;right:0;text-align:center;font-size:10px;font-family:'JetBrains Mono',monospace;color:var(--neutral-500)}
+  .callout{padding:10px 12px;background:var(--secondary-50);border:1px solid var(--secondary-100);border-radius:10px;font-size:12px;color:var(--secondary-700);display:flex;gap:10px;align-items:flex-start}
+  .callout svg{flex-shrink:0;margin-top:1px}
+  .loc-row{display:grid;grid-template-columns:auto 1fr auto;gap:12px;align-items:center;padding:11px 12px;border:1px solid var(--neutral-200);border-radius:10px;background:var(--neutral-50);margin-bottom:8px}
+  .loc-ic{width:32px;height:32px;border-radius:8px;background:#fff;border:1px solid var(--neutral-200);color:var(--primary-700);display:grid;place-items:center}
+  .loc-main .ln{font-size:13px;font-weight:600}
+  .loc-main .la{font-size:11px;color:var(--neutral-500);margin-top:2px}
+  .loc-tag{font-size:10px;font-weight:600;padding:3px 8px;border-radius:999px;background:var(--primary-50);color:var(--primary-700);letter-spacing:.04em;text-transform:uppercase}
+  .loc-tag.dep{background:var(--secondary-50);color:var(--secondary-700)}
+  .loc-tag.sat{background:var(--warning-50);color:var(--warning-700)}
+
+  @media (max-width:1100px){
+    .settings-grid{grid-template-columns:1fr}
+    .sect-nav{position:static}
+    .form-grid{grid-template-columns:1fr}
+    .int-grid{grid-template-columns:repeat(2,1fr)}
+  }
+  @media (max-width:880px){
+    :root{--sidebar-w:72px}
+    .brand-text,.nav-item span:not(.badge),.me-name,.me-role,.nav-section{display:none}
+    .nav-item{justify-content:center}
+    .brand{justify-content:center;padding:18px 10px}
+    .int-grid{grid-template-columns:1fr}
+  }
+</style>
+</head>
+<body>
+<div class="app">
+
+  <!-- Sidebar -->
+  <aside class="sidebar">
+      <div class="sb-brand">
+        <div class="sb-logo">P</div>
+        <div>
+          <div class="sb-brand-name">Priya's</div>
+          <div class="sb-brand-sub">Betrieb</div>
+        </div>
+      </div>
+      <div class="sb-section">Arbeitsbereich</div>
+      <a class="sb-item" href="02-dashboard.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>Übersicht</a>
+      <a class="sb-item" href="03-clients-list.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>Kunden<span class="badge">10</span></a>
+      <a class="sb-item" href="05-properties-list.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21V7l8-4 8 4v14"/><path d="M9 9h2M13 9h2M9 13h2M13 13h2M9 17h2M13 17h2"/></svg>Objekte<span class="badge">112</span></a>
+      <a class="sb-item" href="07-schedule.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 9h18M8 3v4M16 3v4"/></svg>Einsatzplan</a>
+      <a class="sb-item" href="08-employees-list.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>Mitarbeiter<span class="badge">32</span></a>
+      <a class="sb-item" href="14-reports.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M7 14l3-3 3 3 5-5"/></svg>Berichte</a>
+      <div class="sb-section">Alltagshilfe</div>
+      <a class="sb-item" href="15-customer-type-picker.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 000-7.78z"/></svg>Pflegekunden</a>
+      <a class="sb-item" href="16-alltagshilfe-report.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6"/></svg>Monatsbericht</a>
+      <div class="sb-section">Kommunikation</div>
+      <a class="sb-item" href="17-team-chat.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a7.5 7.5 0 01-11.2 6.5L4 20l1.5-5.2A7.5 7.5 0 1121 12z"/></svg>Team-Chat<span class="badge">3</span></a>
+      <a class="sb-item" href="18-notifications.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8a6 6 0 0112 0c0 7 3 8 3 8H3s3-1 3-8zM10 21a2 2 0 004 0"/></svg>Benachrichtigungen<span class="badge">12</span></a>
+      <div class="sb-section">System</div>
+      <a class="sb-item active" href="13-settings.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.3 1.8l.1.1a2 2 0 11-2.8 2.8l-.1-.1a1.65 1.65 0 00-1.8-.3 1.65 1.65 0 00-1 1.5V21a2 2 0 11-4 0v-.1a1.65 1.65 0 00-1-1.5 1.65 1.65 0 00-1.8.3l-.1.1a2 2 0 11-2.8-2.8l.1-.1a1.65 1.65 0 00.3-1.8 1.65 1.65 0 00-1.5-1H3a2 2 0 110-4h.1a1.65 1.65 0 001.5-1 1.65 1.65 0 00-.3-1.8l-.1-.1a2 2 0 112.8-2.8l.1.1a1.65 1.65 0 001.8.3h0a1.65 1.65 0 001-1.5V3a2 2 0 114 0v.1a1.65 1.65 0 001 1.5 1.65 1.65 0 001.8-.3l.1-.1a2 2 0 112.8 2.8l-.1.1a1.65 1.65 0 00-.3 1.8v0a1.65 1.65 0 001.5 1H21a2 2 0 110 4h-.1a1.65 1.65 0 00-1.5 1z"/></svg>Einstellungen</a>
+      <div class="sb-collapse"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>Seitenleiste einklappen</div>
+    </aside>
+
+  <div class="main">
+    <header class="topbar">
+      <div class="tb-left">
+        <div class="tb-search">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+          <input placeholder="Einstellungen, Rollen, Integrationen suchen…" />
+          <span class="kbd">⌘ K</span>
+        </div>
+      </div>
+      <div class="tb-right">
+        <button class="icon-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.1 9a3 3 0 015.8 1c0 2-3 3-3 3M12 17h.01"/></svg></button>
+        <button class="icon-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a7.5 7.5 0 01-11.2 6.5L4 20l1.5-5.2A7.5 7.5 0 1121 12z"/></svg><span class="dot"></span></button>
+        <button class="icon-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8a6 6 0 0112 0c0 7 3 8 3 8H3s3-1 3-8zM10 21a2 2 0 004 0"/></svg><span class="dot"></span></button>
+        <div class="tb-user">
+          <div class="avatar avatar--sm">AM</div>
+          <div class="tb-user-info"><div class="name">Alex Müller</div><div class="role">Geschäftsleitung</div></div>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px;color:var(--neutral-400)"><path d="M6 9l6 6 6-6"/></svg>
+        </div>
+      </div>
+    </header>
+
+    <div class="content">
+<nav class="crumbs">
+        <a href="02-dashboard.html">Übersicht</a><span class="sep">/</span>
+        <a>Konto</a><span class="sep">/</span>
+        <span class="cur">Settings</span>
+      </nav>
+
+      <div class="page-head">
+        <div>
+          <h1 class="page-title">Einstellungen</h1>
+          <div class="page-sub">Organisation, Integrationen und persönliche Einstellungen verwalten · Zuletzt gespeichert <b style="color:var(--neutral-800)">21. Apr. 2026 · 14:32 MEZ</b></div>
+        </div>
+        <div class="page-actions">
+          <div class="save-bar">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--warning-700)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/></svg>
+            <span class="sb-text"><b>3 ungespeicherte Änderungen</b> unter Firmenprofil</span>
+            <button class="btn btn--white btn--sm">Verwerfen</button>
+            <button class="btn btn--primary btn--sm">Änderungen speichern</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="settings-grid">
+        <!-- Section nav -->
+        <nav class="sect-nav">
+          <div class="sect-label">Geschäftsleitung</div>
+          <a href="#company" class="sect-item on"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18M5 21V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16"/><path d="M9 9h1M9 13h1M14 9h1M14 13h1M9 17h6"/></svg>Firmenprofil<span class="sn-badge">●</span></a>
+          <a href="#team" class="sect-item"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>Team &amp; Rollen<span class="sn-badge">14</span></a>
+          <a href="#tax" class="sect-item"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg>Steuer &amp; Abrechnung</a>
+          <a href="#int" class="sect-item"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.5.5l3-3a5 5 0 0 0-7-7l-1.7 1.7"/><path d="M14 11a5 5 0 0 0-7.5-.5l-3 3a5 5 0 0 0 7 7l1.7-1.7"/></svg>Integrationen<span class="sn-badge">3/6</span></a>
+          <a href="#notif" class="sect-item"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></svg>Benachrichtigungen</a>
+          <div class="sect-divider"></div>
+          <div class="sect-label">Persönlich</div>
+          <a href="#acct" class="sect-item"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>Mein Konto</a>
+          <a href="#sec" class="sect-item"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>Sicherheit<span class="sn-badge" style="color:var(--success-700)">●</span></a>
+          <a href="#sess" class="sect-item"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>Sitzungen &amp; Geräte<span class="sn-badge">4</span></a>
+          <div class="sn-foot">
+            <b>Benötigen Sie Hilfe?</b>
+            Admin-Handbuch &amp; Rollendokumentation im Hilfe-Center. Alle Änderungen werden protokolliert.
+          </div>
+        </nav>
+
+        <div class="col-main">
+
+          <!-- Firmenprofil -->
+          <section class="card" id="company">
+            <div class="card-head">
+              <div>
+                <h2 class="card-title"><span class="sect-id mg">01 · Mgmt</span>Firmenprofil</h2>
+                <p class="card-sub">Rechtliche Identität, Markenauftritt und Standorte, die auf Rechnungen, in E-Mails und im Kundenportal verwendet werden.</p>
+              </div>
+            </div>
+            <div class="card-body">
+              <div class="biz-top">
+                <div class="biz-logo">P</div>
+                <div class="biz-meta">
+                  <div class="b-name">Priya's Cleaning Service GmbH <span class="verified" title="Verifiziert"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span></div>
+                  <div class="b-sub"><span>🇩🇪 Deutschy</span><span>Tätig seit 2019</span><span>42 Mitarbeitende</span><span>€1.8M ARR</span></div>
+                </div>
+                <div class="biz-actions">
+                  <button class="btn btn--white btn--sm"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M17 8l-5-5-5 5M12 3v12"/></svg>Logo hochladen</button>
+                  <button class="btn btn--white btn--sm" style="color:var(--error-700);border-color:#F3C8C8">Entfernen</button>
+                </div>
+              </div>
+
+              <h3 class="sub-h">Recht &amp; Registrierung</h3>
+              <div class="form-grid">
+                <div class="form-row">
+                  <label>Firmenname (rechtlich) <span class="hint">wie registriert</span></label>
+                  <input type="text" value="Priya's Cleaning Service GmbH" />
+                </div>
+                <div class="form-row">
+                  <label>Anzeigename</label>
+                  <input type="text" value="Priya's Cleaning" />
+                </div>
+                <div class="form-row mono">
+                  <label>Handelsregister (HRB)</label>
+                  <input type="text" value="HRB 198432 · AG Charlottenburg" />
+                </div>
+                <div class="form-row mono">
+                  <label>Umsatzsteuer-ID (USt-IdNr.)</label>
+                  <input type="text" value="DE 312 548 901" />
+                </div>
+                <div class="form-row">
+                  <label>Branche</label>
+                  <select><option>Facility Services · Gewerbliche Reinigung</option></select>
+                </div>
+                <div class="form-row">
+                  <label>Firmengröße</label>
+                  <select><option>41 – 50 Mitarbeitende</option></select>
+                </div>
+                <div class="form-row full">
+                  <label>Webseite <span class="hint">angezeigt auf Rechnungen &amp; im Kundenportal</span></label>
+                  <div class="input-combo">
+                    <span class="prefix">https://</span>
+                    <input type="text" value="priyas-cleaning.de" />
+                    <span class="suffix"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.5.5l3-3a5 5 0 0 0-7-7l-1.7 1.7"/></svg></span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="hr"></div>
+              <h3 class="sub-h">Markenauftritt</h3>
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;align-items:flex-start">
+                <div>
+                  <label style="font-size:12px;font-weight:600;color:var(--neutral-700);display:block;margin-bottom:10px">Markenfarben</label>
+                  <div class="swatch-row">
+                    <div class="swatch-wrap"><div class="swatch" style="background:var(--primary-500)"></div><div class="sc">#72A94F</div></div>
+                    <div class="swatch-wrap"><div class="swatch" style="background:var(--secondary-500)"></div><div class="sc">#16587C</div></div>
+                    <div class="swatch-wrap"><div class="swatch" style="background:var(--accent-500)"></div><div class="sc">#81B768</div></div>
+                    <div class="swatch-wrap"><div class="swatch" style="background:var(--warning-500)"></div><div class="sc">#F4A261</div></div>
+                    <div class="swatch-wrap"><div class="swatch add"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg></div></div>
+                  </div>
+                </div>
+                <div>
+                  <label style="font-size:12px;font-weight:600;color:var(--neutral-700);display:block;margin-bottom:10px">Dokumentenstil</label>
+                  <div style="display:flex;gap:8px">
+                    <button class="btn btn--white btn--sm" style="background:var(--primary-50);color:var(--primary-700);border-color:var(--primary-200)">● Professionell</button>
+                    <button class="btn btn--white btn--sm">Freundlich</button>
+                    <button class="btn btn--white btn--sm">Minimal</button>
+                  </div>
+                  <div class="callout" style="margin-top:12px"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>Der Stil steuert E-Mail-Anreden und Rechnungsfußzeilen für DE / EN / TA.</div>
+                </div>
+              </div>
+
+              <div class="hr"></div>
+              <h3 class="sub-h" style="display:flex;align-items:center;justify-content:space-between"><span>Standorte</span><button class="btn btn--white btn--sm"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg>Standort hinzufügen</button></h3>
+              <div class="loc-row">
+                <div class="loc-ic"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></div>
+                <div class="loc-main">
+                  <div class="ln">Berlin Zentrale · Friedrichstraße 200</div>
+                  <div class="la">10117 Berlin, Deutschy · 24 Arbeitsplätze · Hauptbetrieb</div>
+                </div>
+                <div class="loc-tag">Zentrale</div>
+              </div>
+              <div class="loc-row">
+                <div class="loc-ic"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></div>
+                <div class="loc-main">
+                  <div class="ln">Lager München · Landsberger Str. 185</div>
+                  <div class="la">80687 München · 8 Arbeitsplätze · equipment &amp; supplies</div>
+                </div>
+                <div class="loc-tag dep">Lager</div>
+              </div>
+              <div class="loc-row">
+                <div class="loc-ic"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></div>
+                <div class="loc-main">
+                  <div class="ln">Hamburg Außenstelle · Spaldingstraße 64</div>
+                  <div class="la">20097 Hamburg · 4 Arbeitsplätze · client-serving team base</div>
+                </div>
+                <div class="loc-tag sat">Außenstelle</div>
+              </div>
+            </div>
+            <div class="card-foot">
+              <span>Fields affecting invoice output require Geschäftsleitung role · audit-logged</span>
+              <span><b style="color:var(--neutral-800)">3 ausstehend</b> Änderungen</span>
+            </div>
+          </section>
+
+          <!-- Team & roles -->
+          <section class="card" id="team">
+            <div class="card-head">
+              <div>
+                <h2 class="card-title"><span class="sect-id mg">02 · Mgmt</span>Team &amp; Rollen</h2>
+                <p class="card-sub">4 Standardrollen · 14 Mitglieder · individuelle Berechtigungen im Enterprise-Tarif</p>
+              </div>
+              <div style="display:flex;gap:8px">
+                <button class="btn btn--white btn--sm">Exportieren</button>
+                <button class="btn btn--primary btn--sm"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="8.5" cy="7" r="4"/><path d="M20 8v6M23 11h-6"/></svg>Mitglied einladen</button>
+              </div>
+            </div>
+            <div class="card-body">
+              <h3 class="sub-h">Rollen-Berechtigungsmatrix</h3>
+              <div class="role-row head">
+                <div>Fähigkeit</div>
+                <div class="role-col"><div class="role-pill"><span class="rp-name" style="color:var(--primary-700)">MGMT</span><span class="rp-count">2</span></div></div>
+                <div class="role-col"><div class="role-pill"><span class="rp-name" style="color:var(--secondary-700)">SUPER</span><span class="rp-count">3</span></div></div>
+                <div class="role-col"><div class="role-pill"><span class="rp-name" style="color:var(--success-700)">EMPL</span><span class="rp-count">9</span></div></div>
+                <div class="role-col"><div class="role-pill"><span class="rp-name" style="color:var(--warning-700)">CLIENT</span><span class="rp-count">—</span></div></div>
+              </div>
+              <div class="role-row">
+                <div class="role-cap">Einsatzplan ansehen<span class="cap-desc">Zugewiesene Schichten und Objektbesuche einsehen</span></div>
+                <div class="role-col"><span class="check y"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span></div>
+                <div class="role-col"><span class="check y"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span></div>
+                <div class="role-col"><span class="check y"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span></div>
+                <div class="role-col"><span class="check p">own</span></div>
+              </div>
+              <div class="role-row">
+                <div class="role-cap">Besuche zuweisen &amp; umplanen<span class="cap-desc">Zuordnungen und Schichtzeiten ändern</span></div>
+                <div class="role-col"><span class="check y"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span></div>
+                <div class="role-col"><span class="check y"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span></div>
+                <div class="role-col"><span class="check n"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></span></div>
+                <div class="role-col"><span class="check n"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></span></div>
+              </div>
+              <div class="role-row">
+                <div class="role-cap">Kunden &amp; Objekte verwalten<span class="cap-desc">Kundenkonten erstellen, bearbeiten oder archivieren</span></div>
+                <div class="role-col"><span class="check y"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span></div>
+                <div class="role-col"><span class="check p">read</span></div>
+                <div class="role-col"><span class="check n"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></span></div>
+                <div class="role-col"><span class="check n"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></span></div>
+              </div>
+              <div class="role-row">
+                <div class="role-cap">Rechnungen erstellen &amp; senden<span class="cap-desc">Rechnungen erstellen, finalisieren und versenden</span></div>
+                <div class="role-col"><span class="check y"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span></div>
+                <div class="role-col"><span class="check n"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></span></div>
+                <div class="role-col"><span class="check n"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></span></div>
+                <div class="role-col"><span class="check n"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></span></div>
+              </div>
+              <div class="role-row">
+                <div class="role-cap">Zeiterfassung freigeben<span class="cap-desc">Tagesstunden und Überstunden abzeichnen</span></div>
+                <div class="role-col"><span class="check y"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span></div>
+                <div class="role-col"><span class="check y"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span></div>
+                <div class="role-col"><span class="check n"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></span></div>
+                <div class="role-col"><span class="check n"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></span></div>
+              </div>
+              <div class="role-row">
+                <div class="role-cap">Berichte &amp; Exporte einsehen<span class="cap-desc">Umsatz-, Stunden- und Leistungsdaten einsehen</span></div>
+                <div class="role-col"><span class="check y"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span></div>
+                <div class="role-col"><span class="check p">ltd</span></div>
+                <div class="role-col"><span class="check n"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></span></div>
+                <div class="role-col"><span class="check p">own</span></div>
+              </div>
+              <div class="role-row">
+                <div class="role-cap">Organisationseinstellungen<span class="cap-desc">Firma, Abrechnung und Integrationen bearbeiten</span></div>
+                <div class="role-col"><span class="check y"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span></div>
+                <div class="role-col"><span class="check n"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></span></div>
+                <div class="role-col"><span class="check n"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></span></div>
+                <div class="role-col"><span class="check n"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></span></div>
+              </div>
+
+              <div class="hr"></div>
+              <h3 class="sub-h" style="display:flex;justify-content:space-between;align-items:center"><span>Aktive Mitglieder · 14</span><a href="#" style="font-size:12px;color:var(--primary-700);font-weight:600;text-transform:none;letter-spacing:0">Alle anzeigen →</a></h3>
+              <div class="team-list">
+                <div class="team-row">
+                  <div class="tm-avatar tm-a1">P1</div>
+                  <div><div class="tm-name">Projektleitung 01 · Priya Sundaram</div><div class="tm-meta">design@tylotech.de · aktueller Nutzer</div></div>
+                  <div class="tm-role mgmt">Geschäftsleitung</div>
+                  <div class="tm-last">Gerade aktiv</div>
+                  <svg class="tm-kebab" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/></svg>
+                </div>
+                <div class="team-row">
+                  <div class="tm-avatar tm-a2">P2</div>
+                  <div><div class="tm-name">Projektleitung 02</div><div class="tm-meta">ops@priyas-cleaning.de · 2FA aktiviert</div></div>
+                  <div class="tm-role mgmt">Geschäftsleitung</div>
+                  <div class="tm-last">2h ago</div>
+                  <svg class="tm-kebab" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/></svg>
+                </div>
+                <div class="team-row">
+                  <div class="tm-avatar tm-a5">S1</div>
+                  <div><div class="tm-name">Supervisor 01</div><div class="tm-meta">sup01@priyas-cleaning.de · Team 01, 02</div></div>
+                  <div class="tm-role sup">Vorgesetzte:r</div>
+                  <div class="tm-last">Gestern</div>
+                  <svg class="tm-kebab" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/></svg>
+                </div>
+                <div class="team-row">
+                  <div class="tm-avatar tm-a4">E1</div>
+                  <div><div class="tm-name">Anna Krüger · Team 01 lead</div><div class="tm-meta">e01@priyas-cleaning.de · Mobile App</div></div>
+                  <div class="tm-role emp">Employee</div>
+                  <div class="tm-last">Im Einsatz</div>
+                  <svg class="tm-kebab" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/></svg>
+                </div>
+                <div class="team-row">
+                  <div class="tm-avatar tm-a3">C1</div>
+                  <div><div class="tm-name">Müller Immobilien GmbH contact · Finance</div><div class="tm-meta">finance@example-holdings.de · Portalzugang</div></div>
+                  <div class="tm-role cli">Client</div>
+                  <div class="tm-last">5d ago</div>
+                  <svg class="tm-kebab" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/></svg>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- Tax & billing -->
+          <section class="card" id="tax">
+            <div class="card-head">
+              <div>
+                <h2 class="card-title"><span class="sect-id mg">03 · Mgmt</span>Steuer &amp; Abrechnung</h2>
+                <p class="card-sub">USt., Rechnungs-Standardeinstellungen und Abo-Tarif für diesen Arbeitsbereich.</p>
+              </div>
+            </div>
+            <div class="card-body">
+              <div class="plan-card">
+                <div>
+                  <div class="plan-name">● Aktueller Tarif</div>
+                  <div class="plan-tier">Professionell<small>· 50 Mitarbeitende inklusive</small></div>
+                  <div class="plan-stats">
+                    <div><b>14 / 50</b><span>Mitglieder</span></div>
+                    <div><b>10 / 20</b><span>Objekte</span></div>
+                    <div><b>Unbegrenzt</b><span>Rechnungen</span></div>
+                    <div><b>24 mo</b><span>Datenaufbewahrung</span></div>
+                  </div>
+                </div>
+                <div class="plan-price">
+                  <div class="price">€149</div>
+                  <div class="period">pro Monat · zzgl. USt.</div>
+                  <div class="renew">Verlängert sich am <b style="color:var(--neutral-800)">May 15, 2026</b> · SEPA Lastschrift</div>
+                  <button class="btn btn--primary btn--sm" style="margin-top:8px">Tarif verwalten</button>
+                </div>
+              </div>
+
+              <div class="hr"></div>
+              <h3 class="sub-h">USt. &amp; Compliance</h3>
+              <div class="form-grid">
+                <div class="form-row mono">
+                  <label>USt-IdNr.</label>
+                  <input type="text" value="DE 312 548 901" />
+                </div>
+                <div class="form-row">
+                  <label>Standard-USt.-Satz</label>
+                  <select><option>Regelsatz · 19 %</option><option>Ermäßigt · 7 %</option></select>
+                </div>
+                <div class="form-row full">
+                  <label style="display:flex;align-items:center;justify-content:space-between"><span>Reverse Charge B2B (EU) <span class="hint">§13b UStG für grenzüberschreitende Kunden</span></span><span class="toggle on"></span></label>
+                  <span class="sub-hint">Automatically applied when client USt-IdNr. is outside Deutschy but within EU.</span>
+                </div>
+              </div>
+
+              <div class="hr"></div>
+              <h3 class="sub-h">Rechnungs-Standardwerte</h3>
+              <div class="form-grid">
+                <div class="form-row mono">
+                  <label>Rechnungsnummern-Format</label>
+                  <input type="text" value="INV-{YYYY}-{####}" />
+                  <span class="sub-hint">Nächste Nummer · <b style="color:var(--neutral-800);font-family:'JetBrains Mono',monospace">INV-2026-0048</b></span>
+                </div>
+                <div class="form-row">
+                  <label>Standard-Zahlungsfrist</label>
+                  <select><option>Netto 14 (SEPA)</option><option>Netto 7</option><option>Netto 30</option><option>Sofort fällig</option></select>
+                </div>
+                <div class="form-row">
+                  <label>Währung</label>
+                  <select><option>EUR · €</option></select>
+                </div>
+                <div class="form-row">
+                  <label>Mahnung</label>
+                  <select><option>Automatisch · +3 / +7 / +14 Tage</option></select>
+                </div>
+                <div class="form-row full">
+                  <label>Rechnungs-Fußzeile <span class="hint">unterstützt DE / EN / TA je Kunde</span></label>
+                  <textarea rows="2">Priya's Cleaning Service GmbH · HRB 198 432 · AG Charlottenburg · Geschäftsführer: P. Sundaram · Rechnung gültig ohne Unterschrift</textarea>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- Integrationen -->
+          <section class="card" id="int">
+            <div class="card-head">
+              <div>
+                <h2 class="card-title"><span class="sect-id mg">04 · Mgmt</span>Integrationen</h2>
+                <p class="card-sub">3 of 6 active · Verbinden third-party services to sync schedules, payments and exports.</p>
+              </div>
+              <button class="btn btn--white btn--sm">Browse marketplace →</button>
+            </div>
+            <div class="card-body">
+              <div class="int-grid">
+                <div class="int-card on">
+                  <div class="int-top">
+                    <div class="int-logo ilg-datev">D</div>
+                    <div><div class="int-name">DATEV</div><div class="int-sub">Accounting export</div></div>
+                    <div class="int-status conn"><span class="pulse"></span>Aktiv</div>
+                  </div>
+                  <div class="int-desc">Monthly CSV export of Rechnungen &amp; payments into DATEV Unternehmen online.</div>
+                  <div class="int-foot"><span>Synced 2h ago</span><a class="int-link" href="#">Konfigurieren</a></div>
+                </div>
+                <div class="int-card on">
+                  <div class="int-top">
+                    <div class="int-logo ilg-stripe">S</div>
+                    <div><div class="int-name">Stripe</div><div class="int-sub">Online payments</div></div>
+                    <div class="int-status conn"><span class="pulse"></span>Aktiv</div>
+                  </div>
+                  <div class="int-desc">Card &amp; SEPA payments via hosted pay links on every invoice. EU region.</div>
+                  <div class="int-foot"><span>Last payment · 4h ago</span><a class="int-link" href="#">Konfigurieren</a></div>
+                </div>
+                <div class="int-card on">
+                  <div class="int-top">
+                    <div class="int-logo ilg-sepa">€</div>
+                    <div><div class="int-name">SEPA Direct Debit</div><div class="int-sub">Bank · Commerzbank</div></div>
+                    <div class="int-status conn"><span class="pulse"></span>Aktiv</div>
+                  </div>
+                  <div class="int-desc">Auto-collect recurring Rechnungen from clients with signed SEPA mandates.</div>
+                  <div class="int-foot"><span>Next run · 25 Apr</span><a class="int-link" href="#">Konfigurieren</a></div>
+                </div>
+                <div class="int-card">
+                  <div class="int-top">
+                    <div class="int-logo ilg-gcal">G</div>
+                    <div><div class="int-name">Google Calendar</div><div class="int-sub">Schedule sync</div></div>
+                    <div class="int-status off">Not connected</div>
+                  </div>
+                  <div class="int-desc">Push employee shifts to personal Google Calendars (two-way sync).</div>
+                  <div class="int-foot"><span>Free · all plans</span><a class="int-link" href="#">Verbinden →</a></div>
+                </div>
+                <div class="int-card">
+                  <div class="int-top">
+                    <div class="int-logo ilg-slack">#</div>
+                    <div><div class="int-name">Slack</div><div class="int-sub">Ops alerts</div></div>
+                    <div class="int-status off">Not connected</div>
+                  </div>
+                  <div class="int-desc">Pipe overdue Rechnungen, missed shifts and daily summaries into channels.</div>
+                  <div class="int-foot"><span>Free</span><a class="int-link" href="#">Verbinden →</a></div>
+                </div>
+                <div class="int-card">
+                  <div class="int-top">
+                    <div class="int-logo ilg-qb">Q</div>
+                    <div><div class="int-name">QuickBooks</div><div class="int-sub">International accounting</div></div>
+                    <div class="int-status off">Available</div>
+                  </div>
+                  <div class="int-desc">Sync Rechnungen &amp; payments for non-DE entities. Early access.</div>
+                  <div class="int-foot"><span>Beta</span><a class="int-link" href="#">Join waitlist</a></div>
+                </div>
+              </div>
+
+              <div class="hr"></div>
+              <h3 class="sub-h" style="display:flex;justify-content:space-between;align-items:center"><span>API-Schlüssel &amp; webhooks</span><button class="btn btn--white btn--sm"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg>New key</button></h3>
+              <div class="key-row">
+                <span class="key-tag prod">LIVE</span>
+                <div class="key-main">
+                  <div class="kn">Produktion API key</div>
+                  <div class="ks">sk_live_51Nx······9f2Aq73Tz8bC</div>
+                  <div class="kmeta">Erstellt 14 Mar 2026 · Zuletzt verwendet 11 Min. her · 4,218 Anf. / 30 T.</div>
+                </div>
+                <button class="btn btn--white btn--sm">Erneuern</button>
+                <button class="btn btn--white btn--sm" style="color:var(--error-700);border-color:#F3C8C8">Revoke</button>
+              </div>
+              <div class="key-row">
+                <span class="key-tag sand">TEST</span>
+                <div class="key-main">
+                  <div class="kn">Sandbox API key</div>
+                  <div class="ks">sk_test_44Xy······0w8Lb2Pe9vH</div>
+                  <div class="kmeta">Erstellt 02 Jan 2026 · Zuletzt verwendet yesterday · 847 Anf. / 30 T.</div>
+                </div>
+                <button class="btn btn--white btn--sm">Erneuern</button>
+                <button class="btn btn--white btn--sm" style="color:var(--error-700);border-color:#F3C8C8">Revoke</button>
+              </div>
+              <div class="callout" style="margin-top:10px;background:var(--warning-50);border-color:#F1D99F;color:var(--warning-700)"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 9v2m0 4h.01M10.3 3.9L1.8 18a2 2 0 0 0 1.7 3h16.9a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/></svg>Keep keys secret. Rotating a production key immediately invalidates the previous value — update your integrations first.</div>
+            </div>
+          </section>
+
+          <!-- Benachrichtigungen -->
+          <section class="card" id="notif">
+            <div class="card-head">
+              <div>
+                <h2 class="card-title"><span class="sect-id mg">05 · Mgmt</span>Benachrichtigungen</h2>
+                <p class="card-sub">Default delivery channels for each organisation event. Overrides available per user.</p>
+              </div>
+            </div>
+            <div class="card-body">
+              <div class="notif-row head">
+                <div class="nh-first">Event</div>
+                <div>In-App</div>
+                <div>E-Mail</div>
+                <div>Push</div>
+              </div>
+              <div class="notif-group">
+                <div class="notif-gh">Betrieb</div>
+                <div class="notif-row">
+                  <div class="notif-name">New schedule published<span class="nd">When a supervisor publishes the weekly schedule</span></div>
+                  <div class="toggle-cell"><span class="toggle on"></span></div>
+                  <div class="toggle-cell"><span class="toggle on"></span></div>
+                  <div class="toggle-cell"><span class="toggle"></span></div>
+                </div>
+                <div class="notif-row">
+                  <div class="notif-name">Schicht abgesagt or moved<span class="nd">Client-initiated cancellations, reassignments</span></div>
+                  <div class="toggle-cell"><span class="toggle on"></span></div>
+                  <div class="toggle-cell"><span class="toggle on"></span></div>
+                  <div class="toggle-cell"><span class="toggle on"></span></div>
+                </div>
+                <div class="notif-row">
+                  <div class="notif-name">Employee running late<span class="nd">Mehr than 10 minutes past scheduled start</span></div>
+                  <div class="toggle-cell"><span class="toggle on"></span></div>
+                  <div class="toggle-cell"><span class="toggle"></span></div>
+                  <div class="toggle-cell"><span class="toggle on"></span></div>
+                </div>
+              </div>
+              <div class="notif-group">
+                <div class="notif-gh">Finanzen</div>
+                <div class="notif-row">
+                  <div class="notif-name">Rechnung bezahlt<span class="nd">Payment confirmed via SEPA or Stripe</span></div>
+                  <div class="toggle-cell"><span class="toggle on"></span></div>
+                  <div class="toggle-cell"><span class="toggle on"></span></div>
+                  <div class="toggle-cell"><span class="toggle"></span></div>
+                </div>
+                <div class="notif-row">
+                  <div class="notif-name">Invoice overdue<span class="nd">Past due date + 3 days grace</span></div>
+                  <div class="toggle-cell"><span class="toggle on"></span></div>
+                  <div class="toggle-cell"><span class="toggle on"></span></div>
+                  <div class="toggle-cell"><span class="toggle on"></span></div>
+                </div>
+                <div class="notif-row">
+                  <div class="notif-name">Weekly finance digest<span class="nd">Summary every Monday 08:00</span></div>
+                  <div class="toggle-cell"><span class="toggle"></span></div>
+                  <div class="toggle-cell"><span class="toggle on"></span></div>
+                  <div class="toggle-cell"><span class="toggle"></span></div>
+                </div>
+              </div>
+              <div class="notif-group">
+                <div class="notif-gh">Team</div>
+                <div class="notif-row">
+                  <div class="notif-name">Vacation request submitted<span class="nd">Pending Geschäftsleitung approval</span></div>
+                  <div class="toggle-cell"><span class="toggle on"></span></div>
+                  <div class="toggle-cell"><span class="toggle on"></span></div>
+                  <div class="toggle-cell"><span class="toggle"></span></div>
+                </div>
+                <div class="notif-row">
+                  <div class="notif-name">Training expiring<span class="nd">Certification 30 days from expiry</span></div>
+                  <div class="toggle-cell"><span class="toggle on"></span></div>
+                  <div class="toggle-cell"><span class="toggle on"></span></div>
+                  <div class="toggle-cell"><span class="toggle"></span></div>
+                </div>
+              </div>
+            </div>
+            <div class="card-foot">
+              <span>Quiet hours · <b style="color:var(--neutral-800)">22:00 – 07:00</b> · push held until morning</span>
+              <a href="#" style="color:var(--primary-700);font-weight:600">Bearbeiten quiet hours →</a>
+            </div>
+          </section>
+
+          <!-- Mein Konto -->
+          <section class="card" id="acct">
+            <div class="card-head">
+              <div>
+                <h2 class="card-title"><span class="sect-id pe">06 · Persönlich</span>Mein Konto</h2>
+                <p class="card-sub">Your personal profile, language and sign-in details.</p>
+              </div>
+            </div>
+            <div class="card-body">
+              <div class="acct-top">
+                <div class="acct-avatar">PM<span class="online"></span></div>
+                <div>
+                  <div class="acct-name">Projektleitung 01 · Priya Sundaram</div>
+                  <div class="acct-handle">@priya.s · member since May 2024</div>
+                  <div class="acct-meta">
+                    <span><b>Geschäftsleitung</b> role</span>
+                    <span>Berlin Zentrale</span>
+                    <span>🇩🇪 Deutsch · Englisch · Tamil</span>
+                  </div>
+                </div>
+                <div><button class="btn btn--white btn--sm">Change photo</button></div>
+              </div>
+
+              <div class="form-grid">
+                <div class="form-row">
+                  <label>Vollständiger Name</label>
+                  <input type="text" value="Priya Sundaram" />
+                </div>
+                <div class="form-row">
+                  <label>Display name</label>
+                  <input type="text" value="Priya" />
+                </div>
+                <div class="form-row">
+                  <label>E-Mail <span class="hint">sign-in identifier</span></label>
+                  <input type="text" value="design@tylotech.de" />
+                </div>
+                <div class="form-row mono">
+                  <label>Telefon</label>
+                  <input type="text" value="+49 30 5555 0142" />
+                </div>
+                <div class="form-row">
+                  <label>Interface language</label>
+                  <select><option>Englisch (EN)</option><option>Deutsch (DE)</option><option>தமிழ் (TA)</option></select>
+                </div>
+                <div class="form-row">
+                  <label>Timezone</label>
+                  <select><option>Europe/Berlin · CET (UTC+1)</option></select>
+                </div>
+                <div class="form-row">
+                  <label>Datumsformat</label>
+                  <select><option>DD MMM YYYY · 21 Apr 2026</option></select>
+                </div>
+                <div class="form-row">
+                  <label>Week starts on</label>
+                  <select><option>Monday</option></select>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- Sicherheit -->
+          <section class="card" id="sec">
+            <div class="card-head">
+              <div>
+                <h2 class="card-title"><span class="sect-id pe">07 · Persönlich</span>Sicherheit</h2>
+                <p class="card-sub">Passwort, multi-factor authentication and single sign-on.</p>
+              </div>
+              <span class="sec-badge on">Strong · 92 / 100</span>
+            </div>
+            <div class="card-body">
+              <div class="sec-row">
+                <div class="sec-body">
+                  <div class="sec-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></div>
+                  <div class="sec-main">
+                    <div class="sn">Passwort</div>
+                    <div class="sd">Zuletzt geändert <b>92 days ago</b> · meets organisation policy (12+ chars, mixed case, symbol)</div>
+                  </div>
+                </div>
+                <div class="sec-actions"><button class="btn btn--white btn--sm">Passwort ändern</button></div>
+              </div>
+              <div class="sec-row">
+                <div class="sec-body">
+                  <div class="sec-icon succ"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="15" rx="2"/><path d="M16 7V5a4 4 0 0 0-8 0v2"/></svg></div>
+                  <div class="sec-main">
+                    <div class="sn">Zwei-Faktor-Authentifizierung <span class="sec-badge on">Aktiviert</span></div>
+                    <div class="sd">Authenticator app · iTelefon 15 (added 14 Mar 2026) · 8 recovery codes remaining</div>
+                  </div>
+                </div>
+                <div class="sec-actions"><button class="btn btn--white btn--sm">Verwalten</button><button class="btn btn--white btn--sm">View codes</button></div>
+              </div>
+              <div class="sec-row">
+                <div class="sec-body">
+                  <div class="sec-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-9-9"/><path d="M21 3v6h-6"/></svg></div>
+                  <div class="sec-main">
+                    <div class="sn">Single Sign-On (SSO)</div>
+                    <div class="sd">Google Workspace · <span class="mono">tylotech.de</span> · active for 2 Mitglieder</div>
+                  </div>
+                </div>
+                <div class="sec-actions"><span class="sec-badge on">Verbunden</span><button class="btn btn--white btn--sm">Konfigurieren</button></div>
+              </div>
+              <div class="sec-row">
+                <div class="sec-body">
+                  <div class="sec-icon warn"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 9v2m0 4h.01M10.3 3.9L1.8 18a2 2 0 0 0 1.7 3h16.9a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/></svg></div>
+                  <div class="sec-main">
+                    <div class="sn">Login-Benachrichtigungen</div>
+                    <div class="sd">Notify on sign-in from a new device or country · currently <b>email only</b></div>
+                  </div>
+                </div>
+                <div class="sec-actions"><span class="toggle on"></span></div>
+              </div>
+            </div>
+          </section>
+
+          <!-- Sessions & devices -->
+          <section class="card" id="sess">
+            <div class="card-head">
+              <div>
+                <h2 class="card-title"><span class="sect-id pe">08 · Persönlich</span>Sitzungen &amp; Geräte</h2>
+                <p class="card-sub">4 active sessions · revoke any device to force re-authentication.</p>
+              </div>
+              <button class="btn btn--white btn--sm" style="color:var(--error-700);border-color:#F3C8C8">Abmelden all other devices</button>
+            </div>
+            <div class="card-body">
+              <div class="sess-row">
+                <div class="dev-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg></div>
+                <div>
+                  <div class="dev-name">MacBook Pro · Chrome 124 <span class="current-pill">Dieses Gerät</span></div>
+                  <div class="dev-sub">macOS 14.4 · ip 84.164.xx.xx</div>
+                </div>
+                <div class="dev-geo">🇩🇪 Berlin, DE</div>
+                <div class="dev-last">Gerade aktiv</div>
+              </div>
+              <div class="sess-row">
+                <div class="dev-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2"/><path d="M12 18h.01"/></svg></div>
+                <div>
+                  <div class="dev-name">iTelefon 15 Pro · iOS app 2.4.1</div>
+                  <div class="dev-sub">iOS 17.4 · push notifications on</div>
+                </div>
+                <div class="dev-geo">🇩🇪 Berlin, DE</div>
+                <div class="dev-last">38 Min. her <button class="btn btn--white btn--sm" style="color:var(--error-700);border-color:#F3C8C8">Revoke</button></div>
+              </div>
+              <div class="sess-row">
+                <div class="dev-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M12 18h.01"/></svg></div>
+                <div>
+                  <div class="dev-name">iPad · Safari</div>
+                  <div class="dev-sub">iPadOS 17.2 · ip 84.164.xx.xx</div>
+                </div>
+                <div class="dev-geo">🇩🇪 Berlin, DE</div>
+                <div class="dev-last">Gestern <button class="btn btn--white btn--sm" style="color:var(--error-700);border-color:#F3C8C8">Revoke</button></div>
+              </div>
+              <div class="sess-row">
+                <div class="dev-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg></div>
+                <div>
+                  <div class="dev-name">Windows · Edge 124</div>
+                  <div class="dev-sub">Windows 11 · ip 193.22.xx.xx</div>
+                </div>
+                <div class="dev-geo">🇩🇪 Lager München</div>
+                <div class="dev-last">4 days ago <button class="btn btn--white btn--sm" style="color:var(--error-700);border-color:#F3C8C8">Revoke</button></div>
+              </div>
+            </div>
+            <div class="card-foot">
+              <span>All sessions use TLS 1.3 · device fingerprinting enabled</span>
+              <a href="#" style="color:var(--primary-700);font-weight:600">View full audit log →</a>
+            </div>
+          </section>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

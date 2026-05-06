@@ -1,0 +1,823 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Priya's Cleaning Service · Schedule</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Moo:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --primary-50:#EEF5E8; --primary-100:#D9E9C8; --primary-500:#72A94F; --primary-600:#5D8E3F; --primary-700:#487030;
+  --secondary-50:#E5EEF3; --secondary-500:#16587C; --secondary-600:#124A68; --secondary-700:#0F3C54; --secondary-800:#0B2D40; --secondary-900:#081F2C;
+  --accent-500:#A8CC87; --accent-600:#8BB06B; --tertiary-200:#F2FFEA;
+  --success-50:#E8F7EF; --success-500:#2D9E6B; --success-700:#1F6E4A;
+  --warning-50:#FDEFE5; --warning-500:#F4A261; --warning-700:#B36F3A;
+  --error-50:#FCE7E9; --error-500:#E63946; --error-700:#A32933;
+  --white:#FFFFFF;
+  --neutral-50:#F8FAF7; --neutral-100:#EEF2EC; --neutral-200:#DDE3DA; --neutral-300:#C3CCBE;
+  --neutral-400:#9DA898; --neutral-500:#78857A; --neutral-600:#5A6659; --neutral-700:#414B40; --neutral-800:#2A322A; --neutral-900:#141814;
+  --radius-sm:6px; --radius-md:8px; --radius-lg:12px; --radius-full:9999px;
+  --shadow-xs:0 1px 2px rgba(20,24,20,.04);
+  --shadow-sm:0 2px 4px rgba(20,24,20,.06),0 1px 2px rgba(20,24,20,.04);
+  --shadow-md:0 4px 10px rgba(20,24,20,.08),0 2px 4px rgba(20,24,20,.04);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Inter',system-ui,sans-serif;font-size:14px;line-height:1.5;color:var(--neutral-800);background:var(--tertiary-200);-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+button{font-family:inherit;cursor:pointer;border:none;background:none}
+ul{list-style:none}
+svg{display:block}
+
+.app{display:flex;min-height:100vh}
+
+/* Sidebar */
+.sidebar{width:240px;background:var(--secondary-900);color:rgba(255,255,255,.82);display:flex;flex-direction:column;padding:20px 12px;position:fixed;top:0;left:0;bottom:0;z-index:10}
+.sb-brand{display:flex;align-items:center;gap:12px;padding:6px 10px 24px;border-bottom:1px solid rgba(255,255,255,.06);margin-bottom:16px}
+.sb-logo{width:36px;height:36px;background:var(--primary-500);border-radius:var(--radius-md);display:grid;place-items:center;font-weight:800;color:#fff;font-size:17px}
+.sb-brand-name{font-size:14px;font-weight:600;color:#fff;letter-spacing:-.01em}
+.sb-brand-sub{font-size:10px;color:var(--accent-500);letter-spacing:.08em;text-transform:uppercase;margin-top:1px}
+.sb-section{font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:rgba(255,255,255,.35);padding:12px 12px 8px;font-weight:600}
+.sb-item{display:flex;align-items:center;gap:12px;padding:10px 12px;border-radius:var(--radius-sm);font-size:13px;color:rgba(255,255,255,.72);margin-bottom:2px;transition:all .15s}
+.sb-item:hover{background:rgba(255,255,255,.06);color:#fff}
+.sb-item svg{width:18px;height:18px;flex-shrink:0;stroke-width:1.8}
+.sb-item.active{background:var(--primary-500);color:#fff;font-weight:500}
+.sb-item .badge{margin-left:auto;background:rgba(255,255,255,.15);color:#fff;font-size:10px;padding:2px 7px;border-radius:var(--radius-full);font-weight:600}
+.sb-item.active .badge{background:rgba(0,0,0,.25)}
+.sb-collapse{margin-top:auto;display:flex;align-items:center;gap:10px;padding:16px 24px;font-size:12px;color:rgba(255,255,255,.55);border-top:1px solid rgba(255,255,255,.06);margin:16px -12px 0}
+.sb-collapse svg{width:14px;height:14px}
+
+.main{margin-left:240px;flex:1;display:flex;flex-direction:column}
+
+/* Topbar */
+.topbar{height:64px;background:#fff;border-bottom:1px solid var(--neutral-100);display:flex;align-items:center;justify-content:space-between;padding:0 28px;position:sticky;top:0;z-index:5}
+.tb-left{display:flex;align-items:center;gap:20px;flex:1;max-width:520px}
+.tb-search{flex:1;display:flex;align-items:center;gap:10px;background:var(--neutral-50);border:1px solid var(--neutral-100);border-radius:var(--radius-md);padding:8px 14px;color:var(--neutral-500)}
+.tb-search svg{width:16px;height:16px}
+.tb-search input{border:none;background:none;font-family:inherit;font-size:13px;outline:none;flex:1;color:var(--neutral-700)}
+.tb-search .kbd{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--neutral-400);padding:3px 6px;background:#fff;border:1px solid var(--neutral-200);border-radius:4px}
+.tb-right{display:flex;align-items:center;gap:6px}
+.icon-btn{width:40px;height:40px;border-radius:var(--radius-md);display:grid;place-items:center;color:var(--neutral-500);transition:all .15s;position:relative}
+.icon-btn:hover{background:var(--neutral-50);color:var(--neutral-800)}
+.icon-btn svg{width:18px;height:18px}
+.icon-btn .dot{position:absolute;top:8px;right:8px;width:8px;height:8px;background:var(--error-500);border-radius:50%;border:2px solid #fff}
+.tb-user{display:flex;align-items:center;gap:10px;padding:6px 12px 6px 6px;border-radius:var(--radius-full);cursor:pointer;transition:all .15s;margin-left:8px}
+.tb-user:hover{background:var(--neutral-50)}
+.avatar{border-radius:50%;display:grid;place-items:center;color:#fff;font-weight:600;background:var(--primary-500);flex-shrink:0}
+.avatar--xs{width:22px;height:22px;font-size:9px}
+.avatar--sm{width:32px;height:32px;font-size:12px}
+.tb-user-info{line-height:1.1}
+.tb-user-info .name{font-size:13px;font-weight:600;color:var(--neutral-800)}
+.tb-user-info .role{font-size:11px;color:var(--neutral-500);margin-top:2px}
+
+/* Content */
+.content{padding:20px 24px;width:100%}
+
+.breadcrumb{display:flex;gap:8px;align-items:center;font-size:12px;color:var(--neutral-500);margin-bottom:12px}
+.breadcrumb .sep{color:var(--neutral-300)}
+.breadcrumb .cur{color:var(--neutral-700);font-weight:500}
+
+/* Sched toolbar */
+.sched-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;gap:16px;flex-wrap:wrap}
+.sched-head h1{font-size:24px;font-weight:700;color:var(--secondary-500);letter-spacing:-.02em}
+.sched-head .sub{font-size:13px;color:var(--neutral-500);margin-top:4px}
+
+.btn{display:inline-flex;align-items:center;gap:8px;padding:10px 16px;border-radius:var(--radius-md);font-size:13px;font-weight:500;line-height:1;min-height:40px;transition:all .15s}
+.btn svg{width:16px;height:16px;stroke-width:2}
+.btn--primary{background:var(--primary-500);color:#fff}
+.btn--primary:hover{background:var(--primary-600)}
+.btn--tertiary{background:#fff;color:var(--primary-600);border:1.5px solid var(--primary-500)}
+.btn--tertiary:hover{background:var(--tertiary-200)}
+.btn--ghost{color:var(--neutral-600)}
+.btn--ghost:hover{background:var(--neutral-100);color:var(--neutral-800)}
+.btn--white{background:#fff;color:var(--neutral-700);border:1px solid var(--neutral-200)}
+.btn--white:hover{background:var(--neutral-50)}
+.btn--sm{padding:7px 12px;min-height:32px;font-size:12px}
+
+/* Sched subtoolbar */
+.subbar{display:flex;align-items:center;gap:12px;background:#fff;border:1px solid var(--neutral-100);border-radius:var(--radius-md);padding:10px 14px;margin-bottom:16px;flex-wrap:wrap}
+.week-nav{display:flex;align-items:center;gap:4px}
+.week-nav .arrow{width:32px;height:32px;border-radius:var(--radius-sm);display:grid;place-items:center;color:var(--neutral-500);border:1px solid var(--neutral-200);background:#fff;cursor:pointer}
+.week-nav .arrow:hover{color:var(--primary-600);border-color:var(--primary-500)}
+.week-nav .arrow svg{width:16px;height:16px}
+.week-label{font-size:14px;font-weight:600;color:var(--neutral-800);padding:0 10px}
+.btn--today{background:var(--tertiary-200);color:var(--primary-700);border:1px solid var(--primary-200,var(--primary-100));padding:7px 14px;min-height:34px;font-size:12px;font-weight:600}
+
+.segmented{display:inline-flex;background:var(--neutral-50);border:1px solid var(--neutral-100);border-radius:var(--radius-md);padding:3px;font-size:12px}
+.segmented button{padding:6px 14px;border-radius:4px;color:var(--neutral-600);font-weight:500;cursor:pointer;display:flex;align-items:center;gap:6px;font-size:12px}
+.segmented button svg{width:13px;height:13px}
+.segmented button.active{background:var(--primary-500);color:#fff;box-shadow:var(--shadow-xs)}
+
+.filter-chip{display:inline-flex;align-items:center;gap:6px;padding:7px 12px;border:1px solid var(--neutral-200);border-radius:var(--radius-md);background:#fff;font-size:12px;color:var(--neutral-700);cursor:pointer;transition:all .15s;font-weight:500}
+.filter-chip:hover{border-color:var(--primary-500);color:var(--primary-600)}
+.filter-chip svg{width:12px;height:12px}
+.filter-chip.active{background:var(--tertiary-200);border-color:var(--primary-500);color:var(--primary-700)}
+
+/* Service-type filter (NEW · Alltagshilfe module) */
+.svc-seg{display:inline-flex;align-items:center;gap:6px;padding:4px;border:1px solid var(--neutral-200);border-radius:var(--radius-md);background:#fff;font-size:11px;font-weight:600;flex-shrink:0}
+.svc-seg .svc-label{font-size:9px;font-weight:700;color:var(--neutral-500);text-transform:uppercase;letter-spacing:.06em;padding:0 6px 0 8px}
+.svc-seg button{padding:6px 12px;border-radius:var(--radius-sm);color:var(--neutral-600);display:flex;align-items:center;gap:6px;transition:all .15s;font-weight:600}
+.svc-seg button::before{content:'';width:7px;height:7px;border-radius:50%;background:var(--neutral-400)}
+.svc-seg button.all::before{background:linear-gradient(90deg,var(--primary-500) 0%,var(--primary-500) 50%,#E63946 50%,#E63946 100%)}
+.svc-seg button.priya::before{background:var(--primary-500)}
+.svc-seg button.alltags::before{background:#E63946}
+.svc-seg button:hover{background:var(--neutral-50);color:var(--neutral-800)}
+.svc-seg button.on.all{background:var(--neutral-100);color:var(--neutral-800)}
+.svc-seg button.on.priya{background:var(--primary-50);color:var(--primary-700)}
+.svc-seg button.on.alltags{background:#FCE7E9;color:#A32933}
+.svc-seg button .count{font-size:10px;font-weight:700;padding:1px 6px;border-radius:var(--radius-full);background:var(--neutral-100);color:var(--neutral-600)}
+.svc-seg button.on.priya .count{background:var(--primary-500);color:#fff}
+.svc-seg button.on.alltags .count{background:#E63946;color:#fff}
+.svc-seg button.on.all .count{background:var(--neutral-800);color:#fff}
+
+.subbar .spacer{flex:1}
+
+/* MAIN LAYOUT */
+.sched-layout{display:grid;grid-template-columns:240px 1fr 300px;gap:16px}
+@media (max-width:1400px){.sched-layout{grid-template-columns:220px 1fr}}
+@media (max-width:1100px){.sched-layout{grid-template-columns:1fr}}
+
+/* Left rail */
+.rail{display:flex;flex-direction:column;gap:16px}
+.rail-card{background:#fff;border:1px solid var(--neutral-100);border-radius:var(--radius-lg);padding:16px}
+.rail-card h4{font-size:12px;font-weight:600;color:var(--neutral-800);margin-bottom:10px;display:flex;justify-content:space-between;align-items:center}
+.rail-card h4 .link{font-size:11px;color:var(--primary-600);font-weight:500}
+
+/* Mini-Kalender */
+.mini-cal-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+.mini-cal-month{font-size:13px;font-weight:600;color:var(--neutral-800)}
+.mini-cal-nav{display:flex;gap:2px}
+.mini-cal-nav button{width:24px;height:24px;border-radius:var(--radius-sm);display:grid;place-items:center;color:var(--neutral-500)}
+.mini-cal-nav button:hover{background:var(--neutral-100)}
+.mini-cal-nav svg{width:12px;height:12px}
+.mini-cal{display:grid;grid-template-columns:repeat(7,1fr);gap:2px}
+.mini-cal .dow{font-size:10px;color:var(--neutral-500);text-align:center;padding:4px 0;font-weight:600;text-transform:uppercase;letter-spacing:.03em}
+.mini-cal .d{aspect-ratio:1;display:grid;place-items:center;font-size:11px;color:var(--neutral-700);border-radius:var(--radius-sm);cursor:pointer;position:relative;font-weight:500}
+.mini-cal .d:hover{background:var(--neutral-100)}
+.mini-cal .d.out{color:var(--neutral-300)}
+.mini-cal .d.today{background:var(--primary-50);color:var(--primary-700);font-weight:700}
+.mini-cal .d.sel{background:var(--primary-500);color:#fff}
+.mini-cal .d.has-event::after{content:'';position:absolute;bottom:2px;width:4px;height:4px;border-radius:50%;background:var(--primary-500)}
+.mini-cal .d.sel::after{background:#fff}
+.mini-cal .d.in-week{background:var(--tertiary-200);color:var(--primary-700);font-weight:600}
+
+/* Filter in rail */
+.filter-group{display:flex;flex-direction:column;gap:6px;margin-bottom:4px}
+.filter-item{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--neutral-700);cursor:pointer;padding:4px 0}
+.filter-item:hover{color:var(--neutral-900)}
+.filter-item .cb{width:14px;height:14px;border:1.5px solid var(--neutral-300);border-radius:3px;display:grid;place-items:center;background:#fff;flex-shrink:0}
+.filter-item.on .cb{background:currentColor;border-color:currentColor}
+.filter-item.on .cb::after{content:'';width:7px;height:3px;border-left:2px solid #fff;border-bottom:2px solid #fff;transform:rotate(-45deg) translate(1px,-1px)}
+.filter-item .swatch{width:10px;height:10px;border-radius:3px}
+.filter-item .count{margin-left:auto;font-size:11px;color:var(--neutral-500);font-weight:500}
+
+/* ==== WEEK CALENDAR ==== */
+.cal{background:#fff;border:1px solid var(--neutral-100);border-radius:var(--radius-lg);overflow:hidden}
+.cal-days{display:grid;grid-template-columns:56px repeat(7,1fr);background:var(--neutral-50);border-bottom:1px solid var(--neutral-200);position:sticky;top:64px;z-index:3}
+.cal-day-head{padding:12px 10px;font-size:11px;color:var(--neutral-500);font-weight:600;text-align:center;text-transform:uppercase;letter-spacing:.04em;border-right:1px solid var(--neutral-100)}
+.cal-day-head:last-child{border-right:none}
+.cal-day-head .dow{color:var(--neutral-500)}
+.cal-day-head .dnum{font-size:16px;color:var(--neutral-800);font-weight:700;margin-top:2px;letter-spacing:-.01em}
+.cal-day-head.today{background:var(--tertiary-200)}
+.cal-day-head.today .dow{color:var(--primary-600)}
+.cal-day-head.today .dnum{color:var(--primary-700)}
+.cal-day-head.wknd{background:var(--neutral-50)}
+.cal-day-head.wknd .dnum{color:var(--neutral-500)}
+
+.cal-grid{display:grid;grid-template-columns:56px repeat(7,1fr);position:relative}
+.cal-time{padding:8px 6px;font-size:10px;color:var(--neutral-500);text-align:right;border-right:1px solid var(--neutral-100);border-bottom:1px solid var(--neutral-100);background:#fff;min-height:56px;font-variant-numeric:tabular-nums}
+.cal-cell{border-right:1px solid var(--neutral-100);border-bottom:1px solid var(--neutral-100);min-height:56px;position:relative}
+.cal-cell:last-child{border-right:none}
+.cal-cell.today{background:rgba(114,169,79,.025)}
+.cal-cell.wknd{background:var(--neutral-50)}
+
+/* Events — use absolute positioning on cells to fake continuous blocks; keep it simple by inline-styling .evt inside cell */
+.evt{position:absolute;left:4px;right:4px;border-radius:6px;padding:6px 8px;cursor:pointer;overflow:hidden;display:flex;flex-direction:column;gap:2px;font-size:11px;line-height:1.25;border:1.5px solid transparent;transition:all .1s}
+.evt:hover{transform:scale(1.02);box-shadow:var(--shadow-md);z-index:2}
+.evt .t-time{font-size:9px;font-weight:600;opacity:.8;text-transform:uppercase;letter-spacing:.03em;display:flex;justify-content:space-between;align-items:center}
+.evt .t-title{font-size:11px;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.evt .t-meta{font-size:10px;opacity:.75;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.evt .t-avatars{display:flex;margin-top:2px}
+.evt .t-avatars .avatar{margin-left:-5px;border:1.5px solid #fff}
+.evt .t-avatars .avatar:first-child{margin-left:0}
+
+/* Event color variants */
+.evt.clr-green{background:var(--primary-50);color:var(--primary-700);border-color:var(--primary-500)}
+.evt.clr-blue{background:var(--secondary-50);color:var(--secondary-600);border-color:var(--secondary-500)}
+.evt.clr-orange{background:var(--warning-50);color:var(--warning-700);border-color:var(--warning-500)}
+.evt.clr-red{background:var(--error-50);color:var(--error-700);border-color:var(--error-500)}
+.evt.clr-green.done{background:var(--success-50);color:var(--success-700);border-color:var(--success-500)}
+.evt.sel{box-shadow:0 0 0 2px var(--primary-500),var(--shadow-md);transform:translateY(-1px)}
+
+/* Right detail panel */
+.detail{background:#fff;border:1px solid var(--neutral-100);border-radius:var(--radius-lg);overflow:hidden;position:sticky;top:84px;height:fit-content;max-height:calc(100vh - 120px);overflow-y:auto}
+.detail-head{padding:16px 18px;border-bottom:1px solid var(--neutral-100);background:var(--primary-50);position:relative}
+.detail-head .close-btn{position:absolute;right:12px;top:14px;width:26px;height:26px;border-radius:var(--radius-sm);display:grid;place-items:center;color:var(--neutral-600)}
+.detail-head .close-btn:hover{background:rgba(255,255,255,.4)}
+.detail-head .close-btn svg{width:14px;height:14px}
+.detail-head .chip{display:inline-flex;align-items:center;gap:4px;padding:2px 8px;border-radius:var(--radius-full);font-size:10px;font-weight:600;background:#fff;color:var(--primary-700)}
+.detail-head h3{font-size:15px;font-weight:700;color:var(--neutral-900);margin-top:8px;letter-spacing:-.01em}
+.detail-head .sub{font-size:11px;color:var(--neutral-700);margin-top:3px}
+.detail-body{padding:14px 18px}
+.detail-row{display:flex;justify-content:space-between;align-items:flex-start;padding:8px 0;border-bottom:1px solid var(--neutral-100);font-size:12px;gap:12px}
+.detail-row:last-child{border-bottom:none}
+.detail-row .lbl{color:var(--neutral-500);font-weight:500;flex-shrink:0}
+.detail-row .val{color:var(--neutral-800);font-weight:600;text-align:right}
+.detail-section-head{font-size:11px;color:var(--neutral-500);text-transform:uppercase;font-weight:600;letter-spacing:.04em;margin:14px 0 8px}
+.detail-team{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--neutral-100)}
+.detail-team:last-child{border-bottom:none}
+.detail-team .avatar--sm{width:28px;height:28px;font-size:10px}
+.detail-team .info{flex:1;min-width:0}
+.detail-team .name{font-size:12px;font-weight:600;color:var(--neutral-800)}
+.detail-team .role{font-size:10px;color:var(--neutral-500);margin-top:1px}
+.detail-team .role-badge{font-size:9px;padding:1px 5px;border-radius:var(--radius-full);background:var(--primary-100);color:var(--primary-700);font-weight:600;text-transform:uppercase;letter-spacing:.03em}
+.detail-ctas{display:flex;gap:8px;padding:14px 18px;border-top:1px solid var(--neutral-100);background:var(--neutral-50)}
+.detail-ctas .btn{flex:1;justify-content:center}
+
+/* Liste view (hidden by default) */
+.cal-list{background:#fff;border:1px solid var(--neutral-100);border-radius:var(--radius-lg);display:none;overflow:hidden}
+.cal-list.show{display:block}
+</style>
+</head>
+<body>
+
+<div class="app">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+      <div class="sb-brand">
+        <div class="sb-logo">P</div>
+        <div>
+          <div class="sb-brand-name">Priya's</div>
+          <div class="sb-brand-sub">Betrieb</div>
+        </div>
+      </div>
+      <div class="sb-section">Arbeitsbereich</div>
+      <a class="sb-item" href="02-dashboard.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>Übersicht</a>
+      <a class="sb-item" href="03-clients-list.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>Kunden<span class="badge">10</span></a>
+      <a class="sb-item" href="05-properties-list.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21V7l8-4 8 4v14"/><path d="M9 9h2M13 9h2M9 13h2M13 13h2M9 17h2M13 17h2"/></svg>Objekte<span class="badge">112</span></a>
+      <a class="sb-item active" href="07-schedule.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 9h18M8 3v4M16 3v4"/></svg>Einsatzplan</a>
+      <a class="sb-item" href="08-employees-list.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>Mitarbeiter<span class="badge">32</span></a>
+      <a class="sb-item" href="14-reports.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M7 14l3-3 3 3 5-5"/></svg>Berichte</a>
+      <div class="sb-section">Alltagshilfe</div>
+      <a class="sb-item" href="15-customer-type-picker.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 000-7.78z"/></svg>Pflegekunden</a>
+      <a class="sb-item" href="16-alltagshilfe-report.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6"/></svg>Monatsbericht</a>
+      <div class="sb-section">Kommunikation</div>
+      <a class="sb-item" href="17-team-chat.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a7.5 7.5 0 01-11.2 6.5L4 20l1.5-5.2A7.5 7.5 0 1121 12z"/></svg>Team-Chat<span class="badge">3</span></a>
+      <a class="sb-item" href="18-notifications.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8a6 6 0 0112 0c0 7 3 8 3 8H3s3-1 3-8zM10 21a2 2 0 004 0"/></svg>Benachrichtigungen<span class="badge">12</span></a>
+      <div class="sb-section">System</div>
+      <a class="sb-item" href="13-settings.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.3 1.8l.1.1a2 2 0 11-2.8 2.8l-.1-.1a1.65 1.65 0 00-1.8-.3 1.65 1.65 0 00-1 1.5V21a2 2 0 11-4 0v-.1a1.65 1.65 0 00-1-1.5 1.65 1.65 0 00-1.8.3l-.1.1a2 2 0 11-2.8-2.8l.1-.1a1.65 1.65 0 00.3-1.8 1.65 1.65 0 00-1.5-1H3a2 2 0 110-4h.1a1.65 1.65 0 001.5-1 1.65 1.65 0 00-.3-1.8l-.1-.1a2 2 0 112.8-2.8l.1.1a1.65 1.65 0 001.8.3h0a1.65 1.65 0 001-1.5V3a2 2 0 114 0v.1a1.65 1.65 0 001 1.5 1.65 1.65 0 001.8-.3l.1-.1a2 2 0 112.8 2.8l-.1.1a1.65 1.65 0 00-.3 1.8v0a1.65 1.65 0 001.5 1H21a2 2 0 110 4h-.1a1.65 1.65 0 00-1.5 1z"/></svg>Einstellungen</a>
+      <div class="sb-collapse"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>Seitenleiste einklappen</div>
+    </aside>
+
+  <div class="main">
+
+    <!-- Topbar -->
+    <header class="topbar">
+      <div class="tb-left">
+        <div class="tb-search">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+          <input placeholder="Kunden, Objekte, Rechnungen suchen…" />
+          <span class="kbd">⌘ K</span>
+        </div>
+      </div>
+      <div class="tb-right">
+        <button class="icon-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.1 9a3 3 0 015.8 1c0 2-3 3-3 3M12 17h.01"/></svg></button>
+        <button class="icon-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a7.5 7.5 0 01-11.2 6.5L4 20l1.5-5.2A7.5 7.5 0 1121 12z"/></svg><span class="dot"></span></button>
+        <button class="icon-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8a6 6 0 0112 0c0 7 3 8 3 8H3s3-1 3-8zM10 21a2 2 0 004 0"/></svg><span class="dot"></span></button>
+        <div class="tb-user">
+          <div class="avatar avatar--sm">AM</div>
+          <div class="tb-user-info"><div class="name">Alex Müller</div><div class="role">Geschäftsleitung</div></div>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px;color:var(--neutral-400)"><path d="M6 9l6 6 6-6"/></svg>
+        </div>
+      </div>
+    </header>
+
+    <div class="content">
+
+      <!-- Breadcrumb -->
+      <div class="breadcrumb">
+        <a href="02-dashboard.html">Übersicht</a>
+        <span class="sep">/</span>
+        <span class="cur">Einsatzplan</span>
+      </div>
+
+      <!-- Head -->
+      <div class="sched-head">
+        <div>
+          <h1>Einsatzplan</h1>
+          <div class="sub">All field assignments across teams, clients and properties.</div>
+        </div>
+        <div style="display:flex;gap:10px">
+          <button class="btn btn--white">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 10l-5 5-5-5M12 15V3"/></svg>
+            Export
+          </button>
+          <button class="btn btn--tertiary">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg>
+            New assignment
+          </button>
+          <button class="btn btn--primary">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 9h18"/></svg>
+            Schicht planen
+          </button>
+        </div>
+      </div>
+
+      <!-- Sub toolbar -->
+      <div class="subbar">
+        <div class="week-nav">
+          <button class="arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></button>
+          <div class="week-label">Woche vom 20. – 26. April 2026</div>
+          <button class="arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg></button>
+        </div>
+        <button class="btn btn--today">Heute</button>
+        <div class="segmented">
+          <button>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 3v18"/></svg>
+            Tag
+          </button>
+          <button class="active">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 3v18M15 3v18"/></svg>
+            Woche
+          </button>
+          <button>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 9h18M8 3v4M16 3v4"/></svg>
+            Moat
+          </button>
+          <button>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><circle cx="4" cy="6" r="1"/><circle cx="4" cy="12" r="1"/><circle cx="4" cy="18" r="1"/></svg>
+            Liste
+          </button>
+        </div>
+        <div class="svc-seg" title="Filter shifts by service line">
+          <span class="svc-label">Service</span>
+          <button class="all on">All <span class="count">18</span></button>
+          <button class="priya">Priya's <span class="count">14</span></button>
+          <button class="alltags">Alltagshilfe <span class="count">4</span></button>
+        </div>
+        <div class="spacer"></div>
+        <button class="filter-chip active">Team <span class="count">3 / 5</span></button>
+        <button class="filter-chip">Kunde</button>
+        <button class="filter-chip">Status</button>
+        <button class="filter-chip">Mehr
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+      </div>
+
+      <!-- Layout: rail + week grid + detail -->
+      <div class="sched-layout">
+
+        <!-- Left rail -->
+        <aside class="rail">
+
+          <!-- Mini-Kalender -->
+          <div class="rail-card">
+            <div class="mini-cal-head">
+              <div class="mini-cal-month">April 2026</div>
+              <div class="mini-cal-nav">
+                <button><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></button>
+                <button><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg></button>
+              </div>
+            </div>
+            <div class="mini-cal">
+              <div class="dow">Mo</div><div class="dow">Tu</div><div class="dow">We</div><div class="dow">Th</div><div class="dow">Fr</div><div class="dow">Sa</div><div class="dow">Su</div>
+              <!-- Wk 14 (Mar 30 – Apr 5) -->
+              <div class="d out">30</div><div class="d out">31</div>
+              <div class="d has-event">1</div><div class="d has-event">2</div><div class="d">3</div><div class="d">4</div><div class="d">5</div>
+              <!-- Wk 15 -->
+              <div class="d has-event">6</div><div class="d has-event">7</div><div class="d has-event">8</div><div class="d">9</div><div class="d has-event">10</div><div class="d">11</div><div class="d">12</div>
+              <!-- Wk 16 -->
+              <div class="d has-event">13</div><div class="d has-event">14</div><div class="d has-event">15</div><div class="d has-event">16</div><div class="d has-event">17</div><div class="d">18</div><div class="d">19</div>
+              <!-- Wk 17 (current week Apr 20-26) -->
+              <div class="d sel today has-event">20</div>
+              <div class="d in-week has-event">21</div>
+              <div class="d in-week has-event">22</div>
+              <div class="d in-week has-event">23</div>
+              <div class="d in-week has-event">24</div>
+              <div class="d in-week">25</div>
+              <div class="d in-week">26</div>
+              <!-- Wk 18 -->
+              <div class="d has-event">27</div><div class="d has-event">28</div><div class="d has-event">29</div><div class="d">30</div>
+              <div class="d out">1</div><div class="d out">2</div><div class="d out">3</div>
+            </div>
+          </div>
+
+          <!-- Team filter -->
+          <div class="rail-card">
+            <h4>Team <span class="link">Alle</span></h4>
+            <div class="filter-group">
+              <label class="filter-item on" style="color:var(--secondary-500)">
+                <span class="cb"></span><span class="swatch" style="background:var(--secondary-500)"></span>
+                <span>Team 01 · Kern</span><span class="count">12</span>
+              </label>
+              <label class="filter-item on" style="color:var(--primary-500)">
+                <span class="cb"></span><span class="swatch" style="background:var(--primary-500)"></span>
+                <span>Team 02 · Springer</span><span class="count">8</span>
+              </label>
+              <label class="filter-item on" style="color:var(--warning-500)">
+                <span class="cb"></span><span class="swatch" style="background:var(--warning-500)"></span>
+                <span>Team 03 · Specialists</span><span class="count">5</span>
+              </label>
+              <label class="filter-item" style="color:var(--error-500)">
+                <span class="cb"></span><span class="swatch" style="background:var(--error-500)"></span>
+                <span>Team 04 · Night</span><span class="count">3</span>
+              </label>
+              <label class="filter-item" style="color:var(--neutral-400)">
+                <span class="cb"></span><span class="swatch" style="background:var(--neutral-400)"></span>
+                <span>Subunternehmer</span><span class="count">4</span>
+              </label>
+            </div>
+          </div>
+
+          <!-- Status filter -->
+          <div class="rail-card">
+            <h4>Status</h4>
+            <div class="filter-group">
+              <label class="filter-item on" style="color:var(--success-700)">
+                <span class="cb"></span><span class="swatch" style="background:var(--success-500)"></span>
+                <span>Erledigt</span><span class="count">18</span>
+              </label>
+              <label class="filter-item on" style="color:var(--secondary-600)">
+                <span class="cb"></span><span class="swatch" style="background:var(--secondary-500)"></span>
+                <span>Geplant</span><span class="count">15</span>
+              </label>
+              <label class="filter-item on" style="color:var(--warning-700)">
+                <span class="cb"></span><span class="swatch" style="background:var(--warning-500)"></span>
+                <span>Läuft</span><span class="count">3</span>
+              </label>
+              <label class="filter-item" style="color:var(--error-700)">
+                <span class="cb"></span><span class="swatch" style="background:var(--error-500)"></span>
+                <span>Missed / overdue</span><span class="count">1</span>
+              </label>
+            </div>
+          </div>
+
+          <!-- Legend -->
+          <div class="rail-card" style="padding:12px 16px">
+            <h4 style="margin-bottom:8px">Hints</h4>
+            <div style="font-size:11px;color:var(--neutral-500);line-height:1.6">
+              Click a block to inspect. Drag to reschedule (enabled in active session). Right-click for quick actions.
+            </div>
+          </div>
+
+        </aside>
+
+        <!-- Woche calendar -->
+        <div class="cal">
+          <div class="cal-days">
+            <div class="cal-day-head"></div>
+            <div class="cal-day-head today">
+              <div class="dow">Mo</div><div class="dnum">20</div>
+            </div>
+            <div class="cal-day-head">
+              <div class="dow">Di</div><div class="dnum">21</div>
+            </div>
+            <div class="cal-day-head">
+              <div class="dow">Mi</div><div class="dnum">22</div>
+            </div>
+            <div class="cal-day-head">
+              <div class="dow">Do</div><div class="dnum">23</div>
+            </div>
+            <div class="cal-day-head">
+              <div class="dow">Fr</div><div class="dnum">24</div>
+            </div>
+            <div class="cal-day-head wknd">
+              <div class="dow">Sa</div><div class="dnum">25</div>
+            </div>
+            <div class="cal-day-head wknd">
+              <div class="dow">So</div><div class="dnum">26</div>
+            </div>
+          </div>
+
+          <div class="cal-grid">
+            <!-- 6:00 -->
+            <div class="cal-time">06:00</div>
+            <div class="cal-cell today">
+              <div class="evt clr-green done" style="top:4px;height:104px">
+                <div class="t-time"><span>06:00 – 08:00</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="width:10px;height:10px"><path d="M20 6L9 17l-5-5"/></svg></div>
+                <div class="t-title">Prop A · Daily clean</div>
+                <div class="t-meta">Kunde Company 01</div>
+                <div class="t-avatars"><span class="avatar avatar--xs" style="background:var(--secondary-500)">E1</span><span class="avatar avatar--xs" style="background:var(--accent-500);color:var(--secondary-800)">E5</span></div>
+              </div>
+            </div>
+            <div class="cal-cell">
+              <div class="evt clr-green" style="top:4px;height:80px">
+                <div class="t-time"><span>06:30 – 08:00</span></div>
+                <div class="t-title">Prop C · Retail open</div>
+                <div class="t-meta">Kunde Company 02</div>
+                <div class="t-avatars"><span class="avatar avatar--xs" style="background:var(--primary-500)">E3</span></div>
+              </div>
+            </div>
+            <div class="cal-cell">
+              <div class="evt clr-green" style="top:20px;height:100px">
+                <div class="t-time"><span>06:15 – 08:00</span></div>
+                <div class="t-title">Prop A · Daily clean</div>
+                <div class="t-meta">Kunde Company 01</div>
+                <div class="t-avatars"><span class="avatar avatar--xs" style="background:var(--secondary-500)">E1</span></div>
+              </div>
+            </div>
+            <div class="cal-cell">
+              <div class="evt clr-green" style="top:0;height:90px">
+                <div class="t-time"><span>06:00 – 07:30</span></div>
+                <div class="t-title">Prop G · Opening</div>
+                <div class="t-meta">Kunde Company 05</div>
+                <div class="t-avatars"><span class="avatar avatar--xs" style="background:var(--warning-500)">E2</span></div>
+              </div>
+            </div>
+            <div class="cal-cell">
+              <div class="evt clr-green" style="top:10px;height:84px">
+                <div class="t-time"><span>06:30 – 08:00</span></div>
+                <div class="t-title">Prop I · Coworking</div>
+                <div class="t-meta">Kunde Company 06</div>
+                <div class="t-avatars"><span class="avatar avatar--xs" style="background:var(--warning-500)">E2</span></div>
+              </div>
+            </div>
+            <div class="cal-cell wknd"></div>
+            <div class="cal-cell wknd"></div>
+
+            <!-- 7:00 -->
+            <div class="cal-time">07:00</div>
+            <div class="cal-cell today"></div>
+            <div class="cal-cell"></div>
+            <div class="cal-cell"></div>
+            <div class="cal-cell"></div>
+            <div class="cal-cell"></div>
+            <div class="cal-cell wknd"></div>
+            <div class="cal-cell wknd"></div>
+
+            <!-- 8:00 -->
+            <div class="cal-time">08:00</div>
+            <div class="cal-cell today"></div>
+            <div class="cal-cell">
+              <div class="evt clr-blue sel" style="top:2px;height:156px">
+                <div class="t-time"><span>08:00 – 11:00</span></div>
+                <div class="t-title">Prop B · Deep clean</div>
+                <div class="t-meta">Kunde Company 01 · L2 offices</div>
+                <div class="t-avatars"><span class="avatar avatar--xs" style="background:var(--secondary-500)">E1</span><span class="avatar avatar--xs" style="background:var(--warning-500)">E2</span><span class="avatar avatar--xs" style="background:var(--primary-500)">E3</span></div>
+              </div>
+            </div>
+            <div class="cal-cell"></div>
+            <div class="cal-cell">
+              <div class="evt clr-orange" style="top:8px;height:112px">
+                <div class="t-time"><span>08:15 – 10:30</span></div>
+                <div class="t-title">Prop E · Clinic turn-around</div>
+                <div class="t-meta">Kunde Company 03</div>
+                <div class="t-avatars"><span class="avatar avatar--xs" style="background:var(--error-500)">E4</span></div>
+              </div>
+            </div>
+            <div class="cal-cell"></div>
+            <div class="cal-cell wknd"></div>
+            <div class="cal-cell wknd"></div>
+
+            <!-- 9:00 -->
+            <div class="cal-time">09:00</div>
+            <div class="cal-cell today">
+              <div class="evt clr-blue" style="top:4px;height:80px">
+                <div class="t-time"><span>09:00 – 10:30</span></div>
+                <div class="t-title">Prop F · Office refresh</div>
+                <div class="t-meta">Kunde Company 04</div>
+                <div class="t-avatars"><span class="avatar avatar--xs" style="background:var(--accent-500);color:var(--secondary-800)">E5</span></div>
+              </div>
+            </div>
+            <div class="cal-cell"></div>
+            <div class="cal-cell">
+              <div class="evt clr-blue" style="top:10px;height:72px">
+                <div class="t-time"><span>09:15 – 10:30</span></div>
+                <div class="t-title">Prop D · Turnover</div>
+                <div class="t-meta">Kunde Individual 03</div>
+                <div class="t-avatars"><span class="avatar avatar--xs" style="background:var(--primary-500)">E3</span></div>
+              </div>
+            </div>
+            <div class="cal-cell"></div>
+            <div class="cal-cell"></div>
+            <div class="cal-cell wknd"></div>
+            <div class="cal-cell wknd"></div>
+
+            <!-- 10:00 -->
+            <div class="cal-time">10:00</div>
+            <div class="cal-cell today"></div>
+            <div class="cal-cell"></div>
+            <div class="cal-cell"></div>
+            <div class="cal-cell"></div>
+            <div class="cal-cell"></div>
+            <div class="cal-cell wknd">
+              <div class="evt clr-green" style="top:4px;height:72px">
+                <div class="t-time"><span>10:00 – 11:00</span></div>
+                <div class="t-title">Prop G · Retail sweep</div>
+                <div class="t-meta">Kunde Company 05</div>
+                <div class="t-avatars"><span class="avatar avatar--xs" style="background:var(--primary-500)">E3</span></div>
+              </div>
+            </div>
+            <div class="cal-cell wknd"></div>
+
+            <!-- 11:00 -->
+            <div class="cal-time">11:00</div>
+            <div class="cal-cell today"></div>
+            <div class="cal-cell"></div>
+            <div class="cal-cell"></div>
+            <div class="cal-cell"></div>
+            <div class="cal-cell"></div>
+            <div class="cal-cell wknd"></div>
+            <div class="cal-cell wknd"></div>
+
+            <!-- 12:00 -->
+            <div class="cal-time">12:00</div>
+            <div class="cal-cell today">
+              <div class="evt clr-orange" style="top:4px;height:124px">
+                <div class="t-time"><span>12:00 – 14:30</span></div>
+                <div class="t-title">Prop E · Medical deep clean</div>
+                <div class="t-meta">Kunde Company 03</div>
+                <div class="t-avatars"><span class="avatar avatar--xs" style="background:var(--error-500)">E4</span><span class="avatar avatar--xs" style="background:var(--accent-500);color:var(--secondary-800)">E5</span></div>
+              </div>
+            </div>
+            <div class="cal-cell"></div>
+            <div class="cal-cell"></div>
+            <div class="cal-cell">
+              <div class="evt clr-red" style="top:12px;height:96px">
+                <div class="t-time"><span>12:15 – 14:00</span></div>
+                <div class="t-title">Prop E · Spill response</div>
+                <div class="t-meta">Urgent · Kunde Company 03</div>
+                <div class="t-avatars"><span class="avatar avatar--xs" style="background:var(--error-500)">E4</span></div>
+              </div>
+            </div>
+            <div class="cal-cell"></div>
+            <div class="cal-cell wknd"></div>
+            <div class="cal-cell wknd"></div>
+
+            <!-- 13:00 -->
+            <div class="cal-time">13:00</div>
+            <div class="cal-cell today"></div>
+            <div class="cal-cell"></div>
+            <div class="cal-cell"></div>
+            <div class="cal-cell"></div>
+            <div class="cal-cell"></div>
+            <div class="cal-cell wknd"></div>
+            <div class="cal-cell wknd"></div>
+
+            <!-- 14:00 -->
+            <div class="cal-time">14:00</div>
+            <div class="cal-cell today"></div>
+            <div class="cal-cell"></div>
+            <div class="cal-cell">
+              <div class="evt clr-blue" style="top:4px;height:140px">
+                <div class="t-time"><span>14:00 – 17:00</span></div>
+                <div class="t-title">Prop A · Window clean</div>
+                <div class="t-meta">Kunde Company 01 · Interior</div>
+                <div class="t-avatars"><span class="avatar avatar--xs" style="background:var(--warning-500)">E2</span></div>
+              </div>
+            </div>
+            <div class="cal-cell"></div>
+            <div class="cal-cell"></div>
+            <div class="cal-cell wknd"></div>
+            <div class="cal-cell wknd"></div>
+
+            <!-- 15:00 -->
+            <div class="cal-time">15:00</div>
+            <div class="cal-cell today"></div>
+            <div class="cal-cell">
+              <div class="evt clr-green" style="top:4px;height:112px">
+                <div class="t-time"><span>15:00 – 17:00</span></div>
+                <div class="t-title">Prop J · Dental suite</div>
+                <div class="t-meta">Kunde Company 07</div>
+                <div class="t-avatars"><span class="avatar avatar--xs" style="background:var(--primary-500)">E3</span></div>
+              </div>
+            </div>
+            <div class="cal-cell"></div>
+            <div class="cal-cell"></div>
+            <div class="cal-cell">
+              <div class="evt clr-green" style="top:8px;height:116px">
+                <div class="t-time"><span>15:15 – 17:30</span></div>
+                <div class="t-title">Prop F · Business park</div>
+                <div class="t-meta">Kunde Company 04</div>
+                <div class="t-avatars"><span class="avatar avatar--xs" style="background:var(--accent-500);color:var(--secondary-800)">E5</span></div>
+              </div>
+            </div>
+            <div class="cal-cell wknd"></div>
+            <div class="cal-cell wknd"></div>
+
+            <!-- 16:00 -->
+            <div class="cal-time">16:00</div>
+            <div class="cal-cell today"></div>
+            <div class="cal-cell"></div>
+            <div class="cal-cell"></div>
+            <div class="cal-cell"></div>
+            <div class="cal-cell"></div>
+            <div class="cal-cell wknd"></div>
+            <div class="cal-cell wknd"></div>
+
+            <!-- 17:00 -->
+            <div class="cal-time">17:00</div>
+            <div class="cal-cell today">
+              <div class="evt clr-blue" style="top:4px;height:160px">
+                <div class="t-time"><span>17:00 – 20:00</span></div>
+                <div class="t-title">Prop A · Offices L1/L2</div>
+                <div class="t-meta">Kunde Company 01 · 4-person team</div>
+                <div class="t-avatars"><span class="avatar avatar--xs" style="background:var(--secondary-500)">E1</span><span class="avatar avatar--xs" style="background:var(--warning-500)">E2</span><span class="avatar avatar--xs" style="background:var(--primary-500)">E3</span><span class="avatar avatar--xs" style="background:var(--neutral-400)">+1</span></div>
+              </div>
+            </div>
+            <div class="cal-cell"></div>
+            <div class="cal-cell"></div>
+            <div class="cal-cell">
+              <div class="evt clr-blue" style="top:4px;height:108px">
+                <div class="t-time"><span>17:00 – 19:00</span></div>
+                <div class="t-title">Prop H · Apartment turn</div>
+                <div class="t-meta">Kunde Individual 07</div>
+                <div class="t-avatars"><span class="avatar avatar--xs" style="background:var(--accent-500);color:var(--secondary-800)">E5</span></div>
+              </div>
+            </div>
+            <div class="cal-cell"></div>
+            <div class="cal-cell wknd"></div>
+            <div class="cal-cell wknd"></div>
+
+            <!-- 18:00 -->
+            <div class="cal-time">18:00</div>
+            <div class="cal-cell today"></div>
+            <div class="cal-cell"></div>
+            <div class="cal-cell"></div>
+            <div class="cal-cell"></div>
+            <div class="cal-cell"></div>
+            <div class="cal-cell wknd"></div>
+            <div class="cal-cell wknd"></div>
+
+            <!-- 19:00 -->
+            <div class="cal-time">19:00</div>
+            <div class="cal-cell today"></div>
+            <div class="cal-cell"></div>
+            <div class="cal-cell">
+              <div class="evt clr-orange" style="top:4px;height:88px">
+                <div class="t-time"><span>19:00 – 20:30</span></div>
+                <div class="t-title">Prop C · Retail close</div>
+                <div class="t-meta">Kunde Company 02</div>
+                <div class="t-avatars"><span class="avatar avatar--xs" style="background:var(--warning-500)">E2</span></div>
+              </div>
+            </div>
+            <div class="cal-cell"></div>
+            <div class="cal-cell"></div>
+            <div class="cal-cell wknd"></div>
+            <div class="cal-cell wknd"></div>
+
+            <!-- 20:00 -->
+            <div class="cal-time">20:00</div>
+            <div class="cal-cell today"></div>
+            <div class="cal-cell"></div>
+            <div class="cal-cell"></div>
+            <div class="cal-cell"></div>
+            <div class="cal-cell"></div>
+            <div class="cal-cell wknd"></div>
+            <div class="cal-cell wknd"></div>
+
+          </div><!-- /cal-grid -->
+        </div><!-- /cal -->
+
+        <!-- Right detail panel (shows for selected assignment) -->
+        <aside class="detail">
+          <div class="detail-head">
+            <button class="close-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6L6 18M6 6l12 12"/></svg></button>
+            <span class="chip"><span style="width:5px;height:5px;border-radius:50%;background:var(--secondary-500)"></span>Geplant</span>
+            <h3>Prop B · Deep clean</h3>
+            <div class="sub">Disday, 21 April · 08:00 – 11:00</div>
+          </div>
+          <div class="detail-body">
+            <div class="detail-row"><span class="lbl">Kunde</span><span class="val"><a href="04-client-detail.html" style="color:var(--secondary-500)">Kunde Company 01</a></span></div>
+            <div class="detail-row"><span class="lbl">Property</span><span class="val"><a href="06-property-detail.html" style="color:var(--secondary-500)">Objekt B · Hotel Mitte · North Campus</a></span></div>
+            <div class="detail-row"><span class="lbl">Area</span><span class="val">L2 offices</span></div>
+            <div class="detail-row"><span class="lbl">Service</span><span class="val">Deep clean · 3-weekly</span></div>
+            <div class="detail-row"><span class="lbl">Dauer</span><span class="val">3h 00m</span></div>
+            <div class="detail-row"><span class="lbl">Cost center</span><span class="val" style="font-family:'JetBrains Mono',monospace;font-size:11px">CC-01-OPS</span></div>
+
+            <div class="detail-section-head">Assigned team · 3</div>
+            <div class="detail-team">
+              <div class="avatar avatar--sm" style="background:var(--secondary-500)">E1</div>
+              <div class="info"><div class="name">Anna Krüger</div><div class="role">Team lead</div></div>
+              <span class="role-badge">Lead</span>
+            </div>
+            <div class="detail-team">
+              <div class="avatar avatar--sm" style="background:var(--warning-500)">E2</div>
+              <div class="info"><div class="name">Markus Weber</div><div class="role">Field staff</div></div>
+            </div>
+            <div class="detail-team">
+              <div class="avatar avatar--sm" style="background:var(--primary-500)">E3</div>
+              <div class="info"><div class="name">Fatima Özdemir</div><div class="role">Field staff</div></div>
+            </div>
+
+            <div class="detail-section-head">Notizen</div>
+            <div style="font-size:12px;color:var(--neutral-700);line-height:1.6;background:var(--neutral-50);padding:10px 12px;border-radius:var(--radius-sm)">
+              Access after 07:45 via staff entrance. Carpet extraction scheduled for L2 conference area — leave chairs stacked.
+            </div>
+          </div>
+          <div class="detail-ctas">
+            <button class="btn btn--white btn--sm">Neu zuweisen</button>
+            <button class="btn btn--primary btn--sm">Auftrag öffnen</button>
+          </div>
+        </aside>
+
+      </div>
+
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

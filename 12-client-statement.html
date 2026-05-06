@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Priya's Cleaning Service · Client statement</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --primary-50:#EEF5E8; --primary-100:#D9E9C8; --primary-200:#BFDAA4; --primary-300:#A4CA7F;
+  --primary-500:#72A94F; --primary-600:#5D8E3F; --primary-700:#487030; --primary-800:#345321;
+  --secondary-50:#E5EEF3; --secondary-100:#BFD4E0; --secondary-500:#16587C; --secondary-600:#124A68; --secondary-700:#0F3C54; --secondary-800:#0B2D40; --secondary-900:#081F2C;
+  --accent-100:#E1EECF; --accent-500:#A8CC87; --accent-600:#8BB06B;
+  --tertiary-200:#F2FFEA;
+  --success-50:#E8F7EF; --success-500:#2D9E6B; --success-700:#1F6E4A;
+  --warning-50:#FDEFE5; --warning-500:#F4A261; --warning-700:#B36F3A;
+  --error-50:#FCE7E9; --error-500:#E63946; --error-700:#A32933;
+  --info-50:#E5EEF3; --info-500:#16587C;
+  --white:#FFFFFF;
+  --neutral-50:#F8FAF7; --neutral-100:#EEF2EC; --neutral-200:#DDE3DA; --neutral-300:#C3CCBE;
+  --neutral-400:#9DA898; --neutral-500:#78857A; --neutral-600:#5A6659; --neutral-700:#414B40; --neutral-800:#2A322A; --neutral-900:#141814;
+  --radius-xs:4px; --radius-sm:6px; --radius-md:8px; --radius-lg:12px; --radius-xl:16px; --radius-full:9999px;
+  --shadow-xs:0 1px 2px rgba(20,24,20,.04);
+  --shadow-sm:0 2px 4px rgba(20,24,20,.06),0 1px 2px rgba(20,24,20,.04);
+  --shadow-md:0 4px 10px rgba(20,24,20,.08),0 2px 4px rgba(20,24,20,.04);
+  --shadow-lg:0 10px 25px rgba(20,24,20,.10),0 4px 10px rgba(20,24,20,.05);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Inter',system-ui,sans-serif;font-size:14px;line-height:1.5;color:var(--neutral-800);background:var(--tertiary-200);-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+button{font-family:inherit;cursor:pointer;border:none;background:none}
+ul{list-style:none}
+svg{display:block}
+.mono{font-family:'JetBrains Mono',monospace}
+.app{display:flex;min-height:100vh}
+.sidebar{width:240px;background:var(--secondary-900);color:rgba(255,255,255,.82);display:flex;flex-direction:column;padding:20px 12px;position:fixed;top:0;left:0;bottom:0;z-index:10;border-right:1px solid var(--secondary-800);overflow-y:auto}
+.sb-brand{display:flex;align-items:center;gap:12px;padding:6px 10px 24px;border-bottom:1px solid rgba(255,255,255,.06);margin-bottom:16px}
+.sb-logo{width:36px;height:36px;background:var(--primary-500);border-radius:var(--radius-md);display:grid;place-items:center;font-weight:800;color:#fff;font-size:17px}
+.sb-brand-name{font-size:14px;font-weight:600;color:#fff;letter-spacing:-.01em}
+.sb-brand-sub{font-size:10px;color:var(--accent-500);letter-spacing:.08em;text-transform:uppercase;margin-top:1px}
+.sb-section{font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:rgba(255,255,255,.35);padding:12px 12px 8px;font-weight:600}
+.sb-item{display:flex;align-items:center;gap:12px;padding:10px 12px;border-radius:var(--radius-sm);font-size:13px;color:rgba(255,255,255,.72);margin-bottom:2px;transition:all .15s}
+.sb-item:hover{background:rgba(255,255,255,.06);color:#fff}
+.sb-item svg{width:18px;height:18px;flex-shrink:0;stroke-width:1.8}
+.sb-item.active{background:var(--primary-500);color:#fff;font-weight:500}
+.sb-item .badge{margin-left:auto;background:rgba(255,255,255,.15);color:#fff;font-size:10px;padding:2px 7px;border-radius:var(--radius-full);font-weight:600}
+.sb-item.active .badge{background:rgba(0,0,0,.25)}
+.sb-collapse{margin-top:auto;display:flex;align-items:center;gap:10px;padding:16px 24px 10px;font-size:12px;color:rgba(255,255,255,.55);border-top:1px solid rgba(255,255,255,.06);margin:16px -12px 0}
+.sb-collapse svg{width:14px;height:14px}
+.main{margin-left:240px;flex:1;display:flex;flex-direction:column;min-width:0}
+.topbar{height:64px;background:#fff;border-bottom:1px solid var(--neutral-100);display:flex;align-items:center;justify-content:space-between;padding:0 28px;position:sticky;top:0;z-index:5}
+.tb-left{display:flex;align-items:center;gap:20px;flex:1;max-width:520px}
+.tb-search{flex:1;display:flex;align-items:center;gap:10px;background:var(--neutral-50);border:1px solid var(--neutral-100);border-radius:var(--radius-md);padding:8px 14px;color:var(--neutral-500)}
+.tb-search svg{width:16px;height:16px}
+.tb-search input{border:none;background:none;font-family:inherit;font-size:13px;outline:none;flex:1;color:var(--neutral-700)}
+.tb-search .kbd{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--neutral-400);padding:3px 6px;background:#fff;border:1px solid var(--neutral-200);border-radius:4px}
+.tb-right{display:flex;align-items:center;gap:6px}
+.icon-btn{width:40px;height:40px;border-radius:var(--radius-md);display:grid;place-items:center;color:var(--neutral-500);transition:all .15s;position:relative}
+.icon-btn:hover{background:var(--neutral-50);color:var(--neutral-800)}
+.icon-btn svg{width:18px;height:18px}
+.icon-btn .dot{position:absolute;top:8px;right:8px;width:8px;height:8px;background:var(--error-500);border-radius:50%;border:2px solid #fff}
+.tb-user{display:flex;align-items:center;gap:10px;padding:6px 12px 6px 6px;border-radius:var(--radius-full);cursor:pointer;transition:all .15s;margin-left:8px}
+.tb-user:hover{background:var(--neutral-50)}
+.avatar{border-radius:50%;display:grid;place-items:center;color:#fff;font-weight:600;background:var(--primary-500);flex-shrink:0}
+.avatar--xs{width:24px;height:24px;font-size:10px}
+.avatar--sm{width:32px;height:32px;font-size:12px}
+.tb-user-info{line-height:1.1}
+.tb-user-info .name{font-size:13px;font-weight:600;color:var(--neutral-800)}
+.tb-user-info .role{font-size:11px;color:var(--neutral-500);margin-top:2px}
+.content{padding:28px;max-width:1440px;width:100%}
+.breadcrumb,.crumbs{display:flex;align-items:center;gap:6px;color:var(--neutral-500);font-size:12px;margin-bottom:12px}
+.breadcrumb a:hover,.crumbs a:hover{color:var(--primary-600)}
+.breadcrumb .sep,.crumbs .sep{color:var(--neutral-300)}
+.breadcrumb .cur,.crumbs .cur{color:var(--neutral-800);font-weight:500}
+.page-head{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:22px;gap:24px;flex-wrap:wrap}
+.page-head h1,.page-title{font-size:24px;font-weight:700;color:var(--secondary-500);letter-spacing:-.02em;margin-bottom:4px}
+.page-head .sub,.page-sub{font-size:13px;color:var(--neutral-500)}
+.page-head-actions,.page-actions{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:10px 16px;border-radius:var(--radius-md);font-size:13px;font-weight:500;line-height:1;min-height:40px;transition:all .15s;border:none;white-space:nowrap}
+.btn svg{width:14px;height:14px;stroke-width:2}
+.btn--primary,.btn.btn-primary{background:var(--primary-500);color:#fff}
+.btn--primary:hover,.btn.btn-primary:hover{background:var(--primary-600)}
+.btn--tertiary{background:#fff;color:var(--primary-600);border:1.5px solid var(--primary-500)}
+.btn--tertiary:hover{background:var(--tertiary-200)}
+.btn--white,.btn.btn-ghost{background:#fff;color:var(--neutral-700);border:1px solid var(--neutral-200)}
+.btn--white:hover,.btn.btn-ghost:hover{background:var(--neutral-50);border-color:var(--neutral-300)}
+.btn--ghost{color:var(--neutral-600);background:transparent}
+.btn--ghost:hover{background:var(--neutral-100);color:var(--neutral-800)}
+.btn--sm,.btn.sm{padding:7px 12px;font-size:12px;min-height:32px}
+.card{background:#fff;border-radius:var(--radius-lg);border:1px solid var(--neutral-100);overflow:hidden}
+.card-head{padding:18px 20px;border-bottom:1px solid var(--neutral-100);display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.card-title{font-size:15px;font-weight:600;color:var(--neutral-800);margin:0;display:flex;align-items:center;gap:10px}
+.card-sub{font-size:12px;color:var(--neutral-500);margin-top:2px}
+.card-body{padding:22px}
+.badge{display:inline-flex;align-items:center;gap:4px;padding:3px 9px;border-radius:var(--radius-full);font-size:10px;font-weight:600;letter-spacing:.02em;text-transform:uppercase}
+@media(max-width:1024px){
+  .sidebar{width:72px;padding:16px 8px}
+  .sb-brand > div:last-child,.sb-item span:not(.badge),.sb-section,.sb-collapse{display:none}
+  .sb-item{justify-content:center}
+  .sb-item .badge{display:none}
+  .main{margin-left:72px}
+  .content{padding:20px}
+}
+/* === Content-specific styles === */
+
+</style>
+</head>
+<body>
+<div class="app">
+
+  <!-- Sidebar -->
+  <aside class="sidebar">
+      <div class="sb-brand">
+        <div class="sb-logo">P</div>
+        <div>
+          <div class="sb-brand-name">Priya's</div>
+          <div class="sb-brand-sub">Betrieb</div>
+        </div>
+      </div>
+      <div class="sb-section">Arbeitsbereich</div>
+      <a class="sb-item" href="02-dashboard.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>Übersicht</a>
+      <a class="sb-item" href="03-clients-list.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>Kunden<span class="badge">10</span></a>
+      <a class="sb-item" href="05-properties-list.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21V7l8-4 8 4v14"/><path d="M9 9h2M13 9h2M9 13h2M13 13h2M9 17h2M13 17h2"/></svg>Objekte<span class="badge">112</span></a>
+      <a class="sb-item" href="07-schedule.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 9h18M8 3v4M16 3v4"/></svg>Einsatzplan</a>
+      <a class="sb-item" href="08-employees-list.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>Mitarbeiter<span class="badge">32</span></a>
+      <a class="sb-item" href="14-reports.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M7 14l3-3 3 3 5-5"/></svg>Berichte</a>
+      <div class="sb-section">Alltagshilfe</div>
+      <a class="sb-item" href="15-customer-type-picker.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 000-7.78z"/></svg>Pflegekunden</a>
+      <a class="sb-item" href="16-alltagshilfe-report.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6"/></svg>Monatsbericht</a>
+      <div class="sb-section">Kommunikation</div>
+      <a class="sb-item" href="17-team-chat.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a7.5 7.5 0 01-11.2 6.5L4 20l1.5-5.2A7.5 7.5 0 1121 12z"/></svg>Team-Chat<span class="badge">3</span></a>
+      <a class="sb-item" href="18-notifications.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8a6 6 0 0112 0c0 7 3 8 3 8H3s3-1 3-8zM10 21a2 2 0 004 0"/></svg>Benachrichtigungen<span class="badge">12</span></a>
+      <div class="sb-section">System</div>
+      <a class="sb-item" href="13-settings.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.3 1.8l.1.1a2 2 0 11-2.8 2.8l-.1-.1a1.65 1.65 0 00-1.8-.3 1.65 1.65 0 00-1 1.5V21a2 2 0 11-4 0v-.1a1.65 1.65 0 00-1-1.5 1.65 1.65 0 00-1.8.3l-.1.1a2 2 0 11-2.8-2.8l.1-.1a1.65 1.65 0 00.3-1.8 1.65 1.65 0 00-1.5-1H3a2 2 0 110-4h.1a1.65 1.65 0 001.5-1 1.65 1.65 0 00-.3-1.8l-.1-.1a2 2 0 112.8-2.8l.1.1a1.65 1.65 0 001.8.3h0a1.65 1.65 0 001-1.5V3a2 2 0 114 0v.1a1.65 1.65 0 001 1.5 1.65 1.65 0 001.8-.3l.1-.1a2 2 0 112.8 2.8l-.1.1a1.65 1.65 0 00-.3 1.8v0a1.65 1.65 0 001.5 1H21a2 2 0 110 4h-.1a1.65 1.65 0 00-1.5 1z"/></svg>Einstellungen</a>
+      <div class="sb-collapse"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>Seitenleiste einklappen</div>
+    </aside>
+
+  <div class="main">
+    <header class="topbar">
+      <div class="tb-left">
+        <div class="tb-search">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+          <input placeholder="Search client, transactions, period…" />
+          <span class="kbd">⌘ K</span>
+        </div>
+      </div>
+      <div class="tb-right">
+        <button class="icon-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.1 9a3 3 0 015.8 1c0 2-3 3-3 3M12 17h.01"/></svg></button>
+        <button class="icon-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a7.5 7.5 0 01-11.2 6.5L4 20l1.5-5.2A7.5 7.5 0 1121 12z"/></svg><span class="dot"></span></button>
+        <button class="icon-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8a6 6 0 0112 0c0 7 3 8 3 8H3s3-1 3-8zM10 21a2 2 0 004 0"/></svg><span class="dot"></span></button>
+        <div class="tb-user">
+          <div class="avatar avatar--sm">AM</div>
+          <div class="tb-user-info"><div class="name">Alex Moore</div><div class="role">Management</div></div>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px;color:var(--neutral-400)"><path d="M6 9l6 6 6-6"/></svg>
+        </div>
+      </div>
+    </header>
+
+    <div class="content">
+<nav class="crumbs">
+        <a href="02-dashboard.html">Dashboard</a><span class="sep">/</span>
+        <a href="10-invoices-list.html">Invoices</a><span class="sep">/</span>
+        <span class="cur">Client statement</span>
+      </nav>
+
+      <div class="page-head">
+        <div>
+          <h1 class="page-title">Client statement</h1>
+          <div class="page-sub">Aggregated ledger per client · debits, credits, running balance</div>
+        </div>
+        <div class="page-actions">
+          <button class="btn btn--white"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> Download PDF</button>
+          <button class="btn btn--white"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M22 7l-10 7L2 7"/></svg> Email to client</button>
+          <button class="btn btn--primary"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg> Record payment</button>
+        </div>
+      </div>
+
+      <!-- Client switcher -->
+      <section class="client-switch">
+        <div class="client-avatar">C1</div>
+        <div class="client-names">
+          <div class="client-main">
+            Client 01 · Example Holdings GmbH
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+          </div>
+          <div class="client-sub">3 properties · 12 invoices YTD · contract since May 2024 · <a style="color:var(--secondary-600);font-weight:600" href="04-client-detail.html">open client profile →</a></div>
+        </div>
+        <button class="period-picker">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/></svg>
+          01 Jan 2026 – 21 Apr 2026
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="seg">
+          <button>Last 30d</button>
+          <button class="on">YTD</button>
+          <button>12 mos</button>
+          <button>All time</button>
+        </div>
+      </section>
+
+      <!-- Account summary -->
+      <section class="summary">
+        <div class="sum-card billed">
+          <div class="sum-label">Total billed · YTD</div>
+          <div class="sum-value"><span class="unit">€</span>18,420</div>
+          <div class="sum-delta">6 invoices · Jan–Apr</div>
+        </div>
+        <div class="sum-card paid">
+          <div class="sum-label">Total paid</div>
+          <div class="sum-value"><span class="unit">€</span>11,020</div>
+          <div class="sum-delta">4 payments received</div>
+        </div>
+        <div class="sum-card outstanding">
+          <div class="sum-label">Outstanding</div>
+          <div class="sum-value"><span class="unit">€</span>7,400</div>
+          <div class="sum-delta">2 open invoices</div>
+        </div>
+        <div class="sum-card overdue">
+          <div class="sum-label">Overdue</div>
+          <div class="sum-value"><span class="unit">€</span>0</div>
+          <div class="sum-delta">no overdue items · clean</div>
+        </div>
+        <div class="sum-card dtp">
+          <div class="sum-label">Avg days-to-pay</div>
+          <div class="sum-value">9<span class="unit" style="margin-left:4px">days</span></div>
+          <div class="sum-delta">excellent · 5 days faster than avg</div>
+        </div>
+      </section>
+
+      <!-- Statement body -->
+      <div class="layout">
+        <article class="card">
+          <div class="tabs">
+            <button class="tab active">Statement <span class="count">10</span></button>
+            <button class="tab">Open balance <span class="count">2</span></button>
+            <button class="tab">Payment history <span class="count">4</span></button>
+            <button class="tab">Credits &amp; adjustments <span class="count">1</span></button>
+            <div class="tabs-right">
+              <div class="seg" style="border-radius:8px">
+                <button class="on">All</button>
+                <button>Debits</button>
+                <button>Credits</button>
+              </div>
+              <button class="btn btn-ghost btn-icon" title="Print"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg></button>
+            </div>
+          </div>
+
+          <div style="overflow-x:auto">
+            <table>
+              <thead>
+                <tr>
+                  <th>Date</th>
+                  <th>Document</th>
+                  <th>Reference</th>
+                  <th>Method</th>
+                  <th class="num">Debit</th>
+                  <th class="num">Credit</th>
+                  <th class="num">Balance</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><div class="date-main">01 Jan 2026</div><div class="date-sub">Opening</div></td>
+                  <td><span class="doc-chip">Brought forward</span></td>
+                  <td><span class="method">—</span></td>
+                  <td><span class="method">—</span></td>
+                  <td class="num"><span class="method">—</span></td>
+                  <td class="num"><span class="method">—</span></td>
+                  <td class="num bal">€ 0.00</td>
+                </tr>
+                <tr>
+                  <td><div class="date-main">18 Jan 2026</div><div class="date-sub">Sent</div></td>
+                  <td><span class="doc-chip inv">Invoice</span></td>
+                  <td><a class="ref-link" href="11-invoice-detail.html">INV-2026-0012</a><div class="date-sub">Property A · January service</div></td>
+                  <td><span class="method">—</span></td>
+                  <td class="num debit">€ 3,850.00</td>
+                  <td class="num"><span class="method">—</span></td>
+                  <td class="num bal">€ 3,850.00</td>
+                </tr>
+                <tr>
+                  <td><div class="date-main">27 Jan 2026</div><div class="date-sub">SEPA · 9 days</div></td>
+                  <td><span class="doc-chip pmt">Payment</span></td>
+                  <td><span class="ref-link">PMT-2026-0009</span><div class="date-sub">Applied to INV-2026-0012</div></td>
+                  <td><span class="method">SEPA direct debit</span></td>
+                  <td class="num"><span class="method">—</span></td>
+                  <td class="num credit">−€ 3,850.00</td>
+                  <td class="num bal">€ 0.00</td>
+                </tr>
+                <tr>
+                  <td><div class="date-main">17 Feb 2026</div><div class="date-sub">Sent</div></td>
+                  <td><span class="doc-chip inv">Invoice</span></td>
+                  <td><a class="ref-link" href="11-invoice-detail.html">INV-2026-0021</a><div class="date-sub">Property A · February + deep clean</div></td>
+                  <td><span class="method">—</span></td>
+                  <td class="num debit">€ 4,620.00</td>
+                  <td class="num"><span class="method">—</span></td>
+                  <td class="num bal">€ 4,620.00</td>
+                </tr>
+                <tr>
+                  <td><div class="date-main">24 Feb 2026</div><div class="date-sub">SEPA · 7 days</div></td>
+                  <td><span class="doc-chip pmt">Payment</span></td>
+                  <td><span class="ref-link">PMT-2026-0018</span><div class="date-sub">Applied to INV-2026-0021</div></td>
+                  <td><span class="method">SEPA direct debit</span></td>
+                  <td class="num"><span class="method">—</span></td>
+                  <td class="num credit">−€ 4,620.00</td>
+                  <td class="num bal">€ 0.00</td>
+                </tr>
+                <tr>
+                  <td><div class="date-main">05 Mar 2026</div><div class="date-sub">Applied</div></td>
+                  <td><span class="doc-chip cn">Credit note</span></td>
+                  <td><span class="ref-link">CN-2026-0003</span><div class="date-sub">Service adjustment · Feb deep clean</div></td>
+                  <td><span class="method">Account credit</span></td>
+                  <td class="num"><span class="method">—</span></td>
+                  <td class="num credit">−€ 120.00</td>
+                  <td class="num bal" style="color:var(--success-700)">−€ 120.00</td>
+                </tr>
+                <tr>
+                  <td><div class="date-main">18 Mar 2026</div><div class="date-sub">Sent</div></td>
+                  <td><span class="doc-chip inv">Invoice</span></td>
+                  <td><a class="ref-link" href="11-invoice-detail.html">INV-2026-0033</a><div class="date-sub">Property A · March service</div></td>
+                  <td><span class="method">—</span></td>
+                  <td class="num debit">€ 2,670.00</td>
+                  <td class="num"><span class="method">—</span></td>
+                  <td class="num bal">€ 2,550.00</td>
+                </tr>
+                <tr>
+                  <td><div class="date-main">24 Mar 2026</div><div class="date-sub">SEPA · 6 days</div></td>
+                  <td><span class="doc-chip pmt">Payment</span></td>
+                  <td><span class="ref-link">PMT-2026-0029</span><div class="date-sub">Applied to INV-2026-0033 &amp; CN-2026-0003</div></td>
+                  <td><span class="method">SEPA direct debit</span></td>
+                  <td class="num"><span class="method">—</span></td>
+                  <td class="num credit">−€ 2,550.00</td>
+                  <td class="num bal">€ 0.00</td>
+                </tr>
+                <tr class="row-open">
+                  <td><div class="date-main">07 Apr 2026</div><div class="date-sub">Sent · due 21 Apr</div></td>
+                  <td><span class="doc-chip inv">Invoice</span></td>
+                  <td><a class="ref-link" href="11-invoice-detail.html">INV-2026-0038</a><div class="date-sub">Property A · early April · partial month</div></td>
+                  <td><span class="method">—</span></td>
+                  <td class="num debit">€ 3,120.00</td>
+                  <td class="num"><span class="method">—</span></td>
+                  <td class="num bal">€ 3,120.00</td>
+                </tr>
+                <tr class="row-open">
+                  <td><div class="date-main">18 Apr 2026</div><div class="date-sub">Sent · due 02 May</div></td>
+                  <td><span class="doc-chip inv">Invoice</span></td>
+                  <td><a class="ref-link" href="11-invoice-detail.html">INV-2026-0047</a><div class="date-sub">Property A · April service + deep clean</div></td>
+                  <td><span class="method">—</span></td>
+                  <td class="num debit">€ 4,280.00</td>
+                  <td class="num"><span class="method">—</span></td>
+                  <td class="num bal" style="color:var(--warning-700)">€ 7,400.00</td>
+                </tr>
+              </tbody>
+              <tfoot>
+                <tr>
+                  <td colspan="4" style="text-align:right;color:var(--neutral-600)">Period totals · <span class="mono">01 Jan – 21 Apr 2026</span></td>
+                  <td class="num" style="font-family:'JetBrains Mono',monospace">€ 18,540.00</td>
+                  <td class="num" style="font-family:'JetBrains Mono',monospace;color:var(--success-700)">−€ 11,140.00</td>
+                  <td class="num" style="font-family:'JetBrains Mono',monospace;color:var(--warning-700);font-size:15px">€ 7,400.00</td>
+                </tr>
+              </tfoot>
+            </table>
+          </div>
+        </article>
+
+        <!-- Right rail -->
+        <aside class="side">
+          <div class="card">
+            <div class="card-head">
+              <h3 class="card-title">Aging buckets</h3>
+              <span class="method">Outstanding · € 7,400</span>
+            </div>
+            <div class="card-body">
+              <div class="aging">
+                <div class="ag-row"><span class="ag-label">Current · 0–30</span><div class="ag-bar"><div class="ag-fill pri" style="width:100%"></div></div><span class="ag-amt">€ 7,400</span></div>
+                <div class="ag-row"><span class="ag-label">31–60 days</span><div class="ag-bar"></div><span class="ag-amt zero">€ 0</span></div>
+                <div class="ag-row"><span class="ag-label">61–90 days</span><div class="ag-bar"></div><span class="ag-amt zero">€ 0</span></div>
+                <div class="ag-row"><span class="ag-label">90+ days</span><div class="ag-bar"></div><span class="ag-amt zero">€ 0</span></div>
+              </div>
+              <div style="margin-top:14px;padding:10px 12px;background:var(--success-50);border:1px solid #CFEAD6;border-radius:8px;font-size:12px;color:var(--success-700);font-weight:600;display:flex;align-items:center;gap:8px">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+                Healthy account · no overdue items
+              </div>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-head"><h3 class="card-title">Breakdown by property</h3></div>
+            <div class="card-body">
+              <div class="prop-row">
+                <div class="prop-thumb off">A</div>
+                <div><div class="prop-name"><a href="06-property-detail.html">Property A</a></div><div class="prop-sub">Office · 8 invoices</div></div>
+                <span class="prop-amt">€ 14,820</span>
+              </div>
+              <div class="prop-row">
+                <div class="prop-thumb ret">B</div>
+                <div><div class="prop-name"><a href="06-property-detail.html">Property B</a></div><div class="prop-sub">Office · 3 invoices</div></div>
+                <span class="prop-amt">€ 2,840</span>
+              </div>
+              <div class="prop-row">
+                <div class="prop-thumb med">F</div>
+                <div><div class="prop-name"><a href="06-property-detail.html">Property F</a></div><div class="prop-sub">Medical · 1 invoice</div></div>
+                <span class="prop-amt">€ 760</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-head"><h3 class="card-title">Contact &amp; terms</h3></div>
+            <div class="card-body">
+              <div style="font-size:12px;color:var(--neutral-500);margin-bottom:8px;font-weight:600;text-transform:uppercase;letter-spacing:.06em">Billing contact</div>
+              <div style="font-weight:600">Contact 01 · Finance lead</div>
+              <div style="font-size:12px;color:var(--neutral-500);margin-top:2px">billing@client01.example · +49 30 1234 5678</div>
+              <div style="font-size:12px;color:var(--neutral-500);margin-top:12px;padding-top:12px;border-top:1px solid var(--neutral-100)">
+                <div style="display:flex;justify-content:space-between;padding:4px 0"><span>Payment terms</span><b style="color:var(--neutral-800)">Net 14</b></div>
+                <div style="display:flex;justify-content:space-between;padding:4px 0"><span>Method</span><b style="color:var(--neutral-800)">SEPA direct debit</b></div>
+                <div style="display:flex;justify-content:space-between;padding:4px 0"><span>Currency</span><b style="color:var(--neutral-800)">EUR</b></div>
+                <div style="display:flex;justify-content:space-between;padding:4px 0"><span>Credit limit</span><b style="color:var(--neutral-800)">€ 25,000</b></div>
+              </div>
+            </div>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

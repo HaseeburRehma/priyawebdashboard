@@ -1,0 +1,717 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Priya's Cleaning Service · Client · Müller Immobilien GmbH</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --primary-50:#EEF5E8; --primary-100:#D9E9C8; --primary-500:#72A94F; --primary-600:#5D8E3F; --primary-700:#487030; --primary-800:#345321;
+  --secondary-50:#E5EEF3; --secondary-500:#16587C; --secondary-600:#124A68; --secondary-700:#0F3C54; --secondary-800:#0B2D40; --secondary-900:#081F2C;
+  --accent-500:#A8CC87; --accent-600:#8BB06B; --tertiary-200:#F2FFEA;
+  --success-50:#E8F7EF; --success-500:#2D9E6B; --success-700:#1F6E4A;
+  --warning-50:#FDEFE5; --warning-500:#F4A261; --warning-700:#B36F3A;
+  --error-50:#FCE7E9; --error-500:#E63946; --error-700:#A32933;
+  --white:#FFFFFF;
+  --neutral-50:#F8FAF7; --neutral-100:#EEF2EC; --neutral-200:#DDE3DA; --neutral-300:#C3CCBE;
+  --neutral-400:#9DA898; --neutral-500:#78857A; --neutral-600:#5A6659; --neutral-700:#414B40; --neutral-800:#2A322A; --neutral-900:#141814;
+  --radius-sm:6px; --radius-md:8px; --radius-lg:12px; --radius-xl:16px; --radius-full:9999px;
+  --shadow-xs:0 1px 2px rgba(20,24,20,.04);
+  --shadow-sm:0 2px 4px rgba(20,24,20,.06),0 1px 2px rgba(20,24,20,.04);
+  --shadow-md:0 4px 10px rgba(20,24,20,.08),0 2px 4px rgba(20,24,20,.04);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Inter',system-ui,sans-serif;font-size:14px;line-height:1.5;color:var(--neutral-800);background:var(--tertiary-200);-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+button{font-family:inherit;cursor:pointer;border:none;background:none}
+ul{list-style:none}
+svg{display:block}
+
+.app{display:flex;min-height:100vh}
+
+/* Sidebar */
+.sidebar{width:240px;background:var(--secondary-900);color:rgba(255,255,255,.82);display:flex;flex-direction:column;padding:20px 12px;position:fixed;top:0;left:0;bottom:0;z-index:10}
+.sb-brand{display:flex;align-items:center;gap:12px;padding:6px 10px 24px;border-bottom:1px solid rgba(255,255,255,.06);margin-bottom:16px}
+.sb-logo{width:36px;height:36px;background:var(--primary-500);border-radius:var(--radius-md);display:grid;place-items:center;font-weight:800;color:#fff;font-size:17px}
+.sb-brand-name{font-size:14px;font-weight:600;color:#fff;letter-spacing:-.01em}
+.sb-brand-sub{font-size:10px;color:var(--accent-500);letter-spacing:.08em;text-transform:uppercase;margin-top:1px}
+.sb-section{font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:rgba(255,255,255,.35);padding:12px 12px 8px;font-weight:600}
+.sb-item{display:flex;align-items:center;gap:12px;padding:10px 12px;border-radius:var(--radius-sm);font-size:13px;color:rgba(255,255,255,.72);margin-bottom:2px;transition:all .15s}
+.sb-item:hover{background:rgba(255,255,255,.06);color:#fff}
+.sb-item svg{width:18px;height:18px;flex-shrink:0;stroke-width:1.8}
+.sb-item.active{background:var(--primary-500);color:#fff;font-weight:500}
+.sb-item .badge{margin-left:auto;background:rgba(255,255,255,.15);color:#fff;font-size:10px;padding:2px 7px;border-radius:var(--radius-full);font-weight:600}
+.sb-item.active .badge{background:rgba(0,0,0,.25)}
+.sb-collapse{margin-top:auto;display:flex;align-items:center;gap:10px;padding:16px 24px;font-size:12px;color:rgba(255,255,255,.55);border-top:1px solid rgba(255,255,255,.06);margin:16px -12px 0}
+.sb-collapse svg{width:14px;height:14px}
+
+.main{margin-left:240px;flex:1;display:flex;flex-direction:column}
+
+.topbar{height:64px;background:#fff;border-bottom:1px solid var(--neutral-100);display:flex;align-items:center;justify-content:space-between;padding:0 28px;position:sticky;top:0;z-index:5}
+.tb-left{display:flex;align-items:center;gap:20px;flex:1;max-width:520px}
+.tb-search{flex:1;display:flex;align-items:center;gap:10px;background:var(--neutral-50);border:1px solid var(--neutral-100);border-radius:var(--radius-md);padding:8px 14px;color:var(--neutral-500)}
+.tb-search svg{width:16px;height:16px}
+.tb-search input{border:none;background:none;font-family:inherit;font-size:13px;outline:none;flex:1;color:var(--neutral-700)}
+.tb-search .kbd{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--neutral-400);padding:3px 6px;background:#fff;border:1px solid var(--neutral-200);border-radius:4px}
+.tb-right{display:flex;align-items:center;gap:6px}
+.icon-btn{width:40px;height:40px;border-radius:var(--radius-md);display:grid;place-items:center;color:var(--neutral-500);transition:all .15s;position:relative}
+.icon-btn:hover{background:var(--neutral-50);color:var(--neutral-800)}
+.icon-btn svg{width:18px;height:18px}
+.icon-btn .dot{position:absolute;top:8px;right:8px;width:8px;height:8px;background:var(--error-500);border-radius:50%;border:2px solid #fff}
+.tb-user{display:flex;align-items:center;gap:10px;padding:6px 12px 6px 6px;border-radius:var(--radius-full);cursor:pointer;transition:all .15s;margin-left:8px}
+.tb-user:hover{background:var(--neutral-50)}
+.avatar{border-radius:50%;display:grid;place-items:center;color:#fff;font-weight:600;background:var(--primary-500);flex-shrink:0}
+.avatar--xs{width:24px;height:24px;font-size:10px}
+.avatar--sm{width:32px;height:32px;font-size:12px}
+.avatar--md{width:40px;height:40px;font-size:14px}
+.avatar--xl{width:72px;height:72px;font-size:24px;border:3px solid #fff;box-shadow:var(--shadow-md)}
+.tb-user-info{line-height:1.1}
+.tb-user-info .name{font-size:13px;font-weight:600;color:var(--neutral-800)}
+.tb-user-info .role{font-size:11px;color:var(--neutral-500);margin-top:2px}
+
+/* Content */
+.content{padding:24px 28px;max-width:1440px;width:100%}
+
+.breadcrumb{display:flex;gap:8px;align-items:center;font-size:12px;color:var(--neutral-500);margin-bottom:16px}
+.breadcrumb .sep{color:var(--neutral-300)}
+.breadcrumb .cur{color:var(--neutral-700);font-weight:500}
+.breadcrumb a:hover{color:var(--primary-600)}
+
+/* Client hero header */
+.hero{
+  background:#fff;border:1px solid var(--neutral-100);border-radius:var(--radius-lg);
+  padding:24px;margin-bottom:16px;display:flex;gap:20px;align-items:flex-start;position:relative;overflow:hidden
+}
+.hero::before{content:'';position:absolute;top:0;right:0;bottom:0;width:300px;opacity:.5;background:linear-gradient(90deg,transparent,var(--tertiary-200));pointer-events:none}
+.hero-left{display:flex;gap:18px;align-items:center;flex:1;z-index:2;position:relative}
+.hero-info h1{font-size:24px;font-weight:700;color:var(--secondary-500);letter-spacing:-.02em;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.hero-info .sub{font-size:13px;color:var(--neutral-500);margin-top:4px;display:flex;gap:16px;flex-wrap:wrap}
+.hero-info .sub svg{width:14px;height:14px;vertical-align:-2px;margin-right:4px;color:var(--neutral-400)}
+.hero-stats{display:flex;gap:24px;margin-top:16px;flex-wrap:wrap}
+.hero-stat{display:flex;flex-direction:column}
+.hero-stat .val{font-size:18px;font-weight:700;color:var(--secondary-500);line-height:1}
+.hero-stat .label{font-size:11px;color:var(--neutral-500);text-transform:uppercase;letter-spacing:.05em;font-weight:500;margin-top:4px}
+
+.hero-actions{display:flex;gap:8px;align-items:center;flex-shrink:0;z-index:2;position:relative}
+
+.btn{display:inline-flex;align-items:center;gap:8px;padding:10px 16px;border-radius:var(--radius-md);font-size:13px;font-weight:500;line-height:1;min-height:40px;transition:all .15s}
+.btn svg{width:16px;height:16px;stroke-width:2}
+.btn--primary{background:var(--primary-500);color:#fff}
+.btn--primary:hover{background:var(--primary-600)}
+.btn--tertiary{background:#fff;color:var(--primary-600);border:1.5px solid var(--primary-500)}
+.btn--tertiary:hover{background:var(--tertiary-200)}
+.btn--white{background:#fff;color:var(--neutral-700);border:1px solid var(--neutral-200)}
+.btn--white:hover{background:var(--neutral-50);border-color:var(--neutral-300)}
+.btn--ghost{color:var(--neutral-600)}
+.btn--ghost:hover{background:var(--neutral-100);color:var(--neutral-800)}
+.btn--sm{padding:7px 12px;min-height:32px;font-size:12px}
+.btn--icon{width:40px;padding:0;justify-content:center}
+
+.badge{display:inline-flex;align-items:center;gap:4px;padding:3px 9px;border-radius:var(--radius-full);font-size:10px;font-weight:600;letter-spacing:.02em;text-transform:uppercase}
+.badge--success{background:var(--success-50);color:var(--success-700)}
+.badge--warning{background:var(--warning-50);color:var(--warning-700)}
+.badge--info{background:var(--secondary-50);color:var(--secondary-600)}
+.badge--primary{background:var(--primary-50);color:var(--primary-700)}
+.badge--new{background:var(--primary-500);color:#fff}
+.badge--neutral{background:var(--neutral-100);color:var(--neutral-700)}
+.badge .dot{width:5px;height:5px;border-radius:50%;background:currentColor}
+
+/* Tabs */
+.tabs-wrap{background:#fff;border:1px solid var(--neutral-100);border-radius:var(--radius-lg);margin-bottom:20px;display:flex;padding:0 20px;overflow-x:auto}
+.tab{
+  padding:16px 18px;font-size:13px;font-weight:500;color:var(--neutral-500);
+  border-bottom:2px solid transparent;margin-bottom:-1px;cursor:pointer;transition:all .15s;
+  white-space:nowrap;display:flex;align-items:center;gap:6px
+}
+.tab:hover{color:var(--neutral-800)}
+.tab.active{color:var(--primary-600);border-color:var(--primary-500);font-weight:600}
+.tab .count{background:var(--neutral-100);color:var(--neutral-600);font-size:11px;padding:2px 7px;border-radius:var(--radius-full);font-weight:600}
+.tab.active .count{background:var(--primary-50);color:var(--primary-700)}
+
+/* Layout grid */
+.detail-grid{display:grid;grid-template-columns:2fr 1fr;gap:16px}
+
+.card{background:#fff;border:1px solid var(--neutral-100);border-radius:var(--radius-lg);overflow:hidden}
+.card-head{padding:18px 20px;border-bottom:1px solid var(--neutral-100);display:flex;align-items:center;justify-content:space-between;gap:12px}
+.card-head h3{font-size:14px;font-weight:600;color:var(--neutral-800);display:flex;align-items:center;gap:8px}
+.card-head h3 svg{width:15px;height:15px;color:var(--primary-600);stroke-width:2}
+.card-head .sub{font-size:11px;color:var(--neutral-500);margin-top:2px}
+.card-body{padding:20px}
+.card + .card{margin-top:16px}
+
+.link{font-size:12px;color:var(--primary-600);font-weight:500;display:inline-flex;align-items:center;gap:4px}
+.link svg{width:12px;height:12px}
+
+/* Contact list */
+.contact{display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid var(--neutral-100)}
+.contact:last-child{border-bottom:none}
+.contact-info{flex:1;min-width:0}
+.contact-info .name{font-size:13px;font-weight:600;color:var(--neutral-800)}
+.contact-info .role{font-size:11px;color:var(--neutral-500);margin-top:2px}
+.contact-meta{display:flex;gap:14px;font-size:12px;color:var(--neutral-600)}
+.contact-meta a{display:flex;align-items:center;gap:4px}
+.contact-meta a:hover{color:var(--primary-600)}
+.contact-meta svg{width:13px;height:13px;color:var(--neutral-400)}
+.contact-actions{display:flex;gap:4px}
+.contact-actions button{width:32px;height:32px;border-radius:var(--radius-sm);display:grid;place-items:center;color:var(--neutral-500)}
+.contact-actions button:hover{background:var(--neutral-100);color:var(--primary-600)}
+.contact-actions svg{width:14px;height:14px}
+
+/* Services */
+.service-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:4px}
+.service-item{display:flex;gap:10px;align-items:center;padding:12px;background:var(--tertiary-200);border:1px solid var(--primary-100);border-radius:var(--radius-md)}
+.service-item .ic{width:32px;height:32px;border-radius:var(--radius-sm);background:var(--primary-500);color:#fff;display:grid;place-items:center;flex-shrink:0}
+.service-item .ic svg{width:15px;height:15px;stroke-width:2}
+.service-item .label{font-size:12px;font-weight:600;color:var(--neutral-800)}
+.service-item .freq{font-size:11px;color:var(--neutral-500);margin-top:1px}
+
+/* Objekte list */
+.prop{display:flex;align-items:center;gap:12px;padding:14px 0;border-bottom:1px solid var(--neutral-100)}
+.prop:last-child{border-bottom:none}
+.prop-thumb{
+  width:44px;height:44px;border-radius:var(--radius-md);flex-shrink:0;
+  background:linear-gradient(135deg,var(--accent-500),var(--primary-500));display:grid;place-items:center;color:#fff
+}
+.prop-thumb svg{width:18px;height:18px;stroke-width:1.8}
+.prop.second .prop-thumb{background:linear-gradient(135deg,var(--secondary-500),var(--secondary-700))}
+.prop.third .prop-thumb{background:linear-gradient(135deg,var(--warning-500),#E98854)}
+.prop.fourth .prop-thumb{background:linear-gradient(135deg,var(--primary-600),var(--secondary-500))}
+.prop-info{flex:1;min-width:0}
+.prop-info .name{font-size:13px;font-weight:600;color:var(--neutral-800)}
+.prop-info .addr{font-size:11px;color:var(--neutral-500);margin-top:2px}
+.prop-meta{font-size:11px;color:var(--neutral-500);text-align:right}
+.prop-meta .freq{font-weight:600;color:var(--neutral-700);font-size:12px}
+.prop-actions{display:flex;align-items:center;gap:8px}
+.prop-actions button{width:30px;height:30px;border-radius:var(--radius-sm);display:grid;place-items:center;color:var(--neutral-400)}
+.prop-actions button:hover{background:var(--neutral-100);color:var(--neutral-700)}
+.prop-actions svg{width:14px;height:14px}
+
+/* Aktivität timeline */
+.timeline{position:relative;padding-left:24px}
+.timeline::before{content:'';position:absolute;left:9px;top:8px;bottom:8px;width:2px;background:var(--neutral-100)}
+.tl-item{position:relative;padding-bottom:16px}
+.tl-item:last-child{padding-bottom:0}
+.tl-dot{position:absolute;left:-21px;top:4px;width:14px;height:14px;border-radius:50%;background:#fff;border:2px solid var(--primary-500);box-shadow:0 0 0 3px #fff}
+.tl-dot.gray{border-color:var(--neutral-300)}
+.tl-dot.blue{border-color:var(--secondary-500)}
+.tl-dot.orange{border-color:var(--warning-500)}
+.tl-title{font-size:13px;color:var(--neutral-700);line-height:1.5}
+.tl-title strong{font-weight:600;color:var(--neutral-800)}
+.tl-time{font-size:11px;color:var(--neutral-400);margin-top:3px}
+
+/* Info card */
+.info-row{display:flex;justify-content:space-between;align-items:flex-start;padding:10px 0;border-bottom:1px solid var(--neutral-100);gap:12px}
+.info-row:first-child{padding-top:0}
+.info-row:last-child{border-bottom:none;padding-bottom:0}
+.info-row .label{font-size:12px;color:var(--neutral-500);font-weight:500;flex-shrink:0}
+.info-row .value{font-size:13px;color:var(--neutral-800);text-align:right;font-weight:500}
+.info-row .value.mono{font-family:'JetBrains Mono',monospace;font-size:12px}
+
+/* Notizen card */
+.note{
+  padding:12px;background:#FFFBEB;border:1px solid #FEF3C7;border-radius:var(--radius-md);
+  font-size:13px;color:var(--neutral-700);line-height:1.55;position:relative
+}
+.note + .note{margin-top:10px}
+.note .note-meta{font-size:11px;color:var(--neutral-400);margin-top:8px;display:flex;justify-content:space-between}
+
+/* Documents */
+.doc{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--neutral-100)}
+.doc:last-child{border-bottom:none}
+.doc-icon{
+  width:32px;height:32px;border-radius:var(--radius-sm);background:var(--error-50);color:var(--error-700);
+  display:grid;place-items:center;flex-shrink:0;font-size:10px;font-weight:700;letter-spacing:0.03em
+}
+.doc-icon.img{background:var(--secondary-50);color:var(--secondary-600)}
+.doc-icon.doc{background:var(--primary-50);color:var(--primary-700)}
+.doc-info{flex:1;min-width:0}
+.doc-info .name{font-size:12px;font-weight:500;color:var(--neutral-800)}
+.doc-info .meta{font-size:10px;color:var(--neutral-500);margin-top:1px}
+.doc-actions{display:flex;gap:2px}
+.doc-actions button{width:26px;height:26px;border-radius:var(--radius-sm);display:grid;place-items:center;color:var(--neutral-400)}
+.doc-actions button:hover{background:var(--neutral-100);color:var(--neutral-700)}
+.doc-actions svg{width:12px;height:12px}
+
+@media (max-width:1100px){
+  .detail-grid{grid-template-columns:1fr}
+  .service-grid{grid-template-columns:repeat(2,1fr)}
+}
+</style>
+</head>
+<body>
+
+<div class="app">
+
+  <!-- Sidebar -->
+  <aside class="sidebar">
+      <div class="sb-brand">
+        <div class="sb-logo">P</div>
+        <div>
+          <div class="sb-brand-name">Priya's</div>
+          <div class="sb-brand-sub">Betrieb</div>
+        </div>
+      </div>
+      <div class="sb-section">Arbeitsbereich</div>
+      <a class="sb-item" href="02-dashboard.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>Übersicht</a>
+      <a class="sb-item active" href="03-clients-list.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>Kunden<span class="badge">10</span></a>
+      <a class="sb-item" href="05-properties-list.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21V7l8-4 8 4v14"/><path d="M9 9h2M13 9h2M9 13h2M13 13h2M9 17h2M13 17h2"/></svg>Objekte<span class="badge">112</span></a>
+      <a class="sb-item" href="07-schedule.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 9h18M8 3v4M16 3v4"/></svg>Einsatzplan</a>
+      <a class="sb-item" href="08-employees-list.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>Mitarbeiter<span class="badge">32</span></a>
+      <a class="sb-item" href="14-reports.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M7 14l3-3 3 3 5-5"/></svg>Berichte</a>
+      <div class="sb-section">Alltagshilfe</div>
+      <a class="sb-item" href="15-customer-type-picker.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 000-7.78z"/></svg>Pflegekunden</a>
+      <a class="sb-item" href="16-alltagshilfe-report.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6"/></svg>Monatsbericht</a>
+      <div class="sb-section">Kommunikation</div>
+      <a class="sb-item" href="17-team-chat.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a7.5 7.5 0 01-11.2 6.5L4 20l1.5-5.2A7.5 7.5 0 1121 12z"/></svg>Team-Chat<span class="badge">3</span></a>
+      <a class="sb-item" href="18-notifications.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8a6 6 0 0112 0c0 7 3 8 3 8H3s3-1 3-8zM10 21a2 2 0 004 0"/></svg>Benachrichtigungen<span class="badge">12</span></a>
+      <div class="sb-section">System</div>
+      <a class="sb-item" href="13-settings.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.3 1.8l.1.1a2 2 0 11-2.8 2.8l-.1-.1a1.65 1.65 0 00-1.8-.3 1.65 1.65 0 00-1 1.5V21a2 2 0 11-4 0v-.1a1.65 1.65 0 00-1-1.5 1.65 1.65 0 00-1.8.3l-.1.1a2 2 0 11-2.8-2.8l.1-.1a1.65 1.65 0 00.3-1.8 1.65 1.65 0 00-1.5-1H3a2 2 0 110-4h.1a1.65 1.65 0 001.5-1 1.65 1.65 0 00-.3-1.8l-.1-.1a2 2 0 112.8-2.8l.1.1a1.65 1.65 0 001.8.3h0a1.65 1.65 0 001-1.5V3a2 2 0 114 0v.1a1.65 1.65 0 001 1.5 1.65 1.65 0 001.8-.3l.1-.1a2 2 0 112.8 2.8l-.1.1a1.65 1.65 0 00-.3 1.8v0a1.65 1.65 0 001.5 1H21a2 2 0 110 4h-.1a1.65 1.65 0 00-1.5 1z"/></svg>Einstellungen</a>
+      <div class="sb-collapse"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>Seitenleiste einklappen</div>
+    </aside>
+
+  <div class="main">
+
+    <!-- Topbar -->
+    <header class="topbar">
+      <div class="tb-left">
+        <div class="tb-search">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+          <input placeholder="Kunden, Objekte, Rechnungen suchen…" />
+          <span class="kbd">⌘ K</span>
+        </div>
+      </div>
+      <div class="tb-right">
+        <button class="icon-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.1 9a3 3 0 015.8 1c0 2-3 3-3 3M12 17h.01"/></svg></button>
+        <button class="icon-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a7.5 7.5 0 01-11.2 6.5L4 20l1.5-5.2A7.5 7.5 0 1121 12z"/></svg><span class="dot"></span></button>
+        <button class="icon-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8a6 6 0 0112 0c0 7 3 8 3 8H3s3-1 3-8zM10 21a2 2 0 004 0"/></svg><span class="dot"></span></button>
+        <div class="tb-user">
+          <div class="avatar avatar--sm">AM</div>
+          <div class="tb-user-info"><div class="name">Alex Müller</div><div class="role">Geschäftsleitung</div></div>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px;color:var(--neutral-400)"><path d="M6 9l6 6 6-6"/></svg>
+        </div>
+      </div>
+    </header>
+
+    <!-- Content -->
+    <div class="content">
+
+      <div class="breadcrumb">
+        <a href="#">Übersicht</a>
+        <span class="sep">/</span>
+        <a href="#">Kunden</a>
+        <span class="sep">/</span>
+        <span class="cur">Müller Immobilien GmbH</span>
+      </div>
+
+      <!-- Client hero -->
+      <div class="hero">
+        <div class="hero-left">
+          <div class="avatar avatar--xl">C1</div>
+          <div class="hero-info">
+            <h1>
+              Müller Immobilien GmbH
+              <span class="badge badge--new">NEW CLIENT</span>
+              <span class="badge badge--success"><span class="dot"></span>Aktiv</span>
+            </h1>
+            <div class="sub">
+              <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16v13H4z"/><path d="M8 7V4h8v3"/></svg>GmbH · Company</span>
+              <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0116 0z"/><circle cx="12" cy="10" r="3"/></svg>Address line 1, 10115 City</span>
+              <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>Client since März 15, 2026</span>
+            </div>
+            <div class="hero-stats">
+              <div class="hero-stat"><div class="val">4</div><div class="label">Objekte</div></div>
+              <div class="hero-stat"><div class="val">3</div><div class="label">Contacts</div></div>
+              <div class="hero-stat"><div class="val">27</div><div class="label">Assignments</div></div>
+              <div class="hero-stat"><div class="val">€ 12.4k</div><div class="label">YTD invoiced</div></div>
+              <div class="hero-stat"><div class="val">— 24mo</div><div class="label">Vertragslaufzeit</div></div>
+            </div>
+          </div>
+        </div>
+        <div class="hero-actions">
+          <button class="btn btn--white btn--icon" title="Nachricht senden"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a7.5 7.5 0 01-11.2 6.5L4 20l1.5-5.2A7.5 7.5 0 1121 12z"/></svg></button>
+          <button class="btn btn--white btn--icon" title="Schedule"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 9h18M8 3v4M16 3v4"/></svg></button>
+          <button class="btn btn--white"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.12 2.12 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>Bearbeiten</button>
+          <button class="btn btn--primary"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg>Objekt hinzufügen</button>
+          <button class="btn btn--white btn--icon" title="More"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="5" r="1"/><circle cx="12" cy="12" r="1"/><circle cx="12" cy="19" r="1"/></svg></button>
+        </div>
+      </div>
+
+      <!-- Tabs -->
+      <div class="tabs-wrap">
+        <div class="tab active">Übersicht</div>
+        <div class="tab">Objekte <span class="count">4</span></div>
+        <div class="tab">Vertrag</div>
+        <div class="tab">Invoices <span class="count">3</span></div>
+        <div class="tab">Documents <span class="count">6</span></div>
+        <div class="tab">Verlauf</div>
+      </div>
+
+      <!-- Detail grid -->
+      <div class="detail-grid">
+
+        <!-- LEFT COLUMN -->
+        <div>
+
+          <!-- Contacts -->
+          <div class="card">
+            <div class="card-head">
+              <div>
+                <h3>
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>
+                  Contact persons
+                </h3>
+                <div class="sub">3 people · primary and billing contacts</div>
+              </div>
+              <button class="btn btn--ghost btn--sm"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg>Add</button>
+            </div>
+            <div class="card-body" style="padding-top:4px;padding-bottom:12px">
+              <div class="contact">
+                <div class="avatar avatar--md">P1</div>
+                <div class="contact-info">
+                  <div class="name">Primary Contact <span class="badge badge--primary" style="margin-left:6px;font-size:9px">PRIMARY</span></div>
+                  <div class="role">Facility Manager</div>
+                </div>
+                <div class="contact-meta">
+                  <a href="mailto:primary@example.com"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16a2 2 0 012 2v12a2 2 0 01-2 2H4a2 2 0 01-2-2V6a2 2 0 012-2z"/><path d="M22 6l-10 7L2 6"/></svg>primary@example.com</a>
+                  <a href="tel:+491234567890"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.9v3a2 2 0 01-2.2 2 19.8 19.8 0 01-8.6-3.1 19.5 19.5 0 01-6-6A19.8 19.8 0 012.1 4.2 2 2 0 014.1 2h3a2 2 0 012 1.7 12.8 12.8 0 00.7 2.8 2 2 0 01-.4 2.1L8.1 9.9a16 16 0 006 6l1.3-1.3a2 2 0 012.1-.4 12.8 12.8 0 002.8.7 2 2 0 011.7 2z"/></svg>+49 30 1234 5601</a>
+                </div>
+                <div class="contact-actions">
+                  <button title="Message"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a7.5 7.5 0 01-11.2 6.5L4 20l1.5-5.2A7.5 7.5 0 1121 12z"/></svg></button>
+                  <button title="Bearbeiten"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.12 2.12 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></button>
+                </div>
+              </div>
+              <div class="contact">
+                <div class="avatar avatar--md" style="background:var(--secondary-500)">P2</div>
+                <div class="contact-info">
+                  <div class="name">Billing Contact</div>
+                  <div class="role">Accounts Payable</div>
+                </div>
+                <div class="contact-meta">
+                  <a href="#"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16a2 2 0 012 2v12a2 2 0 01-2 2H4a2 2 0 01-2-2V6a2 2 0 012-2z"/><path d="M22 6l-10 7L2 6"/></svg>billing@example.com</a>
+                  <a href="#"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.9v3a2 2 0 01-2.2 2 19.8 19.8 0 01-8.6-3.1 19.5 19.5 0 01-6-6A19.8 19.8 0 012.1 4.2 2 2 0 014.1 2h3a2 2 0 012 1.7 12.8 12.8 0 00.7 2.8 2 2 0 01-.4 2.1L8.1 9.9a16 16 0 006 6l1.3-1.3a2 2 0 012.1-.4 12.8 12.8 0 002.8.7 2 2 0 011.7 2z"/></svg>+49 30 1234 5602</a>
+                </div>
+                <div class="contact-actions">
+                  <button><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a7.5 7.5 0 01-11.2 6.5L4 20l1.5-5.2A7.5 7.5 0 1121 12z"/></svg></button>
+                  <button><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.12 2.12 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></button>
+                </div>
+              </div>
+              <div class="contact">
+                <div class="avatar avatar--md" style="background:var(--accent-600)">P3</div>
+                <div class="contact-info">
+                  <div class="name">Site Contact</div>
+                  <div class="role">On-site coordinator</div>
+                </div>
+                <div class="contact-meta">
+                  <a href="#"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16a2 2 0 012 2v12a2 2 0 01-2 2H4a2 2 0 01-2-2V6a2 2 0 012-2z"/><path d="M22 6l-10 7L2 6"/></svg>site@example.com</a>
+                  <a href="#"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.9v3a2 2 0 01-2.2 2 19.8 19.8 0 01-8.6-3.1 19.5 19.5 0 01-6-6A19.8 19.8 0 012.1 4.2 2 2 0 014.1 2h3a2 2 0 012 1.7 12.8 12.8 0 00.7 2.8 2 2 0 01-.4 2.1L8.1 9.9a16 16 0 006 6l1.3-1.3a2 2 0 012.1-.4 12.8 12.8 0 002.8.7 2 2 0 011.7 2z"/></svg>+49 30 1234 5603</a>
+                </div>
+                <div class="contact-actions">
+                  <button><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a7.5 7.5 0 01-11.2 6.5L4 20l1.5-5.2A7.5 7.5 0 1121 12z"/></svg></button>
+                  <button><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.12 2.12 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Scope of services -->
+          <div class="card">
+            <div class="card-head">
+              <div>
+                <h3>
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+                  Scope of services
+                </h3>
+                <div class="sub">Contracted cleaning types and frequencies</div>
+              </div>
+              <a href="#" class="link">Bearbeiten services <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg></a>
+            </div>
+            <div class="card-body">
+              <div class="service-grid">
+                <div class="service-item">
+                  <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 3v18M15 3v18"/></svg></div>
+                  <div><div class="label">Floor cleaning</div><div class="freq">Daily · Mon–Fri</div></div>
+                </div>
+                <div class="service-item">
+                  <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 12h18M12 3v18"/></svg></div>
+                  <div><div class="label">Fensterreinigung</div><div class="freq">Monthly · 1st Mon</div></div>
+                </div>
+                <div class="service-item">
+                  <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 22h20L12 2z"/></svg></div>
+                  <div><div class="label">Waste disposal</div><div class="freq">Daily</div></div>
+                </div>
+                <div class="service-item">
+                  <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 3v18M3 12h18"/></svg></div>
+                  <div><div class="label">Carpet deep-clean</div><div class="freq">Quarterly</div></div>
+                </div>
+                <div class="service-item">
+                  <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></div>
+                  <div><div class="label">Sanitary areas</div><div class="freq">Daily</div></div>
+                </div>
+                <div class="service-item">
+                  <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1l3 6 6 .5-4.5 4.5L18 19l-6-3-6 3 1.5-7L3 7.5 9 7l3-6z"/></svg></div>
+                  <div><div class="label">Emergency call-out</div><div class="freq">On demand</div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Objekte preview -->
+          <div class="card">
+            <div class="card-head">
+              <div>
+                <h3>
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21V7l8-4 8 4v14"/><path d="M9 9h2M13 9h2M9 13h2M13 13h2M9 17h2M13 17h2"/></svg>
+                  Objekte
+                </h3>
+                <div class="sub">4 active · 1 under setup</div>
+              </div>
+              <a href="#" class="link">Alle anzeigen <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg></a>
+            </div>
+            <div class="card-body" style="padding-top:4px;padding-bottom:12px">
+              <div class="prop">
+                <div class="prop-thumb"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21V7l8-4 8 4v14"/></svg></div>
+                <div class="prop-info">
+                  <div class="name">Objekt A · Müller HQ · Main Building</div>
+                  <div class="addr">Address line 1 · 10115 City · Floor 1–3</div>
+                </div>
+                <div class="prop-meta"><div class="freq">Daily</div>Mon–Fri · 6:00</div>
+                <div class="prop-actions">
+                  <span class="badge badge--success"><span class="dot"></span>Aktiv</span>
+                  <button><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg></button>
+                </div>
+              </div>
+              <div class="prop second">
+                <div class="prop-thumb"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21V7l8-4 8 4v14"/></svg></div>
+                <div class="prop-info">
+                  <div class="name">Objekt B · Hotel Mitte · Annex</div>
+                  <div class="addr">Address line 2 · 10115 City · Ground floor</div>
+                </div>
+                <div class="prop-meta"><div class="freq">Weekly</div>Wednesdays · 8:00</div>
+                <div class="prop-actions">
+                  <span class="badge badge--success"><span class="dot"></span>Aktiv</span>
+                  <button><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg></button>
+                </div>
+              </div>
+              <div class="prop third">
+                <div class="prop-thumb"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21V7l8-4 8 4v14"/></svg></div>
+                <div class="prop-info">
+                  <div class="name">Objekt C · Bauknecht · Warehouse</div>
+                  <div class="addr">Address line 3 · 10117 City · Sections A–D</div>
+                </div>
+                <div class="prop-meta"><div class="freq">Bi-weekly</div>Fridays · 14:00</div>
+                <div class="prop-actions">
+                  <span class="badge badge--warning"><span class="dot"></span>Allergy note</span>
+                  <button><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg></button>
+                </div>
+              </div>
+              <div class="prop fourth">
+                <div class="prop-thumb"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21V7l8-4 8 4v14"/></svg></div>
+                <div class="prop-info">
+                  <div class="name">Objekt D · Kanzlei · Rooftop Office</div>
+                  <div class="addr">Address line 4 · 10115 City · Floor 5</div>
+                </div>
+                <div class="prop-meta"><div class="freq">Onboarding</div>Setup in progress</div>
+                <div class="prop-actions">
+                  <span class="badge badge--info"><span class="dot"></span>Setup</span>
+                  <button><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg></button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Aktivität timeline -->
+          <div class="card">
+            <div class="card-head">
+              <div>
+                <h3>
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+                  Letzte Aktivitäten
+                </h3>
+                <div class="sub">Events linked to this client</div>
+              </div>
+              <a href="#" class="link">Full history <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg></a>
+            </div>
+            <div class="card-body">
+              <div class="timeline">
+                <div class="tl-item">
+                  <div class="tl-dot"></div>
+                  <div class="tl-title">Property <strong>D · Rooftop Office</strong> was added and linked to this client.</div>
+                  <div class="tl-time">Heute, 09:42 · by Project Mgr 01</div>
+                </div>
+                <div class="tl-item">
+                  <div class="tl-dot blue"></div>
+                  <div class="tl-title">Invoice <strong>INV-2026-0121</strong> was generated and sent. Amount € 2,450.00.</div>
+                  <div class="tl-time">Gestern, 17:20 · Lexware-Sync</div>
+                </div>
+                <div class="tl-item">
+                  <div class="tl-dot orange"></div>
+                  <div class="tl-title"><strong>Contact 02</strong> was added as billing contact.</div>
+                  <div class="tl-time">2 days ago · by Project Mgr 01</div>
+                </div>
+                <div class="tl-item">
+                  <div class="tl-dot gray"></div>
+                  <div class="tl-title">Cleaning concept PDF uploaded to Objekt A · Müller HQ.</div>
+                  <div class="tl-time">5 days ago · by Project Mgr 01</div>
+                </div>
+                <div class="tl-item">
+                  <div class="tl-dot"></div>
+                  <div class="tl-title">Client <strong>Müller Immobilien GmbH</strong> was created with 3 verbundenen Objekten angelegt.</div>
+                  <div class="tl-time">März 15, 2026 · by Project Mgr 01</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- RIGHT COLUMN -->
+        <div>
+
+          <!-- Key info -->
+          <div class="card">
+            <div class="card-head">
+              <div>
+                <h3>
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/></svg>
+                  Key information
+                </h3>
+              </div>
+              <button class="btn btn--ghost btn--sm"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.12 2.12 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></button>
+            </div>
+            <div class="card-body">
+              <div class="info-row">
+                <span class="label">Client ID</span>
+                <span class="value mono">CLT-000001</span>
+              </div>
+              <div class="info-row">
+                <span class="label">Recht form</span>
+                <span class="value">GmbH</span>
+              </div>
+              <div class="info-row">
+                <span class="label">VAT number</span>
+                <span class="value mono">DE 000 000 000</span>
+              </div>
+              <div class="info-row">
+                <span class="label">Contract start</span>
+                <span class="value mono">2026-03-15</span>
+              </div>
+              <div class="info-row">
+                <span class="label">Contract duration</span>
+                <span class="value">24 months</span>
+              </div>
+              <div class="info-row">
+                <span class="label">Notice period</span>
+                <span class="value">3 months</span>
+              </div>
+              <div class="info-row">
+                <span class="label">Project manager</span>
+                <span class="value" style="display:flex;align-items:center;gap:6px;justify-content:flex-end"><div class="avatar avatar--xs">P1</div>Projektleitung 01</span>
+              </div>
+              <div class="info-row">
+                <span class="label">Preferred language</span>
+                <span class="value">German 🇩🇪</span>
+              </div>
+              <div class="info-row">
+                <span class="label">Invoice currency</span>
+                <span class="value">EUR · €</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Internal notes -->
+          <div class="card">
+            <div class="card-head">
+              <div>
+                <h3>
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M10.3 3.9L1.8 18a2 2 0 001.7 3h17a2 2 0 001.7-3L13.7 3.9a2 2 0 00-3.4 0zM12 9v4M12 17h.01"/></svg>
+                  Internal notes
+                </h3>
+                <div class="sub">Visible to management + project managers</div>
+              </div>
+              <button class="btn btn--ghost btn--sm"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg>Note</button>
+            </div>
+            <div class="card-body">
+              <div class="note">
+                Key holder: Contact 01 only. Spare key kept in office safe #07. Access code required for back entrance between 20:00–06:00.
+                <div class="note-meta"><span>— Project Mgr 01</span><span>2 weeks ago</span></div>
+              </div>
+              <div class="note">
+                Dust-allergy note at Objekt C · Bauknecht. Use hypoallergenic products only. Flag any chemical changes to site contact in advance.
+                <div class="note-meta"><span>— Project Mgr 01</span><span>1 month ago</span></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Documents -->
+          <div class="card">
+            <div class="card-head">
+              <div>
+                <h3>
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6M16 13H8M16 17H8"/></svg>
+                  Documents
+                </h3>
+                <div class="sub">6 files · 2.4 MB total</div>
+              </div>
+              <button class="btn btn--ghost btn--sm"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5-5 5 5M12 5v12"/></svg>Hochladen</button>
+            </div>
+            <div class="card-body" style="padding-top:4px;padding-bottom:12px">
+              <div class="doc">
+                <div class="doc-icon">PDF</div>
+                <div class="doc-info">
+                  <div class="name">Cleaning concept · Objekt A · Müller HQ.pdf</div>
+                  <div class="meta">412 KB · uploaded 5 days ago</div>
+                </div>
+                <div class="doc-actions">
+                  <button><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8S1 12 1 12z"/><circle cx="12" cy="12" r="3"/></svg></button>
+                  <button><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5-5 5 5M12 5v12" transform="rotate(180 12 12)"/></svg></button>
+                </div>
+              </div>
+              <div class="doc">
+                <div class="doc-icon">PDF</div>
+                <div class="doc-info">
+                  <div class="name">Service contract · signed.pdf</div>
+                  <div class="meta">680 KB · uploaded 1 month ago</div>
+                </div>
+                <div class="doc-actions">
+                  <button><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8S1 12 1 12z"/><circle cx="12" cy="12" r="3"/></svg></button>
+                  <button><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5-5 5 5M12 5v12" transform="rotate(180 12 12)"/></svg></button>
+                </div>
+              </div>
+              <div class="doc">
+                <div class="doc-icon img">IMG</div>
+                <div class="doc-info">
+                  <div class="name">Objekt A · Müller HQ · reception area.jpg</div>
+                  <div class="meta">1.1 MB · uploaded 1 month ago</div>
+                </div>
+                <div class="doc-actions">
+                  <button><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8S1 12 1 12z"/><circle cx="12" cy="12" r="3"/></svg></button>
+                  <button><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5-5 5 5M12 5v12" transform="rotate(180 12 12)"/></svg></button>
+                </div>
+              </div>
+              <div class="doc">
+                <div class="doc-icon doc">DOC</div>
+                <div class="doc-info">
+                  <div class="name">Access instructions · v2.docx</div>
+                  <div class="meta">48 KB · uploaded 2 weeks ago</div>
+                </div>
+                <div class="doc-actions">
+                  <button><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8S1 12 1 12z"/><circle cx="12" cy="12" r="3"/></svg></button>
+                  <button><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5-5 5 5M12 5v12" transform="rotate(180 12 12)"/></svg></button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
