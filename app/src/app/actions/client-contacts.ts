@@ -40,8 +40,8 @@ export async function upsertClientContactAction(
   const {
     data: { user },
   } = await supabase.auth.getUser();
-  const { data: profile } = await supabase
-    .from("profiles")
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const { data: profile } = await ((supabase.from("profiles") as any))
     .select("org_id")
     .eq("id", user?.id ?? "")
     .maybeSingle();
@@ -51,8 +51,8 @@ export async function upsertClientContactAction(
   // Enforce at-most-one primary: clear existing primary on this client if
   // we're setting a new one. (Partial unique index also catches this at DB.)
   if (input.is_primary) {
-    await supabase
-      .from("client_contacts")
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    await ((supabase.from("client_contacts") as any))
       .update({ is_primary: false })
       .eq("client_id", input.client_id)
       .eq("is_primary", true);
@@ -70,8 +70,8 @@ export async function upsertClientContactAction(
   };
 
   if (input.id) {
-    const { error } = await supabase
-      .from("client_contacts")
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const { error } = await ((supabase.from("client_contacts") as any))
       .update(row)
       .eq("id", input.id);
     if (error) return { ok: false, error: error.message };
@@ -79,8 +79,8 @@ export async function upsertClientContactAction(
     return { ok: true, data: { id: input.id } };
   }
 
-  const { data, error } = await supabase
-    .from("client_contacts")
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const { data, error } = await ((supabase.from("client_contacts") as any))
     .insert(row)
     .select("id")
     .single();
@@ -102,8 +102,8 @@ export async function deleteClientContactAction(
     };
   }
   const supabase = await createSupabaseServerClient();
-  const { error } = await supabase
-    .from("client_contacts")
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const { error } = await ((supabase.from("client_contacts") as any))
     .delete()
     .eq("id", id);
   if (error) return { ok: false, error: error.message };

@@ -36,16 +36,16 @@ export async function recordPropertyPhotoAction(args: {
   const {
     data: { user },
   } = await supabase.auth.getUser();
-  const { data: profile } = await supabase
-    .from("profiles")
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const { data: profile } = await ((supabase.from("profiles") as any))
     .select("org_id")
     .eq("id", user?.id ?? "")
     .maybeSingle();
   const orgId = (profile as { org_id: string | null } | null)?.org_id;
   if (!orgId) return { ok: false, error: "Profile not attached to org" };
 
-  const { data, error } = await supabase
-    .from("property_photos")
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const { data, error } = await ((supabase.from("property_photos") as any))
     .insert({
       org_id: orgId,
       property_id: args.property_id,
@@ -58,7 +58,8 @@ export async function recordPropertyPhotoAction(args: {
   if (error) return { ok: false, error: error.message };
   const newId = (data as { id: string }).id;
 
-  await supabase.from("audit_log").insert({
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  await ((supabase.from("audit_log") as any)).insert({
     org_id: orgId,
     user_id: user?.id ?? null,
     action: "create",
@@ -87,9 +88,11 @@ export async function deletePropertyPhotoAction(
   const supabase = await createSupabaseServerClient();
 
   // Best-effort: remove the storage object first.
-  await supabase.storage.from("property-photos").remove([storage_path]);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  await (supabase.storage.from("property-photos") as any).remove([storage_path]);
 
-  const { error } = await supabase.from("property_photos").delete().eq("id", id);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const { error } = await ((supabase.from("property_photos") as any)).delete().eq("id", id);
   if (error) return { ok: false, error: error.message };
 
   revalidatePath(routes.property(property_id));

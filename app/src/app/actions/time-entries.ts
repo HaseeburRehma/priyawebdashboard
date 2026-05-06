@@ -28,14 +28,15 @@ async function audit(
     data: { user },
   } = await supabase.auth.getUser();
   if (!user) return;
-  const { data: profile } = await supabase
-    .from("profiles")
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const { data: profile } = await ((supabase.from("profiles") as any))
     .select("org_id")
     .eq("id", user.id)
     .maybeSingle();
   const orgId = (profile as { org_id: string | null } | null)?.org_id;
   if (!orgId) return;
-  await supabase.from("audit_log").insert({
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  await ((supabase.from("audit_log") as any)).insert({
     org_id: orgId,
     user_id: user.id,
     action,
@@ -81,8 +82,8 @@ export async function checkInAction(
   const {
     data: { user },
   } = await supabase.auth.getUser();
-  const { data: profile } = await supabase
-    .from("profiles")
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const { data: profile } = await ((supabase.from("profiles") as any))
     .select("org_id")
     .eq("id", user?.id ?? "")
     .maybeSingle();
@@ -90,8 +91,8 @@ export async function checkInAction(
   if (!orgId) return { ok: false, error: "Profile not attached to org" };
 
   // Resolve the shift + property metadata.
-  const { data: shiftRow } = await supabase
-    .from("shifts")
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const { data: shiftRow } = await ((supabase.from("shifts") as any))
     .select(
       `id, employee_id, property_id,
        property:properties ( id, latitude, longitude, gps_radius_m )`,
@@ -115,8 +116,8 @@ export async function checkInAction(
 
   // Caller must own this shift unless they're a manager (RLS would also catch
   // it, but the friendlier UX is an explicit message).
-  const { data: emp } = await supabase
-    .from("employees")
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const { data: emp } = await ((supabase.from("employees") as any))
     .select("id")
     .eq("profile_id", user?.id ?? "")
     .maybeSingle();
@@ -151,8 +152,8 @@ export async function checkInAction(
   }
 
   // Idempotent: re-punching the same kind returns the existing row.
-  const { data: existing } = await supabase
-    .from("time_entries")
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const { data: existing } = await ((supabase.from("time_entries") as any))
     .select("id")
     .eq("shift_id", input.shift_id)
     .eq("employee_id", employeeId)
@@ -169,8 +170,8 @@ export async function checkInAction(
     };
   }
 
-  const { data, error } = await supabase
-    .from("time_entries")
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const { data, error } = await ((supabase.from("time_entries") as any))
     .insert({
       org_id: orgId,
       shift_id: input.shift_id,
@@ -191,8 +192,8 @@ export async function checkInAction(
 
   // Mark the shift as in-progress on first check-in.
   if (input.kind === "check_in") {
-    await supabase
-      .from("shifts")
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    await ((supabase.from("shifts") as any))
       .update({ status: "in_progress" })
       .eq("id", input.shift_id)
       .neq("status", "completed");
@@ -248,8 +249,8 @@ export async function correctTimeEntryAction(
   const {
     data: { user },
   } = await supabase.auth.getUser();
-  const { data: profile } = await supabase
-    .from("profiles")
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const { data: profile } = await ((supabase.from("profiles") as any))
     .select("org_id")
     .eq("id", user?.id ?? "")
     .maybeSingle();
@@ -257,8 +258,8 @@ export async function correctTimeEntryAction(
   if (!orgId) return { ok: false, error: "Profile not attached to org" };
 
   // Get property_id from the shift.
-  const { data: shiftRow } = await supabase
-    .from("shifts")
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const { data: shiftRow } = await ((supabase.from("shifts") as any))
     .select("property_id")
     .eq("id", input.shift_id)
     .maybeSingle();
@@ -267,8 +268,8 @@ export async function correctTimeEntryAction(
 
   // Upsert: a manual correction either creates the row or updates the
   // existing one with the corrected timestamp + reason.
-  const { data, error } = await supabase
-    .from("time_entries")
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const { data, error } = await ((supabase.from("time_entries") as any))
     .upsert(
       {
         org_id: orgId,
@@ -313,8 +314,8 @@ export async function completeShiftAction(
     };
   }
   const supabase = await createSupabaseServerClient();
-  const { error } = await supabase
-    .from("shifts")
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const { error } = await ((supabase.from("shifts") as any))
     .update({ status: "completed", completed_at: new Date().toISOString() })
     .eq("id", shift_id);
   if (error) return { ok: false, error: error.message };

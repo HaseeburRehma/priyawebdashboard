@@ -54,7 +54,7 @@ export function SchedulePage({ week }: Props) {
   );
   const [dialogOpen, setDialogOpen] = useState(false);
   const router = useRouter();
-  const [dndPending, dndStart] = useTransition();
+  const [, dndStart] = useTransition();
 
   /**
    * Drag-and-drop handler — invoked when a shift block is dropped on a

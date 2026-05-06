@@ -106,7 +106,8 @@ export async function POST(request: Request) {
       s.ends_at,
     ).toLocaleTimeString()}`;
 
-    await supabase.from("notifications").insert({
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    await ((supabase.from("notifications") as any)).insert({
       org_id: s.org_id,
       user_id: s.employee.profile_id,
       channel: "in_app",

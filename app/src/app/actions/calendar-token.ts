@@ -20,16 +20,16 @@ export async function ensureCalendarTokenAction(): Promise<
   } = await supabase.auth.getUser();
   if (!user) return { ok: false, error: "Not signed in" };
 
-  const { data: profile } = await supabase
-    .from("profiles")
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const { data: profile } = await ((supabase.from("profiles") as any))
     .select("org_id")
     .eq("id", user.id)
     .maybeSingle();
   const orgId = (profile as { org_id: string | null } | null)?.org_id;
   if (!orgId) return { ok: false, error: "Profile not attached to org" };
 
-  const { data: existing } = await supabase
-    .from("calendar_tokens")
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const { data: existing } = await ((supabase.from("calendar_tokens") as any))
     .select("token")
     .eq("profile_id", user.id)
     .limit(1)
@@ -39,7 +39,8 @@ export async function ensureCalendarTokenAction(): Promise<
   }
 
   const token = `ct_${randomUUID().replace(/-/g, "")}`;
-  const { error } = await supabase.from("calendar_tokens").insert({
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const { error } = await ((supabase.from("calendar_tokens") as any)).insert({
     token,
     profile_id: user.id,
     org_id: orgId,
@@ -55,8 +56,8 @@ export async function revokeCalendarTokenAction(): Promise<ActionResult> {
     data: { user },
   } = await supabase.auth.getUser();
   if (!user) return { ok: false, error: "Not signed in" };
-  const { error } = await supabase
-    .from("calendar_tokens")
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const { error } = await ((supabase.from("calendar_tokens") as any))
     .delete()
     .eq("profile_id", user.id);
   if (error) return { ok: false, error: error.message };

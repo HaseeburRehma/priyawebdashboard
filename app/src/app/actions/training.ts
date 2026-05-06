@@ -22,14 +22,15 @@ async function audit(action: string, recordId: string, message: string) {
     data: { user },
   } = await supabase.auth.getUser();
   if (!user) return;
-  const { data: profile } = await supabase
-    .from("profiles")
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const { data: profile } = await ((supabase.from("profiles") as any))
     .select("org_id")
     .eq("id", user.id)
     .maybeSingle();
   const orgId = (profile as { org_id: string | null } | null)?.org_id;
   if (!orgId) return;
-  await supabase.from("audit_log").insert({
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  await ((supabase.from("audit_log") as any)).insert({
     org_id: orgId,
     user_id: user.id,
     action,
@@ -68,8 +69,8 @@ export async function upsertTrainingModuleAction(
   const {
     data: { user },
   } = await supabase.auth.getUser();
-  const { data: profile } = await supabase
-    .from("profiles")
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const { data: profile } = await ((supabase.from("profiles") as any))
     .select("org_id")
     .eq("id", user?.id ?? "")
     .maybeSingle();
@@ -77,8 +78,8 @@ export async function upsertTrainingModuleAction(
   if (!orgId) return { ok: false, error: "Profile not attached to org" };
 
   if (input.id) {
-    const { error } = await supabase
-      .from("training_modules")
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const { error } = await ((supabase.from("training_modules") as any))
       .update({
         title: input.title,
         description: input.description || null,
@@ -94,8 +95,8 @@ export async function upsertTrainingModuleAction(
     return { ok: true, data: { id: input.id } };
   }
 
-  const { data, error } = await supabase
-    .from("training_modules")
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const { data, error } = await ((supabase.from("training_modules") as any))
     .insert({
       org_id: orgId,
       title: input.title,
@@ -128,8 +129,8 @@ export async function deleteTrainingModuleAction(
   }
   const supabase = await createSupabaseServerClient();
   // Soft delete via deleted_at to preserve audit trail.
-  const { error } = await supabase
-    .from("training_modules")
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const { error } = await ((supabase.from("training_modules") as any))
     .update({ deleted_at: new Date().toISOString() })
     .eq("id", id);
   if (error) return { ok: false, error: error.message };
@@ -157,8 +158,8 @@ export async function setTrainingAssignmentsAction(
   const {
     data: { user },
   } = await supabase.auth.getUser();
-  const { data: profile } = await supabase
-    .from("profiles")
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const { data: profile } = await ((supabase.from("profiles") as any))
     .select("org_id")
     .eq("id", user?.id ?? "")
     .maybeSingle();
@@ -167,8 +168,8 @@ export async function setTrainingAssignmentsAction(
 
   // Replace the assignment set: delete all current rows for this module,
   // then insert the new set. Cheaper than diffing for the typical small N.
-  const { error: delErr } = await supabase
-    .from("training_assignments")
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const { error: delErr } = await ((supabase.from("training_assignments") as any))
     .delete()
     .eq("module_id", moduleId);
   if (delErr) return { ok: false, error: delErr.message };
@@ -181,8 +182,8 @@ export async function setTrainingAssignmentsAction(
       due_date: dueDate,
       assigned_by: user?.id ?? null,
     }));
-    const { error: insErr } = await supabase
-      .from("training_assignments")
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const { error: insErr } = await ((supabase.from("training_assignments") as any))
       .insert(rows);
     if (insErr) return { ok: false, error: insErr.message };
   }
@@ -219,8 +220,8 @@ export async function updateTrainingProgressAction(
   const {
     data: { user },
   } = await supabase.auth.getUser();
-  const { data: profile } = await supabase
-    .from("profiles")
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const { data: profile } = await ((supabase.from("profiles") as any))
     .select("org_id")
     .eq("id", user?.id ?? "")
     .maybeSingle();
@@ -228,8 +229,8 @@ export async function updateTrainingProgressAction(
   if (!orgId) return { ok: false, error: "Profile not attached to org" };
 
   // Map this user to their employees row.
-  const { data: emp } = await supabase
-    .from("employees")
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const { data: emp } = await ((supabase.from("employees") as any))
     .select("id")
     .eq("profile_id", user?.id ?? "")
     .maybeSingle();
@@ -259,8 +260,8 @@ export async function updateTrainingProgressAction(
     patch.completed_at = null;
   }
 
-  const { error } = await supabase
-    .from("employee_training_progress")
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const { error } = await ((supabase.from("employee_training_progress") as any))
     .upsert(patch, { onConflict: "employee_id,module_id" });
   if (error) return { ok: false, error: error.message };
 

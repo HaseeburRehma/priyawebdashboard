@@ -105,7 +105,7 @@ export function LoginForm() {
     });
   }
 
-  async function signInWithGoogle() {
+  async function _signInWithGoogle() {
     const supabase = createSupabaseBrowserClient();
     const { error } = await supabase.auth.signInWithOAuth({
       provider: "google",

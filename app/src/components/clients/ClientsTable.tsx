@@ -43,7 +43,6 @@ export function ClientsTable({
   onPageChange,
 }: Props) {
   const t = useTranslations("clients.table");
-  const tStatus = useTranslations("clients.status");
   const [selected, setSelected] = useState<Set<string>>(new Set());
 
   function toggle(id: string) {

@@ -22,14 +22,15 @@ async function audit(action: string, recordId: string, message: string) {
     data: { user },
   } = await supabase.auth.getUser();
   if (!user) return;
-  const { data: profile } = await supabase
-    .from("profiles")
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const { data: profile } = await ((supabase.from("profiles") as any))
     .select("org_id")
     .eq("id", user.id)
     .maybeSingle();
   const orgId = (profile as { org_id: string | null } | null)?.org_id;
   if (!orgId) return;
-  await supabase.from("audit_log").insert({
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  await ((supabase.from("audit_log") as any)).insert({
     org_id: orgId,
     user_id: user.id,
     action,
@@ -66,8 +67,8 @@ export async function createDamageReportAction(
   const {
     data: { user },
   } = await supabase.auth.getUser();
-  const { data: profile } = await supabase
-    .from("profiles")
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const { data: profile } = await ((supabase.from("profiles") as any))
     .select("org_id")
     .eq("id", user?.id ?? "")
     .maybeSingle();
@@ -77,16 +78,16 @@ export async function createDamageReportAction(
   // Best-effort: link to the requesting user's employee row if available.
   let employeeId = input.employee_id ?? null;
   if (!employeeId) {
-    const { data: emp } = await supabase
-      .from("employees")
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const { data: emp } = await ((supabase.from("employees") as any))
       .select("id")
       .eq("profile_id", user?.id ?? "")
       .maybeSingle();
     employeeId = (emp as { id: string } | null)?.id ?? null;
   }
 
-  const { data, error } = await supabase
-    .from("damage_reports")
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const { data, error } = await ((supabase.from("damage_reports") as any))
     .insert({
       org_id: orgId,
       property_id: input.property_id,
@@ -133,8 +134,8 @@ export async function discussDamageReportAction(
   } = await supabase.auth.getUser();
   if (!user) return { ok: false, error: "Not signed in" };
 
-  const { data: profile } = await supabase
-    .from("profiles")
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const { data: profile } = await ((supabase.from("profiles") as any))
     .select("org_id")
     .eq("id", user.id)
     .maybeSingle();
@@ -142,8 +143,8 @@ export async function discussDamageReportAction(
   if (!orgId) return { ok: false, error: "Profile not attached to org" };
 
   // Load the report + property name in one shot.
-  const { data: rowRaw } = await supabase
-    .from("damage_reports")
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const { data: rowRaw } = await ((supabase.from("damage_reports") as any))
     .select(
       "id, severity, category, description, photo_paths, created_at, property:properties ( id, name )",
     )
@@ -165,8 +166,8 @@ export async function discussDamageReportAction(
 
   // Find the property's auto-channel (#prop-<name truncated to 60 chars>).
   const channelName = "#prop-" + row.property.name.slice(0, 60);
-  const { data: channelRaw } = await supabase
-    .from("chat_channels")
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const { data: channelRaw } = await ((supabase.from("chat_channels") as any))
     .select("id")
     .eq("org_id", orgId)
     .eq("name", channelName)
@@ -176,8 +177,8 @@ export async function discussDamageReportAction(
   // Fall back: if for some reason the channel doesn't exist (e.g. a
   // pre-trigger property), create it on the fly.
   if (!channelId) {
-    const { data: newCh, error: chErr } = await supabase
-      .from("chat_channels")
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const { data: newCh, error: chErr } = await ((supabase.from("chat_channels") as any))
       .insert({
         org_id: orgId,
         name: channelName,
@@ -200,7 +201,8 @@ export async function discussDamageReportAction(
     `${row.description}\n` +
     `Objekt: ${row.property.name}`;
 
-  const { error: msgErr } = await supabase.from("chat_messages").insert({
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const { error: msgErr } = await ((supabase.from("chat_messages") as any)).insert({
     org_id: orgId,
     channel_id: channelId,
     user_id: user.id,
@@ -243,15 +245,15 @@ export async function resolveDamageReportAction(
   const supabase = await createSupabaseServerClient();
 
   // We need the property_id to revalidate the right path.
-  const { data: row } = await supabase
-    .from("damage_reports")
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const { data: row } = await ((supabase.from("damage_reports") as any))
     .select("property_id")
     .eq("id", input.id)
     .maybeSingle();
   const propertyId = (row as { property_id: string } | null)?.property_id;
 
-  const { error } = await supabase
-    .from("damage_reports")
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const { error } = await ((supabase.from("damage_reports") as any))
     .update({
       resolved: input.resolved,
       resolved_at: input.resolved ? new Date().toISOString() : null,

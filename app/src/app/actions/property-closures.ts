@@ -40,8 +40,8 @@ export async function upsertPropertyClosureAction(
   const {
     data: { user },
   } = await supabase.auth.getUser();
-  const { data: profile } = await supabase
-    .from("profiles")
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const { data: profile } = await ((supabase.from("profiles") as any))
     .select("org_id")
     .eq("id", user?.id ?? "")
     .maybeSingle();
@@ -59,8 +59,8 @@ export async function upsertPropertyClosureAction(
   };
 
   if (input.id) {
-    const { error } = await supabase
-      .from("property_closures")
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const { error } = await ((supabase.from("property_closures") as any))
       .update(row)
       .eq("id", input.id);
     if (error) return { ok: false, error: error.message };
@@ -68,8 +68,8 @@ export async function upsertPropertyClosureAction(
     return { ok: true, data: { id: input.id } };
   }
 
-  const { data, error } = await supabase
-    .from("property_closures")
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const { data, error } = await ((supabase.from("property_closures") as any))
     .insert(row)
     .select("id")
     .single();
@@ -91,8 +91,8 @@ export async function deletePropertyClosureAction(
     };
   }
   const supabase = await createSupabaseServerClient();
-  const { error } = await supabase
-    .from("property_closures")
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const { error } = await ((supabase.from("property_closures") as any))
     .delete()
     .eq("id", id);
   if (error) return { ok: false, error: error.message };

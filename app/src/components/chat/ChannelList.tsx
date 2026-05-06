@@ -9,6 +9,7 @@ import { useLocale, useTranslations } from "next-intl";
 import type { Channel } from "@/types/chat";
 import { cn } from "@/lib/utils/cn";
 import { routes } from "@/lib/constants/routes";
+import { NewChannelDialog } from "./NewChannelDialog";
 
 const localeMap = { de: deLocale, en: enLocale, ta: taLocale } as const;
 
@@ -38,6 +39,9 @@ export function ChannelList({
   const t = useTranslations("chat.channels");
   const locale = useLocale() as keyof typeof localeMap;
   const [filter, setFilter] = useState("");
+  const [dialogMode, setDialogMode] = useState<
+    "channel" | "direct" | "group" | null
+  >(null);
 
   const buckets = useMemo(() => {
     const channelList: Channel[] = [];
@@ -78,6 +82,7 @@ export function ChannelList({
         <button
           type="button"
           aria-label={t("newChannel")}
+          onClick={() => setDialogMode("channel")}
           className="grid h-7 w-7 place-items-center rounded-md text-neutral-500 hover:bg-neutral-100"
         >
           <svg
@@ -109,7 +114,9 @@ export function ChannelList({
         <Section
           label={t("sectionChannels")}
           count={buckets.channels.length}
+          onAdd={() => setDialogMode("channel")}
           emptyHint={!f && buckets.channels.length === 0 ? t("emptyChannels") : null}
+          onEmptyClick={() => setDialogMode("channel")}
         >
           {visible.channels.map((c) => (
             <ChannelRow
@@ -125,7 +132,9 @@ export function ChannelList({
         <Section
           label={t("sectionDirects")}
           count={buckets.directs.length}
+          onAdd={() => setDialogMode("direct")}
           emptyHint={!f && buckets.directs.length === 0 ? t("emptyDirects") : null}
+          onEmptyClick={() => setDialogMode("direct")}
         >
           {visible.directs.map((c) => (
             <ChannelRow
@@ -146,7 +155,9 @@ export function ChannelList({
         <Section
           label={t("sectionGroups")}
           count={buckets.groups.length}
+          onAdd={() => setDialogMode("group")}
           emptyHint={!f && buckets.groups.length === 0 ? t("emptyGroups") : null}
+          onEmptyClick={() => setDialogMode("group")}
         >
           {visible.groups.map((c) => (
             <ChannelRow
@@ -170,6 +181,12 @@ export function ChannelList({
             </div>
           )}
       </div>
+
+      <NewChannelDialog
+        open={dialogMode != null}
+        mode={dialogMode ?? "channel"}
+        onClose={() => setDialogMode(null)}
+      />
     </aside>
   );
 }
@@ -178,26 +195,46 @@ function Section({
   label,
   count,
   emptyHint,
+  onAdd,
+  onEmptyClick,
   children,
 }: {
   label: string;
   count: number;
   emptyHint?: string | null;
+  onAdd?: () => void;
+  onEmptyClick?: () => void;
   children: React.ReactNode;
 }) {
   return (
     <section>
       <div className="flex items-center justify-between px-4 pb-1 pt-3 text-[10px] font-semibold uppercase tracking-[0.06em] text-neutral-500">
-        <span>{label}</span>
-        <span className="rounded-full bg-neutral-100 px-1.5 py-0.5 font-bold text-neutral-600">
-          {count}
+        <span className="flex items-center gap-2">
+          {label}
+          <span className="rounded-full bg-neutral-100 px-1.5 py-0.5 font-bold text-neutral-600">
+            {count}
+          </span>
         </span>
+        {onAdd && (
+          <button
+            type="button"
+            onClick={onAdd}
+            aria-label={`+ ${label}`}
+            className="grid h-5 w-5 place-items-center rounded text-neutral-400 hover:bg-neutral-100 hover:text-neutral-700"
+          >
+            +
+          </button>
+        )}
       </div>
       <ul>{children}</ul>
       {emptyHint && count === 0 && (
-        <div className="mx-4 my-1 rounded-md border border-dashed border-neutral-200 px-3 py-2 text-[11px] italic text-neutral-400">
+        <button
+          type="button"
+          onClick={onEmptyClick}
+          className="mx-4 my-1 block w-[calc(100%-2rem)] rounded-md border border-dashed border-neutral-200 px-3 py-2 text-left text-[11px] italic text-neutral-400 transition hover:border-primary-300 hover:text-primary-600"
+        >
           {emptyHint}
-        </div>
+        </button>
       )}
     </section>
   );

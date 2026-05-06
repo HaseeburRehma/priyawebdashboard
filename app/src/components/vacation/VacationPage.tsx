@@ -31,6 +31,7 @@ const statusStyles: Record<VacationStatus, string> = {
   approved: "bg-success-50 text-success-700",
   rejected: "bg-error-50 text-error-700",
   cancelled: "bg-neutral-100 text-neutral-600",
+  suggested: "bg-blue-50 text-blue-700",
 };
 
 type Props = { data: VacationData };

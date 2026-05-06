@@ -1,59 +1,46 @@
 # Testing — Priya's Reinigungsservice
 
-A complete, **free**, local-only harness for verifying every role × every feature
-end-to-end. Two paths — automated (Playwright) and manual (the matrix at the
-bottom). Run both.
+A complete, **free**, local-only manual test plan for verifying every role × every
+feature end-to-end. (The earlier Playwright + Stagehand harness has been removed.
+This doc now covers the manual matrix only.)
 
 ---
 
 ## 1. Set up your free test stack
 
-You have two choices. Both are free.
+Two paths, both free. Pick one.
 
 ### Option A — Supabase Cloud (free tier, recommended)
 
-1. Sign in to <https://supabase.com> and create a new project. Free tier
-   includes 500 MB Postgres + 1 GB file storage + 50k monthly auth users.
-   That's wildly enough for QA.
-2. From the Supabase dashboard → **Project settings → API**, copy:
+1. Sign in to <https://supabase.com> and create a new project (Frankfurt or
+   Ireland for GDPR alignment). Free tier = 500 MB Postgres + 1 GB Storage +
+   50k monthly auth users.
+2. From **Project settings → API**, copy:
    - `Project URL` → `NEXT_PUBLIC_SUPABASE_URL`
    - `anon public` key → `NEXT_PUBLIC_SUPABASE_ANON_KEY`
    - `service_role` key (SERVER ONLY) → `SUPABASE_SERVICE_ROLE_KEY`
-3. From **Project settings → Database → Connection string**, copy the
-   `URI` (not pooled) → `SUPABASE_DB_URL` (you'll need this for `psql`).
-4. Apply migrations + seeds:
+3. From **Project settings → Database → Connection string**, copy the URI
+   (not pooled) → `SUPABASE_DB_URL`.
+4. Apply every migration in order, then the seeds:
    ```bash
-   # In the Supabase SQL editor, or via psql:
-   psql "$SUPABASE_DB_URL" -f supabase/migrations/20260504_000001_foundation.sql
-   psql "$SUPABASE_DB_URL" -f supabase/migrations/20260504_000002_domain.sql
-   psql "$SUPABASE_DB_URL" -f supabase/migrations/20260504_000003_storage.sql
-   psql "$SUPABASE_DB_URL" -f supabase/migrations/20260504_000004_oauth_signup.sql
-   psql "$SUPABASE_DB_URL" -f supabase/migrations/20260504_000005_requirements_extensions.sql
-   psql "$SUPABASE_DB_URL" -f supabase/migrations/20260504_000006_chat_default_membership.sql
-   psql "$SUPABASE_DB_URL" -f supabase/migrations/20260504_000007_chat_realtime.sql
-   psql "$SUPABASE_DB_URL" -f supabase/migrations/20260504_000008_fixes.sql
-   psql "$SUPABASE_DB_URL" -f supabase/migrations/20260504_000009_dashboard_seed.sql
-   psql "$SUPABASE_DB_URL" -f supabase/migrations/20260504_000010_clients_seed.sql
-   psql "$SUPABASE_DB_URL" -f supabase/migrations/20260504_000011_push_subscriptions.sql
-   psql "$SUPABASE_DB_URL" -f supabase/migrations/20260504_000012_chat_attachments_bucket.sql
-   psql "$SUPABASE_DB_URL" -f supabase/migrations/20260504_000013_training_assignments.sql
+   for f in supabase/migrations/*.sql; do psql "$SUPABASE_DB_URL" -f "$f"; done
    psql "$SUPABASE_DB_URL" -f supabase/seed/seed.sql
    psql "$SUPABASE_DB_URL" -f supabase/seed/test_users.sql
    ```
 
 ### Option B — fully local Postgres (Supabase CLI)
 
-Install the Supabase CLI (Homebrew, scoop, or the standalone binary), then:
 ```bash
 supabase start          # boots Postgres, Studio, Storage, Auth in Docker
 supabase db reset       # applies every migration + seed.sql
-psql "$(supabase status -o env | grep DB_URL | cut -d= -f2-)" -f supabase/seed/test_users.sql
+psql "$(supabase status -o env | grep DB_URL | cut -d= -f2-)" \
+  -f supabase/seed/test_users.sql
 ```
-Use the keys from `supabase status` for `.env.local`.
 
 ### `.env.local`
 
 Copy `.env.example` → `.env.local` and fill in:
+
 ```
 NEXT_PUBLIC_SUPABASE_URL=...
 NEXT_PUBLIC_SUPABASE_ANON_KEY=...
@@ -62,13 +49,17 @@ NEXT_PUBLIC_APP_URL=http://localhost:3000
 NEXT_PUBLIC_DEFAULT_LOCALE=de
 NEXT_PUBLIC_DEFAULT_ORG_ID=00000000-0000-0000-0000-0000000000aa
 
-# Optional — needed only if you want to test push notifications:
-NEXT_PUBLIC_VAPID_PUBLIC_KEY=          # leave blank to disable push tests
+# Optional — for Web Push tests:
+NEXT_PUBLIC_VAPID_PUBLIC_KEY=
 WEB_PUSH_PRIVATE_KEY=
 WEB_PUSH_SUBJECT=mailto:test@example.com
+
+# Optional — for Lexware tests:
+LEXWARE_BASE_URL=https://api.lexware.io
+LEXWARE_API_KEY=
 ```
 
-To generate a VAPID key pair for free:
+To generate VAPID keys:
 ```bash
 npx web-push generate-vapid-keys
 ```
@@ -81,356 +72,249 @@ npm run dev
 # App at http://localhost:3000
 ```
 
-Sign in with one of the test users below.
-
 ---
 
 ## 2. Test users
 
-The seed `supabase/seed/test_users.sql` creates three confirmed accounts in the
+Seeded by `supabase/seed/test_users.sql`. Three pre-confirmed accounts in the
 default org:
 
-| Email                  | Password    | Role        | Spec name        |
-| ---------------------- | ----------- | ----------- | ---------------- |
-| admin@priya.test       | Test1234!   | admin       | Management       |
-| dispatcher@priya.test  | Test1234!   | dispatcher  | Project Manager  |
-| employee@priya.test    | Test1234!   | employee    | Field Staff      |
+| Role         | Spec name        | Internal name | Sees in nav                                                         |
+| ------------ | ---------------- | ------------- | ------------------------------------------------------------------- |
+| Management   | full access      | `admin`       | Everything                                                          |
+| Project Mgr  | scheduling+more  | `dispatcher`  | Everything except Settings → write                                  |
+| Field Staff  | mobile-only      | `employee`    | Dashboard / Schedule / Vacation / Training / Chat / Notifications   |
 
-The employee user is also linked to a `public.employees` row, so they appear in
-schedule pickers, vacation forms, and training assignments.
-
----
-
-## 3. Automated E2E tests (Playwright — deterministic)
-
-```bash
-npm install
-npm run test:e2e:install     # one-time: download browser engines
-npm run test:e2e             # headless run, deterministic suites only
-npm run test:e2e:ui          # interactive inspector
-```
-
-Suites in `tests/e2e/*.spec.ts`:
-
-- `auth.spec.ts` — login form, invalid credentials, unauthenticated redirect.
-- `role-admin.spec.ts` — admin reaches every top-level destination.
-- `role-dispatcher.spec.ts` — dispatcher sees schedule/clients/training; can review vacation.
-- `role-employee.spec.ts` — field staff submit vacation, see chat + training, blocked from `/onboard`.
-- `i18n.spec.ts` — DE strings render, switcher offers DE/EN/TA.
-
-Add new tests by dropping a `*.spec.ts` file into `tests/e2e/`. The fixtures
-in `tests/e2e/fixtures/auth.ts` give you `signIn(page, "admin" | "dispatcher" | "employee")`.
+The seeded passwords are visible in `supabase/seed/test_users.sql`. In production
+you would never run that seed.
 
 ---
 
-## 3b. Automated E2E tests (Stagehand — AI-driven)
+## 3. Manual test matrix
 
-Stagehand lets you write tests in plain English. It sits on top of Playwright,
-so it shares the same dev-server, base URL, screenshots, and reports — only
-the spec files differ. Use Stagehand for flows where deterministic selectors
-are painful (canvas-based signature pad, drag-resize on the schedule, complex
-modals) and for autonomous smoke runs that can spot "renders but is broken"
-issues a fixed-selector test would never notice.
+Walk through every row before each release. Each cell is "expected outcome per role".
 
-### One-time setup
+### 3.1 Authentication & profile
 
-1. Install (already in package.json — just run `npm install`):
-   - `@browserbasehq/stagehand`
-   - `@anthropic-ai/sdk`
+| Test                                                            | Admin | Dispatcher | Employee |
+|-----------------------------------------------------------------|-------|------------|----------|
+| Sign in with correct password lands on `/dashboard`             | ✅    | ✅         | ✅       |
+| Sign in with wrong password shows error, stays on `/login`      | ✅    | ✅         | ✅       |
+| Topbar shows correct full name + role badge                     | Mgmt  | Project    | Field    |
+| Sign out from user menu returns to `/login`                     | ✅    | ✅         | ✅       |
+| Direct `/dashboard` URL while signed-out → `/login` redirect    | ✅    | ✅         | ✅       |
+| Settings → Security → enable 2FA → QR + secret render           | ✅    | ✅         | n/a      |
+| Sign out + sign back in with 2FA prompts for code               | ✅    | ✅         | n/a      |
 
-2. Get an API key. **Free options:**
-   - **Anthropic** — sign up at console.anthropic.com; new accounts get free
-     credits, and the cheapest Claude Haiku model is fine for most flows.
-     Set `ANTHROPIC_API_KEY` in `.env.local`.
-   - **OpenAI** — alternative; new accounts also get free credits. Set
-     `OPENAI_API_KEY` and `STAGEHAND_MODEL=gpt-4o-mini`.
+### 3.2 Clients (CRM)
 
-3. (No Browserbase account required — we run the browser locally so it's
-   completely free aside from LLM calls.)
+| Test                                                | Admin | Dispatcher | Employee  |
+|-----------------------------------------------------|-------|------------|-----------|
+| `/clients` lists seeded clients + summary cards     | ✅    | ✅         | redirect  |
+| Search / type filters work                          | ✅    | ✅         | –         |
+| New-client wizard at `/clients/new` shows 3 options | ✅    | ✅         | redirect  |
+| Submit residential creates + redirects to detail    | ✅    | ✅         | –         |
+| Alltagshilfe requires insurance fields              | ✅    | ✅         | –         |
+| 30-day "New" badge on freshly created client        | ✅    | ✅         | –         |
+| Auto-notification fires to dispatchers + admins     | ✅    | ✅         | –         |
+| Multi-contact card on detail (add / edit / delete)  | ✅    | ✅         | –         |
+| Archive client (admin-only)                         | ✅    | –          | –         |
 
-### Run
+### 3.3 Tablet onboarding
 
-```bash
-npm run test:stagehand          # all Stagehand specs, headless
-npm run test:stagehand:ui       # interactive — watch the AI click around
-STAGEHAND_VERBOSE=1 npm run test:stagehand   # print every act/extract decision
-```
+| Test                                                    | Admin | Dispatcher | Employee |
+|---------------------------------------------------------|-------|------------|----------|
+| `/onboard` opens 5-step wizard                          | ✅    | ✅         | redirect |
+| Each step enforces required fields                      | ✅    | ✅         | –        |
+| Signature pad captures SVG path data                    | ✅    | ✅         | –        |
+| Submit creates client + property + service_scope + sig  | ✅    | ✅         | –        |
+| Success page offers "Onboard another" / "To clients"    | ✅    | ✅         | –        |
 
-### Specs
+### 3.4 Properties
 
-In `tests/e2e/stagehand/`:
+| Test                                                        | Admin | Dispatcher | Employee |
+|-------------------------------------------------------------|-------|------------|----------|
+| `/properties` lists + summary                               | ✅    | ✅         | redirect |
+| Detail loads with structured fields (floor / access code)   | ✅    | ✅         | –        |
+| Safety blocks render only when populated                    | ✅    | ✅         | –        |
+| Photo upload + signed-URL gallery                           | ✅    | ✅         | –        |
+| Damage report card (log / resolve / discuss in chat)        | ✅    | ✅         | log only |
+| Closures CRUD (date range + reason)                         | ✅    | ✅         | –        |
+| Cleaning concept PDF upload + signed-URL link               | ✅    | ✅         | –        |
 
-- `login.stagehand.spec.ts` — pure natural-language login, then `extract()`
-  pulls the user's display name from the dashboard.
-- `onboarding.stagehand.spec.ts` — dispatcher onboards an Alltagshilfe client
-  through all five wizard steps. Includes the canvas-based signature pad
-  ("draw a signature by dragging from left to right") and the consent
-  checkbox. This is where Stagehand earns its keep — every other test
-  framework would force you to pick CSS selectors for that canvas.
-- `explore.stagehand.spec.ts` — autonomous walk-through. Visits every
-  top-level page and uses `page.extract({ schema })` to ask the model
-  "summarize this page; is anything broken?". Fails the test if the
-  AI reports `hasErrors: true`. Great pre-deploy smoke run.
+### 3.5 Schedule
 
-### Writing your own
+| Test                                                  | Admin | Dispatcher | Employee   |
+|-------------------------------------------------------|-------|------------|------------|
+| Week calendar renders                                 | ✅    | ✅         | own shifts |
+| Closure / vacation overlay strip below day header     | ✅    | ✅         | ✅         |
+| Plan-shift modal validates + creates                  | ✅    | ✅         | hidden     |
+| Conflict warning on double-book / vacation / closure  | ✅    | ✅         | –          |
+| Training-lock blocks unqualified employee assignment  | ✅    | ✅         | –          |
+| Drag-and-drop a shift to another day/hour             | ✅    | ✅         | –          |
+| iCal feed `/api/schedule/ical?token=…` returns .ics   | ✅    | ✅         | ✅ own     |
+| PDF export `/api/schedule/pdf?date=…`                 | ✅    | ✅         | hidden     |
 
-```ts
-import { test, expect } from "../fixtures/stagehand-fixture";
-import { z } from "zod";
+### 3.6 GPS check-in / check-out (§4.4)
 
-test("I describe what I want, the agent does it", async ({ stagePage, baseURL }) => {
-  await stagePage.goto(`${baseURL}/clients`);
-  await stagePage.act("Click the new-client button");
-  await stagePage.act("Pick Alltagshilfe as the customer type");
+| Test                                                       | Admin | Dispatcher | Employee   |
+|------------------------------------------------------------|-------|------------|------------|
+| CheckInButton on assigned shift                            | ✅    | ✅         | ✅         |
+| Browser geolocation prompt fires                           | ✅    | ✅         | ✅         |
+| Outside-radius rejection with distance hint                | ✅    | ✅         | ✅         |
+| In-range check-in records lat/long/distance                | ✅    | ✅         | ✅         |
+| Re-pressing the button moves to "Check out"                | ✅    | ✅         | ✅         |
+| "Mark complete" lands the shift in `completed`             | ✅    | ✅         | ✅         |
+| Manager manual-correction writes a `manual=true` row       | ✅    | ✅         | hidden     |
+| `/api/jobs/missed-checkout` (with CRON_SECRET) emits push  | n/a   | n/a        | n/a (cron) |
+| `/api/reports/working-time?month=YYYY-MM` returns CSV      | ✅    | ✅         | hidden     |
 
-  // Extract structured data — schema-validated.
-  const result = await stagePage.extract({
-    instruction: "Get the page heading and any error messages shown",
-    schema: z.object({
-      heading: z.string(),
-      errors: z.array(z.string()),
-    }),
-  });
-  expect(result.errors).toHaveLength(0);
-});
-```
+### 3.7 Employees
 
-Three primitives:
-- `await page.act(instruction)` — perform an action.
-- `await page.observe(instruction)` — find candidate elements without acting.
-- `await page.extract({ instruction, schema })` — pull structured data with
-  Zod validation.
+| Test                                  | Admin | Dispatcher | Employee |
+|---------------------------------------|-------|------------|----------|
+| `/employees` list + roster            | ✅    | ✅         | redirect |
+| Detail page                           | ✅    | ✅         | –        |
+| Invite modal (admin-only)             | ✅    | –          | –        |
+| Edit data                             | ✅    | ✅         | –        |
+| Archive (admin-only)                  | ✅    | –          | –        |
 
-### Cost notes
+### 3.8 Vacation
 
-A typical Stagehand spec costs cents-per-run with Claude Haiku, low cents
-with Sonnet, more with GPT-4o. The `explore.stagehand.spec.ts` smoke test
-makes ~10 LLM calls per run. If you're worried, set
-`STAGEHAND_MODEL=claude-3-5-haiku-20241022` for the cheapest Anthropic model
-or `STAGEHAND_MODEL=gpt-4o-mini` for the cheapest OpenAI model.
+| Test                                              | Admin | Dispatcher | Employee   |
+|---------------------------------------------------|-------|------------|------------|
+| `/vacation` list                                  | ✅all | ✅all      | ✅own      |
+| New-request submit                                | ✅    | ✅         | ✅         |
+| Approve / reject visible                          | ✅    | ✅         | hidden     |
+| Suggest-alternative-dates flow                    | ✅    | ✅         | hidden     |
+| Employee accept-suggestion flips to approved      | –     | –          | ✅         |
+| Approved vacation appears on schedule overlay     | ✅    | ✅         | ✅         |
 
----
+### 3.9 Training (§4.9)
 
-## 4. Manual test matrix
+| Test                                                      | Admin | Dispatcher | Employee  |
+|-----------------------------------------------------------|-------|------------|-----------|
+| `/training` hub renders                                   | ✅    | ✅         | filtered  |
+| New module + edit + delete (managers)                     | ✅    | ✅         | hidden    |
+| YouTube/Vimeo URL embeds; .mp4 plays                      | ✅    | ✅         | ✅        |
+| Mark started / completed / reset persists                 | –     | –          | ✅        |
+| Mandatory tag visible                                     | ✅    | ✅         | ✅        |
+| Assign-modal restricts visibility                         | ✅    | ✅         | reflected |
+| Shift create/update blocked when mandatory not done       | ✅    | ✅         | n/a       |
 
-Walk this every time before deploying. Each row is **independent**: tear down
-or skip if the previous one fails. Each column is "expected outcome per role".
+### 3.10 Invoices + Lexware (§4.7)
 
-### 4.1 Authentication & profile
+| Test                                                    | Admin | Dispatcher | Employee |
+|---------------------------------------------------------|-------|------------|----------|
+| `/invoices` lists with status pills                     | ✅    | ✅         | redirect |
+| Create / edit / status flow                             | ✅    | ✅         | –        |
+| PDF download via `/api/invoices/<id>/pdf`               | ✅    | ✅         | –        |
+| Mark sent / paid                                        | ✅    | ✅         | –        |
+| Lexware-sync button (admin-only)                        | ✅    | –          | –        |
+| With LEXWARE_* env set, sync hits real REST API         | ✅    | –          | –        |
+| `lexware_contact_id` persists on subsequent syncs       | ✅    | –          | –        |
 
-| Test | Admin | Dispatcher | Employee |
-|---|---|---|---|
-| Sign in with correct password lands on `/dashboard` | ✅ | ✅ | ✅ |
-| Sign in with wrong password shows error, stays on `/login` | ✅ | ✅ | ✅ |
-| Sign in with unconfirmed email shows error | ✅ | ✅ | ✅ |
-| Topbar shows correct full name + role badge | ✅ Management | ✅ Project Manager | ✅ Field Staff |
-| Sign out from user menu returns to `/login` | ✅ | ✅ | ✅ |
-| Direct `/dashboard` URL while signed-out → `/login` redirect | ✅ | ✅ | ✅ |
-| Settings → Security → enable 2FA → QR + secret render | ✅ | ✅ | n/a (employees skip) |
-| 2FA verify with valid 6-digit code marks Enabled | ✅ | ✅ | – |
-| Sign out + sign in again with 2FA enabled prompts for code | ✅ | ✅ | – |
+### 3.11 Reports
 
-### 4.2 Clients (§4.1)
+| Test                                                | Admin | Dispatcher | Employee |
+|-----------------------------------------------------|-------|------------|----------|
+| `/reports` KPIs + charts                            | ✅    | ✅         | redirect |
+| `/reports/alltagshilfe` monthly report              | ✅    | ✅         | –        |
+| Working-time CSV export per employee per month      | ✅    | ✅         | –        |
 
-| Test | Admin | Dispatcher | Employee |
-|---|---|---|---|
-| `/clients` loads with 10 seeded clients + summary cards | ✅ | ✅ | ✅ (read-only) |
-| Search filter narrows the list | ✅ | ✅ | ✅ |
-| Type filter (Residential / Commercial / Alltagshilfe) works | ✅ | ✅ | ✅ |
-| New-client wizard at `/clients/new` shows three options | ✅ | ✅ | redirect |
-| Submit residential creates client, redirects to detail | ✅ | ✅ | – |
-| Submit alltagshilfe requires insurance fields | ✅ | ✅ | – |
-| Edit client persists changes | ✅ | ✅ | – |
-| Archive client (admin-only) | ✅ | – | – |
+### 3.12 Settings
 
-### 4.3 Tablet onboarding (§4.10)
+| Test                                          | Admin | Dispatcher | Employee |
+|-----------------------------------------------|-------|------------|----------|
+| `/settings` visible                           | ✅    | ✅         | redirect |
+| Company / Tax / Locale save                   | ✅    | view-only  | –        |
+| Notifications matrix toggles persist          | ✅    | view-only  | –        |
+| Push toggle: enable → "Active" badge          | ✅    | ✅         | –        |
+| 2FA section visible                           | ✅    | ✅         | –        |
 
-| Test | Admin | Dispatcher | Employee |
-|---|---|---|---|
-| `/onboard` loads stepper | ✅ | ✅ | redirect to `/dashboard` |
-| Step "Type" requires a selection | ✅ | ✅ | – |
-| Step "Client" enforces required fields per type | ✅ | ✅ | – |
-| Step "Address" is skippable | ✅ | ✅ | – |
-| Step "Service" frequency + day picker work | ✅ | ✅ | – |
-| Step "Sign" requires name + signature SVG + consent checkbox | ✅ | ✅ | – |
-| Submit creates client + property + service_scope + signature | ✅ | ✅ | – |
-| Success page shows "Onboard another" + "To clients" buttons | ✅ | ✅ | – |
-| Inspect DB: `client_signatures` row has signature_svg starting with `<svg ` | ✅ | ✅ | – |
+### 3.13 Chat
 
-### 4.4 Properties (§4.2)
+| Test                                                       | Admin | Dispatcher | Employee |
+|------------------------------------------------------------|-------|------------|----------|
+| Default channels seeded (#einsatzplan, #allgemein, …)      | ✅    | ✅         | ✅       |
+| Three-section sidebar (Kanäle / DMs / Gruppen) with counts | ✅    | ✅         | ✅       |
+| Filter input narrows visible rows                          | ✅    | ✅         | ✅       |
+| Lock icon on private channel                               | ✅    | ✅         | hidden   |
+| Send a text message — appears live                         | ✅    | ✅         | ✅       |
+| Realtime: new message in another tab appears               | ✅    | ✅         | ✅       |
+| Attach an image / PDF / record voice                       | ✅    | ✅         | ✅       |
+| React with emoji; counts update                            | ✅    | ✅         | ✅       |
+| Damage report → "💬 Discuss" posts to property channel     | ✅    | ✅         | ✅       |
+| Online-presence dot on DM rows when other tab opens        | ✅    | ✅         | ✅       |
 
-| Test | Admin | Dispatcher | Employee |
-|---|---|---|---|
-| `/properties` lists with summary | ✅ | ✅ | ✅ |
-| Property detail loads | ✅ | ✅ | ✅ |
-| New property succeeds | ✅ | ✅ | – |
-| Auto-channel `#prop-<name>` exists in chat after create | ✅ | ✅ | ✅ visible |
-| Photo upload to private bucket succeeds, gallery renders signed URLs | ✅ | ✅ | – |
-| Damage report card: log report w/ category + severity + description | ✅ | ✅ | ✅ |
-| Damage report photo attaches | ✅ | ✅ | ✅ |
-| "Mark resolved" button visible to admin/dispatcher | ✅ | ✅ | hidden |
-| "💬 Discuss" button posts a structured card to property channel | ✅ | ✅ | ✅ |
-| Clicking "Discuss" deep-links to `/chat/<channel-id>` | ✅ | ✅ | ✅ |
+### 3.14 Notifications + Push
 
-### 4.5 Schedule (§4.3, §4.4)
+| Test                                              | Admin | Dispatcher | Employee |
+|---------------------------------------------------|-------|------------|----------|
+| `/notifications` lists rows                       | ✅    | ✅         | ✅       |
+| "Mark read" / "Mark all read" updates badge       | ✅    | ✅         | ✅       |
+| With VAPID configured, push fires desktop alert   | ✅    | ✅         | ✅       |
+| Click on push notification opens deep-link URL    | ✅    | ✅         | ✅       |
 
-| Test | Admin | Dispatcher | Employee |
-|---|---|---|---|
-| Week calendar renders | ✅ | ✅ | ✅ (own shifts only) |
-| Sidebar filters apply | ✅ | ✅ | ✅ |
-| "Plan shift" modal opens, validates, creates a shift | ✅ | ✅ | hidden |
-| "New assignment" modal opens | ✅ | ✅ | hidden |
-| Shift detail panel shows all fields | ✅ | ✅ | ✅ |
-| Drag-resize / drag-move shift (if implemented) updates DB | ✅ | ✅ | – |
+### 3.15 i18n & responsive
 
-### 4.6 Employees (§4.3)
-
-| Test | Admin | Dispatcher | Employee |
-|---|---|---|---|
-| `/employees` loads with seeded roster | ✅ | ✅ | ✅ |
-| Employee detail loads | ✅ | ✅ | ✅ |
-| Invite modal sends invitation (admin-only) | ✅ | – | – |
-| Edit employee data | ✅ | ✅ | – |
-| Archive employee (admin-only) | ✅ | – | – |
-
-### 4.7 Vacation (§4.8)
-
-| Test | Admin | Dispatcher | Employee |
-|---|---|---|---|
-| `/vacation` lists requests | ✅ all | ✅ all | ✅ own only |
-| "New request" button visible | ✅ | ✅ | ✅ |
-| Submit valid date range creates pending row | ✅ | ✅ | ✅ |
-| Approve / Reject buttons visible | ✅ | ✅ | hidden |
-| Approve fires audit_log row | ✅ | ✅ | – |
-| Balance card updates after approval | – | – | ✅ |
-
-### 4.8 Training (§4.9)
-
-| Test | Admin | Dispatcher | Employee |
-|---|---|---|---|
-| `/training` hub renders | ✅ | ✅ | ✅ (filtered) |
-| "New module" button visible | ✅ | ✅ | hidden |
-| Create module with YouTube URL embeds the iframe | ✅ | ✅ | – |
-| Create module with `.mp4` URL renders `<video>` | ✅ | ✅ | – |
-| Mark started / completed / reset persists per employee | – | – | ✅ |
-| Mandatory tag visible on flagged modules | ✅ | ✅ | ✅ |
-| Stat strip: total / completed / mandatory / progress all numeric | ✅ | ✅ | ✅ |
-| Assign… modal opens with employee picker | ✅ | ✅ | hidden |
-| Save assignments restricts module visibility for non-listed employees | ✅ | ✅ | reflected |
-
-### 4.9 Invoices (§4.7)
-
-| Test | Admin | Dispatcher | Employee |
-|---|---|---|---|
-| `/invoices` lists with status pills | ✅ | ✅ | hidden |
-| Create invoice from client detail | ✅ | ✅ | – |
-| Invoice PDF downloads correctly (`/api/invoices/<id>/pdf`) | ✅ | ✅ | – |
-| Mark sent / Mark paid update DB + status pill | ✅ | ✅ | – |
-| Lexware sync button visible (admin-only) | ✅ | – | – |
-
-### 4.10 Reports (§4.7)
-
-| Test | Admin | Dispatcher | Employee |
-|---|---|---|---|
-| `/reports` shows KPI cards | ✅ | ✅ | hidden |
-| `/reports/alltagshilfe` renders the monthly hours table | ✅ | ✅ | – |
-| Month navigator updates the data | ✅ | ✅ | – |
-
-### 4.11 Settings (§5)
-
-| Test | Admin | Dispatcher | Employee |
-|---|---|---|---|
-| `/settings` visible | ✅ | ✅ | hidden |
-| Company section editable, save persists | ✅ | view-only | – |
-| Tax / VAT rate editable, save persists | ✅ | view-only | – |
-| Notifications matrix toggles persist | ✅ | view-only | – |
-| Locale section saves date format / week start | ✅ | view-only | – |
-| Push toggle card shows current device state | ✅ | ✅ | – |
-| Click Enable → browser permission prompt → state becomes "Active" | ✅ | ✅ | – |
-
-### 4.12 Chat (§4.6)
-
-| Test | Admin | Dispatcher | Employee |
-|---|---|---|---|
-| `/chat` channel list renders | ✅ | ✅ | ✅ |
-| Send a text message — appears in the thread | ✅ | ✅ | ✅ |
-| Realtime: message sent in another browser tab appears live | ✅ | ✅ | ✅ |
-| 📎 attach: pick an image, preview chip renders, send → image bubble | ✅ | ✅ | ✅ |
-| 📎 attach: PDF, file chip with size renders | ✅ | ✅ | ✅ |
-| 🎤 record: permission prompt, record, stop, send → audio bubble | ✅ | ✅ | ✅ |
-| Clicking image bubble opens it full-size in new tab | ✅ | ✅ | ✅ |
-| Audio bubble plays via native control | ✅ | ✅ | ✅ |
-| Damage report → "💬 Discuss" posts a card here | ✅ | ✅ | ✅ |
-
-### 4.13 Notifications (§5)
-
-| Test | Admin | Dispatcher | Employee |
-|---|---|---|---|
-| `/notifications` lists rows, badge in topbar matches unread count | ✅ | ✅ | ✅ |
-| "Mark read" updates badge | ✅ | ✅ | ✅ |
-| "Mark all read" clears the badge | ✅ | ✅ | ✅ |
-| When push is enabled, an emit_notification fires a desktop alert | ✅ | ✅ | ✅ |
-| Clicking the desktop alert opens the deep-link URL | ✅ | ✅ | ✅ |
-
-### 4.14 i18n & responsiveness
-
-| Test | DE | EN | TA |
-|---|---|---|---|
-| Switch language from topbar | ✅ | ✅ | ✅ |
-| All visible strings translate (no `nav.something` raw keys) | ✅ | ✅ | ✅ |
-| Tamil renders with Noto Sans Tamil | – | – | ✅ |
-| Mobile breakpoint <768 px: sidebar drawer + bottom nav | ✅ | ✅ | ✅ |
-| Tablet 768–1023 px: collapsed icon-only sidebar | ✅ | ✅ | ✅ |
-| Desktop ≥1024 px: full sidebar + sticky topbar | ✅ | ✅ | ✅ |
+| Test                                              | DE | EN | TA |
+|---------------------------------------------------|----|----|----|
+| Switch language from topbar                       | ✅ | ✅ | ✅ |
+| All visible strings translate                     | ✅ | ✅ | ✅ |
+| Tamil renders with Noto Sans Tamil                | –  | –  | ✅ |
+| Mobile <768 px: drawer + bottom nav               | ✅ | ✅ | ✅ |
+| Tablet 768–1023 px: collapsed sidebar             | ✅ | ✅ | ✅ |
+| Desktop ≥1024 px: full sidebar + topbar           | ✅ | ✅ | ✅ |
 
 ---
 
-## 5. RBAC sanity (run as a smoke check)
+## 4. RBAC sanity (smoke check)
 
-Each "must-deny" call exercises a server action that should fail when a
-user without the permission tries it. Easiest way: open DevTools as the
-employee user and from the React DevTools, invoke the action directly,
-or use `curl` against the action endpoint.
+For each role, attempt the following — server actions should reject with the
+`PermissionError` message; deep-linked URLs should redirect to `/dashboard`.
 
-| Action                         | admin | dispatcher | employee |
-| ------------------------------ | ----- | ---------- | -------- |
-| `client.create`                | allow | allow      | deny     |
-| `client.archive` / `delete`    | allow | deny       | deny     |
-| `property.create` / `update`   | allow | allow      | deny     |
-| `shift.create`                 | allow | allow      | deny     |
-| `invoice.create` / `update`    | allow | allow      | deny     |
-| `invoice.delete`               | allow | deny       | deny     |
-| `invoice.lexware_sync`         | allow | deny       | deny     |
-| `vacation.approve`             | allow | allow      | deny     |
-| `damage.create`                | allow | allow      | allow    |
-| `damage.resolve`               | allow | allow      | deny     |
-| `training.manage`              | allow | allow      | deny     |
-| `settings.update`              | allow | deny       | deny     |
-| `employee.create` / `archive`  | admin | deny       | deny     |
+| Action                          | admin | dispatcher | employee |
+|---------------------------------|-------|------------|----------|
+| `client.create` / `update`      | allow | allow      | deny     |
+| `client.archive` / `delete`     | allow | deny       | deny     |
+| `property.create` / `update`    | allow | allow      | deny     |
+| `shift.create` / `update`       | allow | allow      | deny     |
+| `invoice.create` / `update`     | allow | allow      | deny     |
+| `invoice.delete`                | allow | deny       | deny     |
+| `invoice.lexware_sync`          | allow | deny       | deny     |
+| `vacation.approve`              | allow | allow      | deny     |
+| `damage.create`                 | allow | allow      | allow    |
+| `damage.resolve`                | allow | allow      | deny     |
+| `training.manage`               | allow | allow      | deny     |
+| `time.checkin`                  | allow | allow      | allow    |
+| `time.correct`                  | allow | allow      | deny     |
+| `settings.update`               | allow | deny       | deny     |
+| `employee.create` / `archive`   | admin | deny       | deny     |
 
-When a denied action runs, the action returns
-`{ ok: false, error: "Role 'X' is not permitted to <action>" }` — the UI
-surfaces this through `toast.error`.
+The full route-allow-list lives in `AUTHORIZATION.md`.
 
 ---
 
-## 6. Cleanup between runs
+## 5. Cleanup between runs
 
 Truncate everything but the org + settings + test users:
+
 ```sql
 truncate
   public.notifications, public.audit_log,
   public.chat_messages, public.chat_members, public.chat_channels,
   public.invoice_items, public.invoices,
-  public.shifts,
-  public.properties,
+  public.shifts, public.time_entries,
+  public.properties, public.property_closures,
   public.contracts, public.service_scopes, public.property_keys,
   public.vacation_requests,
   public.training_modules, public.employee_training_progress,
   public.training_assignments,
   public.damage_reports, public.client_signatures,
-  public.push_subscriptions
+  public.push_subscriptions, public.calendar_tokens,
+  public.client_contacts
 restart identity cascade;
 ```
 
-Then re-apply `supabase/seed/seed.sql` for fresh demo data.
+Then re-apply `supabase/seed/seed.sql` to refresh demo data.

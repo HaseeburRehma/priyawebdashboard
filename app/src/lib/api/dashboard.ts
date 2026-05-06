@@ -82,8 +82,6 @@ export async function loadDashboardData(): Promise<DashboardData> {
   const todayStart = startOfDay(now);
   const todayEnd = endOfDay(now);
   const monthStart = new Date(now.getFullYear(), now.getMonth(), 1);
-  const prevMonthStart = new Date(now.getFullYear(), now.getMonth() - 1, 1);
-  const prevMonthEnd = new Date(now.getFullYear(), now.getMonth(), 0);
   const weekStart = startOfWeek(now, { weekStartsOn: 1 });
   const weekEnd = endOfWeek(now, { weekStartsOn: 1 });
   const lastWeekStart = subWeeks(weekStart, 1);

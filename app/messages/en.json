@@ -1191,6 +1191,24 @@
       "addMember": "Add member",
       "pinned": "Pinned · {n}",
       "files": "Shared files · {n}"
+    },
+    "dialog": {
+      "titleChannel": "New channel",
+      "titleDirect": "Start a direct message",
+      "titleGroup": "New group",
+      "name": "Name",
+      "description": "Description",
+      "privateLabel": "Private — invitation only",
+      "members": "Add members (optional)",
+      "pickTeammate": "Pick a teammate",
+      "pickOne": "Please pick one teammate.",
+      "pickAtLeastOne": "Pick at least one teammate.",
+      "filterTeammates": "Filter teammates…",
+      "noTeammates": "No teammates match.",
+      "memberCount": "{n} selected",
+      "nameRequired": "Please enter a name (min 2 chars).",
+      "cancel": "Cancel",
+      "create": "Create"
     }
   },
   "damage": {

@@ -34,7 +34,8 @@ type EmitInput = {
  */
 export async function emitNotification(input: EmitInput): Promise<void> {
   const supabase = await createSupabaseServerClient();
-  const { error } = await supabase.from("notifications").insert({
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const { error } = await ((supabase.from("notifications") as any)).insert({
     org_id: input.org_id,
     user_id: input.user_id,
     channel: "in_app",

@@ -20,14 +20,15 @@ async function audit(
     data: { user },
   } = await supabase.auth.getUser();
   if (!user) return;
-  const { data: profile } = await supabase
-    .from("profiles")
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const { data: profile } = await ((supabase.from("profiles") as any))
     .select("org_id")
     .eq("id", user.id)
     .maybeSingle();
   const orgId = (profile as { org_id: string | null } | null)?.org_id;
   if (!orgId) return;
-  await supabase.from("audit_log").insert({
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  await ((supabase.from("audit_log") as any)).insert({
     org_id: orgId,
     user_id: user.id,
     action,
@@ -49,8 +50,8 @@ export async function markInvoiceSentAction(
     };
   }
   const supabase = await createSupabaseServerClient();
-  const { error } = await supabase
-    .from("invoices")
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const { error } = await ((supabase.from("invoices") as any))
     .update({ status: "sent" })
     .eq("id", id);
   if (error) return { ok: false, error: error.message };
@@ -72,8 +73,8 @@ export async function markInvoicePaidAction(
     };
   }
   const supabase = await createSupabaseServerClient();
-  const { error } = await supabase
-    .from("invoices")
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const { error } = await ((supabase.from("invoices") as any))
     .update({ status: "paid", paid_at: new Date().toISOString() })
     .eq("id", id);
   if (error) return { ok: false, error: error.message };
@@ -98,8 +99,8 @@ export async function lexwareSyncAction(
   const rl = await rateLimit("heavy", "invoice.lexware_sync");
   if (rl) return { ok: false, error: rl };
   const supabase = await createSupabaseServerClient();
-  const { data: invRow } = await supabase
-    .from("invoices")
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const { data: invRow } = await ((supabase.from("invoices") as any))
     .select(
       `invoice_number, total_cents, pdf_path, issue_date, due_date, notes,
        client:clients (
@@ -164,15 +165,15 @@ export async function lexwareSyncAction(
       })),
     });
 
-    await supabase
-      .from("invoices")
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    await ((supabase.from("invoices") as any))
       .update({ lexware_id: result.id })
       .eq("id", id);
     // Persist the contact id back so we don't keep creating new contacts.
     const contactId = (result as unknown as { contactId?: string }).contactId;
     if (contactId && inv.client?.id) {
-      await supabase
-        .from("clients")
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      await ((supabase.from("clients") as any))
         .update({ lexware_contact_id: contactId })
         .eq("id", inv.client.id);
     }

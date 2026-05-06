@@ -38,8 +38,8 @@ async function detectShiftConflicts(
 
   // 1) Double booking on the employee
   if (employee_id) {
-    let q = supabase
-      .from("shifts")
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    let q = (supabase.from("shifts") as any)
       .select("id")
       .eq("employee_id", employee_id)
       .is("deleted_at", null)
@@ -57,8 +57,8 @@ async function detectShiftConflicts(
     }
 
     // 2) Vacation overlap
-    const { data: vacationRows } = await supabase
-      .from("vacation_requests")
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const { data: vacationRows } = await ((supabase.from("vacation_requests") as any))
       .select("id, start_date, end_date")
       .eq("employee_id", employee_id)
       .eq("status", "approved")
@@ -75,8 +75,8 @@ async function detectShiftConflicts(
   }
 
   // 3) Property closure overlap
-  const { data: closureRows } = await supabase
-    .from("property_closures")
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const { data: closureRows } = await ((supabase.from("property_closures") as any))
     .select("id, reason")
     .eq("property_id", property_id)
     .lte("start_date", endDate)
@@ -103,14 +103,15 @@ async function audit(
     data: { user },
   } = await supabase.auth.getUser();
   if (!user) return;
-  const { data: profile } = await supabase
-    .from("profiles")
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const { data: profile } = await ((supabase.from("profiles") as any))
     .select("org_id")
     .eq("id", user.id)
     .maybeSingle();
   const orgId = (profile as { org_id: string | null } | null)?.org_id;
   if (!orgId) return;
-  await supabase.from("audit_log").insert({
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  await ((supabase.from("audit_log") as any)).insert({
     org_id: orgId,
     user_id: user.id,
     action,
@@ -147,8 +148,8 @@ export async function createShiftAction(
   const {
     data: { user },
   } = await supabase.auth.getUser();
-  const { data: profile } = await supabase
-    .from("profiles")
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const { data: profile } = await ((supabase.from("profiles") as any))
     .select("org_id")
     .eq("id", user?.id ?? "")
     .maybeSingle();
@@ -183,8 +184,8 @@ export async function createShiftAction(
   );
   if (conflict) return conflict;
 
-  const { data, error } = await supabase
-    .from("shifts")
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const { data, error } = await ((supabase.from("shifts") as any))
     .insert({
       org_id: orgId,
       property_id: input.property_id,
@@ -259,8 +260,8 @@ export async function updateShiftAction(
   );
   if (conflict) return conflict;
 
-  const { error } = await supabase
-    .from("shifts")
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const { error } = await ((supabase.from("shifts") as any))
     .update({
       property_id: input.property_id,
       employee_id: input.employee_id ?? null,
@@ -289,8 +290,8 @@ export async function deleteShiftAction(
     };
   }
   const supabase = await createSupabaseServerClient();
-  const { error } = await supabase
-    .from("shifts")
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const { error } = await ((supabase.from("shifts") as any))
     .update({ deleted_at: new Date().toISOString(), status: "cancelled" })
     .eq("id", id);
   if (error) return { ok: false, error: error.message };

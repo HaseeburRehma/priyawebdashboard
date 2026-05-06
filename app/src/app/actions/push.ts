@@ -25,16 +25,16 @@ export async function registerPushSubscriptionAction(
   } = await supabase.auth.getUser();
   if (!user) return { ok: false, error: "Not signed in" };
 
-  const { data: profile } = await supabase
-    .from("profiles")
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const { data: profile } = await ((supabase.from("profiles") as any))
     .select("org_id")
     .eq("id", user.id)
     .maybeSingle();
   const orgId = (profile as { org_id: string | null } | null)?.org_id;
   if (!orgId) return { ok: false, error: "Profile not attached to org" };
 
-  const { data, error } = await supabase
-    .from("push_subscriptions")
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const { data, error } = await ((supabase.from("push_subscriptions") as any))
     .upsert(
       {
         org_id: orgId,
@@ -67,8 +67,8 @@ export async function unregisterPushSubscriptionAction(
     data: { user },
   } = await supabase.auth.getUser();
   if (!user) return { ok: false, error: "Not signed in" };
-  const { error } = await supabase
-    .from("push_subscriptions")
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const { error } = await ((supabase.from("push_subscriptions") as any))
     .delete()
     .eq("endpoint", endpoint)
     .eq("profile_id", user.id);

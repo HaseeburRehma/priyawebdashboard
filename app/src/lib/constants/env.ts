@@ -1,13 +1,6 @@
 import { z } from "zod";
 
-/**
- * Validated environment access. Imports of `env` will throw at boot
- * when required variables are missing — failing fast is better than
- * tracking down `undefined` errors deep in the request pipeline.
- *
- * Server-only secrets are NOT exposed here. Read them inside server
- * code via `process.env.SUPABASE_SERVICE_ROLE_KEY` etc.
- */
+
 const publicEnvSchema = z.object({
   NEXT_PUBLIC_SUPABASE_URL: z.string().url(),
   NEXT_PUBLIC_SUPABASE_ANON_KEY: z.string().min(1),
@@ -67,7 +60,7 @@ if (!parsed.success) {
   );
   throw new Error(
     `Invalid environment variables. Missing or invalid:\n${summary}\n\n` +
-      `Copy .env.example → .env.local and fill in the values, then restart the dev server.`,
+    `Copy .env.example → .env.local and fill in the values, then restart the dev server.`,
   );
 }
 

@@ -14,8 +14,8 @@ export async function markNotificationReadAction(
     data: { user },
   } = await supabase.auth.getUser();
   if (!user) return { ok: false, error: "not_signed_in" };
-  const { error } = await supabase
-    .from("notifications")
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const { error } = await ((supabase.from("notifications") as any))
     .update({ read_at: new Date().toISOString() })
     .eq("id", id)
     .eq("user_id", user.id);
@@ -30,8 +30,8 @@ export async function markAllNotificationsReadAction(): Promise<ActionResult> {
     data: { user },
   } = await supabase.auth.getUser();
   if (!user) return { ok: false, error: "not_signed_in" };
-  const { error } = await supabase
-    .from("notifications")
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const { error } = await ((supabase.from("notifications") as any))
     .update({ read_at: new Date().toISOString() })
     .eq("user_id", user.id)
     .is("read_at", null);

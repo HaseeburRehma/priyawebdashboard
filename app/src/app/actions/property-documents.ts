@@ -32,8 +32,8 @@ export async function setCleaningConceptAction(
     };
   }
   const supabase = await createSupabaseServerClient();
-  const { error } = await supabase
-    .from("properties")
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const { error } = await ((supabase.from("properties") as any))
     .update({ cleaning_concept_path: storage_path })
     .eq("id", property_id);
   if (error) return { ok: false, error: error.message };

@@ -2,7 +2,7 @@ import type { Metadata, Route } from "next";
 import { redirect } from "next/navigation";
 import Link from "next/link";
 import { getTranslations } from "next-intl/server";
-import { loadAlltagshilfeMonthly } from "@/lib/api/alltagshilfe";
+import { loadAlltagshilfeMonthly, type AlltagshilfeRow } from "@/lib/api/alltagshilfe";
 import { requirePermission, PermissionError } from "@/lib/rbac/permissions";
 import { formatEUR } from "@/lib/utils/format";
 import { routes } from "@/lib/constants/routes";
@@ -295,7 +295,7 @@ function Th({
 function ClientGroup({
   row,
 }: {
-  row: import("@/lib/api/alltagshilfe").AlltagshilfeRow;
+  row: AlltagshilfeRow;
 }) {
   return (
     <>

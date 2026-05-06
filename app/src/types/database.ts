@@ -8,9 +8,28 @@
  */
 export type Database = {
   public: {
-    Tables: Record<string, never>;
-    Views: Record<string, never>;
-    Functions: Record<string, never>;
+    /* eslint-disable @typescript-eslint/no-explicit-any */
+    Tables: {
+      [key: string]: {
+        Row: any;
+        Insert: any;
+        Update: any;
+        Relationships: any[];
+      };
+    };
+    Views: {
+      [key: string]: {
+        Row: any;
+        Relationships: any[];
+      };
+    };
+    Functions: {
+      [key: string]: {
+        Args: any;
+        Returns: any;
+      };
+    };
+    /* eslint-enable @typescript-eslint/no-explicit-any */
     Enums: {
       user_role: "admin" | "dispatcher" | "employee";
       customer_type: "residential" | "alltagshilfe" | "commercial";

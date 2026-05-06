@@ -4,9 +4,11 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useTranslations } from "next-intl";
 import { useChannels } from "@/hooks/chat/useChannels";
+import { useChannelInfo } from "@/hooks/chat/useChannelInfo";
 import { usePresence } from "@/hooks/chat/usePresence";
 import { ChannelList } from "./ChannelList";
 import { ChatThread } from "./ChatThread";
+import { ChannelInfoPanel } from "./ChannelInfoPanel";
 import { createSupabaseBrowserClient } from "@/lib/supabase/client";
 import { routes } from "@/lib/constants/routes";
 import type { Channel } from "@/types/chat";
@@ -50,10 +52,18 @@ export function ChatPage({ selectedChannelId }: Props) {
   }, []);
 
   const onlineUserIds = usePresence(orgId);
+  const [infoOpen, setInfoOpen] = useState(true);
 
   const selected: Channel | undefined = channels.find(
     (c) => c.id === selectedChannelId,
   );
+  const { data: info } = useChannelInfo(selected?.id ?? null);
+
+  // Decorate members with current online status from presence.
+  const decoratedMembers = info.members.map((m) => ({
+    ...m,
+    online: onlineUserIds.has(m.id),
+  }));
 
   return (
     <div className="flex flex-col gap-5">
@@ -171,6 +181,19 @@ export function ChatPage({ selectedChannelId }: Props) {
             </div>
           )}
         </div>
+
+        {/* Right rail — channel info. Hidden on mobile, toggleable on desktop. */}
+        {selected && infoOpen && (
+          <div className="hidden lg:flex">
+            <ChannelInfoPanel
+              channel={selected}
+              members={decoratedMembers}
+              pinned={info.pinned}
+              files={info.files}
+              onClose={() => setInfoOpen(false)}
+            />
+          </div>
+        )}
       </div>
     </div>
   );

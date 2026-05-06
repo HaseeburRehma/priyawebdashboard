@@ -1230,6 +1230,24 @@
       "addMember": "Mitglied hinzufügen",
       "pinned": "Angeheftet · {n}",
       "files": "Geteilte Dateien · {n}"
+    },
+    "dialog": {
+      "titleChannel": "Neuer Kanal",
+      "titleDirect": "Direktnachricht starten",
+      "titleGroup": "Neue Gruppe",
+      "name": "Name",
+      "description": "Beschreibung",
+      "privateLabel": "Privat — nur per Einladung",
+      "members": "Mitglieder hinzufügen (optional)",
+      "pickTeammate": "Kollegin / Kollege wählen",
+      "pickOne": "Bitte eine Person auswählen.",
+      "pickAtLeastOne": "Bitte mindestens eine Person auswählen.",
+      "filterTeammates": "Filtern…",
+      "noTeammates": "Keine Treffer.",
+      "memberCount": "{n} ausgewählt",
+      "nameRequired": "Bitte einen Namen eingeben (min. 2 Zeichen).",
+      "cancel": "Abbrechen",
+      "create": "Erstellen"
     }
   },
   "damage": {

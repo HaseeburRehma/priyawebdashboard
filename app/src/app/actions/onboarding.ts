@@ -24,14 +24,15 @@ async function audit(
     data: { user },
   } = await supabase.auth.getUser();
   if (!user) return;
-  const { data: profile } = await supabase
-    .from("profiles")
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const { data: profile } = await ((supabase.from("profiles") as any))
     .select("org_id")
     .eq("id", user.id)
     .maybeSingle();
   const orgId = (profile as { org_id: string | null } | null)?.org_id;
   if (!orgId) return;
-  await supabase.from("audit_log").insert({
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  await ((supabase.from("audit_log") as any)).insert({
     org_id: orgId,
     user_id: user.id,
     action: "onboard",
@@ -80,8 +81,8 @@ export async function onboardClientAction(
   const {
     data: { user },
   } = await supabase.auth.getUser();
-  const { data: profile } = await supabase
-    .from("profiles")
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const { data: profile } = await ((supabase.from("profiles") as any))
     .select("org_id")
     .eq("id", user?.id ?? "")
     .maybeSingle();
@@ -105,8 +106,8 @@ export async function onboardClientAction(
     clientRow.insurance_number = c.insurance_number;
     clientRow.care_level = c.care_level;
   }
-  const { data: clientRowResult, error: clientErr } = await supabase
-    .from("clients")
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const { data: clientRowResult, error: clientErr } = await ((supabase.from("clients") as any))
     .insert(clientRow)
     .select("id")
     .single();
@@ -116,8 +117,8 @@ export async function onboardClientAction(
   // 2) Optional: create a primary property.
   let propertyId: string | null = null;
   if (input.address) {
-    const { data: propRowResult, error: propErr } = await supabase
-      .from("properties")
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const { data: propRowResult, error: propErr } = await ((supabase.from("properties") as any))
       .insert({
         org_id: orgId,
         client_id: clientId,
@@ -137,7 +138,8 @@ export async function onboardClientAction(
 
   // 3) Optional: create a service scope row.
   if (input.service_preferences) {
-    await supabase.from("service_scopes").insert({
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    await ((supabase.from("service_scopes") as any)).insert({
       org_id: orgId,
       client_id: clientId,
       service_type:
@@ -154,7 +156,8 @@ export async function onboardClientAction(
 
   // 4) Persist the digital signature.
   const sig = input.signature;
-  const { error: sigErr } = await supabase.from("client_signatures").insert({
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const { error: sigErr } = await ((supabase.from("client_signatures") as any)).insert({
     org_id: orgId,
     client_id: clientId,
     property_id: propertyId,

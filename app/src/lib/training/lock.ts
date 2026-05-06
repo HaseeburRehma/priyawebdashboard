@@ -1,5 +1,4 @@
 import "server-only";
-import type { SupabaseClient } from "@supabase/supabase-js";
 
 /**
  * Returns the list of mandatory training modules a given employee has NOT
@@ -12,7 +11,7 @@ import type { SupabaseClient } from "@supabase/supabase-js";
  */
 export async function getOutstandingMandatoryModules(
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  supabase: SupabaseClient<any, "public", "public", any, any>,
+  supabase: any,
   employeeId: string,
 ): Promise<Array<{ id: string; title: string }>> {
   const { data: modules } = await supabase

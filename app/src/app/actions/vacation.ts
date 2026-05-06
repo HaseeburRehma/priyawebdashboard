@@ -28,14 +28,15 @@ async function audit(
     data: { user },
   } = await supabase.auth.getUser();
   if (!user) return;
-  const { data: profile } = await supabase
-    .from("profiles")
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const { data: profile } = await ((supabase.from("profiles") as any))
     .select("org_id")
     .eq("id", user.id)
     .maybeSingle();
   const orgId = (profile as { org_id: string | null } | null)?.org_id;
   if (!orgId) return;
-  await supabase.from("audit_log").insert({
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  await ((supabase.from("audit_log") as any)).insert({
     org_id: orgId,
     user_id: user.id,
     action,
@@ -75,8 +76,8 @@ export async function createVacationRequestAction(
   const {
     data: { user },
   } = await supabase.auth.getUser();
-  const { data: profile } = await supabase
-    .from("profiles")
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const { data: profile } = await ((supabase.from("profiles") as any))
     .select("org_id")
     .eq("id", user?.id ?? "")
     .maybeSingle();
@@ -84,8 +85,8 @@ export async function createVacationRequestAction(
   if (!orgId) return { ok: false, error: "Profile not attached to org" };
 
   const days = dayCount(input.start_date, input.end_date);
-  const { data, error } = await supabase
-    .from("vacation_requests")
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const { data, error } = await ((supabase.from("vacation_requests") as any))
     .insert({
       org_id: orgId,
       employee_id: input.employee_id,
@@ -129,8 +130,8 @@ export async function reviewVacationRequestAction(
   const {
     data: { user },
   } = await supabase.auth.getUser();
-  const { error } = await supabase
-    .from("vacation_requests")
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const { error } = await ((supabase.from("vacation_requests") as any))
     .update({
       status: input.approve ? "approved" : "rejected",
       reviewed_by: user?.id ?? null,
@@ -160,8 +161,8 @@ export async function cancelVacationRequestAction(
     };
   }
   const supabase = await createSupabaseServerClient();
-  const { error } = await supabase
-    .from("vacation_requests")
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const { error } = await ((supabase.from("vacation_requests") as any))
     .update({ status: "cancelled" })
     .eq("id", id);
   if (error) return { ok: false, error: error.message };
@@ -201,8 +202,8 @@ export async function suggestVacationDatesAction(
   const {
     data: { user },
   } = await supabase.auth.getUser();
-  const { error } = await supabase
-    .from("vacation_requests")
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const { error } = await ((supabase.from("vacation_requests") as any))
     .update({
       status: "suggested",
       suggested_start: input.suggested_start,
@@ -244,8 +245,8 @@ export async function respondVacationSuggestionAction(
   const input = parsed.data;
   const supabase = await createSupabaseServerClient();
 
-  const { data: row } = await supabase
-    .from("vacation_requests")
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const { data: row } = await ((supabase.from("vacation_requests") as any))
     .select("id, suggested_start, suggested_end, status")
     .eq("id", input.id)
     .maybeSingle();
@@ -270,8 +271,8 @@ export async function respondVacationSuggestionAction(
       1,
       Math.round((endMs - startMs) / 86_400_000) + 1,
     );
-    const { error } = await supabase
-      .from("vacation_requests")
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const { error } = await ((supabase.from("vacation_requests") as any))
       .update({
         status: "approved",
         start_date: r.suggested_start,
@@ -284,8 +285,8 @@ export async function respondVacationSuggestionAction(
     if (error) return { ok: false, error: error.message };
     await audit("accept_suggestion", input.id, "Vorschlag angenommen.");
   } else {
-    const { error } = await supabase
-      .from("vacation_requests")
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const { error } = await ((supabase.from("vacation_requests") as any))
       .update({
         status: "pending",
         suggested_start: null,

@@ -43,7 +43,6 @@ export function ChannelInfoPanel({
   onClose,
 }: Props) {
   const t = useTranslations("chat.info");
-  const display = channel.name.replace(/^#/, "");
 
   return (
     <aside className="flex h-full w-[280px] flex-col border-l border-neutral-100 bg-white">

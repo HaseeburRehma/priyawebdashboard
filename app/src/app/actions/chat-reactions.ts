@@ -33,8 +33,8 @@ export async function toggleChatReactionAction(
   } = await supabase.auth.getUser();
   if (!user) return { ok: false, error: "Not signed in" };
 
-  const { data: existing } = await supabase
-    .from("chat_message_reactions")
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const { data: existing } = await ((supabase.from("chat_message_reactions") as any))
     .select("user_id")
     .eq("message_id", input.message_id)
     .eq("user_id", user.id)
@@ -42,8 +42,8 @@ export async function toggleChatReactionAction(
     .maybeSingle();
 
   if (existing) {
-    const { error } = await supabase
-      .from("chat_message_reactions")
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const { error } = await ((supabase.from("chat_message_reactions") as any))
       .delete()
       .eq("message_id", input.message_id)
       .eq("user_id", user.id)
@@ -53,7 +53,8 @@ export async function toggleChatReactionAction(
     return { ok: true, data: { reacted: false } };
   }
 
-  const { error } = await supabase.from("chat_message_reactions").insert({
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const { error } = await ((supabase.from("chat_message_reactions") as any)).insert({
     message_id: input.message_id,
     user_id: user.id,
     emoji: input.emoji,

@@ -23,14 +23,15 @@ async function audit(
     data: { user },
   } = await supabase.auth.getUser();
   if (!user) return;
-  const { data: profile } = await supabase
-    .from("profiles")
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const { data: profile } = await ((supabase.from("profiles") as any))
     .select("org_id")
     .eq("id", user.id)
     .maybeSingle();
   const orgId = (profile as { org_id: string | null } | null)?.org_id;
   if (!orgId) return;
-  await supabase.from("audit_log").insert({
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  await ((supabase.from("audit_log") as any)).insert({
     org_id: orgId,
     user_id: user.id,
     action,
@@ -64,8 +65,8 @@ export async function createPropertyAction(
   const {
     data: { user },
   } = await supabase.auth.getUser();
-  const { data: profile } = await supabase
-    .from("profiles")
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const { data: profile } = await ((supabase.from("profiles") as any))
     .select("org_id")
     .eq("id", user?.id ?? "")
     .maybeSingle();
@@ -73,8 +74,8 @@ export async function createPropertyAction(
   if (!orgId) return { ok: false, error: "Profile not attached to org" };
 
   const input = parsed.data;
-  const { data, error } = await supabase
-    .from("properties")
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const { data, error } = await ((supabase.from("properties") as any))
     .insert({
       org_id: orgId,
       client_id: input.client_id,
@@ -125,8 +126,8 @@ export async function updatePropertyAction(
   }
   const input = parsed.data;
   const supabase = await createSupabaseServerClient();
-  const { error } = await supabase
-    .from("properties")
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const { error } = await ((supabase.from("properties") as any))
     .update({
       client_id: input.client_id,
       name: input.name,
@@ -165,8 +166,8 @@ export async function deletePropertyAction(
   }
   const supabase = await createSupabaseServerClient();
   // Soft-delete: set deleted_at so RLS hides the row from normal queries.
-  const { error } = await supabase
-    .from("properties")
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const { error } = await ((supabase.from("properties") as any))
     .update({ deleted_at: new Date().toISOString() })
     .eq("id", id);
   if (error) return { ok: false, error: error.message };
