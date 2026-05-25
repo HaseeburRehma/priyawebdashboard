@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Priya's Reinigungsservice · Video-Onboarding</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --primary-50:#EEF5E8; --primary-100:#D9E9C8; --primary-200:#BFDAA4; --primary-300:#A4CA7F;
+  --primary-500:#72A94F; --primary-600:#5D8E3F; --primary-700:#487030; --primary-800:#345321;
+  --secondary-50:#E5EEF3; --secondary-100:#BFD4E0; --secondary-500:#16587C; --secondary-600:#124A68; --secondary-700:#0F3C54; --secondary-800:#0B2D40; --secondary-900:#081F2C;
+  --accent-500:#A8CC87; --accent-600:#8BB06B; --tertiary-200:#F2FFEA;
+  --success-50:#E8F7EF; --success-500:#2D9E6B; --success-700:#1F6E4A;
+  --warning-50:#FDEFE5; --warning-500:#F4A261; --warning-700:#B36F3A;
+  --error-50:#FCE7E9; --error-100:#FBD4D7; --error-500:#E63946; --error-700:#A32933;
+  --white:#FFFFFF;
+  --neutral-50:#F8FAF7; --neutral-100:#EEF2EC; --neutral-200:#DDE3DA; --neutral-300:#C3CCBE;
+  --neutral-400:#9DA898; --neutral-500:#78857A; --neutral-600:#5A6659; --neutral-700:#414B40; --neutral-800:#2A322A; --neutral-900:#141814;
+  --radius-xs:4px; --radius-sm:6px; --radius-md:8px; --radius-lg:12px; --radius-xl:16px; --radius-full:9999px;
+  --shadow-xs:0 1px 2px rgba(20,24,20,.04);
+  --shadow-sm:0 2px 4px rgba(20,24,20,.06),0 1px 2px rgba(20,24,20,.04);
+  --shadow-md:0 4px 10px rgba(20,24,20,.08),0 2px 4px rgba(20,24,20,.04);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Inter',system-ui,sans-serif;font-size:14px;line-height:1.5;color:var(--neutral-800);background:var(--secondary-900);-webkit-font-smoothing:antialiased;min-height:100vh}
+a{color:inherit;text-decoration:none}
+button{font-family:inherit;cursor:pointer;border:none;background:none}
+ul{list-style:none}
+svg{display:block}
+
+/* This is a full-screen lockdown flow (no sidebar/topbar — app is locked until done) */
+.lock{min-height:100vh;display:grid;grid-template-rows:auto 1fr auto;background:linear-gradient(180deg,var(--secondary-900) 0%,var(--secondary-800) 100%)}
+
+/* Top bar */
+.lock-top{display:flex;align-items:center;justify-content:space-between;padding:20px 32px;border-bottom:1px solid rgba(255,255,255,.08)}
+.lock-brand{display:flex;align-items:center;gap:12px;color:#fff}
+.lock-brand .logo{width:38px;height:38px;border-radius:10px;background:var(--primary-500);display:grid;place-items:center;color:#fff;font-weight:800;font-size:17px}
+.lock-brand .nm{font-weight:700;font-size:15px;letter-spacing:-.01em}
+.lock-brand .sub{font-size:10px;color:var(--accent-500);font-weight:600;letter-spacing:.08em;text-transform:uppercase;margin-top:1px}
+.lock-user{display:flex;align-items:center;gap:14px;color:rgba(255,255,255,.7);font-size:12px}
+.lock-user .av{width:32px;height:32px;border-radius:50%;background:var(--warning-500);color:#fff;display:grid;place-items:center;font-weight:700;font-size:11px}
+.lock-user .info .nm{font-size:12px;font-weight:600;color:#fff}
+.lock-user .info .role{font-size:10px;color:rgba(255,255,255,.5);margin-top:1px}
+.lock-user .logout{color:rgba(255,255,255,.5);font-size:11px;padding:5px 9px;border:1px solid rgba(255,255,255,.15);border-radius:6px;margin-left:6px}
+.lock-user .logout:hover{color:#fff;border-color:rgba(255,255,255,.3)}
+
+/* Body */
+.lock-body{display:grid;grid-template-columns:340px 1fr;gap:0;max-width:1320px;margin:0 auto;width:100%;padding:24px 32px}
+
+/* LEFT: modules list */
+.module-rail{padding-right:28px}
+.rail-head{margin-bottom:18px}
+.rail-head .kicker{display:inline-flex;align-items:center;gap:7px;padding:5px 11px;border-radius:99px;background:rgba(168,204,135,.16);color:var(--accent-500);font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;margin-bottom:12px}
+.rail-head .kicker .pulse{width:6px;height:6px;border-radius:50%;background:var(--accent-500);animation:pulse 1.6s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+.rail-head h1{font-size:22px;color:#fff;font-weight:700;letter-spacing:-.02em;line-height:1.25}
+.rail-head p{font-size:13px;color:rgba(255,255,255,.65);margin-top:6px;line-height:1.5}
+
+.progress-strip{margin:18px 0 22px;padding:14px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:var(--radius-lg)}
+.progress-strip .pl{display:flex;justify-content:space-between;font-size:11px;color:rgba(255,255,255,.6);margin-bottom:8px;font-weight:600;text-transform:uppercase;letter-spacing:.04em}
+.progress-strip .pl b{color:#fff;font-weight:700}
+.progress-strip .bar{height:6px;background:rgba(255,255,255,.08);border-radius:99px;overflow:hidden}
+.progress-strip .bar .fill{height:100%;background:linear-gradient(90deg,var(--primary-500),var(--accent-500));border-radius:99px;width:40%;transition:width .3s}
+.progress-strip .pn{margin-top:8px;font-size:11px;color:rgba(255,255,255,.5);font-family:'JetBrains Mono',monospace}
+
+.mod-list{display:flex;flex-direction:column;gap:8px}
+.mod{display:grid;grid-template-columns:42px 1fr auto;gap:12px;padding:14px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:var(--radius-md);align-items:center;color:rgba(255,255,255,.6);transition:all .15s;cursor:pointer}
+.mod:hover{background:rgba(255,255,255,.07);border-color:rgba(255,255,255,.15)}
+.mod.done{background:rgba(45,158,107,.10);border-color:rgba(45,158,107,.3)}
+.mod.current{background:rgba(168,204,135,.10);border-color:var(--accent-500);box-shadow:0 0 0 3px rgba(168,204,135,.10)}
+.mod.locked{opacity:.5;cursor:not-allowed}
+
+.mod-no{width:42px;height:42px;border-radius:50%;border:2px solid rgba(255,255,255,.15);color:rgba(255,255,255,.6);display:grid;place-items:center;font-weight:800;font-family:'JetBrains Mono',monospace;font-size:14px;flex-shrink:0}
+.mod.done .mod-no{background:var(--success-500);border-color:var(--success-500);color:#fff}
+.mod.current .mod-no{background:var(--accent-500);border-color:var(--accent-500);color:var(--secondary-900)}
+.mod-info .ti{font-size:13px;font-weight:600;color:rgba(255,255,255,.9)}
+.mod.done .mod-info .ti,.mod.current .mod-info .ti{color:#fff}
+.mod.locked .mod-info .ti{color:rgba(255,255,255,.5)}
+.mod-info .mt{font-size:11px;color:rgba(255,255,255,.45);margin-top:2px;display:flex;align-items:center;gap:6px}
+.mod-info .mt .dot{width:3px;height:3px;border-radius:50%;background:rgba(255,255,255,.3)}
+.mod-status{font-size:10px;font-weight:700;padding:4px 8px;border-radius:99px;letter-spacing:.05em;text-transform:uppercase}
+.mod.done .mod-status{background:rgba(45,158,107,.2);color:#7BD9A8}
+.mod.current .mod-status{background:rgba(168,204,135,.2);color:var(--accent-500)}
+.mod-status.lock{background:rgba(255,255,255,.06);color:rgba(255,255,255,.4)}
+
+/* RIGHT: video player */
+.player{padding-left:28px;border-left:1px solid rgba(255,255,255,.08)}
+.player-head{display:flex;justify-content:space-between;align-items:flex-start;gap:18px;margin-bottom:16px}
+.player-head .pt{font-size:11px;color:var(--accent-500);font-weight:700;text-transform:uppercase;letter-spacing:.06em}
+.player-head h2{font-size:24px;color:#fff;font-weight:700;letter-spacing:-.02em;margin-top:4px;line-height:1.25}
+.player-head .meta{font-size:12px;color:rgba(255,255,255,.55);margin-top:6px;display:flex;align-items:center;gap:12px}
+.player-head .meta .sep{color:rgba(255,255,255,.25)}
+.player-head .actions{display:flex;gap:8px;flex-shrink:0}
+.player-head .actions button{font-size:12px;color:rgba(255,255,255,.7);font-weight:500;padding:7px 12px;border:1px solid rgba(255,255,255,.15);border-radius:8px;display:inline-flex;align-items:center;gap:6px}
+.player-head .actions button:hover{color:#fff;background:rgba(255,255,255,.06)}
+.player-head .actions button svg{width:13px;height:13px;stroke-width:1.8}
+
+/* Video frame */
+.video-frame{background:#000;border-radius:var(--radius-lg);overflow:hidden;position:relative;aspect-ratio:16/9;margin-bottom:14px;border:1px solid rgba(255,255,255,.08)}
+.video-frame::before{content:'';position:absolute;inset:0;background:
+  radial-gradient(800px 400px at 50% 30%, rgba(114,169,79,.10), transparent 60%),
+  linear-gradient(180deg,#0a0e0a 0%,#1a1f1a 100%)
+}
+.video-canvas{position:absolute;inset:0;display:grid;place-items:center}
+.video-canvas .scene{text-align:center;color:rgba(255,255,255,.85);padding:40px;max-width:560px}
+.video-canvas .scene .badge{display:inline-flex;align-items:center;gap:7px;padding:5px 12px;border-radius:99px;background:rgba(114,169,79,.15);color:var(--accent-500);font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;margin-bottom:18px;border:1px solid rgba(168,204,135,.2)}
+.video-canvas .scene h3{font-size:28px;font-weight:700;color:#fff;letter-spacing:-.02em;line-height:1.2;margin-bottom:10px}
+.video-canvas .scene p{font-size:14px;color:rgba(255,255,255,.6);line-height:1.55}
+.video-canvas .scene .speakers{display:flex;justify-content:center;gap:-8px;margin-top:22px}
+.video-canvas .scene .speakers .sp{width:54px;height:54px;border-radius:50%;border:3px solid var(--secondary-900);display:grid;place-items:center;font-weight:800;color:#fff;font-size:16px;box-shadow:0 4px 14px rgba(0,0,0,.4)}
+.video-canvas .scene .speakers .sp:nth-child(1){background:var(--primary-500)}
+.video-canvas .scene .speakers .sp:nth-child(2){background:var(--secondary-500);margin-left:-10px}
+.video-canvas .scene .speakers .sp:nth-child(3){background:var(--warning-500);margin-left:-10px}
+
+/* Play button overlay */
+.play-btn{position:absolute;left:50%;bottom:24px;transform:translateX(-50%);width:64px;height:64px;border-radius:50%;background:var(--primary-500);display:grid;place-items:center;cursor:pointer;box-shadow:0 8px 28px rgba(114,169,79,.45);transition:transform .15s,box-shadow .15s}
+.play-btn:hover{transform:translateX(-50%) scale(1.05);box-shadow:0 12px 36px rgba(114,169,79,.55)}
+.play-btn svg{width:28px;height:28px;color:#fff;margin-left:3px}
+
+/* Video controls bar */
+.video-ctrls{padding:14px 16px;background:rgba(0,0,0,.5);border-radius:var(--radius-md);display:flex;align-items:center;gap:12px;backdrop-filter:blur(8px);position:absolute;left:14px;right:14px;bottom:14px;border:1px solid rgba(255,255,255,.08)}
+.video-ctrls .icon{width:32px;height:32px;border-radius:6px;display:grid;place-items:center;color:#fff;background:rgba(255,255,255,.08)}
+.video-ctrls .icon:hover{background:rgba(255,255,255,.15)}
+.video-ctrls .icon svg{width:14px;height:14px}
+.video-ctrls .scrub{flex:1;height:5px;background:rgba(255,255,255,.15);border-radius:99px;overflow:hidden;position:relative;cursor:pointer}
+.video-ctrls .scrub .pl{height:100%;background:var(--accent-500);border-radius:99px;width:35%}
+.video-ctrls .scrub .pl::after{content:'';position:absolute;right:65%;top:50%;transform:translate(50%,-50%);width:13px;height:13px;background:#fff;border-radius:50%;box-shadow:0 2px 6px rgba(0,0,0,.4)}
+.video-ctrls .time{font-family:'JetBrains Mono',monospace;font-size:11px;color:rgba(255,255,255,.8);min-width:78px;text-align:right}
+
+/* Video meta below */
+.video-meta{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;padding:14px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:var(--radius-md);margin-bottom:18px}
+.video-meta .vm-item{display:flex;flex-direction:column;gap:2px}
+.video-meta .vm-l{font-size:10px;color:rgba(255,255,255,.4);text-transform:uppercase;letter-spacing:.06em;font-weight:600}
+.video-meta .vm-v{font-size:13px;color:#fff;font-weight:600}
+
+/* Topics under video */
+.topics{margin-bottom:16px}
+.topics-h{font-size:11px;color:rgba(255,255,255,.5);font-weight:700;text-transform:uppercase;letter-spacing:.06em;margin-bottom:10px}
+.topic-list{display:flex;flex-direction:column;gap:6px}
+.topic{display:grid;grid-template-columns:42px 1fr 50px;gap:10px;padding:9px 12px;border-radius:6px;color:rgba(255,255,255,.7);font-size:12px;cursor:pointer;transition:background .15s;align-items:center}
+.topic:hover{background:rgba(255,255,255,.04)}
+.topic.current{background:rgba(168,204,135,.08);color:#fff}
+.topic .tts{font-family:'JetBrains Mono',monospace;font-size:11px;color:rgba(255,255,255,.4)}
+.topic.current .tts{color:var(--accent-500)}
+.topic .tn{font-weight:500}
+.topic.current .tn{font-weight:600}
+.topic .tdur{font-family:'JetBrains Mono',monospace;font-size:11px;color:rgba(255,255,255,.4);text-align:right}
+
+/* Quiz / confirm */
+.confirm{padding:18px;background:rgba(168,204,135,.06);border:1px solid rgba(168,204,135,.2);border-radius:var(--radius-md);margin-bottom:18px;display:flex;align-items:flex-start;gap:14px}
+.confirm .ic{width:36px;height:36px;border-radius:8px;background:rgba(168,204,135,.15);color:var(--accent-500);display:grid;place-items:center;flex-shrink:0}
+.confirm .ic svg{width:18px;height:18px;stroke-width:1.8}
+.confirm .txt{flex:1;font-size:12px;color:rgba(255,255,255,.75);line-height:1.55}
+.confirm .txt b{color:#fff;font-weight:600}
+.confirm .txt label{display:flex;align-items:center;gap:8px;margin-top:10px;cursor:pointer;font-size:12px;color:rgba(255,255,255,.8)}
+.confirm .txt input[type=checkbox]{width:16px;height:16px;accent-color:var(--accent-500)}
+
+/* Bottom bar */
+.lock-foot{display:flex;align-items:center;justify-content:space-between;padding:18px 32px;background:rgba(0,0,0,.3);border-top:1px solid rgba(255,255,255,.08)}
+.lock-foot .help{font-size:12px;color:rgba(255,255,255,.5);display:flex;align-items:center;gap:8px}
+.lock-foot .help svg{width:14px;height:14px;color:rgba(255,255,255,.4)}
+.lock-foot .help a{color:var(--accent-500);font-weight:600}
+.lock-foot .nav-btns{display:flex;gap:10px}
+.btn-d{display:inline-flex;align-items:center;gap:8px;padding:10px 18px;border-radius:8px;font-size:13px;font-weight:600;transition:all .15s}
+.btn-d.ghost{color:rgba(255,255,255,.7);border:1px solid rgba(255,255,255,.15)}
+.btn-d.ghost:hover{color:#fff;background:rgba(255,255,255,.05)}
+.btn-d.primary{background:var(--primary-500);color:#fff}
+.btn-d.primary:hover{background:var(--primary-600)}
+.btn-d svg{width:14px;height:14px;stroke-width:2.4}
+
+@media(max-width:960px){
+  .lock-body{grid-template-columns:1fr;padding:20px}
+  .module-rail{padding-right:0;border:0}
+  .player{padding-left:0;border-left:0;border-top:1px solid rgba(255,255,255,.08);padding-top:22px;margin-top:8px}
+}
+</style>
+</head>
+<body>
+<div class="lock">
+
+  <!-- Top -->
+  <header class="lock-top">
+    <div class="lock-brand">
+      <div class="logo">P</div>
+      <div>
+        <div class="nm">Priya's Reinigungsservice</div>
+        <div class="sub">Onboarding · Tag 1</div>
+      </div>
+    </div>
+    <div class="lock-user">
+      <div class="av">SY</div>
+      <div class="info">
+        <div class="nm">Selin Yıldız</div>
+        <div class="role">Neue Mitarbeiterin · Tag 1</div>
+      </div>
+      <button class="logout">Abmelden</button>
+    </div>
+  </header>
+
+  <!-- Body -->
+  <div class="lock-body">
+
+    <!-- LEFT: rail -->
+    <aside class="module-rail">
+      <div class="rail-head">
+        <span class="kicker"><span class="pulse"></span>App noch nicht freigeschaltet</span>
+        <h1>Willkommen im Team 👋</h1>
+        <p>Bevor Sie loslegen, schauen Sie sich bitte diese kurze Video-Sequenz an. Nach jedem Modul gibt es eine kleine Bestätigung — danach wird die App automatisch freigeschaltet.</p>
+      </div>
+
+      <div class="progress-strip">
+        <div class="pl"><span>Fortschritt</span><span><b>2</b> von 5 Modulen</span></div>
+        <div class="bar"><div class="fill" style="width:40%"></div></div>
+        <div class="pn">⏱ Etwa 24 Min. verbleibend · ✅ Speicherung automatisch</div>
+      </div>
+
+      <div class="mod-list">
+
+        <div class="mod done">
+          <div class="mod-no">✓</div>
+          <div class="mod-info">
+            <div class="ti">Willkommen bei Priya's</div>
+            <div class="mt">5 Min.<span class="dot"></span>Eingeführt von Alex Müller</div>
+          </div>
+          <span class="mod-status">Fertig</span>
+        </div>
+
+        <div class="mod done">
+          <div class="mod-no">✓</div>
+          <div class="mod-info">
+            <div class="ti">Unsere Werte &amp; Kundenversprechen</div>
+            <div class="mt">7 Min.<span class="dot"></span>Priya Sundaram</div>
+          </div>
+          <span class="mod-status">Fertig</span>
+        </div>
+
+        <div class="mod current">
+          <div class="mod-no">3</div>
+          <div class="mod-info">
+            <div class="ti">Reinigung &amp; Pflege — die zwei Servicearten</div>
+            <div class="mt">12 Min.<span class="dot"></span>Priya's vs Alltagshilfe</div>
+          </div>
+          <span class="mod-status">Läuft</span>
+        </div>
+
+        <div class="mod locked">
+          <div class="mod-no">4</div>
+          <div class="mod-info">
+            <div class="ti">Sicherheit, Hygiene &amp; Schutzkleidung</div>
+            <div class="mt">9 Min.<span class="dot"></span>Mit Demo-Video</div>
+          </div>
+          <span class="mod-status lock">🔒 Gesperrt</span>
+        </div>
+
+        <div class="mod locked">
+          <div class="mod-no">5</div>
+          <div class="mod-info">
+            <div class="ti">Die App benutzen — Schichten, Check-in, Zeiterfassung</div>
+            <div class="mt">8 Min.<span class="dot"></span>Schritt-für-Schritt</div>
+          </div>
+          <span class="mod-status lock">🔒 Gesperrt</span>
+        </div>
+
+      </div>
+    </aside>
+
+    <!-- RIGHT: player -->
+    <main class="player">
+
+      <div class="player-head">
+        <div>
+          <div class="pt">Modul 3 von 5 · Reinigung &amp; Pflege</div>
+          <h2>Die zwei Servicearten — Priya's und Alltagshilfe</h2>
+          <div class="meta">
+            <span>12 Min. · 4 Kapitel</span>
+            <span class="sep">·</span>
+            <span>Mit Untertiteln</span>
+            <span class="sep">·</span>
+            <span>DE · EN · TR</span>
+          </div>
+        </div>
+        <div class="actions">
+          <button><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2M9 9h.01M15 9h.01"/></svg>Untertitel</button>
+          <button><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>Sprache · DE</button>
+        </div>
+      </div>
+
+      <!-- Video -->
+      <div class="video-frame">
+        <div class="video-canvas">
+          <div class="scene">
+            <span class="badge">● Live · Modul 3</span>
+            <h3>Grün ist Reinigung. Rot ist Pflege.</h3>
+            <p>Priya's und Alltagshilfe sind zwei verschiedene Welten — mit eigenen Kunden, eigenen Tarifen und eigenen Regeln. In diesem Modul lernen Sie, wie Sie die beiden im Alltag auseinanderhalten.</p>
+            <div class="speakers">
+              <div class="sp" title="Priya">PS</div>
+              <div class="sp" title="Alex">AM</div>
+              <div class="sp" title="Fatima">FÖ</div>
+            </div>
+          </div>
+        </div>
+        <button class="play-btn" title="Abspielen">
+          <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="6 4 20 12 6 20 6 4"/></svg>
+        </button>
+        <div class="video-ctrls">
+          <button class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="6 4 20 12 6 20 6 4"/></svg></button>
+          <div class="scrub"><div class="pl"></div></div>
+          <span class="time">04:12 / 12:00</span>
+          <button class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5z"/><path d="M19.07 4.93a10 10 0 010 14.14M15.54 8.46a5 5 0 010 7.07"/></svg></button>
+          <button class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></button>
+        </div>
+      </div>
+
+      <!-- Meta -->
+      <div class="video-meta">
+        <div class="vm-item"><span class="vm-l">Speaker</span><span class="vm-v">Priya Sundaram</span></div>
+        <div class="vm-item"><span class="vm-l">Dauer</span><span class="vm-v">12 Min.</span></div>
+        <div class="vm-item"><span class="vm-l">Untertitel</span><span class="vm-v">DE · EN · TR</span></div>
+      </div>
+
+      <!-- Topics / chapters -->
+      <div class="topics">
+        <div class="topics-h">Kapitel in diesem Modul</div>
+        <div class="topic-list">
+          <div class="topic"><span class="tts">00:00</span><span class="tn">1. Priya's Reinigung — wer und wie wird abgerechnet</span><span class="tdur">3:10</span></div>
+          <div class="topic current"><span class="tts">03:10</span><span class="tn">2. Alltagshilfe — Pflegegrade, Krankenkasse, Abtretungserklärung</span><span class="tdur">3:50</span></div>
+          <div class="topic"><span class="tts">07:00</span><span class="tn">3. Wie ich erkenne, zu welcher Schicht ich gehöre</span><span class="tdur">2:30</span></div>
+          <div class="topic"><span class="tts">09:30</span><span class="tn">4. Was tun bei der ersten Pflege-Schicht (Willkommensmappe)</span><span class="tdur">2:30</span></div>
+        </div>
+      </div>
+
+      <!-- Confirmation -->
+      <div class="confirm">
+        <div class="ic">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg>
+        </div>
+        <div class="txt">
+          <b>Bestätigung erforderlich</b><br>
+          Nach dem Video, bitte unten bestätigen, dass Sie verstanden haben — danach öffnet sich Modul 4.
+          <label>
+            <input type="checkbox">
+            Ich habe das Modul vollständig angesehen und verstanden.
+          </label>
+        </div>
+      </div>
+
+    </main>
+
+  </div>
+
+  <!-- Bottom nav -->
+  <footer class="lock-foot">
+    <div class="help">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3M12 17h.01"/></svg>
+      Fragen während des Onboardings? <a href="#">Petra Schulz · Teamleitung</a> antwortet innerhalb von 15 Min.
+    </div>
+    <div class="nav-btns">
+      <button class="btn-d ghost">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+        Vorheriges Modul
+      </button>
+      <button class="btn-d primary">
+        Weiter zu Modul 4
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+      </button>
+    </div>
+  </footer>
+
+</div>
+</body>
+</html>

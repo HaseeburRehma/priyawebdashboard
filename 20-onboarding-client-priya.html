@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Priya's Reinigungsservice · Neuer Kunde Priya's</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --primary-50:#EEF5E8; --primary-100:#D9E9C8; --primary-200:#BFDAA4; --primary-300:#A4CA7F;
+  --primary-500:#72A94F; --primary-600:#5D8E3F; --primary-700:#487030; --primary-800:#345321;
+  --secondary-50:#E5EEF3; --secondary-100:#BFD4E0; --secondary-500:#16587C; --secondary-600:#124A68; --secondary-700:#0F3C54; --secondary-800:#0B2D40; --secondary-900:#081F2C;
+  --accent-500:#A8CC87; --accent-600:#8BB06B; --tertiary-200:#F2FFEA;
+  --success-50:#E8F7EF; --success-500:#2D9E6B; --success-700:#1F6E4A;
+  --warning-50:#FDEFE5; --warning-500:#F4A261; --warning-700:#B36F3A;
+  --error-50:#FCE7E9; --error-100:#FBD4D7; --error-500:#E63946; --error-700:#A32933;
+  --white:#FFFFFF;
+  --neutral-50:#F8FAF7; --neutral-100:#EEF2EC; --neutral-200:#DDE3DA; --neutral-300:#C3CCBE;
+  --neutral-400:#9DA898; --neutral-500:#78857A; --neutral-600:#5A6659; --neutral-700:#414B40; --neutral-800:#2A322A; --neutral-900:#141814;
+  --radius-xs:4px; --radius-sm:6px; --radius-md:8px; --radius-lg:12px; --radius-xl:16px; --radius-full:9999px;
+  --shadow-xs:0 1px 2px rgba(20,24,20,.04);
+  --shadow-sm:0 2px 4px rgba(20,24,20,.06),0 1px 2px rgba(20,24,20,.04);
+  --shadow-md:0 4px 10px rgba(20,24,20,.08),0 2px 4px rgba(20,24,20,.04);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Inter',system-ui,sans-serif;font-size:14px;line-height:1.5;color:var(--neutral-800);background:var(--tertiary-200);-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+button{font-family:inherit;cursor:pointer;border:none;background:none}
+ul{list-style:none}
+svg{display:block}
+
+/* Shell */
+.app{display:flex;min-height:100vh}
+.sidebar{width:240px;background:var(--secondary-900);color:rgba(255,255,255,.82);display:flex;flex-direction:column;padding:20px 12px;position:fixed;top:0;left:0;bottom:0;z-index:10;overflow-y:auto}
+.sb-brand{display:flex;align-items:center;gap:12px;padding:6px 10px 24px;border-bottom:1px solid rgba(255,255,255,.06);margin-bottom:16px}
+.sb-logo{width:36px;height:36px;background:var(--primary-500);border-radius:var(--radius-md);display:grid;place-items:center;font-weight:800;color:#fff;font-size:17px}
+.sb-brand-name{font-size:14px;font-weight:600;color:#fff;letter-spacing:-.01em}
+.sb-brand-sub{font-size:10px;color:var(--accent-500);letter-spacing:.08em;text-transform:uppercase;margin-top:1px}
+.sb-section{font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:rgba(255,255,255,.35);padding:12px 12px 8px;font-weight:600}
+.sb-item{display:flex;align-items:center;gap:12px;padding:10px 12px;border-radius:var(--radius-sm);font-size:13px;color:rgba(255,255,255,.72);margin-bottom:2px;transition:all .15s}
+.sb-item:hover{background:rgba(255,255,255,.06);color:#fff}
+.sb-item svg{width:18px;height:18px;flex-shrink:0;stroke-width:1.8}
+.sb-item.active{background:var(--primary-500);color:#fff;font-weight:500}
+.sb-item .badge{margin-left:auto;background:rgba(255,255,255,.15);color:#fff;font-size:10px;padding:2px 7px;border-radius:var(--radius-full);font-weight:600}
+.sb-item.active .badge{background:rgba(0,0,0,.25)}
+.sb-collapse{margin-top:auto;display:flex;align-items:center;gap:10px;padding:16px 24px;font-size:12px;color:rgba(255,255,255,.55);border-top:1px solid rgba(255,255,255,.06);margin:16px -12px 0}
+.sb-collapse svg{width:14px;height:14px}
+.main{margin-left:240px;flex:1;display:flex;flex-direction:column;min-width:0}
+
+/* Topbar */
+.topbar{height:64px;background:#fff;border-bottom:1px solid var(--neutral-100);display:flex;align-items:center;justify-content:space-between;padding:0 28px;position:sticky;top:0;z-index:5}
+.tb-left{display:flex;align-items:center;gap:20px;flex:1;max-width:520px}
+.tb-search{flex:1;display:flex;align-items:center;gap:10px;background:var(--neutral-50);border:1px solid var(--neutral-100);border-radius:var(--radius-md);padding:8px 14px;color:var(--neutral-500)}
+.tb-search svg{width:16px;height:16px}
+.tb-search input{border:none;background:none;font-family:inherit;font-size:13px;outline:none;flex:1;color:var(--neutral-700)}
+.tb-search .kbd{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--neutral-400);padding:3px 6px;background:#fff;border:1px solid var(--neutral-200);border-radius:4px}
+.tb-right{display:flex;align-items:center;gap:6px}
+.icon-btn{width:40px;height:40px;border-radius:var(--radius-md);display:grid;place-items:center;color:var(--neutral-500);transition:all .15s;position:relative}
+.icon-btn:hover{background:var(--neutral-50);color:var(--neutral-800)}
+.icon-btn svg{width:18px;height:18px}
+.icon-btn .dot{position:absolute;top:8px;right:8px;width:8px;height:8px;background:var(--error-500);border-radius:50%;border:2px solid #fff}
+.tb-user{display:flex;align-items:center;gap:10px;padding:6px 12px 6px 6px;border-radius:var(--radius-full);cursor:pointer;transition:all .15s;margin-left:8px}
+.tb-user:hover{background:var(--neutral-50)}
+.avatar{border-radius:50%;display:grid;place-items:center;color:#fff;font-weight:600;background:var(--primary-500);flex-shrink:0}
+.avatar--sm{width:32px;height:32px;font-size:12px}
+.tb-user-info{line-height:1.1}
+.tb-user-info .name{font-size:13px;font-weight:600;color:var(--neutral-800)}
+.tb-user-info .role{font-size:11px;color:var(--neutral-500);margin-top:2px}
+
+/* Content */
+.content{padding:24px 28px 40px;max-width:1100px;width:100%}
+.breadcrumb{display:flex;gap:8px;align-items:center;font-size:12px;color:var(--neutral-500);margin-bottom:12px}
+.breadcrumb .sep{color:var(--neutral-300)}
+.breadcrumb .cur{color:var(--neutral-800);font-weight:500}
+.breadcrumb a:hover{color:var(--primary-600)}
+
+.page-head{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:18px;gap:24px;flex-wrap:wrap}
+.page-head h1{font-size:24px;font-weight:700;color:var(--secondary-500);letter-spacing:-.02em;display:flex;align-items:center;gap:10px}
+.page-head h1 .pill{font-size:10px;font-weight:700;padding:4px 10px;border-radius:var(--radius-full);background:var(--primary-50);color:var(--primary-700);letter-spacing:.06em;text-transform:uppercase;border:1px solid var(--primary-200)}
+.page-head .sub{font-size:13px;color:var(--neutral-500);margin-top:4px}
+
+.btn{display:inline-flex;align-items:center;gap:8px;padding:10px 16px;border-radius:var(--radius-md);font-size:13px;font-weight:500;line-height:1;min-height:40px;transition:all .15s;border:none;white-space:nowrap}
+.btn svg{width:14px;height:14px;stroke-width:2}
+.btn--primary{background:var(--primary-500);color:#fff}
+.btn--primary:hover{background:var(--primary-600)}
+.btn--white{background:#fff;color:var(--neutral-700);border:1px solid var(--neutral-200)}
+.btn--white:hover{background:var(--neutral-50);border-color:var(--neutral-300)}
+.btn--ghost{color:var(--neutral-600);background:transparent}
+.btn--ghost:hover{background:var(--neutral-100);color:var(--neutral-800)}
+.btn--sm{padding:7px 12px;font-size:12px;min-height:32px}
+
+/* Stepper */
+.stepper{display:flex;align-items:center;gap:6px;background:#fff;border:1px solid var(--neutral-100);border-radius:var(--radius-lg);padding:14px 20px;margin-bottom:18px}
+.step{display:flex;align-items:center;gap:10px;flex:1}
+.step .num{width:28px;height:28px;border-radius:50%;display:grid;place-items:center;font-size:12px;font-weight:700;flex-shrink:0}
+.step.done .num{background:var(--primary-500);color:#fff}
+.step.on .num{background:var(--primary-500);color:#fff;box-shadow:0 0 0 4px var(--primary-50)}
+.step.todo .num{background:var(--neutral-100);color:var(--neutral-500)}
+.step .lbl .l{font-size:10px;color:var(--neutral-500);font-weight:600;text-transform:uppercase;letter-spacing:.06em}
+.step .lbl .t{font-size:13px;font-weight:600;color:var(--neutral-800);margin-top:1px}
+.step.on .lbl .l{color:var(--primary-700)}
+.step.todo .lbl .t{color:var(--neutral-500);font-weight:500}
+.step-sep{flex:0 0 32px;height:2px;background:var(--neutral-200);border-radius:2px}
+.step-sep.done{background:var(--primary-500)}
+
+/* Form card */
+.form-grid{display:grid;grid-template-columns:1.8fr 1fr;gap:16px;align-items:start}
+.card{background:#fff;border:1px solid var(--neutral-100);border-radius:var(--radius-lg);overflow:hidden;margin-bottom:16px}
+.card-head{padding:16px 22px;border-bottom:1px solid var(--neutral-100);display:flex;align-items:flex-start;justify-content:space-between;gap:12px}
+.card-head h3{font-size:14px;font-weight:600;color:var(--neutral-800);display:flex;align-items:center;gap:10px}
+.card-head h3 .ic{width:26px;height:26px;border-radius:var(--radius-sm);background:var(--primary-50);color:var(--primary-700);display:grid;place-items:center}
+.card-head h3 .ic svg{width:14px;height:14px;stroke-width:2}
+.card-head .sub{font-size:11px;color:var(--neutral-500);margin-top:3px}
+.card-body{padding:20px 22px}
+
+.field-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px 18px}
+.field{display:flex;flex-direction:column;gap:6px}
+.field.full{grid-column:1/-1}
+.field label{font-size:12px;color:var(--neutral-700);font-weight:600;display:flex;align-items:center;gap:6px}
+.field label .req{color:var(--error-500)}
+.field label .hint{font-size:11px;color:var(--neutral-400);font-weight:400;margin-left:auto}
+.field input,.field select,.field textarea{
+  width:100%;padding:10px 12px;background:#fff;border:1px solid var(--neutral-200);border-radius:var(--radius-md);
+  font-family:inherit;font-size:13px;color:var(--neutral-800);outline:none;transition:border-color .12s,box-shadow .12s
+}
+.field input:focus,.field select:focus,.field textarea:focus{border-color:var(--primary-500);box-shadow:0 0 0 3px rgba(114,169,79,.12)}
+.field input::placeholder{color:var(--neutral-400)}
+.field .help{font-size:11px;color:var(--neutral-500);margin-top:2px}
+.field textarea{resize:vertical;min-height:64px}
+.field-prefix{position:relative}
+.field-prefix .pre{position:absolute;left:12px;top:50%;transform:translateY(-50%);font-size:13px;color:var(--neutral-500)}
+.field-prefix input{padding-left:46px}
+.input-row{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.input-row .field{gap:0}
+
+/* Service banner */
+.service-banner{display:flex;align-items:center;gap:14px;padding:14px 20px;background:linear-gradient(135deg,var(--primary-50) 0%,#fff 100%);border:1px solid var(--primary-200);border-left:4px solid var(--primary-500);border-radius:var(--radius-lg);margin-bottom:18px}
+.service-banner .sb-ic{width:42px;height:42px;border-radius:var(--radius-md);background:var(--primary-500);color:#fff;display:grid;place-items:center;flex-shrink:0;box-shadow:0 4px 10px rgba(114,169,79,.25)}
+.service-banner .sb-ic svg{width:20px;height:20px;stroke-width:1.8}
+.service-banner .sb-text{flex:1}
+.service-banner .sb-text .lbl{font-size:10px;color:var(--primary-700);font-weight:700;text-transform:uppercase;letter-spacing:.06em}
+.service-banner .sb-text .h{font-size:15px;color:var(--neutral-800);font-weight:700;margin-top:1px}
+.service-banner .sb-text .desc{font-size:12px;color:var(--neutral-600);margin-top:2px}
+.service-banner .change{font-size:12px;color:var(--primary-700);font-weight:600;padding:7px 12px;border-radius:var(--radius-sm);border:1px solid var(--primary-200);background:#fff}
+.service-banner .change:hover{background:var(--primary-50)}
+
+/* Right column */
+.aside-card{position:sticky;top:80px;background:#fff;border:1px solid var(--neutral-100);border-radius:var(--radius-lg);padding:18px 20px}
+.aside-card h4{font-size:13px;font-weight:600;color:var(--neutral-800);margin-bottom:6px}
+.aside-card p{font-size:12px;color:var(--neutral-600);line-height:1.5}
+.aside-list{margin-top:14px;display:flex;flex-direction:column;gap:10px}
+.aside-row{display:flex;gap:10px;align-items:flex-start;font-size:12px;color:var(--neutral-700);line-height:1.5}
+.aside-row .check{width:18px;height:18px;border-radius:50%;background:var(--primary-50);color:var(--primary-700);display:grid;place-items:center;flex-shrink:0;margin-top:1px}
+.aside-row .check svg{width:11px;height:11px;stroke-width:3}
+.aside-row b{color:var(--neutral-900)}
+
+.aside-divider{height:1px;background:var(--neutral-100);margin:14px 0}
+
+.summary-row{display:flex;justify-content:space-between;padding:7px 0;font-size:12px}
+.summary-row .k{color:var(--neutral-500)}
+.summary-row .v{color:var(--neutral-800);font-weight:600;text-align:right}
+.summary-row .v.tag-priya{background:var(--primary-50);color:var(--primary-700);padding:2px 8px;border-radius:var(--radius-full);font-size:10px;text-transform:uppercase;letter-spacing:.06em;font-weight:700}
+
+/* Form footer */
+.form-foot{display:flex;align-items:center;justify-content:space-between;padding:16px 22px;background:var(--neutral-50);border-top:1px solid var(--neutral-100);gap:12px;flex-wrap:wrap}
+.form-foot .hint{font-size:11px;color:var(--neutral-500);display:flex;align-items:center;gap:6px}
+.form-foot .hint svg{width:13px;height:13px}
+.form-foot .actions{display:flex;gap:8px}
+
+@media(max-width:1024px){
+  .sidebar{width:72px;padding:16px 8px}
+  .sb-brand > div:last-child,.sb-item span:not(.badge),.sb-section,.sb-collapse{display:none}
+  .sb-item{justify-content:center}
+  .sb-item .badge{display:none}
+  .main{margin-left:72px}
+  .content{padding:20px}
+  .form-grid{grid-template-columns:1fr}
+  .aside-card{position:static}
+}
+@media(max-width:680px){
+  .field-grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+<div class="app">
+  <!-- Sidebar placeholder; rebuild_sidebar.py will overwrite -->
+  <aside class="sidebar">
+      <div class="sb-brand">
+        <div class="sb-logo">P</div>
+        <div>
+          <div class="sb-brand-name">Priya's</div>
+          <div class="sb-brand-sub">Betrieb</div>
+        </div>
+      </div>
+      <div class="sb-section">Arbeitsbereich</div>
+      <a class="sb-item" href="02-dashboard.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>Übersicht</a>
+      <a class="sb-item active" href="03-clients-list.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>Kunden<span class="badge">10</span></a>
+      <a class="sb-item" href="05-properties-list.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21V7l8-4 8 4v14"/><path d="M9 9h2M13 9h2M9 13h2M13 13h2M9 17h2M13 17h2"/></svg>Objekte<span class="badge">112</span></a>
+      <a class="sb-item" href="07-schedule.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 9h18M8 3v4M16 3v4"/></svg>Einsatzplan</a>
+      <a class="sb-item" href="08-employees-list.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>Mitarbeiter<span class="badge">32</span></a>
+      <a class="sb-item" href="19-employee-overview.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="9"/><rect x="14" y="3" width="7" height="5"/><rect x="14" y="12" width="7" height="9"/><rect x="3" y="16" width="7" height="5"/></svg>Mitarbeiter-Übersicht</a>
+      <a class="sb-item" href="10-invoices-list.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6M16 13H8M16 17H8M10 9H8"/></svg>Rechnungen<span class="badge">47</span></a>
+      <a class="sb-item" href="14-reports.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M7 14l3-3 3 3 5-5"/></svg>Berichte</a>
+      <div class="sb-section">Alltagshilfe</div>
+      <a class="sb-item" href="15-customer-type-picker.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 000-7.78z"/></svg>Pflegekunden</a>
+      <a class="sb-item" href="16-alltagshilfe-report.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6"/></svg>Monatsbericht</a>
+      <div class="sb-section">Kommunikation</div>
+      <a class="sb-item" href="17-team-chat.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a7.5 7.5 0 01-11.2 6.5L4 20l1.5-5.2A7.5 7.5 0 1121 12z"/></svg>Team-Chat<span class="badge">3</span></a>
+      <a class="sb-item" href="18-notifications.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8a6 6 0 0112 0c0 7 3 8 3 8H3s3-1 3-8zM10 21a2 2 0 004 0"/></svg>Benachrichtigungen<span class="badge">12</span></a>
+      <div class="sb-section">System</div>
+      <a class="sb-item" href="13-settings.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.3 1.8l.1.1a2 2 0 11-2.8 2.8l-.1-.1a1.65 1.65 0 00-1.8-.3 1.65 1.65 0 00-1 1.5V21a2 2 0 11-4 0v-.1a1.65 1.65 0 00-1-1.5 1.65 1.65 0 00-1.8.3l-.1.1a2 2 0 11-2.8-2.8l.1-.1a1.65 1.65 0 00.3-1.8 1.65 1.65 0 00-1.5-1H3a2 2 0 110-4h.1a1.65 1.65 0 001.5-1 1.65 1.65 0 00-.3-1.8l-.1-.1a2 2 0 112.8-2.8l.1.1a1.65 1.65 0 001.8.3h0a1.65 1.65 0 001-1.5V3a2 2 0 114 0v.1a1.65 1.65 0 001 1.5 1.65 1.65 0 001.8-.3l.1-.1a2 2 0 112.8 2.8l-.1.1a1.65 1.65 0 00-.3 1.8v0a1.65 1.65 0 001.5 1H21a2 2 0 110 4h-.1a1.65 1.65 0 00-1.5 1z"/></svg>Einstellungen</a>
+      <div class="sb-collapse"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>Seitenleiste einklappen</div>
+    </aside>
+
+  <div class="main">
+    <header class="topbar">
+      <div class="tb-left">
+        <div class="tb-search">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+          <input placeholder="Kunden, Objekte, Rechnungen suchen…" />
+          <span class="kbd">⌘ K</span>
+        </div>
+      </div>
+      <div class="tb-right">
+        <button class="icon-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.1 9a3 3 0 015.8 1c0 2-3 3-3 3M12 17h.01"/></svg></button>
+        <a class="icon-btn" href="17-team-chat.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a7.5 7.5 0 01-11.2 6.5L4 20l1.5-5.2A7.5 7.5 0 1121 12z"/></svg><span class="dot"></span></a>
+        <a class="icon-btn" href="18-notifications.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8a6 6 0 0112 0c0 7 3 8 3 8H3s3-1 3-8zM10 21a2 2 0 004 0"/></svg><span class="dot"></span></a>
+        <div class="tb-user">
+          <div class="avatar avatar--sm">AM</div>
+          <div class="tb-user-info"><div class="name">Alex Müller</div><div class="role">Geschäftsleitung</div></div>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px;color:var(--neutral-400)"><path d="M6 9l6 6 6-6"/></svg>
+        </div>
+      </div>
+    </header>
+
+    <div class="content">
+      <div class="breadcrumb">
+        <a href="02-dashboard.html">Übersicht</a>
+        <span class="sep">/</span>
+        <a href="03-clients-list.html">Kunden</a>
+        <span class="sep">/</span>
+        <a href="15-customer-type-picker.html">Kunde anlegen</a>
+        <span class="sep">/</span>
+        <span class="cur">Stammdaten Priya's</span>
+      </div>
+
+      <div class="page-head">
+        <div>
+          <h1>Neuer Kunde anlegen <span class="pill">● Priya's</span></h1>
+          <div class="sub">Reguläre Reinigung · automatische Abrechnung über Lexware · Schritt 2 von 3</div>
+        </div>
+        <div style="display:flex;gap:8px;align-items:center">
+          <button class="btn btn--white"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5-5 5 5M12 5v12"/></svg>Entwurf speichern</button>
+        </div>
+      </div>
+
+      <!-- Stepper -->
+      <div class="stepper">
+        <div class="step done"><div class="num">✓</div><div class="lbl"><div class="l">Schritt 1</div><div class="t">Servicetyp</div></div></div>
+        <div class="step-sep done"></div>
+        <div class="step on"><div class="num">2</div><div class="lbl"><div class="l">Schritt 2</div><div class="t">Stammdaten</div></div></div>
+        <div class="step-sep"></div>
+        <div class="step todo"><div class="num">3</div><div class="lbl"><div class="l">Schritt 3</div><div class="t">Bestätigung</div></div></div>
+      </div>
+
+      <!-- Service banner -->
+      <div class="service-banner">
+        <div class="sb-ic">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3l1.5 4L14.5 8 10 9.5 8.5 14 7 9.5 2.5 8 7 7 9 3z"/><path d="M17 14l1 2.5 2.5 1L18 18l-1 2.5-1-2.5-2.5-1L16 17z"/></svg>
+        </div>
+        <div class="sb-text">
+          <div class="lbl">● Priya's · Regulärer Reinigungsservice</div>
+          <div class="h">Stammdaten erfassen</div>
+          <div class="desc">Diese Felder erscheinen auf Rechnungen, im Einsatzplan und im Kundenportal. Pflichtfelder sind mit * markiert.</div>
+        </div>
+        <a class="change" href="15-customer-type-picker.html">Servicetyp ändern</a>
+      </div>
+
+      <div class="form-grid">
+
+        <!-- LEFT: Form sections -->
+        <div>
+
+          <!-- Kontakt -->
+          <section class="card">
+            <div class="card-head">
+              <div>
+                <h3><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></span>Kontaktdaten</h3>
+                <div class="sub">Person oder Firma, die den Vertrag unterzeichnet</div>
+              </div>
+            </div>
+            <div class="card-body">
+              <div class="field-grid">
+                <div class="field">
+                  <label>Vorname <span class="req">*</span></label>
+                  <input type="text" placeholder="z.B. Helga" />
+                </div>
+                <div class="field">
+                  <label>Name <span class="req">*</span></label>
+                  <input type="text" placeholder="z.B. Weber" />
+                </div>
+                <div class="field full">
+                  <label>Adresse <span class="req">*</span> <span class="hint">Straße · PLZ · Ort</span></label>
+                  <input type="text" placeholder="z.B. Friedrichstraße 200, 10117 Berlin" />
+                </div>
+                <div class="field full">
+                  <label>Rechnungsadresse <span class="hint">nur ausfüllen, wenn abweichend</span></label>
+                  <input type="text" placeholder="Leer lassen, wenn identisch mit Adresse oben" />
+                </div>
+                <div class="field">
+                  <label>E-Mail <span class="req">*</span></label>
+                  <input type="email" placeholder="kunde@beispiel.de" />
+                  <div class="help">Wird für Rechnungen &amp; Terminbestätigungen verwendet</div>
+                </div>
+                <div class="field">
+                  <label>Telefonnummer <span class="req">*</span></label>
+                  <div class="field-prefix">
+                    <span class="pre">🇩🇪 +49</span>
+                    <input type="tel" placeholder="30 4419 8201" />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- Service -->
+          <section class="card">
+            <div class="card-head">
+              <div>
+                <h3><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 9h18M8 3v4M16 3v4"/></svg></span>Reinigungsservice</h3>
+                <div class="sub">Wie häufig und in welchem Umfang die Reinigung erfolgt</div>
+              </div>
+            </div>
+            <div class="card-body">
+              <div class="field-grid">
+                <div class="field">
+                  <label>Reinigungsrhythmus <span class="req">*</span></label>
+                  <select>
+                    <option>Wöchentlich</option>
+                    <option>Alle 2 Wochen</option>
+                    <option>Monatlich</option>
+                    <option>Auf Anfrage</option>
+                    <option>Einmalig</option>
+                  </select>
+                </div>
+                <div class="field">
+                  <label>Geschätzter Reinigungsaufwand <span class="req">*</span></label>
+                  <div class="input-row">
+                    <input type="number" placeholder="z.B. 3" />
+                    <select>
+                      <option>Stunden / Besuch</option>
+                      <option>Stunden / Woche</option>
+                      <option>Stunden / Monat</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="field">
+                  <label>Vereinbarter Stundensatz <span class="req">*</span></label>
+                  <div class="field-prefix">
+                    <span class="pre">€</span>
+                    <input type="number" step="0.10" placeholder="z.B. 32,00" />
+                  </div>
+                  <div class="help">Netto · USt. 19 % wird automatisch hinzugefügt</div>
+                </div>
+                <div class="field">
+                  <label>Vertragsbeginn <span class="req">*</span></label>
+                  <input type="date" value="2026-05-01" />
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- Sonstiges -->
+          <section class="card">
+            <div class="card-head">
+              <div>
+                <h3><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.12 2.12 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></span>Sonstiges</h3>
+                <div class="sub">Interne Notiz, die nur Ihr Team sieht</div>
+              </div>
+            </div>
+            <div class="card-body">
+              <div class="field full">
+                <label>Notizen, Besonderheiten, Wünsche</label>
+                <textarea placeholder="z.B. Schlüssel beim Hausmeister hinterlegen · Allergien gegen Reinigungsmittel · Zeitfenster nur Vormittag …" rows="3"></textarea>
+              </div>
+            </div>
+            <div class="form-foot">
+              <div class="hint">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
+                Pflichtfelder sind mit * markiert · Alle Eingaben werden audit-protokolliert
+              </div>
+              <div class="actions">
+                <a class="btn btn--white" href="15-customer-type-picker.html">Zurück</a>
+                <button class="btn btn--white">Entwurf speichern</button>
+                <button class="btn btn--primary">Weiter zu Bestätigung →</button>
+              </div>
+            </div>
+          </section>
+
+        </div>
+
+        <!-- RIGHT: Summary & checklist -->
+        <div>
+          <div class="aside-card">
+            <h4>Zusammenfassung</h4>
+            <p>Wird beim Speichern automatisch in den Vertrag und die erste Rechnung übernommen.</p>
+
+            <div class="aside-divider"></div>
+
+            <div class="summary-row"><span class="k">Servicetyp</span><span class="v tag-priya">● Priya's</span></div>
+            <div class="summary-row"><span class="k">Abrechnung</span><span class="v">Automatisch · Lexware</span></div>
+            <div class="summary-row"><span class="k">USt.</span><span class="v">19 % Regelsatz</span></div>
+            <div class="summary-row"><span class="k">Zahlungsziel</span><span class="v">Netto 14 · SEPA</span></div>
+            <div class="summary-row"><span class="k">Projektleitung</span><span class="v">Alex Müller</span></div>
+
+            <div class="aside-divider"></div>
+
+            <h4 style="margin-top:0">Was nach dem Anlegen passiert</h4>
+            <div class="aside-list">
+              <div class="aside-row">
+                <div class="check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></div>
+                <div>Kunde erscheint <b>grün markiert</b> in der Kundenliste</div>
+              </div>
+              <div class="aside-row">
+                <div class="check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></div>
+                <div>Lexware-Sync legt das <b>Debitor-Konto</b> automatisch an</div>
+              </div>
+              <div class="aside-row">
+                <div class="check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></div>
+                <div>Erste Schicht kann im <b>Einsatzplan</b> angelegt werden</div>
+              </div>
+              <div class="aside-row">
+                <div class="check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></div>
+                <div>Begrüßungs-E-Mail wird an <b>{E-Mail}</b> versendet</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+</div>
+</body>
+</html>

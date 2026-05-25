@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="de">
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Priya's Cleaning Service · Invoice detail</title>
+<title>Priya's Reinigungsservice · Rechnung INV-2026-0047</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
@@ -12,12 +12,10 @@
   --primary-50:#EEF5E8; --primary-100:#D9E9C8; --primary-200:#BFDAA4; --primary-300:#A4CA7F;
   --primary-500:#72A94F; --primary-600:#5D8E3F; --primary-700:#487030; --primary-800:#345321;
   --secondary-50:#E5EEF3; --secondary-100:#BFD4E0; --secondary-500:#16587C; --secondary-600:#124A68; --secondary-700:#0F3C54; --secondary-800:#0B2D40; --secondary-900:#081F2C;
-  --accent-100:#E1EECF; --accent-500:#A8CC87; --accent-600:#8BB06B;
-  --tertiary-200:#F2FFEA;
+  --accent-500:#A8CC87; --accent-600:#8BB06B; --tertiary-200:#F2FFEA;
   --success-50:#E8F7EF; --success-500:#2D9E6B; --success-700:#1F6E4A;
   --warning-50:#FDEFE5; --warning-500:#F4A261; --warning-700:#B36F3A;
-  --error-50:#FCE7E9; --error-500:#E63946; --error-700:#A32933;
-  --info-50:#E5EEF3; --info-500:#16587C;
+  --error-50:#FCE7E9; --error-100:#FBD4D7; --error-500:#E63946; --error-700:#A32933;
   --white:#FFFFFF;
   --neutral-50:#F8FAF7; --neutral-100:#EEF2EC; --neutral-200:#DDE3DA; --neutral-300:#C3CCBE;
   --neutral-400:#9DA898; --neutral-500:#78857A; --neutral-600:#5A6659; --neutral-700:#414B40; --neutral-800:#2A322A; --neutral-900:#141814;
@@ -25,7 +23,6 @@
   --shadow-xs:0 1px 2px rgba(20,24,20,.04);
   --shadow-sm:0 2px 4px rgba(20,24,20,.06),0 1px 2px rgba(20,24,20,.04);
   --shadow-md:0 4px 10px rgba(20,24,20,.08),0 2px 4px rgba(20,24,20,.04);
-  --shadow-lg:0 10px 25px rgba(20,24,20,.10),0 4px 10px rgba(20,24,20,.05);
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 body{font-family:'Inter',system-ui,sans-serif;font-size:14px;line-height:1.5;color:var(--neutral-800);background:var(--tertiary-200);-webkit-font-smoothing:antialiased}
@@ -34,8 +31,9 @@ button{font-family:inherit;cursor:pointer;border:none;background:none}
 ul{list-style:none}
 svg{display:block}
 .mono{font-family:'JetBrains Mono',monospace}
+
 .app{display:flex;min-height:100vh}
-.sidebar{width:240px;background:var(--secondary-900);color:rgba(255,255,255,.82);display:flex;flex-direction:column;padding:20px 12px;position:fixed;top:0;left:0;bottom:0;z-index:10;border-right:1px solid var(--secondary-800);overflow-y:auto}
+.sidebar{width:240px;background:var(--secondary-900);color:rgba(255,255,255,.82);display:flex;flex-direction:column;padding:20px 12px;position:fixed;top:0;left:0;bottom:0;z-index:10;overflow-y:auto}
 .sb-brand{display:flex;align-items:center;gap:12px;padding:6px 10px 24px;border-bottom:1px solid rgba(255,255,255,.06);margin-bottom:16px}
 .sb-logo{width:36px;height:36px;background:var(--primary-500);border-radius:var(--radius-md);display:grid;place-items:center;font-weight:800;color:#fff;font-size:17px}
 .sb-brand-name{font-size:14px;font-weight:600;color:#fff;letter-spacing:-.01em}
@@ -47,9 +45,10 @@ svg{display:block}
 .sb-item.active{background:var(--primary-500);color:#fff;font-weight:500}
 .sb-item .badge{margin-left:auto;background:rgba(255,255,255,.15);color:#fff;font-size:10px;padding:2px 7px;border-radius:var(--radius-full);font-weight:600}
 .sb-item.active .badge{background:rgba(0,0,0,.25)}
-.sb-collapse{margin-top:auto;display:flex;align-items:center;gap:10px;padding:16px 24px 10px;font-size:12px;color:rgba(255,255,255,.55);border-top:1px solid rgba(255,255,255,.06);margin:16px -12px 0}
+.sb-collapse{margin-top:auto;display:flex;align-items:center;gap:10px;padding:16px 24px;font-size:12px;color:rgba(255,255,255,.55);border-top:1px solid rgba(255,255,255,.06);margin:16px -12px 0}
 .sb-collapse svg{width:14px;height:14px}
 .main{margin-left:240px;flex:1;display:flex;flex-direction:column;min-width:0}
+
 .topbar{height:64px;background:#fff;border-bottom:1px solid var(--neutral-100);display:flex;align-items:center;justify-content:space-between;padding:0 28px;position:sticky;top:0;z-index:5}
 .tb-left{display:flex;align-items:center;gap:20px;flex:1;max-width:520px}
 .tb-search{flex:1;display:flex;align-items:center;gap:10px;background:var(--neutral-50);border:1px solid var(--neutral-100);border-radius:var(--radius-md);padding:8px 14px;color:var(--neutral-500)}
@@ -64,37 +63,126 @@ svg{display:block}
 .tb-user{display:flex;align-items:center;gap:10px;padding:6px 12px 6px 6px;border-radius:var(--radius-full);cursor:pointer;transition:all .15s;margin-left:8px}
 .tb-user:hover{background:var(--neutral-50)}
 .avatar{border-radius:50%;display:grid;place-items:center;color:#fff;font-weight:600;background:var(--primary-500);flex-shrink:0}
-.avatar--xs{width:24px;height:24px;font-size:10px}
 .avatar--sm{width:32px;height:32px;font-size:12px}
 .tb-user-info{line-height:1.1}
 .tb-user-info .name{font-size:13px;font-weight:600;color:var(--neutral-800)}
 .tb-user-info .role{font-size:11px;color:var(--neutral-500);margin-top:2px}
-.content{padding:28px;max-width:1440px;width:100%}
-.breadcrumb,.crumbs{display:flex;align-items:center;gap:6px;color:var(--neutral-500);font-size:12px;margin-bottom:12px}
-.breadcrumb a:hover,.crumbs a:hover{color:var(--primary-600)}
-.breadcrumb .sep,.crumbs .sep{color:var(--neutral-300)}
-.breadcrumb .cur,.crumbs .cur{color:var(--neutral-800);font-weight:500}
-.page-head{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:22px;gap:24px;flex-wrap:wrap}
-.page-head h1,.page-title{font-size:24px;font-weight:700;color:var(--secondary-500);letter-spacing:-.02em;margin-bottom:4px}
-.page-head .sub,.page-sub{font-size:13px;color:var(--neutral-500)}
-.page-head-actions,.page-actions{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+
+.content{padding:24px 28px 40px;max-width:1440px;width:100%}
+.breadcrumb{display:flex;gap:8px;align-items:center;font-size:12px;color:var(--neutral-500);margin-bottom:12px}
+.breadcrumb .sep{color:var(--neutral-300)}
+.breadcrumb .cur{color:var(--neutral-800);font-weight:500}
+.breadcrumb a:hover{color:var(--primary-600)}
+
+.page-head{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:18px;gap:24px;flex-wrap:wrap}
+.page-head .back{display:inline-flex;align-items:center;gap:6px;font-size:12px;color:var(--neutral-500);margin-bottom:6px}
+.page-head .back:hover{color:var(--primary-600)}
+.page-head h1{font-size:24px;font-weight:700;color:var(--secondary-500);letter-spacing:-.02em;display:flex;align-items:center;gap:10px}
+.page-head .sub{font-size:13px;color:var(--neutral-500);margin-top:4px}
+.page-head-actions{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+
 .btn{display:inline-flex;align-items:center;gap:8px;padding:10px 16px;border-radius:var(--radius-md);font-size:13px;font-weight:500;line-height:1;min-height:40px;transition:all .15s;border:none;white-space:nowrap}
 .btn svg{width:14px;height:14px;stroke-width:2}
-.btn--primary,.btn.btn-primary{background:var(--primary-500);color:#fff}
-.btn--primary:hover,.btn.btn-primary:hover{background:var(--primary-600)}
-.btn--tertiary{background:#fff;color:var(--primary-600);border:1.5px solid var(--primary-500)}
-.btn--tertiary:hover{background:var(--tertiary-200)}
-.btn--white,.btn.btn-ghost{background:#fff;color:var(--neutral-700);border:1px solid var(--neutral-200)}
-.btn--white:hover,.btn.btn-ghost:hover{background:var(--neutral-50);border-color:var(--neutral-300)}
+.btn--primary{background:var(--primary-500);color:#fff}
+.btn--primary:hover{background:var(--primary-600)}
+.btn--white{background:#fff;color:var(--neutral-700);border:1px solid var(--neutral-200)}
+.btn--white:hover{background:var(--neutral-50);border-color:var(--neutral-300)}
 .btn--ghost{color:var(--neutral-600);background:transparent}
 .btn--ghost:hover{background:var(--neutral-100);color:var(--neutral-800)}
-.btn--sm,.btn.sm{padding:7px 12px;font-size:12px;min-height:32px}
-.card{background:#fff;border-radius:var(--radius-lg);border:1px solid var(--neutral-100);overflow:hidden}
-.card-head{padding:18px 20px;border-bottom:1px solid var(--neutral-100);display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
-.card-title{font-size:15px;font-weight:600;color:var(--neutral-800);margin:0;display:flex;align-items:center;gap:10px}
-.card-sub{font-size:12px;color:var(--neutral-500);margin-top:2px}
-.card-body{padding:22px}
-.badge{display:inline-flex;align-items:center;gap:4px;padding:3px 9px;border-radius:var(--radius-full);font-size:10px;font-weight:600;letter-spacing:.02em;text-transform:uppercase}
+.btn--sm{padding:7px 12px;font-size:12px;min-height:32px}
+
+/* Status banner */
+.banner-over{background:linear-gradient(135deg,#fff 0%,var(--error-50) 100%);border:1px solid var(--error-100);border-left:4px solid var(--error-500);border-radius:var(--radius-lg);padding:16px 22px;display:flex;align-items:center;gap:16px;margin-bottom:18px}
+.banner-over .ic{width:42px;height:42px;border-radius:var(--radius-md);background:var(--error-500);color:#fff;display:grid;place-items:center;flex-shrink:0}
+.banner-over .ic svg{width:20px;height:20px;stroke-width:1.8}
+.banner-over .txt{flex:1}
+.banner-over .txt h2{font-size:11px;font-weight:700;color:var(--error-700);text-transform:uppercase;letter-spacing:.06em}
+.banner-over .txt p{font-size:13px;color:var(--neutral-700);margin-top:3px}
+.banner-over .txt p b{color:var(--error-700);font-weight:700}
+
+/* Layout */
+.grid{display:grid;grid-template-columns:1fr 320px;gap:16px;align-items:start}
+
+/* Invoice document */
+.doc{background:#fff;border:1px solid var(--neutral-100);border-radius:var(--radius-lg);overflow:hidden}
+.doc-head{padding:30px 32px;border-bottom:1px solid var(--neutral-100);display:flex;justify-content:space-between;align-items:flex-start;gap:20px}
+.doc-brand{display:flex;align-items:center;gap:14px}
+.doc-brand .lg{width:48px;height:48px;border-radius:10px;background:var(--primary-500);color:#fff;display:grid;place-items:center;font-weight:800;font-size:22px}
+.doc-brand .nm{font-size:18px;font-weight:700;color:var(--secondary-900);letter-spacing:-.01em}
+.doc-brand .sub{font-size:11px;color:var(--neutral-500);margin-top:3px;line-height:1.5}
+.doc-no-block{text-align:right}
+.doc-no-block .lbl{font-size:10px;color:var(--neutral-500);text-transform:uppercase;letter-spacing:.06em;font-weight:700}
+.doc-no-block .no{font-size:22px;font-weight:700;color:var(--secondary-500);font-family:'JetBrains Mono',monospace;margin-top:3px;letter-spacing:-.01em}
+.doc-no-block .meta{font-size:11px;color:var(--neutral-600);margin-top:4px}
+
+.doc-parties{padding:24px 32px;border-bottom:1px solid var(--neutral-100);display:grid;grid-template-columns:1fr 1fr;gap:24px}
+.party .lbl{font-size:10px;color:var(--neutral-500);text-transform:uppercase;letter-spacing:.06em;font-weight:700;margin-bottom:8px}
+.party .name{font-size:14px;font-weight:700;color:var(--neutral-800)}
+.party .addr{font-size:12px;color:var(--neutral-600);line-height:1.6;margin-top:4px}
+.party .meta{font-size:11px;color:var(--neutral-500);margin-top:8px;font-family:'JetBrains Mono',monospace}
+
+.doc-info{padding:14px 32px;background:var(--neutral-50);border-bottom:1px solid var(--neutral-100);display:grid;grid-template-columns:repeat(4,1fr);gap:14px;font-size:12px}
+.doc-info .item .lbl{font-size:10px;color:var(--neutral-500);text-transform:uppercase;letter-spacing:.06em;font-weight:600}
+.doc-info .item .val{font-size:13px;color:var(--neutral-800);font-weight:600;margin-top:3px}
+
+/* Line items */
+.lines{padding:0}
+.lines-h{padding:12px 32px;display:grid;grid-template-columns:50px 1fr 100px 80px 110px 110px;gap:12px;font-size:10px;color:var(--neutral-500);text-transform:uppercase;letter-spacing:.06em;font-weight:700;background:var(--neutral-50);border-bottom:1px solid var(--neutral-100)}
+.line{padding:14px 32px;display:grid;grid-template-columns:50px 1fr 100px 80px 110px 110px;gap:12px;border-bottom:1px solid var(--neutral-100);align-items:center;font-size:13px}
+.line:last-child{border-bottom:0}
+.line .num{color:var(--neutral-400);font-family:'JetBrains Mono',monospace;font-size:11px}
+.line .desc .ti{font-weight:600;color:var(--neutral-800)}
+.line .desc .sub{font-size:11px;color:var(--neutral-500);margin-top:2px;display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.line .qty,.line .rate,.line .total{font-family:'JetBrains Mono',monospace;text-align:right;color:var(--neutral-700)}
+.line .total{font-weight:700;color:var(--neutral-800)}
+.line .vat{font-family:'JetBrains Mono',monospace;text-align:right;color:var(--neutral-500);font-size:12px}
+
+/* Totals */
+.doc-totals{padding:18px 32px;border-top:2px solid var(--neutral-100);display:flex;justify-content:flex-end}
+.totals-table{display:grid;grid-template-columns:auto 140px;gap:8px 22px;font-size:13px;min-width:320px}
+.totals-table .l{color:var(--neutral-600);text-align:right}
+.totals-table .v{font-family:'JetBrains Mono',monospace;font-weight:600;color:var(--neutral-800);text-align:right}
+.totals-table .grand-l{font-size:14px;font-weight:700;color:var(--neutral-900);padding-top:10px;border-top:1px solid var(--neutral-200)}
+.totals-table .grand-v{font-size:18px;font-weight:800;color:var(--secondary-500);padding-top:10px;border-top:1px solid var(--neutral-200);letter-spacing:-.01em}
+
+.doc-foot{padding:18px 32px;background:var(--neutral-50);border-top:1px solid var(--neutral-100);font-size:11px;color:var(--neutral-500);line-height:1.6}
+.doc-foot b{color:var(--neutral-700);font-weight:600}
+.doc-foot .bank{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:8px}
+
+/* Right rail */
+.rail{display:flex;flex-direction:column;gap:14px}
+.rail-card{background:#fff;border:1px solid var(--neutral-100);border-radius:var(--radius-lg);overflow:hidden}
+.rail-h{padding:14px 18px;border-bottom:1px solid var(--neutral-100);font-size:13px;font-weight:600;color:var(--neutral-800);display:flex;justify-content:space-between;align-items:center}
+.rail-h .st{display:inline-flex;align-items:center;gap:5px;padding:3px 9px;border-radius:99px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.04em}
+.rail-h .st::before{content:'';width:6px;height:6px;border-radius:50%;background:currentColor}
+.rail-h .st.over{background:var(--error-50);color:var(--error-700)}
+.rail-body{padding:14px 18px}
+.kv{display:flex;justify-content:space-between;padding:8px 0;font-size:12px;border-bottom:1px solid var(--neutral-100)}
+.kv:last-child{border-bottom:0}
+.kv .k{color:var(--neutral-500)}
+.kv .v{font-weight:600;color:var(--neutral-800)}
+.kv .v.mono{font-family:'JetBrains Mono',monospace}
+.kv .v b{color:var(--error-700)}
+
+.actions{display:flex;flex-direction:column;gap:6px;padding:14px 18px}
+.actions .btn{justify-content:flex-start;width:100%}
+
+.timeline{padding:14px 18px}
+.tl{display:flex;gap:10px;padding:9px 0;border-bottom:1px solid var(--neutral-100);font-size:12px;color:var(--neutral-700);align-items:flex-start}
+.tl:last-child{border-bottom:0}
+.tl .d{width:8px;height:8px;border-radius:50%;background:var(--neutral-300);margin-top:5px;flex-shrink:0}
+.tl.done .d{background:var(--success-500)}
+.tl.over .d{background:var(--error-500)}
+.tl .info{flex:1}
+.tl .info .ti{font-weight:600;color:var(--neutral-800)}
+.tl .info .ts{font-size:10px;color:var(--neutral-400);font-family:'JetBrains Mono',monospace;margin-top:1px}
+
+/* Service tag */
+.srv{display:inline-flex;align-items:center;gap:5px;padding:2px 8px;border-radius:99px;font-size:10px;font-weight:700;letter-spacing:.04em;text-transform:uppercase}
+.srv::before{content:'';width:5px;height:5px;border-radius:50%;background:currentColor}
+.srv.priya{background:var(--primary-50);color:var(--primary-700)}
+
+@media(max-width:1200px){.grid{grid-template-columns:1fr}}
 @media(max-width:1024px){
   .sidebar{width:72px;padding:16px 8px}
   .sb-brand > div:last-child,.sb-item span:not(.badge),.sb-section,.sb-collapse{display:none}
@@ -102,15 +190,12 @@ svg{display:block}
   .sb-item .badge{display:none}
   .main{margin-left:72px}
   .content{padding:20px}
+  .doc-info{grid-template-columns:repeat(2,1fr)}
 }
-/* === Content-specific styles === */
-
 </style>
 </head>
 <body>
 <div class="app">
-
-  <!-- Sidebar -->
   <aside class="sidebar">
       <div class="sb-brand">
         <div class="sb-logo">P</div>
@@ -125,6 +210,8 @@ svg{display:block}
       <a class="sb-item" href="05-properties-list.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21V7l8-4 8 4v14"/><path d="M9 9h2M13 9h2M9 13h2M13 13h2M9 17h2M13 17h2"/></svg>Objekte<span class="badge">112</span></a>
       <a class="sb-item" href="07-schedule.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 9h18M8 3v4M16 3v4"/></svg>Einsatzplan</a>
       <a class="sb-item" href="08-employees-list.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>Mitarbeiter<span class="badge">32</span></a>
+      <a class="sb-item" href="19-employee-overview.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="9"/><rect x="14" y="3" width="7" height="5"/><rect x="14" y="12" width="7" height="9"/><rect x="3" y="16" width="7" height="5"/></svg>Mitarbeiter-Übersicht</a>
+      <a class="sb-item active" href="10-invoices-list.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6M16 13H8M16 17H8M10 9H8"/></svg>Rechnungen<span class="badge">47</span></a>
       <a class="sb-item" href="14-reports.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M7 14l3-3 3 3 5-5"/></svg>Berichte</a>
       <div class="sb-section">Alltagshilfe</div>
       <a class="sb-item" href="15-customer-type-picker.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 000-7.78z"/></svg>Pflegekunden</a>
@@ -142,282 +229,219 @@ svg{display:block}
       <div class="tb-left">
         <div class="tb-search">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
-          <input placeholder="Search invoices, clients, amounts…" />
+          <input placeholder="Rechnungen, Kunden, Beträge suchen…" />
           <span class="kbd">⌘ K</span>
         </div>
       </div>
       <div class="tb-right">
         <button class="icon-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.1 9a3 3 0 015.8 1c0 2-3 3-3 3M12 17h.01"/></svg></button>
-        <button class="icon-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a7.5 7.5 0 01-11.2 6.5L4 20l1.5-5.2A7.5 7.5 0 1121 12z"/></svg><span class="dot"></span></button>
-        <button class="icon-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8a6 6 0 0112 0c0 7 3 8 3 8H3s3-1 3-8zM10 21a2 2 0 004 0"/></svg><span class="dot"></span></button>
+        <a class="icon-btn" href="17-team-chat.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a7.5 7.5 0 01-11.2 6.5L4 20l1.5-5.2A7.5 7.5 0 1121 12z"/></svg><span class="dot"></span></a>
+        <a class="icon-btn" href="18-notifications.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8a6 6 0 0112 0c0 7 3 8 3 8H3s3-1 3-8zM10 21a2 2 0 004 0"/></svg><span class="dot"></span></a>
         <div class="tb-user">
           <div class="avatar avatar--sm">AM</div>
-          <div class="tb-user-info"><div class="name">Alex Moore</div><div class="role">Management</div></div>
+          <div class="tb-user-info"><div class="name">Alex Müller</div><div class="role">Geschäftsleitung</div></div>
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px;color:var(--neutral-400)"><path d="M6 9l6 6 6-6"/></svg>
         </div>
       </div>
     </header>
 
     <div class="content">
-<nav class="crumbs">
-        <a href="02-dashboard.html">Dashboard</a><span class="sep">/</span>
-        <a href="10-invoices-list.html">Invoices</a><span class="sep">/</span>
-        <span class="cur mono">INV-2026-0047</span>
-      </nav>
+      <div class="breadcrumb">
+        <a href="02-dashboard.html">Übersicht</a>
+        <span class="sep">/</span>
+        <a href="10-invoices-list.html">Rechnungen</a>
+        <span class="sep">/</span>
+        <span class="cur">INV-2026-0047</span>
+      </div>
 
-      <!-- Hero action bar -->
-      <section class="hero">
-        <div class="hero-main">
-          <div class="hero-inv">
-            <span class="hero-label">Invoice</span>
-            <span class="hero-num">INV-2026-0047</span>
-          </div>
-          <span class="st st-sent">Sent · awaiting payment</span>
-          <div class="hero-divider"></div>
-          <div class="hero-due">
-            <span class="hero-label">Amount due</span>
-            <span class="v">€ 4,280.00</span>
-          </div>
-          <div class="hero-dates">
-            <div class="hero-date"><span class="hero-label">Issued</span><span class="v">18 Apr 2026</span></div>
-            <div class="hero-date"><span class="hero-label">Due</span><span class="v">02 May 2026 · 11 days</span></div>
-          </div>
+      <div class="page-head">
+        <div>
+          <a class="back" href="10-invoices-list.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:12px;height:12px"><path d="M15 18l-6-6 6-6"/></svg>Zurück zu allen Rechnungen</a>
+          <h1>Rechnung INV-2026-0047 <span class="srv priya">Priya's</span></h1>
+          <div class="sub">Berliner Hotel Konzept GmbH · Erstellt am 15. Apr. 2026 · Fällig am 29. Apr. 2026 (7 Tage überfällig)</div>
         </div>
-        <div class="hero-actions">
-          <button class="btn btn-ghost btn-icon" title="Back"><a href="10-invoices-list.html" style="display:grid;place-items:center;color:inherit"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg></a></button>
-          <button class="btn btn--white"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2 11 13"/><path d="M22 2l-7 20-4-9-9-4 20-7z"/></svg> Resend</button>
-          <button class="btn btn--white"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> Download PDF</button>
-          <button class="btn btn--white"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg> Duplicate</button>
-          <button class="btn btn-warn"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3 8-8"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg> Mark paid</button>
-          <button class="btn btn-ghost btn-icon" title="More"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/></svg></button>
+        <div class="page-head-actions">
+          <button class="btn btn--white"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 01-2-2v-5a2 2 0 012-2h16a2 2 0 012 2v5a2 2 0 01-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>Drucken</button>
+          <button class="btn btn--white"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>PDF</button>
+          <button class="btn btn--white"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M22 7l-10 7L2 7"/></svg>Per E-Mail</button>
+          <button class="btn btn--primary"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2L11 13"/><path d="M22 2l-7 20-4-9-9-4 20-7z"/></svg>Mahnung senden</button>
         </div>
-      </section>
+      </div>
 
-      <!-- Body -->
-      <section class="layout">
-        <!-- Document -->
-        <article class="doc">
-          <div class="doc-band"></div>
-          <div class="doc-inner">
-            <div class="doc-top">
+      <!-- Status banner -->
+      <div class="banner-over">
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></div>
+        <div class="txt">
+          <h2>Überfällig · Zahlungserinnerung empfohlen</h2>
+          <p>Diese Rechnung ist seit <b>7 Tagen überfällig</b>. Erste Mahnung wurde am 18. April versendet · zweite Mahnung wird am 26. April fällig.</p>
+        </div>
+      </div>
+
+      <!-- Main grid -->
+      <div class="grid">
+
+        <!-- Invoice document -->
+        <div class="doc">
+
+          <!-- Head -->
+          <div class="doc-head">
+            <div class="doc-brand">
+              <div class="lg">P</div>
               <div>
-                <div class="co-lockup">
-                  <div class="co-mark">P</div>
-                  <div>
-                    <div class="co-name">Priya's Cleaning Service GmbH</div>
-                    <div class="co-tag">Digital operations · Management &amp; field teams</div>
-                  </div>
-                </div>
-                <div class="co-contact">
-                  Friedrichstraße 200 · 10117 Berlin, Germany<br>
-                  billing@priyas.ops · +49 30 4601 2390<br>
-                  USt-IdNr. DE312 456 789 · HRB 198 432
-                </div>
-              </div>
-              <div class="doc-title">
-                <h1>Invoice</h1>
-                <div class="doc-meta">
-                  <b class="mono">INV-2026-0047</b><br>
-                  Issue date: <b>18 April 2026</b><br>
-                  Due date: <b>02 May 2026</b><br>
-                  Payment terms: <b>Net 14</b><br>
-                  PO reference: <b class="mono">PO-C01-2026-Q2</b>
-                </div>
+                <div class="nm">Priya's Reinigungsservice GmbH</div>
+                <div class="sub">Friedrichstraße 200 · 10117 Berlin · DE<br>HRB 198 432 · USt-IdNr. DE 312 548 901</div>
               </div>
             </div>
-
-            <!-- Addresses -->
-            <div class="doc-addr">
-              <div class="addr-block">
-                <div class="lbl">Billed to</div>
-                <div class="name"><a href="04-client-detail.html">Client 01 · Example Holdings GmbH</a></div>
-                <div class="body">
-                  Attn: Finance department<br>
-                  Friedrichstraße 88 · 10117 Berlin<br>
-                  Germany<br>
-                  billing@client01.example · +49 30 1234 5678<br>
-                  USt-IdNr. DE120 300 456
-                </div>
-              </div>
-              <div class="addr-block" style="text-align:right">
-                <div class="lbl">Service location</div>
-                <div class="name"><a href="06-property-detail.html">Property A · HQ Tower West</a></div>
-                <div class="body">
-                  Kurfürstendamm 42 · 10719 Berlin<br>
-                  Office · 2,850 m² · 4-person team<br>
-                  Contract ref.: <span class="mono">CON-C01-2024-05</span><br>
-                  Project manager: Project Mgr 01
-                </div>
-              </div>
-            </div>
-
-            <!-- Line items -->
-            <table class="lines">
-              <thead>
-                <tr>
-                  <th>Description</th>
-                  <th>Period</th>
-                  <th class="num">Qty</th>
-                  <th class="num">Rate</th>
-                  <th class="num">Subtotal</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>
-                    <div class="line-svc">Recurring cleaning · standard package</div>
-                    <div class="line-sub">5× weekly · <a href="06-property-detail.html">Property A</a> · Floors 1–8 common areas &amp; offices</div>
-                  </td>
-                  <td>01 Apr – 30 Apr 2026</td>
-                  <td class="num">20 visits</td>
-                  <td class="num">€ 128.00</td>
-                  <td class="num">€ 2,560.00</td>
-                </tr>
-                <tr>
-                  <td>
-                    <div class="line-svc">Deep clean · quarterly</div>
-                    <div class="line-sub">Conference floor · windows, carpets, glass partitions · 4-person team</div>
-                  </td>
-                  <td>12 Apr 2026</td>
-                  <td class="num">1 visit</td>
-                  <td class="num">€ 780.00</td>
-                  <td class="num">€ 780.00</td>
-                </tr>
-                <tr>
-                  <td>
-                    <div class="line-svc">Waste &amp; recycling</div>
-                    <div class="line-sub">Separated waste handling · eco-certified disposal</div>
-                  </td>
-                  <td>01 Apr – 30 Apr 2026</td>
-                  <td class="num">1 month</td>
-                  <td class="num">€ 140.00</td>
-                  <td class="num">€ 140.00</td>
-                </tr>
-                <tr>
-                  <td>
-                    <div class="line-svc">Consumables</div>
-                    <div class="line-sub">Paper products, soap dispensers, recycling bags — billed at cost</div>
-                  </td>
-                  <td>April supply</td>
-                  <td class="num">1 order</td>
-                  <td class="num">€ 118.00</td>
-                  <td class="num">€ 118.00</td>
-                </tr>
-                <tr>
-                  <td>
-                    <div class="line-svc">Out-of-hours callout · lobby incident</div>
-                    <div class="line-sub">Unscheduled · 08 Apr 22:30 · 2-person team · 1.5h</div>
-                  </td>
-                  <td>08 Apr 2026</td>
-                  <td class="num">3 h</td>
-                  <td class="num">€ 66.00</td>
-                  <td class="num">€ 198.00</td>
-                </tr>
-              </tbody>
-            </table>
-
-            <!-- Totals -->
-            <div class="totals">
-              <div class="totals-notes">
-                <div class="lbl">Notes &amp; payment terms</div>
-                <p>
-                  Payment is due within 14 days of issue. Late payments are subject to a 2% monthly charge per § 288 BGB.
-                  Please reference the invoice number on the transfer.
-                  For questions, contact <a style="color:var(--secondary-600);font-weight:600">billing@priyas.ops</a>.
-                </p>
-              </div>
-              <div class="totals-table">
-                <div class="tot-row"><span class="k">Subtotal</span><span class="v">€ 3,796.00</span></div>
-                <div class="tot-row"><span class="k">Services discount (loyalty −5%)</span><span class="v" style="color:var(--success-700)">−€ 198.00</span></div>
-                <div class="tot-row"><span class="k">Net amount</span><span class="v">€ 3,598.00</span></div>
-                <div class="tot-row"><span class="k">VAT · 19% (DE)</span><span class="v">€ 682.62</span></div>
-                <div class="tot-grand"><span class="k">Total due</span><span class="v">€ 4,280.00</span></div>
-              </div>
-            </div>
-
-            <!-- Payment details -->
-            <div class="pay-block">
-              <div>
-                <div class="lbl">Bank transfer</div>
-                <div class="row"><span>Beneficiary</span><span>Priya's Cleaning Service GmbH</span></div>
-                <div class="row"><span>IBAN</span><span>DE89 3704 0044 0532 0130 00</span></div>
-                <div class="row"><span>BIC</span><span>COBADEFFXXX</span></div>
-                <div class="row"><span>Reference</span><span>INV-2026-0047</span></div>
-              </div>
-              <div>
-                <div class="lbl">Pay online</div>
-                <div class="row"><span>SEPA Direct Debit</span><span style="color:var(--primary-700)">Enabled</span></div>
-                <div class="row"><span>Card payment</span><span style="color:var(--primary-700)">Enabled</span></div>
-                <div class="row"><span>Payment link</span><span><a style="color:var(--secondary-600);font-weight:600">pay.priyas.ops/47</a></span></div>
-                <div class="row"><span>Processor</span><span>Stripe · EU</span></div>
-              </div>
-            </div>
-
-            <div class="doc-footer">
-              Priya's Cleaning Service GmbH · Friedrichstraße 200 · 10117 Berlin · Geschäftsführer: I. Priya · HRB 198 432 (AG Charlottenburg)<br>
-              This invoice was generated digitally and is valid without signature.
-            </div>
-          </div>
-        </article>
-
-        <!-- Side -->
-        <aside class="side">
-          <div class="card">
-            <div class="card-head"><h3 class="card-title">Status &amp; collection</h3></div>
-            <div class="card-body">
-              <div class="status-pill">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-                <div><b>Awaiting payment</b><span>Reminder scheduled in 7 days</span></div>
-              </div>
-              <button class="quick-btn primary"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3 8-8"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg> Mark as paid</button>
-              <button class="quick-btn"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2 11 13"/><path d="M22 2l-7 20-4-9-9-4 20-7z"/></svg> Send reminder now</button>
-              <button class="quick-btn"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/></svg> Schedule reminders</button>
-              <button class="quick-btn"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.12 2.12 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg> Edit invoice</button>
+            <div class="doc-no-block">
+              <div class="lbl">Rechnung</div>
+              <div class="no">INV-2026-0047</div>
+              <div class="meta">Rechnungs­datum · 15. Apr. 2026</div>
             </div>
           </div>
 
-          <div class="card">
-            <div class="card-head"><h3 class="card-title">Activity timeline</h3></div>
-            <div class="card-body">
-              <div class="timeline">
-                <div class="tl-item">
-                  <div class="tl-dot sec"></div>
-                  <div class="tl-title">Opened by Client 01</div>
-                  <div class="tl-sub">Today · 09:14 · invoice link clicked</div>
-                </div>
-                <div class="tl-item">
-                  <div class="tl-dot pri"></div>
-                  <div class="tl-title">Sent via email</div>
-                  <div class="tl-sub">18 Apr · 08:45 · finance@client01.example</div>
-                </div>
-                <div class="tl-item">
-                  <div class="tl-dot suc"></div>
-                  <div class="tl-title">Issued &amp; finalised</div>
-                  <div class="tl-sub">18 Apr · 08:40 · by Project Mgr 01</div>
-                </div>
-                <div class="tl-item">
-                  <div class="tl-dot"></div>
-                  <div class="tl-title">Draft created from template</div>
-                  <div class="tl-sub">16 Apr · auto-generated from April assignments</div>
-                </div>
-              </div>
+          <!-- Parties -->
+          <div class="doc-parties">
+            <div class="party">
+              <div class="lbl">Rechnungs­empfänger</div>
+              <div class="name">Berliner Hotel Konzept GmbH</div>
+              <div class="addr">Buchhaltung · z.Hd. Frau Schäfer<br>Mitte · Oranienburger Str. 62<br>10117 Berlin · Deutschland</div>
+              <div class="meta">Kunden­nr. K-0002 · USt-IdNr. DE 287 119 433</div>
+            </div>
+            <div class="party">
+              <div class="lbl">Leistungs­zeitraum &amp; Objekt</div>
+              <div class="name">März 2026 · Hotelreinigung</div>
+              <div class="addr">Hotel Berliner Mitte<br>Oranienburger Str. 62, 10117 Berlin<br>4 Wochen · 6× pro Woche</div>
+              <div class="meta">Auftrag · AUF-2026-0142 · Team 02 Springer</div>
             </div>
           </div>
 
-          <div class="card">
-            <div class="card-head"><h3 class="card-title">Client &amp; account</h3><a style="font-size:12px;font-weight:600;color:var(--secondary-600)" href="04-client-detail.html">View →</a></div>
-            <div class="card-body">
-              <div class="info-row"><span class="k">Client</span><span class="v"><a href="04-client-detail.html">Client 01</a></span></div>
-              <div class="info-row"><span class="k">Property</span><span class="v"><a href="06-property-detail.html">Property A</a></span></div>
-              <div class="info-row"><span class="k">Contract</span><span class="v mono" style="font-size:12px">CON-C01-2024-05</span></div>
-              <div class="info-row"><span class="k">Payment terms</span><span class="v">Net 14 · SEPA</span></div>
-              <div class="info-row"><span class="k">Avg days-to-pay</span><span class="v" style="color:var(--primary-700)">9 days · excellent</span></div>
-              <div class="info-row"><span class="k">Account balance</span><span class="v" style="color:var(--warning-700)">€ 7,400 open</span></div>
-              <div class="info-row"><span class="k">Last 12-month value</span><span class="v">€ 48,260</span></div>
+          <!-- Doc info row -->
+          <div class="doc-info">
+            <div class="item"><div class="lbl">Rechnungs­datum</div><div class="val">15. Apr. 2026</div></div>
+            <div class="item"><div class="lbl">Fällig am</div><div class="val" style="color:var(--error-700)">29. Apr. 2026</div></div>
+            <div class="item"><div class="lbl">Zahlungsziel</div><div class="val">Netto 14 · SEPA</div></div>
+            <div class="item"><div class="lbl">Lexware-Sync</div><div class="val" style="color:var(--success-700)">● Übermittelt</div></div>
+          </div>
+
+          <!-- Line items -->
+          <div class="lines">
+            <div class="lines-h">
+              <div>#</div>
+              <div>Leistung</div>
+              <div style="text-align:right">Menge</div>
+              <div style="text-align:right">USt.</div>
+              <div style="text-align:right">Einzelpreis</div>
+              <div style="text-align:right">Gesamt</div>
+            </div>
+            <div class="line">
+              <div class="num">01</div>
+              <div class="desc"><div class="ti">Tägliche Reinigung Lobby &amp; öffentliche Bereiche</div><div class="sub">März 2026 · 24 Einsätze · 2 Std./Einsatz · Team 02</div></div>
+              <div class="qty">48 Std.</div>
+              <div class="vat">19 %</div>
+              <div class="rate">€ 32,00</div>
+              <div class="total">€ 1.536,00</div>
+            </div>
+            <div class="line">
+              <div class="num">02</div>
+              <div class="desc"><div class="ti">Zimmerreinigung Etage 3 + 4</div><div class="sub">März 2026 · 48 Zimmer-Reinigungen · Wechsel­reinigung</div></div>
+              <div class="qty">60 Std.</div>
+              <div class="vat">19 %</div>
+              <div class="rate">€ 32,00</div>
+              <div class="total">€ 1.920,00</div>
+            </div>
+            <div class="line">
+              <div class="num">03</div>
+              <div class="desc"><div class="ti">Fensterreinigung außen (Quartal)</div><div class="sub">Einmalig · Quartal Q1 · komplette Glasfassade</div></div>
+              <div class="qty">8 Std.</div>
+              <div class="vat">19 %</div>
+              <div class="rate">€ 42,00</div>
+              <div class="total">€ 336,00</div>
+            </div>
+            <div class="line">
+              <div class="num">04</div>
+              <div class="desc"><div class="ti">Spezialreinigung Tagungsraum</div><div class="sub">Nach Großveranstaltung 22. März · 4 Std. · Teppich­tiefen­reinigung</div></div>
+              <div class="qty">4 Std.</div>
+              <div class="vat">19 %</div>
+              <div class="rate">€ 48,00</div>
+              <div class="total">€ 192,00</div>
+            </div>
+            <div class="line">
+              <div class="num">05</div>
+              <div class="desc"><div class="ti">Reinigungsmittel (Eco-Pauschale)</div><div class="sub">Pauschale pro Monat · zertifiziert nach EU-Ecolabel</div></div>
+              <div class="qty">1× Pauschal</div>
+              <div class="vat">19 %</div>
+              <div class="rate">€ 60,00</div>
+              <div class="total">€ 60,00</div>
             </div>
           </div>
-        </aside>
-      </section>
+
+          <!-- Totals -->
+          <div class="doc-totals">
+            <div class="totals-table">
+              <div class="l">Zwischensumme (netto)</div><div class="v">€ 4.044,00</div>
+              <div class="l">USt. 19 %</div><div class="v">€ 768,36</div>
+              <div class="l" style="font-size:11px;color:var(--neutral-400)">— davon Rabatt 10 % (Mehrjahres­vertrag)</div><div class="v" style="font-size:11px;color:var(--neutral-400)">−€ 392,36</div>
+              <div class="grand-l">Gesamtbetrag</div><div class="grand-v">€ 4.420,00</div>
+            </div>
+          </div>
+
+          <!-- Footer -->
+          <div class="doc-foot">
+            <b>Zahlungs­bedingungen:</b> Bitte überweisen Sie den Gesamtbetrag innerhalb von 14 Tagen ohne Abzug auf das unten genannte Konto unter Angabe der Rechnungs­nummer.<br>
+            <b>Rechtliche Hinweise:</b> Priya's Reinigungsservice GmbH · HRB 198 432 · AG Charlottenburg · Geschäftsführer: P. Sundaram · USt-IdNr. DE 312 548 901
+            <div class="bank">
+              <div><b>Bank</b><br>Berliner Sparkasse</div>
+              <div><b>IBAN</b><br>DE89 1005 0000 0123 4567 89</div>
+              <div><b>BIC</b><br>BELADEBEXXX</div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- RIGHT RAIL -->
+        <div class="rail">
+
+          <!-- Status -->
+          <div class="rail-card">
+            <div class="rail-h">Status<span class="st over">Überfällig</span></div>
+            <div class="rail-body">
+              <div class="kv"><span class="k">Betrag</span><span class="v mono">€ 4.420,00</span></div>
+              <div class="kv"><span class="k">Bereits bezahlt</span><span class="v mono">€ 0,00</span></div>
+              <div class="kv"><span class="k">Offener Betrag</span><span class="v mono"><b>€ 4.420,00</b></span></div>
+              <div class="kv"><span class="k">Tage überfällig</span><span class="v" style="color:var(--error-700)">7 Tage</span></div>
+              <div class="kv"><span class="k">Letzte Mahnung</span><span class="v">18. Apr. 2026 (1.)</span></div>
+            </div>
+          </div>
+
+          <!-- Quick actions -->
+          <div class="rail-card">
+            <div class="rail-h">Aktionen</div>
+            <div class="actions">
+              <button class="btn btn--primary"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2L11 13"/><path d="M22 2l-7 20-4-9-9-4 20-7z"/></svg>2. Mahnung senden</button>
+              <button class="btn btn--white"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg>Zahlung erfassen</button>
+              <button class="btn btn--white"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.12 2.12 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>Bearbeiten</button>
+              <button class="btn btn--white"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg>Als bezahlt markieren</button>
+              <button class="btn btn--white" style="color:var(--error-700);border-color:var(--error-100)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>Stornieren</button>
+            </div>
+          </div>
+
+          <!-- Timeline -->
+          <div class="rail-card">
+            <div class="rail-h">Verlauf</div>
+            <div class="timeline">
+              <div class="tl over"><div class="d"></div><div class="info"><div class="ti">Überfällig seit 30. Apr.</div><div class="ts">heute · 14:28</div></div></div>
+              <div class="tl done"><div class="d"></div><div class="info"><div class="ti">1. Mahnung verschickt</div><div class="ts">18. Apr. · 09:14 · Alex Müller</div></div></div>
+              <div class="tl done"><div class="d"></div><div class="info"><div class="ti">Rechnung per E-Mail verschickt</div><div class="ts">15. Apr. · 16:32 · finanzen@berliner-hotel.de</div></div></div>
+              <div class="tl done"><div class="d"></div><div class="info"><div class="ti">Lexware-Sync abgeschlossen</div><div class="ts">15. Apr. · 16:30 · Debitor #00042</div></div></div>
+              <div class="tl done"><div class="d"></div><div class="info"><div class="ti">Rechnung erstellt &amp; finalisiert</div><div class="ts">15. Apr. · 16:28 · Alex Müller</div></div></div>
+              <div class="tl"><div class="d"></div><div class="info"><div class="ti">Aus 24 Schichten zusammengeführt</div><div class="ts">15. Apr. · 16:25 · Automatisch</div></div></div>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
     </div>
   </div>
 </div>

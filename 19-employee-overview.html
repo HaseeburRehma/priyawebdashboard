@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Priya's Reinigungsservice · Mitarbeiter-Übersicht</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --primary-50:#EEF5E8; --primary-100:#D9E9C8; --primary-200:#BFDAA4; --primary-300:#A4CA7F;
+  --primary-500:#72A94F; --primary-600:#5D8E3F; --primary-700:#487030; --primary-800:#345321;
+  --secondary-50:#E5EEF3; --secondary-100:#BFD4E0; --secondary-500:#16587C; --secondary-600:#124A68; --secondary-700:#0F3C54; --secondary-800:#0B2D40; --secondary-900:#081F2C;
+  --accent-500:#A8CC87; --accent-600:#8BB06B; --tertiary-200:#F2FFEA;
+  --success-50:#E8F7EF; --success-500:#2D9E6B; --success-700:#1F6E4A;
+  --warning-50:#FDEFE5; --warning-500:#F4A261; --warning-700:#B36F3A;
+  --error-50:#FCE7E9; --error-100:#FBD4D7; --error-500:#E63946; --error-700:#A32933;
+  --white:#FFFFFF;
+  --neutral-50:#F8FAF7; --neutral-100:#EEF2EC; --neutral-200:#DDE3DA; --neutral-300:#C3CCBE;
+  --neutral-400:#9DA898; --neutral-500:#78857A; --neutral-600:#5A6659; --neutral-700:#414B40; --neutral-800:#2A322A; --neutral-900:#141814;
+  --radius-xs:4px; --radius-sm:6px; --radius-md:8px; --radius-lg:12px; --radius-xl:16px; --radius-full:9999px;
+  --shadow-xs:0 1px 2px rgba(20,24,20,.04);
+  --shadow-sm:0 2px 4px rgba(20,24,20,.06),0 1px 2px rgba(20,24,20,.04);
+  --shadow-md:0 4px 10px rgba(20,24,20,.08),0 2px 4px rgba(20,24,20,.04);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Inter',system-ui,sans-serif;font-size:14px;line-height:1.5;color:var(--neutral-800);background:var(--tertiary-200);-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+button{font-family:inherit;cursor:pointer;border:none;background:none}
+ul{list-style:none}
+svg{display:block}
+.mono{font-family:'JetBrains Mono',monospace}
+
+/* Shell */
+.app{display:flex;min-height:100vh}
+.sidebar{width:240px;background:var(--secondary-900);color:rgba(255,255,255,.82);display:flex;flex-direction:column;padding:20px 12px;position:fixed;top:0;left:0;bottom:0;z-index:10;overflow-y:auto}
+.sb-brand{display:flex;align-items:center;gap:12px;padding:6px 10px 24px;border-bottom:1px solid rgba(255,255,255,.06);margin-bottom:16px}
+.sb-logo{width:36px;height:36px;background:var(--primary-500);border-radius:var(--radius-md);display:grid;place-items:center;font-weight:800;color:#fff;font-size:17px}
+.sb-brand-name{font-size:14px;font-weight:600;color:#fff;letter-spacing:-.01em}
+.sb-brand-sub{font-size:10px;color:var(--accent-500);letter-spacing:.08em;text-transform:uppercase;margin-top:1px}
+.sb-section{font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:rgba(255,255,255,.35);padding:12px 12px 8px;font-weight:600}
+.sb-item{display:flex;align-items:center;gap:12px;padding:10px 12px;border-radius:var(--radius-sm);font-size:13px;color:rgba(255,255,255,.72);margin-bottom:2px;transition:all .15s}
+.sb-item:hover{background:rgba(255,255,255,.06);color:#fff}
+.sb-item svg{width:18px;height:18px;flex-shrink:0;stroke-width:1.8}
+.sb-item.active{background:var(--primary-500);color:#fff;font-weight:500}
+.sb-item .badge{margin-left:auto;background:rgba(255,255,255,.15);color:#fff;font-size:10px;padding:2px 7px;border-radius:var(--radius-full);font-weight:600}
+.sb-item.active .badge{background:rgba(0,0,0,.25)}
+.sb-collapse{margin-top:auto;display:flex;align-items:center;gap:10px;padding:16px 24px;font-size:12px;color:rgba(255,255,255,.55);border-top:1px solid rgba(255,255,255,.06);margin:16px -12px 0}
+.sb-collapse svg{width:14px;height:14px}
+.main{margin-left:240px;flex:1;display:flex;flex-direction:column;min-width:0}
+
+/* Topbar */
+.topbar{height:64px;background:#fff;border-bottom:1px solid var(--neutral-100);display:flex;align-items:center;justify-content:space-between;padding:0 28px;position:sticky;top:0;z-index:5}
+.tb-left{display:flex;align-items:center;gap:20px;flex:1;max-width:520px}
+.tb-search{flex:1;display:flex;align-items:center;gap:10px;background:var(--neutral-50);border:1px solid var(--neutral-100);border-radius:var(--radius-md);padding:8px 14px;color:var(--neutral-500)}
+.tb-search svg{width:16px;height:16px}
+.tb-search input{border:none;background:none;font-family:inherit;font-size:13px;outline:none;flex:1;color:var(--neutral-700)}
+.tb-search .kbd{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--neutral-400);padding:3px 6px;background:#fff;border:1px solid var(--neutral-200);border-radius:4px}
+.tb-right{display:flex;align-items:center;gap:6px}
+.icon-btn{width:40px;height:40px;border-radius:var(--radius-md);display:grid;place-items:center;color:var(--neutral-500);transition:all .15s;position:relative}
+.icon-btn:hover{background:var(--neutral-50);color:var(--neutral-800)}
+.icon-btn svg{width:18px;height:18px}
+.icon-btn .dot{position:absolute;top:8px;right:8px;width:8px;height:8px;background:var(--error-500);border-radius:50%;border:2px solid #fff}
+.tb-user{display:flex;align-items:center;gap:10px;padding:6px 12px 6px 6px;border-radius:var(--radius-full);cursor:pointer;transition:all .15s;margin-left:8px}
+.tb-user:hover{background:var(--neutral-50)}
+.avatar{border-radius:50%;display:grid;place-items:center;color:#fff;font-weight:600;background:var(--primary-500);flex-shrink:0}
+.avatar--xs{width:24px;height:24px;font-size:9px}
+.avatar--sm{width:32px;height:32px;font-size:12px}
+.tb-user-info{line-height:1.1}
+.tb-user-info .name{font-size:13px;font-weight:600;color:var(--neutral-800)}
+.tb-user-info .role{font-size:11px;color:var(--neutral-500);margin-top:2px}
+
+/* Content */
+.content{padding:24px 28px 40px;max-width:1440px;width:100%}
+.breadcrumb{display:flex;gap:8px;align-items:center;font-size:12px;color:var(--neutral-500);margin-bottom:12px}
+.breadcrumb .sep{color:var(--neutral-300)}
+.breadcrumb .cur{color:var(--neutral-800);font-weight:500}
+.page-head{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:18px;gap:24px;flex-wrap:wrap}
+.page-head h1{font-size:24px;font-weight:700;color:var(--secondary-500);letter-spacing:-.02em}
+.page-head .sub{font-size:13px;color:var(--neutral-500);margin-top:4px}
+.page-head-actions{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+
+.btn{display:inline-flex;align-items:center;gap:8px;padding:10px 16px;border-radius:var(--radius-md);font-size:13px;font-weight:500;line-height:1;min-height:40px;transition:all .15s;border:none;white-space:nowrap}
+.btn svg{width:14px;height:14px;stroke-width:2}
+.btn--primary{background:var(--primary-500);color:#fff}
+.btn--primary:hover{background:var(--primary-600)}
+.btn--white{background:#fff;color:var(--neutral-700);border:1px solid var(--neutral-200)}
+.btn--white:hover{background:var(--neutral-50);border-color:var(--neutral-300)}
+.btn--ghost{color:var(--neutral-600);background:transparent}
+.btn--ghost:hover{background:var(--neutral-100);color:var(--neutral-800)}
+.btn--sm{padding:7px 12px;font-size:12px;min-height:32px}
+
+/* KPI strip */
+.kpi-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-bottom:18px}
+.kpi{background:#fff;border:1px solid var(--neutral-100);border-radius:var(--radius-lg);padding:14px 16px;position:relative;overflow:hidden}
+.kpi::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--primary-500)}
+.kpi.s::before{background:var(--secondary-500)}
+.kpi.w::before{background:var(--warning-500)}
+.kpi.e::before{background:var(--error-500)}
+.kpi.g::before{background:var(--accent-500)}
+.kpi-l{font-size:10px;color:var(--neutral-500);text-transform:uppercase;letter-spacing:.05em;font-weight:700}
+.kpi-v{font-size:22px;font-weight:700;color:var(--secondary-500);margin-top:6px;font-family:'JetBrains Mono',monospace;letter-spacing:-.01em}
+.kpi-v small{font-size:11px;color:var(--neutral-500);font-family:'Inter',sans-serif;margin-left:4px;font-weight:500}
+.kpi-d{font-size:11px;color:var(--neutral-500);margin-top:3px}
+.kpi-d b{color:var(--success-700)}
+.kpi-d .down{color:var(--error-700)}
+
+/* 2-column grid */
+.grid-2{display:grid;grid-template-columns:1.6fr 1fr;gap:16px;margin-bottom:16px}
+.card{background:#fff;border:1px solid var(--neutral-100);border-radius:var(--radius-lg);overflow:hidden}
+.card-head{padding:14px 18px;border-bottom:1px solid var(--neutral-100);display:flex;align-items:center;justify-content:space-between;gap:12px}
+.card-head h3{font-size:14px;font-weight:600;color:var(--neutral-800);display:flex;align-items:center;gap:8px}
+.card-head h3 .ic{width:24px;height:24px;border-radius:var(--radius-xs);background:var(--primary-50);color:var(--primary-700);display:grid;place-items:center}
+.card-head h3 .ic svg{width:13px;height:13px;stroke-width:2}
+.card-head .sub{font-size:11px;color:var(--neutral-500);margin-top:2px}
+.card-body{padding:16px 18px}
+
+/* Today snapshot */
+.today-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.tc{padding:14px 16px;border:1px solid var(--neutral-100);border-radius:var(--radius-md);background:var(--neutral-50)}
+.tc.act{background:var(--success-50);border-color:#BCE4C7}
+.tc.shift{background:var(--secondary-50);border-color:var(--secondary-100)}
+.tc.off{background:#fff;border-color:var(--neutral-100)}
+.tc.leave{background:var(--warning-50);border-color:#F1D7A6}
+.tc .tcv{font-size:24px;font-weight:700;font-family:'JetBrains Mono',monospace;color:var(--secondary-500);line-height:1}
+.tc.act .tcv{color:var(--success-700)}
+.tc.shift .tcv{color:var(--secondary-600)}
+.tc.leave .tcv{color:var(--warning-700)}
+.tc .tcl{font-size:11px;color:var(--neutral-600);margin-top:6px;font-weight:600;display:flex;align-items:center;gap:6px}
+.tc .tcl .d{width:6px;height:6px;border-radius:50%;background:currentColor}
+
+/* Workload bars */
+.team-row{display:grid;grid-template-columns:30px 1fr 100px 60px 60px;gap:10px;align-items:center;padding:10px 0;border-bottom:1px solid var(--neutral-100);font-size:12px}
+.team-row:last-child{border-bottom:0}
+.team-row .av{width:30px;height:30px;border-radius:50%;background:var(--secondary-500);color:#fff;display:grid;place-items:center;font-weight:600;font-size:10px}
+.team-row .av.v1{background:var(--primary-500)}
+.team-row .av.v2{background:var(--accent-600)}
+.team-row .av.v3{background:var(--warning-500)}
+.team-row .av.v4{background:var(--secondary-700)}
+.team-row .av.v5{background:var(--error-500)}
+.team-row .info .nm{font-weight:600;color:var(--neutral-800);font-size:12px}
+.team-row .info .ro{font-size:10px;color:var(--neutral-500);margin-top:1px;display:flex;align-items:center;gap:6px}
+.team-row .info .stp{font-size:9px;padding:1px 6px;border-radius:99px;font-weight:700;letter-spacing:.04em;text-transform:uppercase}
+.team-row .info .stp.priya{background:var(--primary-50);color:var(--primary-700)}
+.team-row .info .stp.alltags{background:var(--error-50);color:var(--error-700)}
+.team-row .info .stp.both{background:linear-gradient(90deg,var(--primary-50) 50%,var(--error-50) 50%);color:var(--neutral-800);border:1px solid var(--neutral-200)}
+.team-row .bar{height:7px;background:var(--neutral-100);border-radius:99px;overflow:hidden}
+.team-row .bar .fl{height:100%;background:var(--primary-500);border-radius:99px}
+.team-row .bar .fl.warn{background:var(--warning-500)}
+.team-row .bar .fl.over{background:var(--error-500)}
+.team-row .pct{font-family:'JetBrains Mono',monospace;font-weight:700;color:var(--neutral-800);text-align:right;font-size:12px}
+.team-row .hrs{font-family:'JetBrains Mono',monospace;color:var(--neutral-500);font-size:11px;text-align:right}
+
+/* Certs & trainings list */
+.cert{padding:12px 18px;border-bottom:1px solid var(--neutral-100);display:grid;grid-template-columns:34px 1fr auto;gap:12px;align-items:center}
+.cert:last-child{border-bottom:0}
+.cert .ic{width:34px;height:34px;border-radius:var(--radius-md);display:grid;place-items:center;flex-shrink:0}
+.cert .ic.care{background:var(--error-50);color:var(--error-700)}
+.cert .ic.warn{background:var(--warning-50);color:var(--warning-700)}
+.cert .ic.train{background:var(--secondary-50);color:var(--secondary-700)}
+.cert .ic svg{width:16px;height:16px;stroke-width:2}
+.cert-meta .tn{font-size:12px;font-weight:600;color:var(--neutral-800)}
+.cert-meta .td{font-size:10px;color:var(--neutral-500);margin-top:2px;font-family:'JetBrains Mono',monospace}
+.cert-tag{font-size:9px;font-weight:700;padding:3px 8px;border-radius:99px;letter-spacing:.05em;text-transform:uppercase}
+.cert-tag.urgent{background:var(--error-50);color:var(--error-700)}
+.cert-tag.soon{background:var(--warning-50);color:var(--warning-700)}
+.cert-tag.train{background:var(--secondary-50);color:var(--secondary-600)}
+
+/* Attendance bar (donut-style) */
+.attendance{display:flex;gap:18px;align-items:center;padding:16px 0}
+.donut{position:relative;width:120px;height:120px;flex-shrink:0}
+.donut svg{transform:rotate(-90deg)}
+.donut .pct-c{position:absolute;inset:0;display:grid;place-items:center;text-align:center}
+.donut .pct-c .v{font-size:22px;font-weight:700;color:var(--success-700);font-family:'JetBrains Mono',monospace;line-height:1}
+.donut .pct-c .l{font-size:9px;color:var(--neutral-500);text-transform:uppercase;letter-spacing:.06em;font-weight:600;margin-top:3px}
+.att-legend{flex:1;display:flex;flex-direction:column;gap:8px;font-size:12px}
+.att-legend .rw{display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px solid var(--neutral-100)}
+.att-legend .rw:last-child{border-bottom:0}
+.att-legend .rw .l{display:flex;align-items:center;gap:7px;color:var(--neutral-700)}
+.att-legend .rw .l .sw{width:9px;height:9px;border-radius:2px}
+.att-legend .rw .v{font-family:'JetBrains Mono',monospace;font-weight:600;color:var(--neutral-800)}
+
+/* Service split bars */
+.split-bar{height:24px;border-radius:99px;background:var(--neutral-100);overflow:hidden;display:flex;margin:14px 0 10px}
+.split-bar .p{height:100%;background:var(--primary-500);display:grid;place-items:center;color:#fff;font-size:10px;font-weight:700}
+.split-bar .a{height:100%;background:var(--error-500);display:grid;place-items:center;color:#fff;font-size:10px;font-weight:700}
+.split-bar .b{height:100%;background:linear-gradient(90deg,var(--primary-500) 50%,var(--error-500) 50%);display:grid;place-items:center;color:#fff;font-size:10px;font-weight:700}
+.split-legend{display:flex;justify-content:space-around;font-size:11px;color:var(--neutral-600);padding-top:8px;border-top:1px solid var(--neutral-100)}
+.split-legend .l{display:flex;align-items:center;gap:6px;font-weight:500}
+.split-legend .l .sw{width:9px;height:9px;border-radius:2px}
+.split-legend .l b{color:var(--neutral-900);font-weight:700}
+
+@media(max-width:1200px){
+  .grid-2{grid-template-columns:1fr}
+  .kpi-grid{grid-template-columns:repeat(2,1fr)}
+  .today-grid{grid-template-columns:repeat(2,1fr)}
+}
+@media(max-width:1024px){
+  .sidebar{width:72px;padding:16px 8px}
+  .sb-brand > div:last-child,.sb-item span:not(.badge),.sb-section,.sb-collapse{display:none}
+  .sb-item{justify-content:center}
+  .sb-item .badge{display:none}
+  .main{margin-left:72px}
+  .content{padding:20px}
+}
+</style>
+</head>
+<body>
+<div class="app">
+  <aside class="sidebar">
+      <div class="sb-brand">
+        <div class="sb-logo">P</div>
+        <div>
+          <div class="sb-brand-name">Priya's</div>
+          <div class="sb-brand-sub">Betrieb</div>
+        </div>
+      </div>
+      <div class="sb-section">Arbeitsbereich</div>
+      <a class="sb-item" href="02-dashboard.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>Übersicht</a>
+      <a class="sb-item" href="03-clients-list.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>Kunden<span class="badge">10</span></a>
+      <a class="sb-item" href="05-properties-list.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21V7l8-4 8 4v14"/><path d="M9 9h2M13 9h2M9 13h2M13 13h2M9 17h2M13 17h2"/></svg>Objekte<span class="badge">112</span></a>
+      <a class="sb-item" href="07-schedule.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 9h18M8 3v4M16 3v4"/></svg>Einsatzplan</a>
+      <a class="sb-item" href="08-employees-list.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>Mitarbeiter<span class="badge">32</span></a>
+      <a class="sb-item active" href="19-employee-overview.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="9"/><rect x="14" y="3" width="7" height="5"/><rect x="14" y="12" width="7" height="9"/><rect x="3" y="16" width="7" height="5"/></svg>Mitarbeiter-Übersicht</a>
+      <a class="sb-item" href="10-invoices-list.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6M16 13H8M16 17H8M10 9H8"/></svg>Rechnungen<span class="badge">47</span></a>
+      <a class="sb-item" href="14-reports.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M7 14l3-3 3 3 5-5"/></svg>Berichte</a>
+      <div class="sb-section">Alltagshilfe</div>
+      <a class="sb-item" href="15-customer-type-picker.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 000-7.78z"/></svg>Pflegekunden</a>
+      <a class="sb-item" href="16-alltagshilfe-report.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6"/></svg>Monatsbericht</a>
+      <div class="sb-section">Kommunikation</div>
+      <a class="sb-item" href="17-team-chat.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a7.5 7.5 0 01-11.2 6.5L4 20l1.5-5.2A7.5 7.5 0 1121 12z"/></svg>Team-Chat<span class="badge">3</span></a>
+      <a class="sb-item" href="18-notifications.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8a6 6 0 0112 0c0 7 3 8 3 8H3s3-1 3-8zM10 21a2 2 0 004 0"/></svg>Benachrichtigungen<span class="badge">12</span></a>
+      <div class="sb-section">System</div>
+      <a class="sb-item" href="13-settings.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.3 1.8l.1.1a2 2 0 11-2.8 2.8l-.1-.1a1.65 1.65 0 00-1.8-.3 1.65 1.65 0 00-1 1.5V21a2 2 0 11-4 0v-.1a1.65 1.65 0 00-1-1.5 1.65 1.65 0 00-1.8.3l-.1.1a2 2 0 11-2.8-2.8l.1-.1a1.65 1.65 0 00.3-1.8 1.65 1.65 0 00-1.5-1H3a2 2 0 110-4h.1a1.65 1.65 0 001.5-1 1.65 1.65 0 00-.3-1.8l-.1-.1a2 2 0 112.8-2.8l.1.1a1.65 1.65 0 001.8.3h0a1.65 1.65 0 001-1.5V3a2 2 0 114 0v.1a1.65 1.65 0 001 1.5 1.65 1.65 0 001.8-.3l.1-.1a2 2 0 112.8 2.8l-.1.1a1.65 1.65 0 00-.3 1.8v0a1.65 1.65 0 001.5 1H21a2 2 0 110 4h-.1a1.65 1.65 0 00-1.5 1z"/></svg>Einstellungen</a>
+      <div class="sb-collapse"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>Seitenleiste einklappen</div>
+    </aside>
+
+  <div class="main">
+    <header class="topbar">
+      <div class="tb-left">
+        <div class="tb-search">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+          <input placeholder="Mitarbeiter, Teams, Zertifikate suchen…" />
+          <span class="kbd">⌘ K</span>
+        </div>
+      </div>
+      <div class="tb-right">
+        <button class="icon-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.1 9a3 3 0 015.8 1c0 2-3 3-3 3M12 17h.01"/></svg></button>
+        <a class="icon-btn" href="17-team-chat.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a7.5 7.5 0 01-11.2 6.5L4 20l1.5-5.2A7.5 7.5 0 1121 12z"/></svg><span class="dot"></span></a>
+        <a class="icon-btn" href="18-notifications.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8a6 6 0 0112 0c0 7 3 8 3 8H3s3-1 3-8zM10 21a2 2 0 004 0"/></svg><span class="dot"></span></a>
+        <div class="tb-user">
+          <div class="avatar avatar--sm">AM</div>
+          <div class="tb-user-info"><div class="name">Alex Müller</div><div class="role">Geschäftsleitung</div></div>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px;color:var(--neutral-400)"><path d="M6 9l6 6 6-6"/></svg>
+        </div>
+      </div>
+    </header>
+
+    <div class="content">
+      <div class="breadcrumb">
+        <a href="02-dashboard.html">Übersicht</a>
+        <span class="sep">/</span>
+        <span class="cur">Mitarbeiter-Übersicht</span>
+      </div>
+
+      <div class="page-head">
+        <div>
+          <h1>Mitarbeiter-Übersicht</h1>
+          <div class="sub">HR-Sicht auf das gesamte Team — Auslastung, Anwesenheit, Zertifikate &amp; Schulungen auf einen Blick · Stand 22. Apr. 2026 · 14:28 MEZ</div>
+        </div>
+        <div class="page-head-actions">
+          <button class="btn btn--white"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>Export</button>
+          <a class="btn btn--white" href="08-employees-list.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>Volle Liste</a>
+          <a class="btn btn--primary" href="22-onboarding-employee.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg>Neuer Mitarbeiter</a>
+        </div>
+      </div>
+
+      <!-- KPI strip -->
+      <div class="kpi-grid">
+        <div class="kpi"><div class="kpi-l">Aktive Mitarbeiter</div><div class="kpi-v">32</div><div class="kpi-d"><b>+2</b> diesen Monat</div></div>
+        <div class="kpi s"><div class="kpi-l">Heute im Einsatz</div><div class="kpi-v">24<small>/ 32</small></div><div class="kpi-d">8 frei oder Spät­schicht</div></div>
+        <div class="kpi g"><div class="kpi-l">Auslastung Ø</div><div class="kpi-v">87<small>%</small></div><div class="kpi-d"><b>+3 pp</b> ggü. Vorwoche</div></div>
+        <div class="kpi w"><div class="kpi-l">Zertifikate fällig</div><div class="kpi-v">3</div><div class="kpi-d">in den nächsten 90 Tagen</div></div>
+        <div class="kpi e"><div class="kpi-l">Onboarding offen</div><div class="kpi-v">1</div><div class="kpi-d">Selin Yıldız · Modul 3 / 5</div></div>
+      </div>
+
+      <!-- Today snapshot -->
+      <div class="card" style="margin-bottom:16px">
+        <div class="card-head">
+          <h3><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></span>Heute · 22. Apr. 2026</h3>
+          <a href="07-schedule.html" style="font-size:12px;color:var(--primary-700);font-weight:600">Im Einsatzplan öffnen →</a>
+        </div>
+        <div class="card-body">
+          <div class="today-grid">
+            <div class="tc act"><div class="tcv">18</div><div class="tcl"><span class="d"></span>Im Einsatz · jetzt</div></div>
+            <div class="tc shift"><div class="tcv">6</div><div class="tcl"><span class="d"></span>Heute später</div></div>
+            <div class="tc off"><div class="tcv">5</div><div class="tcl" style="color:var(--neutral-600)"><span class="d"></span>Frei heute</div></div>
+            <div class="tc leave"><div class="tcv">3</div><div class="tcl"><span class="d"></span>Urlaub · krank</div></div>
+          </div>
+
+          <div style="margin-top:18px">
+            <div style="font-size:11px;color:var(--neutral-500);text-transform:uppercase;letter-spacing:.06em;font-weight:600;margin-bottom:6px">Service-Verteilung heute</div>
+            <div class="split-bar">
+              <div class="p" style="width:62%">Priya's · 15</div>
+              <div class="a" style="width:25%">Alltagshilfe · 6</div>
+              <div class="b" style="width:13%">Beide · 3</div>
+            </div>
+            <div class="split-legend">
+              <div class="l"><span class="sw" style="background:var(--primary-500)"></span><b>15</b> Reinigung</div>
+              <div class="l"><span class="sw" style="background:var(--error-500)"></span><b>6</b> Pflege</div>
+              <div class="l"><span class="sw" style="background:linear-gradient(90deg,var(--primary-500) 50%,var(--error-500) 50%)"></span><b>3</b> Beide</div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- 2-col layout -->
+      <div class="grid-2">
+
+        <!-- LEFT: workload -->
+        <div class="card">
+          <div class="card-head">
+            <h3><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M7 14l3-3 3 3 5-5"/></svg></span>Team-Auslastung diese Woche</h3>
+            <span style="font-size:11px;color:var(--neutral-500)">8 von 32 angezeigt</span>
+          </div>
+          <div class="card-body" style="padding:8px 18px 16px">
+            <div class="team-row">
+              <div class="av v3">FÖ</div>
+              <div class="info"><div class="nm">Fatima Özdemir</div><div class="ro"><span class="stp both">Beide</span>Team 02</div></div>
+              <div class="bar"><div class="fl" style="width:95%"></div></div>
+              <div class="pct">95%</div>
+              <div class="hrs">38/40 h</div>
+            </div>
+            <div class="team-row">
+              <div class="av v2">MJ</div>
+              <div class="info"><div class="nm">Maria Jansen</div><div class="ro"><span class="stp alltags">Alltagshilfe</span>Team 05 · Pflege</div></div>
+              <div class="bar"><div class="fl" style="width:88%"></div></div>
+              <div class="pct">88%</div>
+              <div class="hrs">35/40 h</div>
+            </div>
+            <div class="team-row">
+              <div class="av v4">PS</div>
+              <div class="info"><div class="nm">Petra Schulz · TL</div><div class="ro"><span class="stp priya">Priya's</span>Teamleitung</div></div>
+              <div class="bar"><div class="fl" style="width:80%"></div></div>
+              <div class="pct">80%</div>
+              <div class="hrs">32/40 h</div>
+            </div>
+            <div class="team-row">
+              <div class="av v1">AK</div>
+              <div class="info"><div class="nm">Anna Krüger</div><div class="ro"><span class="stp priya">Priya's</span>Team 01 · Kern</div></div>
+              <div class="bar"><div class="fl warn" style="width:102%"></div></div>
+              <div class="pct" style="color:var(--warning-700)">102%</div>
+              <div class="hrs">41/40 h</div>
+            </div>
+            <div class="team-row">
+              <div class="av v5">LK</div>
+              <div class="info"><div class="nm">Lukas Krause</div><div class="ro"><span class="stp alltags">Alltagshilfe</span>Team 05 · Pflege</div></div>
+              <div class="bar"><div class="fl" style="width:75%"></div></div>
+              <div class="pct">75%</div>
+              <div class="hrs">30/40 h</div>
+            </div>
+            <div class="team-row">
+              <div class="av">SH</div>
+              <div class="info"><div class="nm">Stefan Hoffmann</div><div class="ro"><span class="stp priya">Priya's</span>Team 02</div></div>
+              <div class="bar"><div class="fl" style="width:65%"></div></div>
+              <div class="pct">65%</div>
+              <div class="hrs">26/40 h</div>
+            </div>
+            <div class="team-row">
+              <div class="av v2">LB</div>
+              <div class="info"><div class="nm">Lena Bauer</div><div class="ro"><span class="stp priya">Priya's</span>Team 01</div></div>
+              <div class="bar"><div class="fl over" style="width:115%"></div></div>
+              <div class="pct" style="color:var(--error-700)">115%</div>
+              <div class="hrs">46/40 h</div>
+            </div>
+            <div class="team-row">
+              <div class="av v1">SY</div>
+              <div class="info"><div class="nm">Selin Yıldız <span style="color:var(--primary-700);font-size:9px;font-weight:700;margin-left:6px">● NEU</span></div><div class="ro"><span class="stp priya">Priya's</span>Onboarding · Modul 3/5</div></div>
+              <div class="bar"><div class="fl" style="width:0%"></div></div>
+              <div class="pct" style="color:var(--neutral-400)">—</div>
+              <div class="hrs" style="color:var(--neutral-400)">noch nicht</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- RIGHT: Attendance donut -->
+        <div class="card">
+          <div class="card-head">
+            <h3><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></span>Anwesenheit · April 2026</h3>
+          </div>
+          <div class="card-body">
+            <div class="attendance">
+              <div class="donut">
+                <svg viewBox="0 0 120 120" width="120" height="120">
+                  <circle cx="60" cy="60" r="48" fill="none" stroke="#EEF2EC" stroke-width="14"/>
+                  <circle cx="60" cy="60" r="48" fill="none" stroke="#2D9E6B" stroke-width="14" stroke-dasharray="280 302" stroke-linecap="round"/>
+                </svg>
+                <div class="pct-c"><div class="v">94%</div><div class="l">Pünktlichkeit</div></div>
+              </div>
+              <div class="att-legend">
+                <div class="rw"><div class="l"><span class="sw" style="background:var(--success-500)"></span>Anwesend &amp; pünktlich</div><div class="v">594</div></div>
+                <div class="rw"><div class="l"><span class="sw" style="background:var(--warning-500)"></span>Verspätet</div><div class="v">22</div></div>
+                <div class="rw"><div class="l"><span class="sw" style="background:var(--secondary-500)"></span>Im Urlaub</div><div class="v">18</div></div>
+                <div class="rw"><div class="l"><span class="sw" style="background:var(--error-500)"></span>Krankgemeldet</div><div class="v">9</div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Certs & trainings + recent activity -->
+      <div class="grid-2">
+
+        <div class="card">
+          <div class="card-head">
+            <h3><span class="ic" style="background:var(--error-50);color:var(--error-700)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 000-7.78z"/></svg></span>Zertifikate &amp; Schulungen — fällige Erneuerungen</h3>
+            <a href="#" style="font-size:12px;color:var(--primary-700);font-weight:600">Alle anzeigen →</a>
+          </div>
+          <div style="padding:0">
+            <div class="cert">
+              <div class="ic care"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 000-7.78z"/></svg></div>
+              <div class="cert-meta">
+                <div class="tn">Pflegehelfer-Zertifikat · Fatima Özdemir</div>
+                <div class="td">Gültig bis 12. Aug. 2026 · In 113 Tagen fällig</div>
+              </div>
+              <span class="cert-tag soon">In 4 Mon.</span>
+            </div>
+            <div class="cert">
+              <div class="ic warn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12A10 10 0 1112 2"/><path d="M22 4l-10 10-4-4"/></svg></div>
+              <div class="cert-meta">
+                <div class="tn">Erste-Hilfe-Schein · Maria Jansen</div>
+                <div class="td">Gültig bis 30. Mai 2026 · In 38 Tagen fällig</div>
+              </div>
+              <span class="cert-tag urgent">Dringend</span>
+            </div>
+            <div class="cert">
+              <div class="ic care"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 000-7.78z"/></svg></div>
+              <div class="cert-meta">
+                <div class="tn">Pflegehelfer-Zertifikat · Lukas Krause</div>
+                <div class="td">Gültig bis 15. Jun. 2026 · In 54 Tagen fällig</div>
+              </div>
+              <span class="cert-tag soon">In 2 Mon.</span>
+            </div>
+            <div class="cert">
+              <div class="ic train"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg></div>
+              <div class="cert-meta">
+                <div class="tn">Arbeitssicherheit-Auffrischung · Team 01</div>
+                <div class="td">5 von 7 Mitarbeitenden absolviert</div>
+              </div>
+              <span class="cert-tag train">Schulung läuft</span>
+            </div>
+            <div class="cert">
+              <div class="ic train"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg></div>
+              <div class="cert-meta">
+                <div class="tn">Video-Onboarding · Selin Yıldız</div>
+                <div class="td">2 von 5 Modulen abgeschlossen · App noch nicht freigeschaltet</div>
+              </div>
+              <span class="cert-tag train">Onboarding</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-head">
+            <h3><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></span>Personalereignisse · letzte 7 Tage</h3>
+          </div>
+          <div style="padding:14px 18px">
+            <div style="display:flex;flex-direction:column;gap:14px">
+              <div style="display:flex;gap:10px;font-size:12px;color:var(--neutral-700);align-items:flex-start">
+                <div style="width:28px;height:28px;border-radius:50%;background:var(--primary-50);color:var(--primary-700);display:grid;place-items:center;flex-shrink:0"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:13px;height:13px"><path d="M12 5v14M5 12h14"/></svg></div>
+                <div><b>Selin Yıldız</b> als neue Reinigungskraft angelegt — Onboarding gestartet<div style="font-size:10px;color:var(--neutral-400);margin-top:2px;font-family:'JetBrains Mono',monospace">Heute · 11:20 · von Alex Müller</div></div>
+              </div>
+              <div style="display:flex;gap:10px;font-size:12px;color:var(--neutral-700);align-items:flex-start">
+                <div style="width:28px;height:28px;border-radius:50%;background:var(--secondary-50);color:var(--secondary-700);display:grid;place-items:center;flex-shrink:0"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:13px;height:13px"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg></div>
+                <div><b>Modul 2 abgeschlossen</b> — Selin Yıldız · "Unsere Werte"<div style="font-size:10px;color:var(--neutral-400);margin-top:2px;font-family:'JetBrains Mono',monospace">Heute · 10:48</div></div>
+              </div>
+              <div style="display:flex;gap:10px;font-size:12px;color:var(--neutral-700);align-items:flex-start">
+                <div style="width:28px;height:28px;border-radius:50%;background:var(--warning-50);color:var(--warning-700);display:grid;place-items:center;flex-shrink:0"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:13px;height:13px"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/></svg></div>
+                <div><b>Lena Bauer</b> bei 115 % Auslastung — Empfehlung: Schicht umverteilen<div style="font-size:10px;color:var(--neutral-400);margin-top:2px;font-family:'JetBrains Mono',monospace">Gestern · System-Alert</div></div>
+              </div>
+              <div style="display:flex;gap:10px;font-size:12px;color:var(--neutral-700);align-items:flex-start">
+                <div style="width:28px;height:28px;border-radius:50%;background:var(--success-50);color:var(--success-700);display:grid;place-items:center;flex-shrink:0"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:13px;height:13px"><path d="M20 6L9 17l-5-5"/></svg></div>
+                <div><b>Stefan Hoffmann</b> hat Schicht an Fatima übergeben — bestätigt im Chat<div style="font-size:10px;color:var(--neutral-400);margin-top:2px;font-family:'JetBrains Mono',monospace">Gestern · 17:08</div></div>
+              </div>
+              <div style="display:flex;gap:10px;font-size:12px;color:var(--neutral-700);align-items:flex-start">
+                <div style="width:28px;height:28px;border-radius:50%;background:var(--secondary-50);color:var(--secondary-700);display:grid;place-items:center;flex-shrink:0"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:13px;height:13px"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 9h18M8 3v4M16 3v4"/></svg></div>
+                <div><b>Petra Schulz</b> hat Urlaub für 02.–06. Mai eingetragen<div style="font-size:10px;color:var(--neutral-400);margin-top:2px;font-family:'JetBrains Mono',monospace">Vor 3 Tagen</div></div>
+              </div>
+              <div style="display:flex;gap:10px;font-size:12px;color:var(--neutral-700);align-items:flex-start">
+                <div style="width:28px;height:28px;border-radius:50%;background:var(--success-50);color:var(--success-700);display:grid;place-items:center;flex-shrink:0"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:13px;height:13px"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
+                <div><b>Fatima Özdemir</b> erhält 5-Sterne-Bewertung — Frau Beckmann<div style="font-size:10px;color:var(--neutral-400);margin-top:2px;font-family:'JetBrains Mono',monospace">Vor 5 Tagen</div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+</div>
+</body>
+</html>

@@ -209,6 +209,21 @@ svg{display:block}
 .evt.clr-red{background:var(--error-50);color:var(--error-700);border-color:var(--error-500)}
 .evt.clr-green.done{background:var(--success-50);color:var(--success-700);border-color:var(--success-500)}
 .evt.sel{box-shadow:0 0 0 2px var(--primary-500),var(--shadow-md);transform:translateY(-1px)}
+/* Stronger service-type rail on shifts */
+.evt.clr-green{border-left:4px solid var(--primary-500)}
+.evt.clr-red{border-left:4px solid var(--error-500);background:var(--error-50)}
+/* Service pill on shift */
+.evt .t-srv{display:inline-flex;align-items:center;gap:3px;padding:1px 5px;border-radius:99px;font-size:8px;font-weight:800;letter-spacing:.04em;text-transform:uppercase;background:rgba(255,255,255,.6);align-self:flex-start;margin-bottom:1px}
+.evt .t-srv::before{content:'';width:4px;height:4px;border-radius:50%;background:currentColor}
+.evt.clr-green .t-srv{color:var(--primary-700)}
+.evt.clr-red .t-srv{color:var(--error-700)}
+/* Erstgespräch badge */
+.evt .t-first{display:inline-flex;align-items:center;gap:3px;padding:1px 5px;border-radius:99px;font-size:8px;font-weight:800;background:var(--warning-500);color:#fff;letter-spacing:.04em;text-transform:uppercase;align-self:flex-start;margin-bottom:1px}
+.evt .t-first svg{width:8px;height:8px;stroke-width:2.5}
+/* Note on shift */
+.evt .t-note{display:flex;gap:4px;align-items:flex-start;font-size:9px;color:var(--neutral-700);background:rgba(255,255,255,.7);padding:3px 5px;border-radius:4px;margin-top:2px;font-style:italic;line-height:1.3}
+.evt .t-note svg{width:9px;height:9px;flex-shrink:0;margin-top:1px;stroke-width:2;color:var(--warning-700)}
+.evt .t-note b{color:var(--warning-700);font-style:normal}
 
 /* Right detail panel */
 .detail{background:#fff;border:1px solid var(--neutral-100);border-radius:var(--radius-lg);overflow:hidden;position:sticky;top:84px;height:fit-content;max-height:calc(100vh - 120px);overflow-y:auto}
@@ -259,6 +274,8 @@ svg{display:block}
       <a class="sb-item" href="05-properties-list.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21V7l8-4 8 4v14"/><path d="M9 9h2M13 9h2M9 13h2M13 13h2M9 17h2M13 17h2"/></svg>Objekte<span class="badge">112</span></a>
       <a class="sb-item active" href="07-schedule.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 9h18M8 3v4M16 3v4"/></svg>Einsatzplan</a>
       <a class="sb-item" href="08-employees-list.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>Mitarbeiter<span class="badge">32</span></a>
+      <a class="sb-item" href="19-employee-overview.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="9"/><rect x="14" y="3" width="7" height="5"/><rect x="14" y="12" width="7" height="9"/><rect x="3" y="16" width="7" height="5"/></svg>Mitarbeiter-Übersicht</a>
+      <a class="sb-item" href="10-invoices-list.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6M16 13H8M16 17H8M10 9H8"/></svg>Rechnungen<span class="badge">47</span></a>
       <a class="sb-item" href="14-reports.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M7 14l3-3 3 3 5-5"/></svg>Berichte</a>
       <div class="sb-section">Alltagshilfe</div>
       <a class="sb-item" href="15-customer-type-picker.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 000-7.78z"/></svg>Pflegekunden</a>
@@ -519,11 +536,14 @@ svg{display:block}
               </div>
             </div>
             <div class="cal-cell">
-              <div class="evt clr-green" style="top:0;height:90px">
-                <div class="t-time"><span>06:00 – 07:30</span></div>
-                <div class="t-title">Prop G · Opening</div>
-                <div class="t-meta">Kunde Company 05</div>
-                <div class="t-avatars"><span class="avatar avatar--xs" style="background:var(--warning-500)">E2</span></div>
+              <div class="evt clr-red" style="top:0;height:135px">
+                <span class="t-srv">Alltagshilfe</span>
+                <span class="t-first"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>Erstgespräch · Mappe</span>
+                <div class="t-time"><span>06:00 – 08:00</span></div>
+                <div class="t-title">Frau K. Beckmann · Pflege­besuch</div>
+                <div class="t-meta">AOK Nordost · PG 2 · Wilmersdorf</div>
+                <div class="t-note"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.12 2.12 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg><span><b>Notiz:</b> Abtretungs­erklärung nicht vergessen</span></div>
+                <div class="t-avatars" style="margin-top:4px"><span class="avatar avatar--xs" style="background:var(--error-500)">FÖ</span></div>
               </div>
             </div>
             <div class="cal-cell">
@@ -576,6 +596,7 @@ svg{display:block}
             <div class="cal-cell today">
               <div class="evt clr-blue" style="top:4px;height:80px">
                 <div class="t-time"><span>09:00 – 10:30</span></div>
+                <span class="t-srv">Priya's</span>
                 <div class="t-title">Prop F · Office refresh</div>
                 <div class="t-meta">Kunde Company 04</div>
                 <div class="t-avatars"><span class="avatar avatar--xs" style="background:var(--accent-500);color:var(--secondary-800)">E5</span></div>
